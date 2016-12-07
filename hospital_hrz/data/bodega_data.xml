@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="bodega_farmacia" model="hrz.bodega">
+          <field name="name">Farmacia</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">recipe</field>
+      </record>
+      <record id="bodega_paciente_virtual" model="hrz.bodega">
+          <field name="name">Paciente virtual</field>
+          <field name="es_virtual" eval="True"/>
+          <field name="tipo">recipe</field>
+      </record>
+
+      <record id="bodega_suministro" model="hrz.bodega">
+          <field name="name">Bodega General</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">ingress</field>
+      </record>
+      <record id="bodega_entrega_medicamentos" model="hrz.bodega">
+          <field name="name">Bodega General de Medicamentos</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">ingress</field>
+      </record>
+
+      <record id="bodega_proveedor" model="hrz.bodega">
+          <field name="name">Proveedor</field>
+          <field name="es_virtual" eval="True"/>
+          <field name="tipo">ingress</field>
+      </record>
+
+
+      <record id="bodega_mantenimiento" model="hrz.bodega">
+          <field name="name">Bodega Mantenimiento</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">assignment</field>
+      </record>
+      <record id="bodega_usuario" model="hrz.bodega">
+          <field name="name">Usuarios</field>
+          <field name="es_virtual" eval="True"/>
+          <field name="tipo">assignment</field>
+      </record>
+
+
+      <record id="bodega_materiales" model="hrz.bodega">
+          <field name="name">Bodega Materiales</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">assignment</field>
+      </record>
+      <record id="area_emergencia" model="hrz.bodega">
+          <field name="name">Area de Emergencia</field>
+          <field name="es_virtual" eval="False"/>
+          <field name="tipo">area</field>
+      </record>
+      
+
+
+      
+      <!--<record id="bodega_entrega_medicamentos" model="hrz.bodega">
+          <field name="name">Bodega Entrega Medicamentos</field>
+          <field name="es_virtual">True</field>
+          <field name="tipo">recipe</field>
+      </record>-->
+      
+
+
+
+    </data>
+</openerp>
+        

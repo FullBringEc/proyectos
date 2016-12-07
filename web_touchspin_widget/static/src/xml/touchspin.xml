@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdl=1:
+-->
+<templates id="template" xml:space="preserve">
+	
+
+	<t t-name="Fieldtouchspin">
+	    <span class="oe_form_field" t-att-style="widget.node.attrs.style">
+	        <t t-if="widget.get('effective_readonly')">
+	            <span class="oe_form_char_content"></span>
+	        </t>
+	        <t t-if="!widget.get('effective_readonly')">
+	            <div>
+	                <input class="adrian" type="text"
+	                    t-att-id="widget.id_for_label"
+	                    t-att-tabindex="widget.node.attrs.tabindex"
+	                    t-att-autofocus="widget.node.attrs.autofocus"
+	                    t-att-placeholder="widget.node.attrs.placeholder"
+	                t-att-maxlength="widget.field.size"
+	                />
+	            </div>
+	        </t>
+	    </span>
+	</t>
+</templates>

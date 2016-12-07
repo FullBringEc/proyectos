@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="rbs_persona_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.persona.tree.filter</field>
+        <field name='model'>rbs.persona</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Detalle de Busqueda">
+            
+            <field name="name" string="Cedula"/>
+			<field name="persona_nombres" string="Nombres"/>
+			<field name="persona_apellidos" string="Apellidos"/>
+			<field name="persona_representante" string="Representante"/>
+			<field name="persona_razonSocial" string="Razon Social"/>
+          </search>
+          </field>
+         </record>
+
+        <record id='rbs_persona_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.persona.tree</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos"> 
+					<field name="name"/>
+					<field name="persona_nombres"/>
+					<field name="persona_apellidos"/>
+					<field name="persona_representante"/>
+					<field name="persona_razonSocial"/>
+
+                </tree>
+                   
+            </field>
+
+        </record>
+
+        <record id='rbs_documento_mercantil_propiedad_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.propiedad.form</field>
+            <field name='model'>rbs.documento.mercantil.propiedad</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Documento Mercantil de Propiedad" version="8.0"> 
+                    <!--<sheet string="Documento Mercantil de Propiedad" options="{'width': 700}"> -->
+                        <group>
+                        	<group>
+	                        	<group>
+	        		         	
+		        		         	<field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+									<field name="libro_id" on_change="on_change_libro_id(libro_id)" 
+										domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
+										context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/>
+		        		         	<field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+		        		         		context="{'libro_id': libro_id}"/>
+
+		        		         	<field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+		        		         	<field name="persona_id" on_change="onchange_persona_id(persona_id)" />
+
+		        		         	
+		        	           		<field name="persona_nombres"/>
+		                            <field name="persona_apellidos"/> 
+		                            <field name="persona_cedula"/> 
+		                            <field name="tipo_compareciente_id"/> 
+		                            <field name="persona_razonSocial"/> 
+		                            <field name="tipo_contrato_id"/>
+		                            
+		                            <field name="fecha_inscripcion"/>
+		        	           		<field name="clave_catastral"/>
+		        	           		<field name="tipo_bien_id"/> 
+		                            <!--<field name="libro_nombre"/>--> 
+		                            <field name="provincia_nombre_id"/> 
+		                            <field name="zona_nombre_id" widget="selection"/>
+                            	</group>
+                            	<group>
+
+		                             
+		                            <field name="superficie_bien"/>
+		        	           		<field name="orientacio_lindero"/>
+		                            <field name="descripcion_lindero"/> 
+		                            <field name="parroquia_nombre"/>
+		                            <field name="canton_nombre_id"/>
+		                            <field name="cuantia_valor"/> 
+		                            <field name="cuantia_unidad"/> 
+		                            <field name="juicio_numero"/>
+		                            <field name="estado_inscripcion_id"/>  
+		                            <field name="ubicacion_dato_id"/>
+		                            <field name="modificacion_fuente"/>
+		                            <field name="canton_notaria_id"/>
+		                            <field name="notaria_juzgado_entidad"/>
+		                            <field name="escritura_fecha"/>
+		                            <field name="identificacion_unica"/> 
+		                          
+
+		                      	</group>
+	                      	</group>
+	                      
+	                        <group>
+		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+                                <button string="prueba" name="open_ui" type="object"/>
+		                        <div class="oe_title">
+                                    ¿Es pesado?<field name="esPesado"/> 
+
+                          <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+                          <field name="filedata"  widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
+                            attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                                        attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                          	</div>
+	                       	</group> 
+                      	</group>
+						
+                            
+                                                    
+                    <!--</sheet>-->
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+
+        <record id='rbs_documento_mercantil_propiedad_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.propiedad.tree</field>
+            <field name='model'>rbs.documento.mercantil.propiedad</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+ 
+					<field name="tomo_id"/>
+					<field name="numero_inscripcion"/>
+					<field name="persona_id"/> 
+                    <field name="persona_nombres"/> 
+					<field name="persona_apellidos"/> 
+					<field name="fecha_inscripcion"/> 
+					<field name="tipo_bien_id"/>
+					<field name="cuantia_valor"/>
+                    <field name="create_uid" string="Creado por"/>
+                    <field name="write_uid" string="Ultima modificacion"/>
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+        <record id="rbs_documento_mercantil_propiedad_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.documento.mercantil.propiedad.tree.filter</field>
+        <field name='model'>rbs.documento.mercantil.propiedad</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <field name="persona_cedula" string="Cedula" />
+            <field name="persona_apellidos" string="Apellido" />
+            <field name="anio_id" string="Año" />
+            <field name="tomo_id" string="Tomo" />
+            <field name="persona_nombres" string="Nombre" />
+            <field name="tipo_compareciente_id" string="Tipo de compareciente" />
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+            <field name="canton_notaria_id" string="Canton de la notaria" />
+            <field name="tipo_contrato_id" string="Tipo de Contrato" />
+            <field name="parroquia_nombre" string="Parroquia" />
+            <field name="persona_razonSocial" string="Razon Social" />
+
+            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+			<filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+
+          </search>
+          </field>
+         </record>
+        <record model="ir.actions.act_window"   id="id_accion_rbs_documento_mercantil_propiedad">
+        	<field name="name">Documento de la Propiedad</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.documento.mercantil.propiedad</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="search_view_id" ref="rbs_documento_mercantil_propiedad_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_documento_mercantil_propiedad_tree_view"/>
+        </record>
+
+
+
+    	
+		<menuitem id="submenu_Documento_Propiedad" name="Documentos de Propiedad" parent="menu_Documentos"/>
+		>
+        
+
+		
+		<menuitem id="submenu_Documento_Mercantil_propiedad" name="Documento de la Propiedad" parent="submenu_Documento_Propiedad" action="id_accion_rbs_documento_mercantil_propiedad"/>
+
+    </data>
+</openerp>

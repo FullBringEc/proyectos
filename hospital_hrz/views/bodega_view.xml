@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="view_hrz_bodega_form" model="ir.ui.view">
+	        <field name="name">hrz.bodega form</field>
+	        <field name="model">hrz.bodega</field>
+	        <field name='type'>form</field>
+			<field name="arch" type="xml">
+				<form string="Bodegas" version="8.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                          <field name="es_virtual"/>
+                          <field name="tipo"/>
+                          <field name="tipo_producto"/>
+                        </group>
+	                    <notebook>
+	                        <page string="Productos que hay en bodega">
+                                <field name="producto_ids" readonly='1'>
+                                    <tree editable="bottom">
+                                       <field name="producto_id" />
+                                       <field name="existencia" />
+                                       <!--<field name="existencia_maxima" />
+                                       <field name="existencia_minima" />
+                                       <field name="precio" />-->
+                  
+                                    </tree>
+                                </field>
+                                <field name="observacion"/>
+                            </page>
+                            <page string="Autorizacion">
+                                <label for='responsable_id' string='Responsable de Area' attrs="{'invisible':[('tipo','!=','area')]}"/>
+
+                                <field name="responsable_id" attrs="{'invisible':[('tipo','!=','area')]}"/>
+                                <field name="responsables_ids" attrs="{'invisible':[('tipo','=','area')]}"/> <!--widget="many2many_kanban" >
+                                  domain="[('is_provider','=', 1)]"
+                                  context="{ 'default_is_provider': 1}">
+                                  <tree editable="bottom">
+                                    <field name="subtotal" />
+                                    <field name="frecuenca" />
+                                  </tree>-->
+                                
+                            </page>
+	                    </notebook>
+
+    
+                    </sheet>
+                </form>
+	        </field>
+	    </record>
+	    <record id="view_hrz_bodega_tree" model="ir.ui.view">
+	        <field name="name">hrz.bodega tree</field>
+	        <field name="model">hrz.bodega</field>
+      		<field name="arch" type="xml">
+      			<tree string = "Bodegas">
+              <field name="name"/>
+              <field name="responsable_id"/>
+              <field name="tipo"/>
+              <field name="tipo_producto"/>
+              <field name="es_virtual"/>
+              <field name="observacion"/>
+
+            </tree>
+	        </field>
+	    </record>
+      <record id="hrz_bodega_asset_search" model="ir.ui.view">
+            <field name="name">hrz.bodega.search</field>
+            <field name="model">hrz.bodega</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Ubicaciones Fisicas" name="es_virtual" domain="[('es_virtual','=',0)]" help="Click aqui para mostrar las ubicaciones fisicas"/>
+                    
+                    <field name="es_virtual"/>
+                    <field name="tipo"/>
+                   
+
+                </search>
+            </field>
+        </record>
+    	<record id="action_view_hrz_bodega" model="ir.actions.act_window">
+            <field name="name">Bodegas Generales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hrz.bodega</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_es_virtual': 1}</field>
+            <field name="search_view_id" ref="hrz_bodega_asset_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear una bodega
+              </p>
+            </field>
+        </record>
+      
+
+		<record id="action_view_hrz_bodega_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_view_hrz_bodega"/>
+        </record>
+
+        <record id="action_view_hrz_bodega_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hrz_bodega_form"/>
+            <field name="act_window_id" ref="action_view_hrz_bodega"/>
+        </record>
+
+
+
+        <menuitem id="menu_inventario" name="Inventario" groups="hospital_hrz.group_hospital_jefebodega,hospital_hrz.group_hospital_farmacia,hospital_hrz.group_hospital_ingreso" />
+        <menuitem id="menu_bodega" parent="menu_inventario" name="Bodega" groups="hospital_hrz.group_hospital_jefebodega,hospital_hrz.group_hospital_farmacia,hospital_hrz.group_hospital_ingreso" />
+        <menuitem id="submenu_bodega" name="Bodegas" parent="menu_bodega" groups="hospital_hrz.group_hospital_jefebodega" action="action_view_hrz_bodega" />
+    </data>
+</openerp>
+        

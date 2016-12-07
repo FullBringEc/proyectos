@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id="t2_cuatro" model="sri.tpidprov.t2">
+            <field name="name">Ruc</field>
+            <field name="codigo">04</field>
+            <field name="codigoC">01</field>
+            
+        </record>
+        <record id="t2_cinco" model="sri.tpidprov.t2">
+            <field name="name">Cedula</field>
+            <field name="codigo">05</field>
+            <field name="codigoC">02</field>
+        </record>
+        <record id="t2_seis" model="sri.tpidprov.t2">
+            <field name="name">Pasaporte</field>
+            <field name="codigo">06</field>
+            <field name="codigoC">03</field>
+        </record>
+        <record id="t2_siete" model="sri.tpidprov.t2">
+            <field name="name">Consumidor Final</field>
+            <field name="codigo">07</field>
+            
+            
+        </record>
+        
+        <record id="t2_ocho" model="sri.tpidprov.t2">
+            <field name="name">Identificacion del Exterior</field>
+            <field name="codigo">08</field>
+        </record>
+        <record id="t2_nueve" model="sri.tpidprov.t2">
+            <field name="name">Placa</field>
+            <field name="codigo">09</field>
+        </record>
+        
+        
+    </data>
+</openerp>

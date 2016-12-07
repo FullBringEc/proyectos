@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="web_tiff_widget assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/main.js"></script> -->
+                <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/widgets.js"></script> -->
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id='rbs_documento_mercantil_acta_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.acta.form</field>
+            <field name='model'>rbs.documento.mercantil.acta</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Documento Mercantil Acta" version="8.0"> 
+	            	<sheet>
+
+	            		<div class="oe_title">
+						    <label for="name" class="oe_edit_only"/>
+						    <h1><field name="numero_inscripcion"  on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/></h1>
+						    <h3>
+						        <span class="oe_read_only">By</span>
+						        
+						        <field name="anio_id" 
+						        	on_change="on_change_anio_id(anio_id)" 
+						        	domain="[('state','=', 'close')]"
+						        	class="oe_inline" />
+								<label for="libro_id" class="oe_edit_only"/>
+								<field name="libro_id" 
+									on_change="on_change_libro_id(libro_id)" 
+									domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'acta')]"
+									context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"
+									class="oe_inline" />
+	        		         	<field name="tomo_id"  
+	        		         		domain="[('libro_id', '=', libro_id)]"
+	        		         		context="{'libro_id': libro_id}"
+	        		         		class="oe_inline" />
+						    </h3>
+						</div>
+	            	<notebook>
+	            		<page String= 'Datos'>
+	                    
+	                        <group>
+		                        <group>
+		        		         	<!-- <field name="compania_id" on_change="onchange_compania_id(compania_id)"/>
+										domain="[('anio_id', '=', anio_id), ('libro_tipo', '=', 'acta')]" 
+		        		         -->
+		        		         	
+		        		         	<!--<field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+									<field name="libro_id" on_change="on_change_libro_id(libro_id)" 
+
+										domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'acta')]"
+
+														context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"/>
+		        		         	<field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+		        		         		context="{'libro_id': libro_id}"/>-->
+
+		        		         	<field name="numero_inscripcion"  on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+		        		         	<field name="compania_id" on_change="onchange_compania_id(compania_id)"/>
+		        	           		<field name="compania_nombres"/>
+		                            <field name="compania_identificacion"/> 
+		                            <field name="compania_especie_id"/> 
+		                            <field name="fecha_inscripcion"/> 
+		                            <field name="persona_id" on_change="onchange_persona_id(persona_id)"/> 
+		                            <field name="persona_nombres"/>
+		                            <field name="persona_apellidos"/>
+		                            <field name="persona_cedula"/>
+	                            </group>
+	                            <group>
+		        	           		<field name="cargo_id"/>
+		                            <field name="tipo_compareciente_id"/> 
+		                            <field name="disposicion"/> 
+		      						<field name="autoridad_emisora"/>      <!--esto es prueba -->
+		                            <field name="fecha_disposicion"/> 
+		                            <field name="numero_Disposicion"/>
+		        	           		<field name="fecha_ecritura"/>
+		                            <field name="nombre_instancia_publica"/> 
+		                            <field name="canton_id"/> 
+		                            <field name="tipo_tramite_id"/>
+		                            <field name="ubicacion_dato_id"/> 
+		                            <field name="fecha_ultima_modificacion"/> 
+		                            <field name="identificacion_unica"/> 
+		                            <field name="estado_inscripcion_id"/>  
+		                            
+		                           	
+		                      	</group>
+		                      	
+	                      	</group>
+	                    </page>
+                        <page string="Archivo">
+							<group>
+		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+		                        <button string="Editar Archivo" name="open_ui" type="object"/>
+		                        <div class="oe_title" >
+		                        	¿Es pesado?<field name="esPesado"/> 
+				                    <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+				                    <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [500, 500]}"  attrs="{'invisible':['|', ('esPesado','=',True)]}" />
+                          			
+	                      			<field name="rutaFTP" widget= "FieldUrlTiff" options="{'size': [500, 500]}"
+	                      				attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                          		</div>
+                          		
+                          	</group>
+              	      	</page>       
+              	    </notebook>                   
+                    </sheet>   
+
+                    
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+
+        <record id='rbs_documento_mercantil_acta_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.acta.tree</field>
+            <field name='model'>rbs.documento.mercantil.acta</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+ 
+					<field name="compania_id"/>
+					<field name="persona_id"/> 
+					<field name="persona_nombres"/> 
+					<field name="persona_apellidos"/> 
+					<field name="numero_inscripcion"/>
+					<field name="fecha_inscripcion"/> 
+					<field name="disposicion"/> 
+					
+					<field name="numero_Disposicion"/>
+					<field name="fecha_ecritura"/>
+                    <field name="create_uid" string="Creado por"/>
+                  	<field name="write_uid" string="Ultima modificacion"/>
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+        <record id="rbs_documento_mercantil_acta_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.documento.mercantil.acta.tree.filter</field>
+        <field name='model'>rbs.documento.mercantil.acta</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <field name="persona_cedula" string="Cedula" />
+            <field name="persona_apellidos" string="Apellido" />
+            <field name="anio_id" string="Año" />
+            <field name="tomo_id" string="Tomo" />
+            <field name="persona_nombres" string="Nombre" />
+            <field name="tipo_compareciente_id" string="Tipo de compareciente" />
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+            <field name="canton_id" string="Canton de la Notaria" />
+
+            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+			<filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+			<filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+          </search>
+          </field>
+         </record>
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_documento_mercantil_acta">
+        	<field name="name">Documento Mercantil Acta</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.documento.mercantil.acta</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="search_view_id" ref="rbs_documento_mercantil_acta_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_documento_mercantil_acta_tree_view"/>
+        </record>
+
+
+
+
+		<menuitem id="menu_Documentos" name="Documentos"/>
+
+		<menuitem id="submenu_Documento_Mercantil" name="Documentos Mercantiles" parent="menu_Documentos"/>
+
+		
+		<menuitem id="submenu_Documento_M_Acta" name="Registro Actas Societarias" parent="submenu_Documento_Mercantil" action="id_accion_rbs_documento_mercantil_acta"/>
+
+    </data>
+</openerp>

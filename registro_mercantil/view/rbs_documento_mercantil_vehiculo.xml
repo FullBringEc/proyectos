@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id='rbs_documento_mercantil_vehiculo_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.vehiculo.form</field>
+            <field name='model'>rbs.documento.mercantil.vehiculo</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Documento Mercantil Vehiculo" version="8.0"> 
+                    <group>
+                        <group>
+	                        <group>
+                            <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+                            <field name="libro_id" on_change="on_change_libro_id(libro_id)" 
+                          domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]"
+                              
+
+
+                                                context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"/>
+                            <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+                              context="{'libro_id': libro_id}"/>
+
+                            <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+              		         	<field name="persona_id" on_change="onchange_persona_id(persona_id)" context="{'persona_cedula': 13456487}"/>
+  	        	           		<field name="persona_nombres"/>
+	                            <field name="persona_apellidos"/> 
+	                            <field name="persona_cedula"/> 
+	                            <field name="persona_representante"/> 
+	                            <field name="persona_razonSocial"/> 
+	                            <field name="tipo_compareciente_id"/>
+                              <field name="nombre_institucion"/>
+                              <field name="canton_notaria"/>
+
+                            </group>
+                            <group>
+        	           		     <field name="tipo_contrato_id"/>
+	                            <field name="fecha_inscripcion"/> 
+                              <field name="fecha_cancelacion"/> 
+	                            <field name="fecha_escritura_contrato"/> 
+                              <field name="ultima_modificacion"/> 
+                              <field name="estado"/> 
+	                            <field name="tipo_bien_id"/> 
+	                            <field name="chasis"/>
+                              <field name="ubicacion_dato_id"/>
+
+        	           		     <field name="motor"/>
+	                            <field name="marca"/> 
+	                            <field name="modelo"/> 
+                              <field name="placa"/> 
+	                            <field name="anio_fabricacion"/> 
+                              <div class="oe_title">
+                                <field name="identificacion_unica"/> 
+                              </div>
+
+	                      	</group>
+                          
+                      	</group>
+                            
+                          <group>
+                            <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+                            <button string="prueba" name="open_ui" type="object"/>
+                            <div class="oe_title">
+                              ¿Es pesado?<field name="esPesado"/> 
+
+                          <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+                          <field name="filedata" widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
+                            attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                                attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                            </div>
+                          </group>                                
+                        </group>      
+                                                    
+                    
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+
+        <record id='rbs_documento_mercantil_vehiculo_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.vehiculo.tree</field>
+            <field name='model'>rbs.documento.mercantil.vehiculo</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+                  <field name="tomo_id"/>
+                  <field name="numero_inscripcion"/>
+                  <field name="persona_nombres"/>
+                  <field name="persona_apellidos"/> 
+                  <field name="persona_cedula"/> 
+                  <field name="persona_representante"/> 
+                  <field name="persona_razonSocial"/> 
+                  <!--<field name="tipo_compareciente_id"/>
+                  <field name="tipo_contrato_id"/>-->
+                  <field name="fecha_inscripcion"/> 
+                  <field name="fecha_cancelacion"/> 
+                  <field name="create_uid" string="Creado por"/>
+                  <field name="write_uid" string="Ultima modificacion"/>
+                        
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+        <record id="rbs_documento_mercantil_vehiculo_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.documento.mercantil.vehiculo.tree.filter</field>
+        <field name='model'>rbs.documento.mercantil.vehiculo</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <field name="persona_cedula" string="Cedula" />
+            <field name="persona_apellidos" string="Apellido" />
+            <field name="anio_id" string="Año" />
+            <field name="tomo_id" string="Tomo" />
+            <field name="persona_nombres" string="Nombre" />
+            <field name="tipo_compareciente_id" string="Tipo de compareciente" />
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+            <field name="canton_notaria" string="Canton de Notaria" />
+            <field name="nombre_institucion" string="Nombre de Institucion" />
+            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+            <filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+            
+
+
+          </search>
+        </field>
+          
+      </record>
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_documento_mercantil_vehiculo">
+        	<field name="name">Documento Mercantil Vehiculo</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.documento.mercantil.vehiculo</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+          <field name="search_view_id" ref="rbs_documento_mercantil_vehiculo_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_documento_mercantil_vehiculo_tree_view"/>
+        </record>
+
+
+
+
+
+		<menuitem id="submenu_Documento_M_vehicular" name="Registro Vehicular" parent="submenu_Documento_Mercantil" action="id_accion_rbs_documento_mercantil_vehiculo"/>
+
+    </data>
+</openerp>

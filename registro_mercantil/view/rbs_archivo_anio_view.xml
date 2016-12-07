@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id='rbs_archivo_anio_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.archivo.anio.form</field>
+            <field name='model'>rbs.archivo.anio</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Año" version="8.0"> 
+	            	<header>
+	            		
+	            		<button name='validarAnio' type="object" icon="gtk-execute" string='Validar' attrs="{'invisible':[('state','not in','open')]}"/>
+	            		<field name="state" widget="statusbar" statusbar_visible="open,close"/>
+                	</header>
+                    <sheet string="Año"> 
+								<group>
+	        		         		<field name="name"  attrs="{'readonly':[('state','not in','open')]}"/>
+	        		         		
+	        		         	</group>
+	        		         	<notebook >
+									<page string="Libros Mercantiles">
+										<field name="libro_mercantil_line" attrs="{'readonly':[('state','in','open')]}" context="{'anio_id':  id,'libro_tipo':'mercantil'}" >
+											<form string="Libros Mercantiles">
+												<group>
+												<field name="name"/>
+			        		         			<field name="anio_id" readonly="True"/>
+			        		         			<field name="libro_tipo" attrs="{'invisible':True}"/>
+			        		         			</group>
+			        		         			<field name="tomo_line" context="{'libro_id':  id}" >
+
+			        		         				<form string="Tomos" version="8.0"> 
+								                    <group>
+								                      
+														<field name="name"/>
+														<field name="libro_id" readonly="True"/>
+														<field name="anio_id" readonly="True"/>
+														<field name="libro_tipo" readonly="True"/>
+														
+														
+													</group>
+													<field name="vehiculo_line"  
+														context="{'anio_id': anio_id, 'libro_id': libro_id}"/>
+
+										        		         			
+								                    
+								                    
+									           		</form>
+			        		         			</field>
+			        		         			
+		        		         			</form>
+											
+										</field>
+									</page>
+								
+									<page string="Libros de Propiedad">
+										<field name="libro_propiedad_line" attrs="{'readonly':[('state','in','open')]}" context="{'anio_id':  id,'libro_tipo':'propiedad'}">
+											<form string="Sales Order Lines">
+												<group>
+												<field name="name"/>
+			        		         			<field name="anio_id" readonly="True"/>
+			        		         			<field name="libro_tipo" attrs="{'invisible':True}"/>
+			        		         			</group>
+ 			        		         			<field name="tomo_line" context="{'libro_id':  id}">
+			        		         				
+			        		         				<form string="Tomos" version="8.0"> 
+								                    
+								                      	<group>
+															<label string="Nombre de Tomo"/><field name="name"/>
+															<label string="Libro"/><field name="libro_id" readonly="True"/>
+															<field name="anio_id" readonly="True"/>
+															<field name="libro_tipo" readonly="True"/>
+														</group>
+														<field name="propiedad_line" 
+														context="{'anio_id': anio_id, 'libro_id': libro_id}"/>
+										
+											        		         			
+								                    
+								                    
+									           		</form>
+			        		         			</field>
+		        		         			</form>
+											
+										</field>
+									</page>
+								
+									<page string="Libros Acta">
+										<field name="libro_acta_line" attrs="{'readonly':[('state','in','open')]}" context="{'anio_id':  id,'libro_tipo':'acta'}">
+											<form string="Libros De Acta">
+												<group>
+												<field name="name"/>
+			        		         			<field name="anio_id" readonly="True"/>
+			        		         			<field name="libro_tipo" attrs="{'invisible':True}"/>
+			        		         			</group>
+			        		         			<field name="tomo_line" context="{'libro_id':  id}">
+			        		         				<form string="Tomos" version="8.0"> 
+			        		         					<group>
+															<label string="Nombre de Tomo"/><field name="name"/>
+															<label string="Libro"/><field name="libro_id" readonly="True"/>
+															<field name="anio_id" readonly="True"/>
+															<field name="libro_tipo" readonly="True"/>
+														</group>
+														<field name="acta_line"
+														context="{'anio_id': anio_id, 'libro_id': libro_id}"/>
+		        		         					</form>
+			        		         			</field>
+		        		         			</form>
+										</field>
+									</page>
+								</notebook>
+                                                    
+                    </sheet>
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+		
+<!-- 		<record id="rbs_archivo_anio_tree_filter_view" model="ir.ui.view" > -->
+<!-- 			<field name="name">rbs.archivo.anio.tree.filter</field> -->
+<!-- 			<field name='model'>rbs.archivo.anio</field> -->
+<!-- 			<field name='type'>search</field> -->
+<!-- 			<field name='priority' eval="20"/> -->
+<!-- 			<field name='arch' type="xml"> -->
+<!-- 				<search string="Search Detail"> -->
+<!-- 					<group expand="0" string="Group By..."> -->
+<!-- 						<filter string="" -->
+<!-- 					</group> -->
+<!-- 				</search> -->
+<!-- 			</field> -->
+				
+<!-- 		</record> -->
+        <record id='rbs_archivo_anio_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.archivo.anio.tree</field>
+            <field name='model'>rbs.archivo.anio</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+ 
+					<field name="name"/>
+					
+                        
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_archivo_anio">
+        	<field name="name">Año</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.archivo.anio</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="view_id" ref="rbs_archivo_anio_tree_view"/>
+        </record>
+
+
+        <menuitem id="menu_clasificacion_documentos" name="Clasificacion"/>
+
+        
+
+		<menuitem id="submenu_Clasificacion" name="Clasificacion" parent="menu_clasificacion_documentos"/>
+		<menuitem id="submenu_archivo_anio" name="Año" parent="submenu_Clasificacion" action="id_accion_rbs_archivo_anio"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    
+    <data>
+
+
+        
+        <record id="opc_item_kanban_inherit" model="ir.ui.view">
+            <field name="name">opc.item kanban</field>
+            <field name="model">opc.item</field>
+            <field name="type">kanban</field>
+            <field name="inherit_id" ref="opc_opc.opc_item_kanban"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    task_dispensing_liquid_id
+                </field>
+            </field>
+        </record>
+        <record id="action_opc_item_search" model="ir.ui.view">
+            <field name="name">opc.item.search</field>
+            <field name="model">opc.item</field>
+            <field name="arch" type="xml">
+                <search string="Picking Lists">
+                    <field name="task_dispensing_liquid_id" string="tarea" filter_domain="[('task_dispensing_liquid_id','ilike',self)]"/>
+                    
+                </search>
+            </field>
+        </record>
+        <record id="action_opc_item_task_dispensing" model="ir.actions.act_window">
+            <field name="name">Ready Transfers</field>
+            <field name="res_model">opc.item</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form,tree</field>
+            <field name="domain"></field>
+            <field name="context">{
+                    'search_default_task_dispensing_liquid_id': [active_id],
+                    
+                    
+            }
+
+            </field>
+            <field name="search_view_id" ref="action_opc_item_search"/>
+            
+        </record>
+
+        <record model="ir.ui.view" id="task_dispensing_liquid_kanban">
+            <field name="name">task.dispensing.liquid kanban</field>
+            <field name="model">task.dispensing.liquid</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="itemLocationActivacion"/>
+                    <field name="itemLocationCantidad"/>
+                    <field name="cantidadAgua"/>
+                    <field name="capacidad_maxima"/>
+                    <field name="item_ids"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_stock_picking_type ">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><ul class="oe_kanban_colorpicker" data-field="color"/></li></t>
+                                    </ul>
+                                </div>
+                               
+
+                                <div class="oe_kanban_content">
+                                    <h4 class="text-center"><strong><field name="name"/></strong></h4>
+                                    
+                                    <field name="cantidadAgua" widget="gauge" 
+                                            options="{'max_field': 'capacidad_maxima','levelcolors': ['#ff0000', '#f9c802', '#a9d70b']}">Nivel del tanque</field>
+                                       
+                                        
+                                    <a name="%(action_opc_item_task_dispensing)d" type="action">
+                                        <div class="oe_kanban_footer_left">
+                                            <span title="Items Adicionales"><span class="oe_e">j</span><t t-esc="record.item_ids.raw_value.length"/>
+                                            </span>
+                                        </div>
+                                    </a>
+                                        
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="task_dispensing_liquid_form" model="ir.ui.view">
+            <field name="name">task.dispensing.liquid form</field>
+            <field name="model">task.dispensing.liquid</field>
+            <field name="arch" type="xml">
+               <form>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                            <h3>
+                                <span class="oe_read_only">Tarea</span>
+                                
+                            </h3>
+                        </div>
+                        <!--<field name="opc_id"/>-->
+                        <group >
+                            <field name="itemLocationActivacion"/>
+                            <field name="itemLocationCantidad"/>
+                            <field name="capacidad_maxima"/>
+                            <field name="itemLocationCantidadAgua"/>
+                            <field name="cantidadAgua"/>
+                            <field name="item_ids"/>
+                            
+                        </group>
+
+
+
+                    </sheet>
+                    <!-- History and communication: -->
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_location_form_inherit_opc" model="ir.ui.view">
+            <field name="name">stock.location.form.inherit_opc</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='localization']" position="after">
+                    <group string="Informacion de la tarea" >
+                        <field name="task_id"/>
+                    </group>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_transfer_details_form_inherit_opc" model="ir.ui.view">
+            <field name="name">stock.transfer_details.form.inherit_opc</field>
+            <field name="model">stock.transfer_details</field>
+            <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_detailed_transfer']" position="before">
+                        <label string="¿Se transfiere por PLC?"/><field name="se_transfiere" />
+                </xpath>
+            </field>
+        </record>
+       
+        <act_window id="action_task_dispensing_liquid" name="Servidores OPC" res_model="task.dispensing.liquid" view_mode="kanban,tree,form"/>
+        
+        
+        <menuitem id="opc_taks" parent="opc_opc.opc_opc_menu" name="Tareas"/>
+        <menuitem id="opc_task_dispensing_liquid" name="Tareas para dispensador de liquidos" parent="opc_taks" action="action_task_dispensing_liquid"/>
+
+        
+
+
+
+
+        <!--<record id="rbs_opc_config_settings_view" model="ir.ui.view">
+             <field name="name">rbs.opc.config.settings.view.form</field>
+             <field name="model">rbs.opc.config.settings</field>
+             <field name="arch" type="xml">
+                 <form string="my custom class" create="false" delete="false">
+                     <field name="opc_ip" string="Odoo Username"/>
+                 </form>
+             </field>
+        </record>
+        <record id="act_rbs_opc_config_settings_view" model="ir.actions.act_window">
+            <field name="name">rbs.opc.config.settings.view</field>
+            <field name="res_model">rbs.opc.config.settings</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+        the following is a one record as initial data 
+        <record id="act_rbs_opc_config_settings_view_only_one_record" model="rbs.opc.config.settings">
+            <field name="opc_ip">"test odoo user name"</field>
+        </record>
+
+        <menuitem action="act_rbs_opc_config_settings_view" id="menu_act_my_custom_class_view" parent="base.menu_config" sequence="30"/>-->
+
+
+    </data>
+</openerp>

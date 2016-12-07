@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_anexo_export" model="ir.ui.view">
+            <field name="name">rbs.informe.wizard.view</field>
+            <field name="model">rbs.informe</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="ATS Export">
+                    <group col="8">
+                        <group colspan="4" >
+                            <label colspan="4" width="250" string="Este asistente genera automáticamente la información de:"/>
+                            <label colspan="4" width="250" string="REPORTE DE REGISTROS"/>
+                        </group>
+                        <separator orientation="vertical" rowspan="15"/>
+                        <group colspan="4">
+                            <group colspan="4" states="choose">
+                                <separator colspan="4" string="XLS Export"/>
+                                <!--<field name="fiscalyear_id" widget="selection"/>-->
+                                <field name="tipo"/>
+                                <field name="fecha_inicio"/>
+                                <field name="fecha_fin"/>
+			                    <field invisible="1" name="state"/>
+                            </group>
+                            <group colspan="4" states="get">
+                                <separator string="Guarde el archivo en su computador" colspan="4"/>
+                                <field name="name" invisible="" colspan="4"/>
+                                <field name="data" nolabel="1" readonly="1" filename="name" colspan="4"/>
+                            
+                            </group>
+                        </group>
+                        <group colspan="8" col="8" states="choose">
+                            <separator string="" colspan="8"/>
+                            <label string="Esta" width="220"/>
+                            <button icon="gtk-cancel" name="act_cancelar" special="cancel" string="_Close" type="object"/>
+                            <button icon="gtk-ok" name ="act_export" string="_Export" type="object"/>
+                            
+                        </group>
+                         <group colspan="8" col="8" states="get">
+                            <separator string="" colspan="8"/>
+                            <label colspan="7" string="Esta!!!!" width="220"/>
+                            <button icon="gtk-close" name="act_destroy" special="cancel" string="_Close" type="object"/>
+                        
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_wizard_xls_export" model="ir.actions.act_window">
+            <field name="name">Exportar xls</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.informe</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem name="Informe" id="infome_registros"/>
+        <menuitem name="Informe" id="submenu_Informe" parent="infome_registros"/>
+        <menuitem name="Exportar xls" action="action_wizard_xls_export" id="submenu_export_xls" parent="submenu_Informe"/>
+    </data>
+</openerp>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    
+    
+
+    <data>
+    	<!--<record model="ir.sequence.type" id="seq_type_emp_id">
+		    <field name="name">Employee Number</field>
+		    <field name="code">hr.employee</field>
+		</record>
+		<record model="ir.sequence" id="seq_emp_id">
+		    <field name="name">Employee Number</field>
+		    <field name="code">hr.employee</field>
+		    <field name="prefix"></field>
+		    <field name="padding">3</field>
+		</record>-->
+
+
+		<record id="seq_type_transferencia" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Transferencia</field> 
+		  <field name="code">code_transferencia</field> 
+		</record> 
+		<record id="seq_transferencia" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Transferencia</field> 
+		    <field name="code">code_transferencia</field> 
+		    <field name="prefix">COMP_TRANSFERENCIA-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+		<record id="seq_type_ingreso" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Ingreso</field> 
+		  <field name="code">code_ingreso</field> 
+		</record> 
+		<record id="seq_ingreso" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Ingreso</field> 
+		    <field name="code">code_ingreso</field> 
+		    <field name="prefix">COMP_INGRESO-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+		<record id="seq_type_receta" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Receta</field> 
+		  <field name="code">code_receta</field> 
+		</record> 
+		<record id="seq_receta" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Receta</field> 
+		    <field name="code">code_receta</field> 
+		    <field name="prefix">RECETA-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+		<record id="seq_type_asignacion" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Asignacion</field> 
+		  <field name="code">code_asignacion</field> 
+		</record> 
+		<record id="seq_asignacion" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Asignacion</field> 
+		    <field name="code">code_asignacion</field> 
+		    <field name="prefix">ACTA_ENTREGA-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+		<record id="seq_type_tranf_insumo" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Transferencia de Insumo</field> 
+		  <field name="code">code_tranf_insumo</field> 
+		</record> 
+		<record id="seq_tranf_insumo" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Transferencia de Insumo</field> 
+		    <field name="code">code_tranf_insumo</field> 
+		    <field name="prefix">TRANF_INSUMO-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+
+		<record id="seq_type_tranf_material" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Transferencia de Materiales</field> 
+		  <field name="code">code_tranf_material</field> 
+		</record> 
+		<record id="seq_tranf_material" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Transferencia de Materiales</field> 
+		    <field name="code">code_tranf_material</field> 
+		    <field name="prefix">TRANF_MATERIAL-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+		<record id="seq_type_tranf_material_mantenimiento" model="ir.sequence.type"> 
+		  <field name="name">Tipo Comprobante Transferencia de Materiales de Mantenimiento</field> 
+		  <field name="code">code_tranf_mat_mant</field> 
+		</record> 
+		
+		<record id="seq_tranf_material_mantenimiento" model="ir.sequence"> 
+		    <field name="name">Numero de Comprobante de Transferencia de Mantenimiento</field> 
+		    <field name="code">code_tranf_mat_mant</field> 
+		    <field name="prefix">TRANF_MATERIAL_MANTENIMIENTO-</field> 
+		    <field name="padding">6</field> 
+		</record>
+
+
+		
+	</data>
+</openerp>

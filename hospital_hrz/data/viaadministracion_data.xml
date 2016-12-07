@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="viaadministracion_ORAL" model="hrz.producto.viaadministracion">
+          <field name="name">ORAL</field>
+      </record>
+      <record id="viaadministracion_PARENTERAL" model="hrz.producto.viaadministracion">
+          <field name="name">PARENTERAL</field>
+      </record>
+      <record id="viaadministracion_INTRAVENOSA" model="hrz.producto.viaadministracion">
+          <field name="name">INTRAVENOSA</field>
+      </record>
+      <record id="viaadministracion_INTRAMUSCULAR" model="hrz.producto.viaadministracion">
+          <field name="name">INTRAMUSCULAR</field>
+      </record>
+      <record id="viaadministracion_SUBCUTANEA" model="hrz.producto.viaadministracion">
+          <field name="name">SUBCUTANEA</field>
+      </record>
+      <record id="viaadministracion_TOPICA" model="hrz.producto.viaadministracion">
+          <field name="name">TOPICA O LOCAL</field>
+      </record>
+      <record id="viaadministracion_OTICAS" model="hrz.producto.viaadministracion">
+          <field name="name">OTICAS</field>
+      </record>
+      <record id="viaadministracion_OFTALMOLOGICA" model="hrz.producto.viaadministracion">
+          <field name="name">OFTALMOLOGICA</field>
+      </record>
+      <record id="viaadministracion_NASALES" model="hrz.producto.viaadministracion">
+          <field name="name">NASALES</field>
+      </record>
+      <record id="viaadministracion_UROGENITALES" model="hrz.producto.viaadministracion">
+          <field name="name">UROGENITALES</field>
+      </record>
+      <record id="viaadministracion_RECTAL" model="hrz.producto.viaadministracion">
+          <field name="name">RECTAL</field>
+      </record>
+      <record id="viaadministracion_INHALATORIA" model="hrz.producto.viaadministracion">
+          <field name="name">INHALATORIA</field>
+      </record>
+      <record id="viaadministracion_TRANSDERMICA" model="hrz.producto.viaadministracion">
+          <field name="name">TRANSDERMICA</field>
+      </record>
+      <record id="viaadministracion_SUBLINGUAL" model="hrz.producto.viaadministracion">
+          <field name="name">SUBLINGUAL</field>
+      </record>
+
+    </data>
+</openerp>
+        

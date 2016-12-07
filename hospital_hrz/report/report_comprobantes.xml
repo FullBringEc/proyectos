@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_comprobantes">
+    <t t-foreach="docs" t-as="o">
+      <t t-call="hospital_hrz.external_layout_hrz">
+        <div class="page">
+            <span t-if="o.tipo_comprobante =='ingress'">
+                    <div class="row">
+                        <div class="col-xs-6">
+                          <span t-if="o.tipo_producto_Bodega_ingreso == 'medicamento'" >                     
+                          <h4>Ingreso de Medicamentos</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                          </span>
+                          <span t-if="o.tipo_producto_Bodega_ingreso == 'herramienta'" >                     
+                          <h4>Ingreso de Herramientas</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                          </span>
+                          <span t-if="o.tipo_producto_Bodega_ingreso == 'material'" >                     
+                          <h4>Ingreso de Materiales</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                          </span>
+                         
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                            
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Proveedor</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-xs-2">
+
+                                      <p><strong>Proveedor</strong></p>
+                                        
+                                      <strong>Direccion</strong>  
+                                    </div>
+                                    <div class="col-xs-10 ">
+                                      <p>: <span t-field="o.emisor_id"/></p>
+                                        
+                                      	 : <span t-field="o.emisor_street"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                         
+                    </div> 
+                               
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>P. Unitario</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.precio_unitario"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.subtotal"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                    </table>
+                   
+
+                <div class="row">
+                    <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+                  <div class="col-xs-3 pull-right">
+                    
+                     <span t-if="o.tipo_producto_Bodega_ingreso == 'herramienta'" >
+                    <table class="table table-condensed">
+                        
+                        <tr class="border-black">
+                            <td><strong>Subtotal</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.total"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Iva</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.iva"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.total_iva"/>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                     </span>
+
+                    <span t-if="o.tipo_producto_Bodega_ingreso == 'material'" >
+                    <table class="table table-condensed">
+                        
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.total"/>
+                            </td>
+                        </tr>
+                       
+                        
+                    </table>
+                     </span>
+                     <span t-if="o.tipo_producto_Bodega_ingreso == 'medicamento'" >
+                    <table class="table table-condensed">
+                        
+                       
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.total"/>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                     </span>
+
+                  </div>
+
+                </div>
+                <br/>
+                <br/>
+                
+
+                <div class="row">
+                <div class="col-xs-4">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de Emisor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>    
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de receptor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+               </div>
+            
+            </span>
+
+            <span  t-if="o.tipo_comprobante =='transfer'">
+                    <div class="row">
+                        <div class="col-xs-6">
+                                               
+                          <h4>Transferencia Interna</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                            
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Emisor</strong>
+                                </div>
+                                <div class="panel-body">   
+                                    <span t-field="o.emisor_user_id"/>
+                                        
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Receptor</strong>
+                                </div>
+                                <div class="panel-body">
+                                   
+                                   
+                                      <span t-field="o.receptor_user_id"/>                                
+                                      
+                                   
+                                </div>
+                            </div>
+                        </div>
+ 
+                    </div>
+                                
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                            
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                    </table>
+
+                <div class="row">
+                   <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+
+                </div>
+                <br/>
+                <br/>
+                <div class="row">
+                <div class="col-xs-4">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de Emisor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>    
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de receptor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+               </div>
+            
+            </span>
+
+
+            <span  t-if="o.tipo_comprobante =='transferMaterialMantenimiento'">
+                    <div class="row">
+                        <div class="col-xs-6">
+                                               
+                          <h4>Transferencia Mantenimiento</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                            
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Emisor</strong>
+                                </div>
+                                <div class="panel-body">   
+                                    <span t-field="o.emisor_user_id"/>
+                                        
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Receptor</strong>
+                                </div>
+                                <div class="panel-body">
+                                   
+                                   
+                                      <span t-field="o.receptor_user_id"/>                                
+                                      
+                                   
+                                </div>
+                            </div>
+                        </div>
+ 
+                    </div>
+                                
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                      
+                            
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+
+                                     </tr>
+                                </tbody>
+                    </table>
+
+                <div class="row">
+                  <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+                  
+
+                </div>
+                <br/>
+                <br/>
+                <div class="row">
+                <div class="col-xs-4">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de Emisor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>    
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de receptor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+               </div>
+            
+            </span>
+
+
+            <span  t-if="o.tipo_comprobante =='transferInsumo'"> 
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                                               
+                          <h4>Transferencia de Insumos</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                            
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Emisor</strong>
+                                </div>
+                                <div class="panel-body">   
+                                    <span t-field="o.emisor_user_id"/>
+                                        
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Receptor</strong>
+                                </div>
+                                <div class="panel-body">
+                                   
+                                   
+                                      <span t-field="o.receptor_user_id"/>                                
+                                      
+                                   
+                                </div>
+                            </div>
+                        </div>
+ 
+                    </div>
+                                
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                            
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                    </table>
+
+                <div class="row">
+                   <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+
+
+                </div>
+                <br/>
+                <br/>
+                <div class="row">
+                <div class="col-xs-4">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de Emisor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>    
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de receptor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+               </div>
+            
+            </span>
+
+
+            <span  t-if="o.tipo_comprobante =='transferMaterial'"> 
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                                               
+                          <h4>Transferencia de Materiales</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                            
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Emisor</strong>
+                                </div>
+                                <div class="panel-body">   
+                                    <span t-field="o.emisor_user_id"/>
+                                        
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Detalles del Receptor</strong>
+                                </div>
+                                <div class="panel-body">
+                                   
+                                   
+                                      <span t-field="o.receptor_user_id"/>                                
+                                      
+                                   
+                                </div>
+                            </div>
+                        </div>
+ 
+                    </div>
+                                
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                            
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                    </table>
+
+                <div class="row">
+                   <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+
+
+                </div>
+                <br/>
+                <br/>
+                <div class="row">
+                <div class="col-xs-4">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de Emisor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>    
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td class="text-center">
+                                <strong>Firma de receptor</strong>
+                            </td>
+                        
+                        </tr>
+                    </table>
+                </div>
+               </div>
+            
+            </span>
+
+            <span  t-if="o.tipo_comprobante =='recipe'">
+                    <div class="row">
+                        <div class="col-xs-6">
+                                               
+                          <h4>Receta</h4>
+                          <h4><small t-field="o.name"></small></h4>
+                            <br/>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            Fecha: <span t-field="o.fecha"/> 
+                        </div>
+
+                    </div>       
+                    <div class="row">
+                       
+                        <div class="col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>Detalles del Paciente</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-xs-3">
+
+				                              <p><strong>Cedula</strong></p>
+                                      <p><strong>Nombre</strong></p>
+                                        
+                                      <strong>Direccion</strong>  
+                                    </div>
+                                    <div class="col-xs-9 ">
+                                      <p>: <span t-field="o.paciente_cedula"/></p>
+				                              <p>: <span t-field="o.receptor_paciente_id"/></p>
+                                        
+                                      	 : <span t-field="o.paciente_direccion"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                         
+                    </div> 
+                                
+                    <table class="table table-bordered">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Frecuencia</th>
+                                        
+                                      
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr t-foreach="o.detalle_ids" t-as="l">
+                                        <td>
+                                           <span t-field="l.producto_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.cantidad"/>
+                                        </td>
+                                         <td>
+                                            <span t-field="l.frecuencia"/>
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                    </table>
+		<br/>
+		<br/>
+        <div class="row">
+         <div class="col-xs-8">
+                    <table class="table table-bordered">
+                        
+                        <tr class="border-black">
+                            <td><strong>OBSERVACION:</strong> <span t-field="o.observacion"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                  </div>
+        </div>	
+		<div class="row">
+                	<div class="col-xs-4 pull-right">
+                 	   <table class="table table-condensed">
+                        	<tr class="border-black">
+                            		<td class="text-center">
+                             		   <strong>Firma de recibido</strong>
+                            		</td>
+                        
+                        	</tr>
+                    	   </table>
+               		</div>
+               </div>
+
+
+            
+            </span>
+                    
+            
+        </div>
+     </t>
+    </t>
+</template>
+
+
+</data>
+</openerp>

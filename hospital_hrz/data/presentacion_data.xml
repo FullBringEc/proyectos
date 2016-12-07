@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="presentacion_JARABE" model="hrz.producto.presentacion">
+          <field name="name">JARABE</field>
+      </record>
+      <record id="presentacion_ELIXIRES" model="hrz.producto.presentacion">
+          <field name="name">ELIXIRES</field>
+      </record>
+      <record id="presentacion_SUSPENSION" model="hrz.producto.presentacion">
+          <field name="name">SUSPENSION Y EMULSIONES</field>
+      </record>
+      <record id="presentacion_GOTAS" model="hrz.producto.presentacion">
+          <field name="name">GOTAS</field>
+      </record>
+      <record id="presentacion_VIALES" model="hrz.producto.presentacion">
+          <field name="name">VIALES BEBIBLE</field>
+      </record>
+      <record id="presentacion_COMPRIMIDOS" model="hrz.producto.presentacion">
+          <field name="name">COMPRIMIDOS</field>
+      </record>
+      <record id="presentacion_GRAGEAS" model="hrz.producto.presentacion">
+          <field name="name">GRAGEAS</field>
+      </record>
+      <record id="presentacion_COMPRIMIDOS" model="hrz.producto.presentacion">
+          <field name="name">COMPRIMIDOS EFERVECENTES</field>
+      </record>
+      <record id="presentacion_CAPSULAS" model="hrz.producto.presentacion">
+          <field name="name">CAPSULAS</field>
+      </record>
+      <record id="presentacion_POLVOS" model="hrz.producto.presentacion">
+          <field name="name">POLVOS</field>
+      </record>
+      <record id="presentacion_GRANULADOS" model="hrz.producto.presentacion">
+          <field name="name">GRANULADOS</field>
+      </record>
+
+    </data>
+</openerp>
+        

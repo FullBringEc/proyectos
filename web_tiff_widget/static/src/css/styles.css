@@ -1,0 +1,233 @@
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  font-size: 30px;
+  background-color: #2B2B2B;
+  border: none;
+  color: #FFFFFF !important;
+  text-align: center;
+  padding: 2px;
+  width: 50px;
+  transition:all 0.3s ease-in-out;
+  -moz-transition:all 0.3s ease-in-out;
+  -webkit-transition:all 0.3s ease-in-out;
+  cursor: pointer;
+  margin: 1px;
+  text-transform:uppercase;
+  box-shadow: 0px 1px 2px black;
+}
+
+
+.btn:active, .link:focus {
+  background: #1784c7;
+  text-decoration:none;
+  color:#fff !important;
+}
+
+
+.btn:hover{
+    text-decoration:none;
+  color:#1784c7 !important;
+  background:#fff;
+}
+
+
+
+
+.table {
+  
+  width:90%;
+  margin:auto;
+  margin-top: 10px;
+}
+
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #979797;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    font-size: 12px;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #979797 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+
+
+.divC{
+  width: 70%;
+  height: 100%;
+  background-color: #1B1B1B;
+  text-align: right;
+  float:left;
+
+}
+
+.divImage{
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+  position: relative;
+
+  background-image: url("/web_tiff_widget/static/src/img/fondoeditor2.png");
+  border: 1px solid #DCD9D9;
+
+
+
+
+}
+.panzoom{
+  text-align: center;
+  width: 100%;
+  margin-top: 55px;
+  
+
+}
+
+#imagenCanvas{
+  -webkit-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
+-moz-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
+box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
+  position: relative;
+  border: 1px solid #DCD9D9;
+  width: 40%;
+
+}
+
+.contenido{
+    padding: 17px;
+    background-color:#1B1B1B;
+    border: 1px solid #1B1B1B;
+    border-top: 4px solid #7B00F8;
+    text-align: left;
+}
+
+/*Este codigo es para Slider*/
+input[type=range] {
+    /*removes default webkit styles*/
+    -webkit-appearance: none;
+    
+    /*fix for FF unable to apply focus style bug */
+    border: 1px solid #1784c7;
+
+    /*required for proper track sizing in FF*/
+    width: 100%;
+    display: block;
+
+
+    
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 00px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background:#1784c7;
+    margin-top: -4px;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+input[type=range]::-moz-range-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #444345;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]::-ms-track {
+    width: 300px;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    background: #777;
+    border-radius: 10px;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ddd;
+    border-radius: 10px;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #444345;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ccc;
+}
+
+
+
+
+
+

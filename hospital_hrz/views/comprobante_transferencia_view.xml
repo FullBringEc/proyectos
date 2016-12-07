@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="view_hrz_comprobante_transferencia_form" model="ir.ui.view">
+	        <field name="name">hrz.comprobante.transferencia form</field>
+	        <field name="model">hrz.comprobante</field>
+	        <field name='type'>form</field>
+			<field name="arch" type="xml">
+				<form string="Transferencia Electronica">
+                    <header>
+                        <button name="send" states="draft" type="workflow" string="Enviar" icon="gtk­ok"/>
+                        <button name="disable" states="sent" string="Desactivar" icon="gtk­ok"/>
+                        <field name="state" widget="statusbar"/>
+                        
+                        
+                    </header>
+
+
+
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
+                            <h1><field name="emisor_user_id" readonly="1" /></h1>
+                            <field name="fecha" readonly="1" />
+                        </div>
+
+                        <field name="number" invisible = "True"/>
+                        
+                        <group>
+                                
+                                <field string="Bodega origen" name="Bodega_egreso_id" required="1" 
+                                    domain="[('es_virtual', '=', False), ('responsables_ids', 'in', emisor_user_id)]"
+                                    options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field string="Transferir a" name="Bodega_ingreso_id" required="1" 
+                                    domain="[('es_virtual', '=', False), ('id', '!=', Bodega_egreso_id)]"
+                                    options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field name="char_productos_ids" invisible="1"/>
+                        </group>
+                        <group >
+                            <group >
+                                
+                                <field name="responsables_ingreso_ids" invisible='1'/>
+                                <field name="receptor_user_id" domain="[ ('id', 'in', responsables_ingreso_ids[0][2])]"/>
+                                
+                            </group>
+                           
+                        </group>
+	                    <field name="tipo_comprobante" invisible="1"/>
+                        <field name="tipo_producto_Bodega_egreso" invisible = "1"/>
+                        <field name="tipo_producto_Bodega_ingreso" invisible = "1"/>
+                        
+	                    <notebook>
+	                        <page string="Lineas">
+                                
+                                <field name="detalle_ids" attrs="{'readonly':[('state','!=','draft')]}" >
+                                    <tree editable="bottom">
+                                        <field name="state" invisible='1'/>
+                                        <field name="producto_id" options="{'no_quick_create':True,'no_create_edit':True}" 
+                                        domain="[('id_comas','similar to', parent.char_productos_ids)]" />
+                                        
+                                        <field name="esInsumo" readonly="1" />
+                                       <field name="lote_id" 
+                                            domain="[('producto_id','=',producto_id),
+                                                     ('state','=','disponible'),
+                                                     ('bodega_id','=',parent.Bodega_egreso_id),]" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                       <field name="cantidad" />
+                                       <field name="precio_relacion" readonly = '1'/>
+                                       <field name="precio_unitario" invisible='1'/>
+                                       <field name="cantidad_maxima" />
+                                      
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Movimientos">
+                                
+                                <field name="move_ids" readonly = "1">
+                                    <tree editable="bottom">
+                                       <field name="producto_id" />
+                                       <field name="bodega_id" />
+                                       <field name="entra" />
+                                       <field name="sale" />
+                                       <field name="precio_unitario" />
+                                    </tree>
+                                </field>
+                                
+                            </page>
+
+	                    </notebook>
+                        <group>
+                            <!--<field name="total"/>-->
+                            <field name="observacion"/>
+                        </group>
+                    </sheet>
+                </form>
+	        </field>
+	    </record>
+	    <record id="view_hrz_comprobante_transferencia_tree" model="ir.ui.view">
+	        <field name="name">hrz.comprobante tree</field>
+	        <field name="model">hrz.comprobante</field>
+			<field name="arch" type="xml">
+				<tree string = "Transferencias" default_order="state asc,name desc"
+                    colors="blue:state == 'draft';gray:state =='deactivated';black:state == 'sent'">
+	                    <field name="name"/>
+	                    <field name="emisor_user_id"/>
+	                    <field name="receptor_user_id"/>
+	                    <field name="area_id"/>
+	                    <field name="fecha"/>
+	                    <field name="tipo_comprobante"/>
+	                    <field name="total"/>
+	                    <field name="observacion"/>
+                        <field name="state" invisible="1"/>     
+                    <!-- History and communication: -->
+                </tree>
+	        </field>
+	    </record>
+    	<record id="action_comprobante_transferencia" model="ir.actions.act_window">
+            <field name="name">Transferencias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hrz.comprobante</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipo_comprobante','=','transfer'),('emisor_user_id','=', uid)]</field>
+            <field name="context">{
+                'default_tipo_comprobante':'transfer', 
+                'tipo_comprobante':'transfer',
+                'default_emisor_user_id': uid,
+                'emisor_user_id': uid
+                }</field>
+            <!--<field name="search_view_id" ref="view_account_invoice_filter"/>-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear un comprobante de Transferencia
+              </p><!--<p>
+                Odoo's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>-->
+            </field>
+        </record>
+
+		<record id="action_view_hrz_comprobante_transferencia_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_comprobante_transferencia"/>
+        </record>
+
+        <record id="action_view_hrz_comprobante_transferencia_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hrz_comprobante_transferencia_form"/>
+            <field name="act_window_id" ref="action_comprobante_transferencia"/>
+        </record>
+
+
+
+        <!--<menuitem id="comprobantes" name="Comprobantes" />
+        <menuitem id="menu_comprobantes" parent="comprobantes" name="Comprobantes" />-->
+        <menuitem id="submenu_comprobante_transferencia" name="Transferencias a Farmacia" groups="hospital_hrz.group_hospital_ingreso_medicamento" parent="menu_comprobantes" action="action_comprobante_transferencia"/>
+    </data>
+</openerp>
+        

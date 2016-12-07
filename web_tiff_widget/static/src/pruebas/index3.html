@@ -1,0 +1,20 @@
+<html>
+	<head>
+	</head>
+	<body>
+	<button>asd</button>
+	<script type="text/javascript">
+		
+
+		var worker = new Worker('worker.js'); 
+		worker.addEventListener('message', function(e) {
+			alert('Respuesta del Worker: ' + e.data);
+		}, false);
+		worker.postMessage('5000');
+		console.log(new Date());
+		console.log('Dude!');
+		
+		console.log(new Date());
+	</script>
+	</body>
+</html>

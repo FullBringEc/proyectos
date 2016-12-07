@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<menuitem id="sri_configuration" name="SRI Configuration" parent="account.menu_finance_configuration" />
+		<menuitem id="ats_configuration_menu" name="Ats" parent="ecua_documentos_sri.sri_configuration"/>
+	</data>
+</openerp>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="view_hrz_comprobante_receta_form" model="ir.ui.view">
+	        <field name="name">hrz.comprobante.receta form</field>
+	        <field name="model">hrz.comprobante</field>
+	        <field name='type'>form</field>
+			<field name="arch" type="xml">
+				<form string="Receta Electronica">
+                    <header>
+                        <button name="prescribe" groups="hospital_hrz.group_hospital_medico" states="draft" type="workflow" string="Recetar" icon="gtk­ok"/>
+                        <button name="send" states="prescription" type="workflow" string="Enviar" groups="hospital_hrz.group_hospital_farmacia" icon="gtk­ok"/>
+                        
+                        <button name="disable" states="sent" string="Receta Entregada" icon="gtk­ok" groups="hospital_hrz.group_hospital_farmacia"/>
+                        <button name="actualizarPacientes"  string="Actualizar Pacientes" states="draft" type="object" groups="hospital_hrz.group_hospital_medico"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+
+                        <div class="oe_right oe_button_box" style="width: 600px;" name="buttons">
+                            <field name="emisor_user_id" invisible="1" />
+                            <h1><field name="emisor_medico_id" readonly="1" required="1"/></h1>
+                            <field name="fecha" readonly="1" />
+                        </div>
+
+
+                        <field name="number" invisible = "True"/>
+                        <group >
+                            <field name="receptor_paciente_id" required="1"/>
+                            <field name="paciente_numero_archivo" readonly="1"/>
+                            <field name="paciente_cedula" readonly="1"/>
+                            <field name="paciente_telefono" readonly="1"/>
+                            <field name="paciente_celular" readonly="1"/>
+                            <field name="paciente_direccion" readonly="1"/>
+                            <field name="paciente_alergia" readonly="1"/>
+	                    </group>
+                        <group>
+                                <field name="Bodega_ingreso_id" invisible='1' options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field name="Bodega_egreso_id" invisible="1" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field name="char_productos_ids" invisible="1"/>
+
+                                
+                        </group>
+	                    <field name="tipo_comprobante" invisible="True"/>
+	                    <notebook>
+	                        <page string="Lineas">
+                                
+                                <field name="detalle_ids" attrs="{'readonly':[('state','!=','draft')]}" >
+                                    <tree editable="bottom">
+                                       <field name="state" invisible='1'/>
+                                       <field name="producto_id" options="{'no_quick_create':True,'no_create_edit':True}" 
+                                        domain="[('tipo','=', 'medicamento')]" />
+                                       <!--<field name="producto_id"/>-->
+
+
+                                       <field name="dosis" required='1' />
+                                       <field name="frecuencia" required='1' />
+                                       <field name="duracion" required='1' />
+
+                                       <field name="cantidad" required='1' readonly = "1" />
+                                       <field name="cantidad_maxima" />
+                                       <field name="precio_unitario" invisible="1" />
+                                       
+                                       <field name="subtotal" />
+                                       <field name="comentario" />
+                                    </tree>
+                                </field>
+
+
+                            </page>
+                            <page string="Movimientos">
+                                
+                                <field name="move_ids" readonly = "1">
+                                    <tree editable="bottom">
+                                       <field name="producto_id" />
+                                       <field name="bodega_id" />
+                                       <field name="entra" />
+                                       <field name="sale" />
+                                       <field name="precio_unitario" />
+                                    </tree>
+                                </field>
+                                
+                            </page>
+
+	                    </notebook>
+                        <group>
+                            <field name="total"/>
+                            <field name="observacion"/>
+                        </group>
+                    </sheet>
+                </form>
+	        </field>
+	    </record>
+         <record id="view_hrz_comprobante_recetas_confirmadas_kanban" model="ir.ui.view">
+            <field name="name">hrz.comprobante.receta kanban</field>
+            <field name="model">hrz.comprobante</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="emisor_user_id"/>
+                    <field name="receptor_paciente_id"/>
+                    <field name="area_id"/>
+                    <field name="fecha"/>
+                    <field name="tipo_comprobante"/>
+                    <field name="total"/>
+                    <field name="observacion"/>
+                    <field name="state"/> 
+                    <field name="color"/> 
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_stock_picking_type ">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                        <t t-if="widget.view.is_action_enabled('edit')"><li><ul class="oe_kanban_colorpicker" data-field="color"/></li></t>
+                                    </ul>
+                                </div>
+                               
+
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>Medico: <field name="emisor_user_id"></field></li>
+                                        <li>Paciente: <field name="receptor_paciente_id"></field></li>
+                                        <li>Fecha: <field name="fecha"></field></li>
+                                        <li>Total: <field name="total"></field></li>
+                                        
+                                        
+                                        <!--<li class="codup_kanban_info">
+                                        <a t-if="record.criticality.raw_value == 0" t-attf-title="#{record.criticality.value}" class="codup_attention_off">c</a>
+                                        <a t-if="record.criticality.raw_value gt 0" t-attf-title="#{record.criticality.value}" class="codup_attention_on">c</a>
+                                        <a t-if="record.criticality.raw_value lte 1" t-attf-title="#{record.criticality.value}" class="codup_attention_off">c</a>
+                                        <a t-if="record.criticality.raw_value gt 1" t-attf-title="#{record.criticality.value}" class="codup_attention_on">c</a>
+                                        <a t-if="record.criticality.raw_value lte 2" t-attf-title="#{record.criticality.value}" class="codup_attention_off">c</a>
+                                        <a t-if="record.criticality.raw_value gt 2" t-attf-title="#{record.criticality.value}" class="codup_attention_on">c</a>
+                                        <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                        </li>-->
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+	    <record id="view_hrz_comprobante_receta_tree" model="ir.ui.view">
+	        <field name="name">hrz.comprobante tree</field>
+	        <field name="model">hrz.comprobante</field>
+			<field name="arch" type="xml">
+				<tree string = "Recetas" default_order="state asc,name desc"
+                    colors="blue:state == 'draft';gray:state =='deactivated';black:state == 'sent'">
+	                    <field name="name"/>
+	                    <field name="emisor_user_id" string="Medico"/>
+	                    <field name="receptor_paciente_id" string="Paciente"/>
+	                    <field name="area_id"/>
+	                    <field name="fecha"/>
+	                    <field name="tipo_comprobante"/>
+	                    <field name="total"/>
+	                    <field name="observacion"/>
+                        <field name="state" invisible="1"/>     
+                    <!-- History and communication: -->
+                </tree>
+	        </field>
+	    </record>
+    	<record id="action_comprobante_receta" model="ir.actions.act_window">
+            <field name="name">Recetas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hrz.comprobante</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipo_comprobante','=','recipe'),('emisor_user_id','=', uid)]</field>
+            <field name="context">{
+                'default_tipo_comprobante':'recipe', 
+                'tipo_comprobante':'recipe',
+                'default_emisor_user_id': uid,
+                'emisor_user_id': uid
+                }</field>
+            <!--<field name="search_view_id" ref="view_account_invoice_filter"/>-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear un comprobante de Receta
+              </p><!--<p>
+                Odoo's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>-->
+            </field>
+        </record>
+
+		<record id="action_view_hrz_comprobante_receta_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_hrz_comprobante_receta_tree"/>
+            <field name="act_window_id" ref="action_comprobante_receta"/>
+        </record>
+
+        <record id="action_view_hrz_comprobante_receta_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hrz_comprobante_receta_form"/>
+            <field name="act_window_id" ref="action_comprobante_receta"/>
+        </record>
+
+
+
+        <menuitem id="comprobantes" name="Comprobantes" />
+        <menuitem id="menu_comprobantes" parent="comprobantes" name="Comprobantes" />
+        <menuitem id="submenu_comprobante_receta" name="Comprobante de receta" parent="menu_comprobantes" action="action_comprobante_receta" groups="hospital_hrz.group_hospital_medico"/>
+    </data>
+</openerp>
+        

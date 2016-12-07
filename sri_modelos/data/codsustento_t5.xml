@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data >
+
+        <record id="t5_uno" model="sri.codsustento.t5">
+            <field name="id">1</field>
+            <field name="name">Crédito Tributario para declaración de IVA (servicios y bienes distintos de inventarios y activos fijos)</field>
+            <field name="codigo">01</field>
+        </record>
+
+        <record id="t5_dos" model="sri.codsustento.t5">
+            <field name="name">Costo o Gasto para declaración de IR (servicios y bienes distintos de inventarios y activos fijos)</field>
+            <field name="codigo">02</field>
+        </record>
+
+        <record id="t5_tres" model="sri.codsustento.t5">
+            <field name="name">Activo Fijo - Crédito Tributario para declaración de IVA</field>
+            <field name="codigo">03</field>
+        </record>
+
+        <record id="t5_cuatro" model="sri.codsustento.t5">
+                    <field name="name">Activo Fijo - Costo o Gasto para declaración de IR</field>
+            <field name="codigo">04</field>
+        </record>
+
+        <record id="t5_cinco" model="sri.codsustento.t5">
+            <field name="name">Liquidación Gastos de Viaje, hospedaje y alimentación Gastos IR (a nombre de empleados y no de la empresa)</field>
+            <field name="codigo">05</field>
+        </record>
+
+        <record id="t5_seis" model="sri.codsustento.t5">
+            <field name="name">Inventario - Crédito Tributario para declaración de IVA</field>
+            <field name="codigo">06</field>
+        </record>
+
+        <record id="t5_siete" model="sri.codsustento.t5">
+            <field name="name">Inventario - Costo o Gasto para declaración de IR</field>
+            <field name="codigo">07</field>
+        </record>
+
+        <record id="t5_ocho" model="sri.codsustento.t5">
+            <field name="name">Valor pagado para solicitar Reembolso de Gasto (intermediario)</field>
+            <field name="codigo">08</field>
+        </record>
+
+        <record id="t5_nueve" model="sri.codsustento.t5">
+            <field name="name">Reembolso por Siniestros
+        </field>
+            <field name="codigo">09</field>
+        </record>
+
+        <record id="t5_diez" model="sri.codsustento.t5">
+            <field name="name">Distribución de Dividendos, Beneficios o Utilidades</field>
+            <field name="codigo">10</field>
+        </record>
+
+        <record id="t5_cero" model="sri.codsustento.t5">
+            <field name="name">Casos especiales cuyo sustento no aplica en las opciones anteriores</field>
+            <field name="codigo">00</field>
+        </record>
+
+        
+    </data>
+</openerp>
+        <!--
+        <record id="t5_feb" model="tabla.dos">
+            <field name="name">Febrero</field>
+            <field name="mes_num">02</field>
+        </record>
+        <record id="t5_mar" model="tabla.dos">
+            <field name="name">Marzo</field>
+            <field name="mes_num">03</field>
+        </record>
+		<record id="t5_abr" model="tabla.dos">
+            <field name="name">Abril</field>
+            <field name="mes_num">04</field>
+        </record>
+        <record id="t5_may" model="tabla.dos">
+            <field name="name">Mayo</field>
+            <field name="mes_num">05</field>
+        </record>
+        <record id="t5_jun" model="tabla.dos">
+            <field name="name">Junio</field>
+            <field name="mes_num">06</field>
+        </record>
+		<record id="t5_jul" model="tabla.dos">
+            <field name="name">Julio</field>
+            <field name="mes_num">07</field>
+        </record>
+        <record id="t5_ago" model="tabla.dos">
+            <field name="name">Agosto</field>
+            <field name="mes_num">08</field>
+        </record>
+        <record id="t5_sep" model="tabla.dos">
+            <field name="name">Septiembre</field>
+            <field name="mes_num">09</field>
+        </record>
+		<record id="t5_oct" model="tabla.dos">
+            <field name="name">Octubre</field>
+            <field name="mes_num">10</field>
+        </record>
+        <record id="t5_nov" model="tabla.dos">
+            <field name="name">Noviembre</field>
+            <field name="mes_num">11</field>
+        </record>
+        <record id="t5_dic" model="tabla.dos">
+            <field name="name">Diciembre</field>
+            <field name="mes_num">12</field>
+        </record>
+		
+		
+        
+    </data>
+</openerp>-->

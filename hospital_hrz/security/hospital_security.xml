@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.module.category" id="module_category_hospital">
+            <field name="name">hospital Rodriguez Zambrano</field>
+            <field name="description"></field>
+            <field name="sequence">6</field>
+        </record>
+
+        <record id="group_user_comprobante" model="res.groups">
+            <field name="name">Usuario Comprobante</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="comment">es el usuario base para crear comprobante</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_hospital_administrador" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        <record id="group_hospital_ingreso" model="res.groups">
+            <field name="name">Ingreso</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        <record id="group_hospital_ingreso_medicamento" model="res.groups">
+            <field name="name">Ingreso de Medicamento</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_ingreso'))]"/>
+        </record>
+        <record id="group_hospital_ingreso_herramienta" model="res.groups">
+            <field name="name">Ingreso de herramientas</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_ingreso'))]"/>
+        </record>
+        <record id="group_hospital_ingreso_material" model="res.groups">
+            <field name="name">Ingreso de materiales</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_ingreso'))]"/>
+        </record>
+
+
+        <record id="group_hospital_egreso" model="res.groups">
+            <field name="name">Egreso de Productos de Mantenimiento</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        <record id="group_hospital_medico" model="res.groups">
+            <field name="name">Medico</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        <record id="group_hospital_farmacia" model="res.groups">
+            <field name="name">Farmacia</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <!--<field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>-->
+        </record>
+  
+        <record id="group_hospital_acta" model="res.groups">
+            <field name="name">Acta</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        <record id="group_hospital_jefebodega" model="res.groups">
+            <field name="name">Jefe Bodega</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_user_comprobante'))]"/>
+        </record>
+
+        
+
+        <!--<record id="group_hospital_farmaceuta" model="res.groups">
+            <field name="name">Farmaceuta</field>
+            <field name="category_id" ref="module_category_hospital"/>
+        </record>
+
+        <record id="group_hospital_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>-->
+    </data>
+
+    <data noupdate="1">
+
+    </data>
+</openerp>

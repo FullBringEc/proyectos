@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="view_hrz_comprobante_ingreso_material_form" model="ir.ui.view">
+	        <field name="name">hrz.comprobante.ingreso.material form</field>
+	        <field name="model">hrz.comprobante</field>
+	        <field name='type'>form</field>
+			<field name="arch" type="xml">
+				<form string="Comprobante de Ingreso" version="8.0">
+                    <header>
+                        <button name="send" states="draft" string="Enviar" icon="gtk­ok"/>
+                        <button name="disable" states="sent" string="Desactivar" icon="gtk­ok"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+
+                        <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
+                            <h1><field name="receptor_user_id" readonly="1" /></h1>
+                            <field name="fecha" readonly="1" />
+                        </div>
+
+                        <field name="number" invisible = "True"/>
+                        <group >
+                        	<group >
+	                            <field name="emisor_id" string="Proveedor" required ="1"
+                                    domain="[('is_provider','=', 1)]"
+	                            	context="{ 'default_is_provider': 1}"/>
+                                <field name="emisor_mail" readonly="1"/>
+                                <field name="emisor_street" readonly="1"/>
+                                <field name="emisor_phone" readonly="1"/>
+	                            
+	                        </group>
+                        </group>
+                        <group>
+                                <field name="Bodega_ingreso_id" required="1" 
+                                    domain="[('es_virtual', '=', False),
+                                    ('tipo', '=', 'ingress'), 
+                                    ('tipo_producto', '=', 'material'), 
+                                    ('responsables_ids', 'in', receptor_user_id)]"
+
+                                    options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                
+                                <field name="tipo_producto_Bodega_ingreso" invisible="1"/>
+                                <field name="Bodega_egreso_id" invisible="1" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field name="tipo_producto_Bodega_egreso" invisible="1"/>
+                                <field name="char_productos_ids" invisible="1"/>
+                                
+
+                        </group>
+	                    <field name="tipo_comprobante" invisible="True"/>
+	                    <notebook>
+	                        <page string="Lineas">
+                                <field name="esCreadoDesdeIngreso" invisible="1"/>
+                                
+	                            
+	                            <field name="detalle_ids" attrs="{'readonly':[('state','!=','draft')]}" >
+	                            	<tree editable="bottom">
+                                        <field name="state" invisible='1'/>
+                                        <field name="producto_id" domain="[('tipo', '=', parent.tipo_producto_Bodega_ingreso)]"
+
+                                            context="{ 
+                                            'default_tipo': parent.tipo_producto_Bodega_ingreso,
+                                            'default_esCreadoDesdeIngreso':parent.esCreadoDesdeIngreso}"/>
+
+                                        <!--<field name="producto_id" 
+                                        domain="[('id_comas','similar to', parent.char_productos_ids)]" />-->
+                                        
+                                        <field name="cantidad" />
+                                        <field name="precio_unitario" />
+                                        <field name="descuento" />
+                                        <field name="subtotal" />
+                            
+
+
+                                       
+						            </tree>
+	                            </field>
+	                        </page>
+                            <page string="Movimientos" >
+                                
+                                <field name="move_ids" readonly = "1">
+                                    <tree editable="bottom">
+                                       <field name="producto_id" />
+                                       <field name="bodega_id" />
+                                       <field name="entra" />
+                                       <field name="sale" />
+                                       <field name="precio_unitario" />
+                         
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Lotes" >
+                                
+                                <field name="lote_ids" readonly = "1">
+                                    <tree editable="bottom">
+                                       <field name="name" />
+                                       <field name="cantidad" />
+                                       <field name="producto_id" />
+                                       <field name="fecha_elaboracion" />
+                                       <field name="fecha_caducidad" />
+                         
+                                    </tree>
+                                </field>
+                            </page>
+	                    </notebook>
+                        <div class="oe_right">
+                            <group>
+                                <field name="total"/>
+                            </group>
+                        </div>
+                        <field name="observacion" placeholder="Observaciones"/>
+                    </sheet>
+                </form>
+	        </field>
+	    </record>
+	    <record id="view_hrz_comprobante_ingreso_material_tree" model="ir.ui.view">
+	        <field name="name">hrz.comprobante.ingreso.material tree</field>
+	        <field name="model">hrz.comprobante</field>
+			<field name="arch" type="xml">
+				<tree string = "Comprobantes de Ingreso" default_order="state asc,name desc"
+                    colors="blue:state == 'draft';gray:state =='deactivated';black:state == 'sent'">
+	                    <field name="name"/>
+	                    <field name="emisor_id"/>
+	                    <field name="receptor_user_id"/>
+	                    <field name="area_id"/>
+	                    <field name="fecha"/>
+	                    <field name="tipo_comprobante"/>
+	                    <field name="total"/>
+	                    <field name="observacion"/>
+                        <field name="state"/>     
+                </tree>
+	        </field>
+	    </record>
+    	<record id="action_comprobante_ingreso_material" model="ir.actions.act_window">
+            <field name="name">Comprobante de ingreso de materiales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hrz.comprobante</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipo_comprobante','=','ingress'),('receptor_user_id','=', uid)]</field>
+            <field name="context">{
+                'default_tipo_comprobante':'ingress',
+                'tipo_comprobante':'ingress',
+                'default_receptor_user_id': uid,
+                'receptor_user_id': uid
+                }</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear un comprobante de ingreso de materialess
+              </p>
+            </field>
+        </record>
+
+        
+
+		<record id="action_view_hrz_comprobante_ingreso_material_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_hrz_comprobante_ingreso_material_tree"/>
+            <field name="act_window_id" ref="action_comprobante_ingreso_material"/>
+        </record>
+
+        <record id="action_view_hrz_comprobante_ingreso_material_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hrz_comprobante_ingreso_material_form"/>
+            <field name="act_window_id" ref="action_comprobante_ingreso_material"/>
+        </record>
+
+
+
+        <menuitem id="submenu_comprobante_ingreso_material" name="Ingreso de Materiales" parent="menu_comprobantes" action="action_comprobante_ingreso_material" groups="hospital_hrz.group_hospital_ingreso_material"/>
+
+
+
+        
+    </data>
+</openerp>
+        
