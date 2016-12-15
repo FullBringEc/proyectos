@@ -21,10 +21,11 @@
 
 					<t t-call-assets="web.assets_common" t-css="false" />
 	        		<t t-call-assets="web.assets_backend" t-css="false" />
-					
-					
+					<!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/prototype.js"></script> -->
+					<script type="text/javascript" src="/web_tiff_widget/static/src/js/lienzo.js"></script>
 					<script type="text/javascript" src="/web_tiff_widget/static/src/js/controlador_principal.js"></script>
 					<script type="text/javascript" src="/web_tiff_widget/static/src/js/editor_canvas.js"></script>
+
 					
 					<script type="text/javascript" src="/web_tiff_widget/static/src/js/tiff.js"></script>
 					<!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/glfx.js"></script> -->
@@ -144,8 +145,8 @@
 						      							</span>
 						      						</span>
 						      					</div>
-						      					<div class="tooltip">
-						      						<span class="zoom-out">
+						      					<div class="tooltip btnAddText">
+						      						<span>
 						      							<span class="tooltiptext">Texto</span>
 						      							<span class="button btn">
 						      								<span ><i class="fa fa-buysellads" aria-hidden="true"></i></span>

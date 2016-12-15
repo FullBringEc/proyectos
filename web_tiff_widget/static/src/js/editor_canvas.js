@@ -16,6 +16,15 @@ accion = function(){
             }
         };
 
+        public.addAccion = function(texto, x,y){
+            if(funcion=="contrast" || 
+                funcion=="brightness"){
+                addOrden(funcion, valor)
+            }else{
+                eval("public."+funcion+" = "+valor)  
+            }
+        };
+
         public.execute = function(){
             for (i in public.orden) {
                 eval("console.log(public."+public.orden[i]+");")
@@ -35,6 +44,20 @@ accion = function(){
         return public;
 
     }
+
+var cursorTexto=false;
+//console.log("asdasd")
+$($('.btnAddText').click(function(){
+    console.log("asd");
+        if(!cursorTexto){
+            $canv.css("cursor", "text");
+            cursorTexto = true;
+        }else{
+            $canv.css("cursor", "default");
+            cursorTexto = false;
+        }
+    }))
+
 var app = ( function () {
         getCanvas = function(){
             return $('#imagenCanvas')    

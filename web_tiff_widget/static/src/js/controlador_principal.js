@@ -1,6 +1,9 @@
+var $canv;
+var $ctx;          
+var lienzo;      // Es el espacio donde se crearan los objetos seleccionables
+var controlZoom; // Este objeto contiene las funciones de zoom y movimiento del canvas // se lo inicializa en el archivo jquery.panzoom.js
 function TifWIdget(tipo,id){
     Tiff.initialize({TOTAL_MEMORY: 16777216 * 50});
-    var t0 = performance.now();
     var s = new openerp.init();
     url = s.session.url('/web_tiff_widget/BinaryTiff/tiff', {
                                         model: "rbs.documento.mercantil."+tipo,
@@ -14,16 +17,15 @@ function TifWIdget(tipo,id){
     var lenTiff = 0;
     var cursorTiff =  0;
     var tiffs = [];
-    var $canv = $('#imagenCanvas')
-    var $ctx = $canv[0].getContext("2d");
+    $canv = $('#imagenCanvas')
+    $ctx = $canv[0].getContext("2d");
+    lienzo = new CanvasState($canv[0]);
     xhr.onload = function (e) {
             var tiff;    
             var buffer = xhr.response;
             //console.log((buffer))
             tiff = new Tiff({buffer: buffer});
             lenTiff =  tiff.countDirectory();
-            var t1 = performance.now();
-            console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
             for (var i = 0, len = tiff.countDirectory(); i < len; ++i) {
                 tiffs.push(new tifClass(tiff,i));
             }
@@ -96,17 +98,22 @@ function TifWIdget(tipo,id){
         var accion
     }
     on_change = function(){
-        console.log($canv)
-        var image = new Image();
-        image.onload = function() {
-            var width = image.naturalWidth; // this will be 300
-            var height = image.naturalHeight; // this will be 400
-            $canv.attr('width',width);
-            $canv.attr('height',height);
-            $ctx.drawImage(image, 0, 0, width, height);
-            //$canv.css("width", "75%");
-        };
-        image.src = tiffs[cursorTiff].getTif();
+        //console.log($canv)
+        // var image = new Image();
+        // image.onload = function() {
+        //     var width = image.naturalWidth; // this will be 300
+        //     var height = image.naturalHeight; // this will be 400
+        //     $canv.attr('width',width);
+        //     $canv.attr('height',height);
+        //     $ctx.drawImage(image, 0, 0, width, height);
+        //     //$canv.css("width", "75%");
+        // };
+        lienzo.setFondo(tiffs[cursorTiff].getTif());
+
+        asd = new ShapeText(10,40,"bold 24px verdana",null,'rgba(12, 25, 212, .5)')
+        lienzo.addShape(asd); 
+        lienzo.addShape(new Shape(40,40,50,50));
+        //image.src = tiffs[cursorTiff].getTif();
     }
      
 
@@ -145,7 +152,7 @@ function TifWIdget(tipo,id){
         contraste = this.value;
     });
     $('.contraste').mousedown(function() {
-     console.log('inicio')
+     //console.log('inicio')
     });
 
     $('.btnDisenoPrueba2').click(function(){

@@ -1,12 +1,3 @@
-/**
- * @license jquery.panzoom.js v3.2.2
- * Updated: Sun Aug 28 2016
- * Add pan and zoom functionality to any element
- * Copyright (c) timmy willison
- * Released under the MIT license
- * https://github.com/timmywil/jquery.panzoom/blob/master/MIT-License.txt
- */
-
 (function(global, factory) {
 	// AMD
 	if (typeof define === 'function' && define.amd) {
@@ -267,6 +258,7 @@
 
 		// Save the instance
 		$.data(elem, datakey, this);
+		controlZoom = this;
 	}
 
 	// Attach regex for possible use (immutable)
@@ -294,7 +286,7 @@
 		disableYAxis: false,
 
 		// Set whether you'd like to pan on left (1), middle (2), or right click (3)
-		which: 1,
+		which: 2,
 
 		// The increment at which to zoom
 		// Should be a number greater than 0
@@ -787,6 +779,13 @@
 		 * @param {Object} options - An object literal of options to set
 		 * @private
 		 */
+		bloquearMovimiento: function(bool) {
+			this.options.disablePan = bool;
+		},
+		isBloquearMovimiento: function() {
+			return this.options.disablePan;
+		},
+
 		_setOptions: function(options) {
 			$.each(options, $.proxy(function(key, value) {
 				switch(key) {
@@ -1297,6 +1296,5 @@
 
 		return this.each(function() { new Panzoom(this, options); });
 	};
-
 	return Panzoom;
 }));
