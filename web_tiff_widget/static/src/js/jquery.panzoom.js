@@ -294,7 +294,7 @@
 		disableYAxis: false,
 
 		// Set whether you'd like to pan on left (1), middle (2), or right click (3)
-		which: 1,
+		which: 2,
 
 		// The increment at which to zoom
 		// Should be a number greater than 0
@@ -311,7 +311,7 @@
 		panOnlyWhenZoomed: false,
 
 		// min and max zoom scales
-		minScale: 0.1,
+		minScale: 0.3,
 		maxScale: 6,
 
 		// The default step for the range input
@@ -1256,8 +1256,9 @@
 	};
 
 	// Add Panzoom as a static property
+	
 	$.Panzoom = Panzoom;
-
+	console.log($.Panzoom);
 	/**
 	 * Extend jQuery
 	 * @param {Object|String} options - The name of a method to call on the prototype
