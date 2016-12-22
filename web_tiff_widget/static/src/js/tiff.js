@@ -7339,10 +7339,49 @@ var Tiff = (function () {
         canvas.width = width;
         canvas.height = height;
         var imageData = context.createImageData(width, height);
+        
         (imageData).data.set(image);
         context.putImageData(imageData, 0, 0);
         Tiff.Module.ccall('free', 'number', ['number'], [raster]);
         return canvas;
+    };
+
+    Tiff.prototype.toImage = function () {
+        var width = this.width();
+        var height = this.height();
+        var raster = Tiff.Module.ccall('_TIFFmalloc', 'number', ['number'], [width * height * 4]);
+        var result = Tiff.Module.ccall('TIFFReadRGBAImageOriented', 'number', [
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+            'number'
+        ], [
+            this._tiffPtr,
+            width,
+            height,
+            raster,
+            1,
+            0
+        ]);
+
+        if (result === 0) {
+            throw new Tiff.Exception('The function TIFFReadRGBAImageOriented returns NULL');
+        }
+        var image = Tiff.Module.HEAPU8.subarray(raster, raster + width * height * 4);
+        Tiff.Module.ccall('free', 'number', ['number'], [raster]);
+        return {image:image,width:width,height:height}
+        // var canvas = document.createElement('canvas');
+        // var context = canvas.getContext('2d');
+        // canvas.width = width;
+        // canvas.height = height;
+        // var imageData = context.createImageData(width, height);
+        
+        // (imageData).data.set(image);
+        // context.putImageData(imageData, 0, 0);
+        // Tiff.Module.ccall('free', 'number', ['number'], [raster]);
+        // return canvas;
     };
     
     Tiff.prototype.toDataURL2 = function () {

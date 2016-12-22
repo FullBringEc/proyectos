@@ -1,3 +1,12 @@
+/**
+ * @license jquery.panzoom.js v3.2.2
+ * Updated: Sun Aug 28 2016
+ * Add pan and zoom functionality to any element
+ * Copyright (c) timmy willison
+ * Released under the MIT license
+ * https://github.com/timmywil/jquery.panzoom/blob/master/MIT-License.txt
+ */
+
 (function(global, factory) {
 	// AMD
 	if (typeof define === 'function' && define.amd) {
@@ -258,7 +267,6 @@
 
 		// Save the instance
 		$.data(elem, datakey, this);
-		controlZoom = this;
 	}
 
 	// Attach regex for possible use (immutable)
@@ -303,7 +311,7 @@
 		panOnlyWhenZoomed: false,
 
 		// min and max zoom scales
-		minScale: 0.1,
+		minScale: 0.3,
 		maxScale: 6,
 
 		// The default step for the range input
@@ -779,13 +787,6 @@
 		 * @param {Object} options - An object literal of options to set
 		 * @private
 		 */
-		bloquearMovimiento: function(bool) {
-			this.options.disablePan = bool;
-		},
-		isBloquearMovimiento: function() {
-			return this.options.disablePan;
-		},
-
 		_setOptions: function(options) {
 			$.each(options, $.proxy(function(key, value) {
 				switch(key) {
@@ -1255,8 +1256,9 @@
 	};
 
 	// Add Panzoom as a static property
+	
 	$.Panzoom = Panzoom;
-
+	console.log($.Panzoom);
 	/**
 	 * Extend jQuery
 	 * @param {Object|String} options - The name of a method to call on the prototype
@@ -1296,5 +1298,6 @@
 
 		return this.each(function() { new Panzoom(this, options); });
 	};
+
 	return Panzoom;
 }));

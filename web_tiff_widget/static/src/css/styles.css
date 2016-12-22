@@ -96,13 +96,11 @@
   width: 100%;
   min-height: 100vh;
   text-align: center;
-  position: relative;
+  /*position: relative;*/
 
   background-image: url("/web_tiff_widget/static/src/img/fondoeditor2.png");
   border: 1px solid #DCD9D9;
-
-
-
+  
 
 }
 .panzoom{
@@ -114,13 +112,26 @@
 }
 
 #imagenCanvas{
+  
   -webkit-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
   -moz-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
   box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
-  position: relative;
-  /*border: 1px solid #DCD9D9;*/
+  position: absolute;
+  z-index: 0;
   width: 40%;
+  
 
+}
+
+#borradorCanvas{
+  position: absolute;
+  z-index: 1;
+  width: 40%; 
+}
+#figurasCanvas{
+  position: absolute;
+  z-index: 2;
+  width: 40%; 
 }
 
 .contenido{

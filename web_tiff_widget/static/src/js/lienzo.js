@@ -18,7 +18,7 @@ function Shape(x, y, w, h, fill) {
   this.w = w || 1;
   this.h = h || 1;
   this.fill = fill || '#AAAAAA';
-  this.type = 'rectangulo'
+  this.type = 'Rectangulo';
 }
 
 // Draws this shape to a given context
@@ -34,68 +34,92 @@ Shape.prototype.contains = function(mx, my) {
   return  (this.x <= mx) && (this.x + this.w >= mx) &&
           (this.y <= my) && (this.y + this.h >= my);
 }
-var ctxAuxiliar = document.createElement("canvas").getContext("2d");
-function ShapeText (x, y,font,text,fill) {
-  this.font = font || "bold 24px verdana";
-  this.text = text || "escribir...";
+var ctxAuxiliar = document.createElement("canvas").getContext("2d"); // usado para determinar el tamaño de un texto
 
-  ctxAuxiliar.font = font || "bold 24px verdana";
+function ShapeText (x, y,text,weight,size,family,font,fill) {
+  this.font = function(){
+    return this.font_weight +' '+ this.font_size +'px '+ this.font_family;
+  }
+  this.font_weight = weight || "bold";
+  this.font_size = size || 24;
+  this.font_family = family || "verdana";
+  this.text = text || "escribir...";
+  ctxAuxiliar.font = this.font(); 
   d = ctxAuxiliar.measureText(text);
   w = d.width;
-  h = font.split(" ")[1].substr(0,2);
+  h = parseInt(this.font_size);
   
   this.x = x || 0;
   this.y = y || 0;
   this.w = w || 1;
   this.h = h || 1;
   this.fill = fill || '#AAAAAA';
-  this.type = 'texto'
-
+  this.type = 'Texto'
+  this.AumentarSize = function(){
+    if(this.font_size>200)return
+    this.font_size++;
+  }
+  this.DisminuirSize = function(){
+    if(this.font_size<=1)return
+    this.font_size--;
+  }
 }
 ShapeText.prototype = new Shape;
 ShapeText.prototype.draw = function(ctx) {
   ctx.fillStyle = this.fill;
-  ctx.font = this.font;
+  ctx.font = this.font();
   ctx.textBaseline = "top"
-  d = ctxAuxiliar.measureText(this.text);
-  this.w = d.width;
-  this.h = parseInt(this.font.split(" ")[1].substr(0,2));
+  this.w = ctx.measureText(this.text).width;
+  this.h = parseInt(this.font_size);
   ctx.fillText(this.text,this.x, this.y);
 }
-function ShapeBorrador (x, y, w, h, fill){
+function ShapeBorradorXseleccion (x, y, w, h, fill){
   this.x = x || 0;
   this.y = y || 0;
   this.w = w || 1;
   this.h = h || 1;
   this.fill = fill || '#FFFFFF';
-  this.type = 'borrador'
+  this.type = 'BorradorXseleccion'
 }
-ShapeBorrador.prototype = new Shape;
-
-
-function CanvasState(canvas) {
-  // **** First some setup! ****
+ShapeBorradorXseleccion.prototype = new Shape;
+function ShapeBorradorXarrastre (puntos, size, fill){
+  this.size = size || 24;
+  this.fill = fill || '#48484C';
+  this.type = 'BorradorXarrastre'
+  this.puntos = puntos;
+}
+ShapeBorradorXarrastre.prototype = new Shape;
+ShapeBorradorXarrastre.prototype.draw = function(ctx) {
+  ctx.beginPath();
   
-  this.canvas = canvas;
-  this.width = canvas.naturalWidth;
-  this.height = canvas.naturalHeight;
-  this.ctx = canvas.getContext('2d');
-  // Esto complica un poco las cosas pero arregla los problemas de coordenadas
-  // del ratón cuando hay un borde o relleno. Vea getMouse para más detalles
-  var stylePaddingLeft, stylePaddingTop, styleBorderLeft, styleBorderTop;
-  if (document.defaultView && document.defaultView.getComputedStyle) {
-    this.stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10)      || 0;
-    this.stylePaddingTop  = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10)       || 0;
-    this.styleBorderLeft  = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10)  || 0;
-    this.styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)   || 0;
-  }
-  //Algunas páginas tienen barras de posición fija (como la barra de stumbleupon) 
-  //en la parte superior o izquierda de la página
-  //Arruinarán las coordenadas del ratón y esto arreglará
-  var html = document.body.parentNode;
-  this.htmlTop = html.offsetTop;
-  this.htmlLeft = html.offsetLeft;
+  //console.log("ctx.beginPath();")
+  //console.log("ctx.strokeStyle ="+ this.fill)
+  ctx.strokeStyle = this.fill;
+  //console.log("ctx.lineWidth ="+ this.size)
+  ctx.lineWidth=this.size;
+  //console.log("ctx.moveTo("+this.puntos[0].x+", "+this.puntos[0].y+");")
+  ctx.moveTo(this.puntos[0].x, this.puntos[0].y);
+  for(var i in this.puntos) {
+    //console.log("ctx.lineTo("+i.x+", "+i.y+");")
+        ctx.lineTo(this.puntos[i].x, this.puntos[i].y);  // ubicamos el cursor en la posicion (10,10)
 
+  }
+  //console.log("ctx.stroke();")
+  ctx.stroke()
+  
+}
+function CanvasState(figurasCanvas,borradorCanvas) {
+  // **** First some setup! ****
+  this.canvas = figurasCanvas;
+  this.width = figurasCanvas.naturalWidth;
+  this.height = figurasCanvas.naturalHeight;
+  this.ctx = figurasCanvas.getContext('2d');
+  this.canvas_borrador = borradorCanvas
+  this.ctx_borrador = borradorCanvas.getContext('2d');
+  this.defaultColor = '#FFFFFF'; // para borrar, y para texto
+  this.defaultWidth = 20;        
+  this.selectionColor = '#CC0000';
+  this.selectionWidth = 2;  
   // **** Keep track of state! ****
   
   this.valid = false;     //Cuando se establece en false, el lienzo volverá a dibujar todo
@@ -104,19 +128,10 @@ function CanvasState(canvas) {
   this.dragging = false;  //Seguimiento de cuando estamos arrastrando
   //El objeto seleccionado actual. En el futuro podríamos convertir esto en una matriz para la selección múltiple
   this.selection = null;
-  this.borrador = null;
-  this.funcionborrar = true;
+  this.BorradorXseleccion = null;
+  this.BorradorXarrastre = null;
   this.dragoffx = 0;      //Ver eventos de mousedown y mousemove para explicación
   this.dragoffy = 0;
-  
-  // **** Then events! ****
-  
-  // This is an example of a closure!
-  // Right here "this" means the CanvasState. But we are making events on the Canvas itself,
-  // and when the events are fired on the canvas the variable "this" is going to mean the canvas!
-  // Since we still want to use this particular CanvasState in the events we have to save a reference to it.
-  // This is our reference!
-  /*Traduccion*/
   // **** ¡Entonces eventos! ****
   // Este es un ejemplo de un cierre!
   // Aqui "this" significa el CanvasState. Pero estamos haciendo eventos en la propia lona,
@@ -126,34 +141,65 @@ function CanvasState(canvas) {
   var myState = this;
   
   //corrige un problema cuando un doble clic hace que el texto se seleccione en el lienzo
-  canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
+  this.canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
   // Arriba, abajo y mover son para arrastrar 
-window.onkeydown = function(e) { 
-    return !(e.keyCode == 32);
-}; 
-  document.addEventListener('keyup',function(e){
+  
+    
+  this.setFuncionActual = function(funcion){
+    switch(funcion) {
+      case "BorradorXseleccion":
+        this.BorradorXseleccion = "listo";
+        this.BorradorXarrastre = null;
+        break;
+      case "BorradorXarrastre":
+        this.BorradorXseleccion = null;
+        this.BorradorXarrastre = "listo";
+        break;
+      default:
+          return true;
+    }
+    this.funcionActual = funcion;
+  }
+  document.onkeypress = function(e){
+    console.log(e);
     e.stopPropagation();
     e.preventDefault();
-    if(myState.selection != null){
-      if(myState.selection.type =='texto'){
+    if(myState.selection != null){ // comprobamos que haya un elemento seleccionado
+      if(myState.selection.type =='Texto'){ //Si el elemento seleccionado es de tipo texto
         if(soloLetras(e)){
           myState.selection.text = myState.selection.text+String.fromCharCode(e.which).toString();  
           myState.valid = false;  
         }
-        if(e.keyCode == '8'){
+        if(e.keyCode == 8){  // evento borrar
 
           var t = myState.selection.text
           myState.selection.text =t.substring(0,t.length-2); 
           myState.valid = false;
         }
+        if(e.keyCode == 45 || e.which == 45){ // evento tecla menos numpad 
+          myState.selection.DisminuirSize();
+          myState.valid = false;
+        }
+        if(e.keyCode == 43 ||  e.which == 43){ // evento tecla mas numpad 
+          myState.selection.AumentarSize();
+          myState.valid = false;
+        }
         
       }
+      if(e.keyCode == 46){
+          var shapes = myState.shapes;
+          var index = shapes.indexOf(myState.selection);
+          shapes.splice(index, 1);
+          myState.selection = null;
+          myState.valid = false;
+        }
+
     }
     //funcion para que solo acepte letras
     function soloLetras(e) {
       key = e.keyCode || e.which;
       tecla = String.fromCharCode(key).toString();
-      letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ123456789";//Se define todo el abecedario que se quiere que se muestre.
+      letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789,.()\"/$%&#@!¡¿?";//Se define todo el abecedario que se quiere que se muestre.
       especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
 
       tecla_especial = false
@@ -169,33 +215,30 @@ window.onkeydown = function(e) {
           return false;
         }
         return true;
+    }
   }
-
-  },false);
   document.addEventListener('mousedown', function(e) {
-    if (event.button!=0)return
+    if (e.button!=0)return
     myState.selection = null;
       myState.valid = false;
     }, true);
-  canvas.addEventListener('mousedown', function(e) {
-    if (event.button!=0)return
+  this.canvas.addEventListener('mousedown', function(e) {
+    if (e.button!=0)return
     var mouse = myState.getMouse(e);
     var mx = mouse.x;
     var my = mouse.y;
     var shapes = myState.shapes;
     var l = shapes.length;
     for (var i = l-1; i >= 0; i--) {
-      if (shapes[i].contains(mx, my)) {
-        if(shapes[i].type != 'borrador'){
-          var mySel = shapes[i];
-          // Mantener un registro del lugar en el que hicimos clic
-          // Para que podamos moverlo sin problemas (ver mousemove)
+      if (shapes[i].contains(mx, my)) {   
+        if(shapes[i].type != 'BorradorXseleccion' && shapes[i].type != 'BorradorXarrastre'){ 
+          var mySel = shapes[i];// Mantener un registro del lugar en el que hicimos clic
+                                // Para que podamos moverlo sin problemas (ver mousemove) 
           myState.dragoffx = mx - mySel.x;
           myState.dragoffy = my - mySel.y;
           myState.dragging = true;
           myState.selection = mySel;
           myState.valid = false;
-          //controlZoom.bloquearMovimiento(true);
           return;
         }
         
@@ -203,23 +246,27 @@ window.onkeydown = function(e) {
     }
     // Si no han retornado significa que no hemos podido seleccionar nada.
     // Si hubo un objeto seleccionado, lo deseleccionamos
-    //controlZoom.bloquearMovimiento(false);
     if (myState.selection) {
       myState.selection = null;
       myState.valid = false; // Necesidad de borrar el borde de selección antiguo
     }
 
-    if (myState.borrador==null && myState.funcionborrar) {
-      //controlZoom.bloquearMovimiento(true);
-      myState.borrador = {};
-      myState.borrador.x = mx;
-      myState.borrador.y = my;
-      myState.valid = false; // Necesidad de borrar el borde de selección antiguo
+    if (myState.BorradorXseleccion=="listo") {
+      myState.BorradorXseleccion = {x:mx,y:my}
+      //myState.valid = false; // Necesidad de borrar el borde de selección antiguo
     }
-
-
+    if (myState.BorradorXarrastre=="listo") {
+      myState.ctx_borrador.strokeStyle = myState.defaultColor;
+      myState.ctx_borrador.lineWidth =  myState.defaultWidth;
+      myState.ctx_borrador.lineCap = "round";
+      myState.ctx_borrador.moveTo(mx, my)
+      myState.BorradorXarrastre = [{x:mx,y:my}]
+      myState.ctx_borrador.lineTo(mx, my);
+      myState.ctx_borrador.stroke();
+      //myState.valid = false; // Necesidad de borrar el borde de selección antiguo
+    }
   }, true);
-  canvas.addEventListener('mousemove', function(e) {
+  document.addEventListener('mousemove', function(e) {
     
     if (myState.dragging){
       var mouse = myState.getMouse(e);
@@ -229,43 +276,54 @@ window.onkeydown = function(e) {
       myState.selection.y = mouse.y - myState.dragoffy;   
       myState.valid = false; // Algo está arrastrando así que debemos redibujar
     }
-
-    if (myState.borrador != null && myState.funcionborrar){
+    if (myState.BorradorXseleccion != null && myState.BorradorXseleccion != "listo"){
       var mouse = myState.getMouse(e);
-      //console.log(myState.borrador.x + ' : ' + myState.getMouse(e).x)
-      myState.borrador.w = mouse.x - myState.borrador.x;
-      myState.borrador.h = mouse.y - myState.borrador.y;
-      //console.log(myState.borrador.w + ' : ' + myState.borrador.h)
+      myState.BorradorXseleccion.w = mouse.x - myState.BorradorXseleccion.x;
+      myState.BorradorXseleccion.h = mouse.y - myState.BorradorXseleccion.y;
       myState.valid = false;
+      //console.log("asd")
     }
-
-
-
+    if (myState.BorradorXarrastre!=null && myState.BorradorXarrastre != "listo") {
+      var mouse = myState.getMouse(e);
+      myState.ctx_borrador.lineTo(mouse.x , mouse.y)
+      myState.BorradorXarrastre.push({x:mouse.x,y:mouse.y})
+      myState.ctx_borrador.stroke();
+      //myState.valid = false;
+    }
   }, true);
-  canvas.addEventListener('mouseup', function(e) {
-    if (event.button!=0)return
+  document.addEventListener('mouseup', function(e) {
+    if (e.button!=0)return
     //console.log("mouse arriba")
     myState.dragging = false;
-    if(myState.borrador!=null){
+    if(myState.BorradorXseleccion!=null){
       //controlZoom.bloquearMovimiento(false);
-      var x = myState.borrador.x;
-      var y = myState.borrador.y;
-      var w = myState.borrador.w;
-      var h = myState.borrador.h;
+      var x = myState.BorradorXseleccion.x;
+      var y = myState.BorradorXseleccion.y;
+      var w = myState.BorradorXseleccion.w;
+      var h = myState.BorradorXseleccion.h;
       //console.log(x+' - '+y+' - '+w+' - '+h);
       if(w<0){
-        myState.borrador.x = x+w; myState.borrador.w = w*-1;
+        myState.BorradorXseleccion.x = x+w; myState.BorradorXseleccion.w = w*-1;
       }
       if(h<0){
-        myState.borrador.y = y+h; myState.borrador.h = h*-1;
+        myState.BorradorXseleccion.y = y+h; myState.BorradorXseleccion.h = h*-1;
       }
-      myState.addShape(new ShapeBorrador(myState.borrador.x,myState.borrador.y,myState.borrador.w,myState.borrador.h))
-      myState.borrador = null;
+      myState.addShape(new ShapeBorradorXseleccion(myState.BorradorXseleccion.x,myState.BorradorXseleccion.y,myState.BorradorXseleccion.w,myState.BorradorXseleccion.h))
+      myState.setFuncionActual("BorradorXseleccion");
+      myState.drawBorrador();
     }
+    if(myState.BorradorXarrastre!=null){
+      a = new ShapeBorradorXarrastre(myState.BorradorXarrastre,myState.defaultWidth,myState.defaultColor)
+      myState.addShape(a)
+      myState.setFuncionActual("BorradorXarrastre");
+      myState.drawBorrador();
+
+    }
+    myState.valid = false;
 
   }, true);
   // doble clic para crear nuevas formas
-  canvas.addEventListener('dblclick', function(e) {
+  this.canvas.addEventListener('dblclick', function(e) {
     var mouse = myState.getMouse(e);
     //console.log(mouse)
     myState.addShape(new Shape(mouse.x - 10, mouse.y - 10, 20, 20, 'rgba(0,255,0,.6)'));
@@ -273,15 +331,32 @@ window.onkeydown = function(e) {
   
   // **** Opciones! ****
   
-  this.selectionColor = '#CC0000';
-  this.selectionWidth = 2;  
-  this.interval = 50;
+  
+  this.interval = 22;
   setInterval(function() { myState.draw(); }, myState.interval);
 }
 
 CanvasState.prototype.addShape = function(shape) {
-  this.shapes.push(shape);
-  this.valid = false;
+  if (shape.type== 'BorradorXseleccion') this.shapes.unshift(shape);
+  else if (shape.type== 'BorradorXarrastre') this.shapes.unshift(shape);
+  else{
+    this.shapes.push(shape);
+    this.shapes.sort(function (f, s){
+                        var a , b;
+                        if(f.type == 'Rectangulo')a = 1;
+                        else if(f.type == 'Texto')a = 2;
+                        else a=0;
+                        if(s.type == 'Rectangulo')b = 1;
+                        else if(s.type == 'Texto')b = 2;
+                        else b=0;
+                        
+                        //console.log(a +" : "+b)
+                        return a-b;
+                      });
+    this.valid = false;
+  }
+  
+  
 }
 
 CanvasState.prototype.clear = function() {
@@ -293,29 +368,28 @@ CanvasState.prototype.clear = function() {
 CanvasState.prototype.draw = function() {
   // Si nuestro estado no es válido, vuelve a dibujar y validar!
   if (!this.valid) {
+    console.log("draw")
     var ctx = this.ctx;
     var shapes = this.shapes;
     this.clear();
-    
-    // ** Añadir cosas que desea dibujar en el fondo todo el tiempo aquí
-    if(this.fondo){
-      this.canvas.setAttribute("width", this.width);
-      this.canvas.setAttribute("height", this.height);
-      ctx.drawImage(this.fondo, 0, 0, this.width, this.height);
-    }
+
     
     //Dibuja todas las formas
-    var l = shapes.length;
+    var l = shapes.length;  
     for (var i = 0; i < l; i++) {
       var shape = shapes[i];
       // We can skip the drawing of elements that have moved off the screen:
       if (shape.x > this.width || shape.y > this.height ||
           shape.x + shape.w < 0 || shape.y + shape.h < 0) continue;
-      shapes[i].draw(ctx);
+      if(shapes[i].type != 'BorradorXseleccion' && shapes[i].type != 'BorradorXarrastre') {
+        shapes[i].draw(ctx);  
+      }
+        
     }
     
     // dibujar la selección
     // en este momento esto es sólo un golpe a lo largo del borde de la forma seleccionada
+    ctx.save()
     if (this.selection != null) {
       ctx.strokeStyle = this.selectionColor;
       ctx.lineWidth = this.selectionWidth;
@@ -323,47 +397,71 @@ CanvasState.prototype.draw = function() {
       ctx.strokeRect(mySel.x,mySel.y,mySel.w,mySel.h);
     }
 
-    if (this.borrador != null) {
+    if (this.BorradorXseleccion != null) {
       ctx.strokeStyle = this.selectionColor;
       ctx.lineWidth = this.selectionWidth;
-      var mySel = this.borrador;
+      var mySel = this.BorradorXseleccion;
       ctx.strokeRect(mySel.x,mySel.y,mySel.w,mySel.h);
     }
+    ctx.restore()
+    //ctx.stroke();
     
     // ** Añadir cosas que desea dibujar en la parte superior todo el tiempo aquí **
     
     this.valid = true;
   }
 }
-CanvasState.prototype.setFondo = function(srcFondo){
-  s = this; //s representa el objeto CanvasState 
-  var fondo = new Image();
-    fondo.onload = function() {
-      
-      s.width = fondo.naturalWidth; 
-      s.height = fondo.naturalHeight;
-      //s.valid = false;
-      s.fondo = fondo
-      s.valid = false;
+CanvasState.prototype.drawBorrador = function() {
+  console.log("drawBorrador")
+    var ctx = this.ctx_borrador;
+    var shapes = this.shapes;
+    ctx.clearRect(0, 0, this.width, this.height);
+
+    
+    //Dibuja las formas para borrar
+    var l = shapes.length;  
+    for (var i = 0; i < l; i++) {
+      var shape = shapes[i];
+      // We can skip the drawing of elements that have moved off the screen:
+      //if (shape.x > this.width || shape.y > this.height ||
+      //    shape.x + shape.w < 0 || shape.y + shape.h < 0) continue;
+      if(shapes[i].type == 'BorradorXseleccion' || shapes[i].type == 'BorradorXarrastre') {
+        //console.log(ctx);
+        shapes[i].draw(ctx);  
+      }
+        
     }
-    fondo.src = srcFondo;
 }
-CanvasState.prototype.setShapes = function(shapes, srcFondo) {
+CanvasState.prototype.setSize = function(width,height){
+  // console.log(height +' - '+width);
+  // console.log(srcFondo);
+
+  
+  this.canvas_borrador.setAttribute("width", width);
+  this.canvas_borrador.setAttribute("height", height);
+  this.width = width; 
+  this.height = height;
+  this.canvas.setAttribute("width", width);
+  this.canvas.setAttribute("height", height);
+  //this.valid = false;
+  //this.fondo = srcFondo
+
+  // s = this; //s representa el objeto CanvasState 
+  // var fondo = new Image();
+  //   fondo.onload = function() {
+      
+  //     s.width = fondo.naturalWidth; 
+  //     s.height = fondo.naturalHeight;
+  //     //s.valid = false;
+  //     s.fondo = fondo
+  //     s.valid = false;
+  //   }
+  //   fondo.src = srcFondo;
+}
+CanvasState.prototype.setShapes = function(shapes) {
   // Cambiar los objetos que se muestran
-  
   this.shapes = shapes;
-  if(srcFondo){
-    this.setFondo(srcFondo)
-  }else{
-    this.fondo = false;
-    this.valid = false;
-  }
-  
-
-
-  
-  
-  
+  this.valid = false;
 }
 CanvasState.prototype.getShapes = function() {
   // Cambiar los objetos que se muestran
@@ -374,47 +472,11 @@ CanvasState.prototype.getShapes = function() {
 // Crea un objeto con 'x' y 'y' definidas, establecidas en la posición del ratón en relación con el lienzo del estado
 // Si quieres ser super-correcto esto puede ser complicado, tenemos que preocuparnos por el relleno y las fronteras
 CanvasState.prototype.getMouse = function(e) {
-  var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
-  
-  // Calcular el desplazamiento total
-  if (element.offsetParent !== undefined) {
-    do {
-      offsetX += element.offsetLeft; //distancia en x desde el padre hasta el elemento, por razones como bordes
-      offsetY += element.offsetTop; //distancia en y desde el padre hasta el elemento
-    } while ((element = element.offsetParent));
-    // este while hace que recorra todos los elementos padres uno a uno y 
-    //cuando se llegue al mayor la condicion se vuelde indefinida y sale del bucle,
-    //todo esto para sumar las distacias de todos los bordes
-  }
-
-  // Añadir relleno y anchos de estilo de borde para compensar
-  // También agregue los desplazamientos <html> en caso de que haya una posición: barra fija
-  offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
-  offsetY += this.stylePaddingTop + this.styleBorderTop  + this.htmlTop;
-
   mx = e.clientX;
   my = e.clientY;
-
-
-
-
-   /*XY = myState.getMouse(e);
-ancho = myState.width;
-alto =  myState.height;
-var bbox = canvas.getBoundingClientRect();
-mouse.x = (ancho*XY.x-bbox.left)/bbox.width;
-mouse.y = (alto*XY.y-bbox.left)/ bbox.height;*/
-
-
-
   var rect = this.canvas.getBoundingClientRect();
-  //console.log((offsetX) +'-'+(offsetY))  ;
-
   mx = this.width * (mx - rect.left)/(rect.width);
   my = this.height * (my - rect.top)/(rect.height) ;
-  // Devolvemos un objeto javascript simple (un hash) con 'x' y 'y' definidos
-  
-  // Devolvemos un objeto javascript simple (un hash) con 'x' y 'y' definidos
   return {x: mx, y: my};
 }
 

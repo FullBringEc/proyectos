@@ -9,8 +9,10 @@
 			        <title>Edicion de Documento</title>
 			        <meta charset="UTF-8"/>
 					<meta name="viewport" content="width=device-width, initial-scale=1"/>
+					
 					<!-- <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script> -->
-
+					<script src="/web_tiff_widget/static/src/js/jquery-2.1.4.js"></script>
+					
 
 
               		<link rel="stylesheet" type="text/css" href="/web_tiff_widget/static/src/css/Styles.css"/>
@@ -28,6 +30,7 @@
 
 					
 					<script type="text/javascript" src="/web_tiff_widget/static/src/js/tiff.js"></script>
+					<!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/pdf.js"></script> -->
 					<!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/glfx.js"></script> -->
 					
 			        <script type="text/javascript" src="/web_tiff_widget/static/src/js/jquery.panzoom.js"></script>
@@ -168,10 +171,13 @@
 							</ul>	
 						</nav>
 
-						<div class="content-wrapper">
-				            <diV class="divImage">
+						<div class="content-wrapper" style="width:100%">
+				            <diV class="divImage" >
 			      				 <div class="panzoom">
-			                    	<canvas id="imagenCanvas"/>
+
+									<canvas id="figurasCanvas" />
+			                    	<canvas id="borradorCanvas"  />
+			                    	<canvas id="imagenCanvas"  />
 			      		      	</div>
 			                </diV>
 						</div> <!-- .content-wrapper -->
@@ -179,7 +185,7 @@
 				    
 				</section>
 					<script type="text/javascript" src="/web_tiff_widget/static/src/js/zoom.js"></script>
-					<script src="/web_tiff_widget/static/src/js/jquery-2.1.4.js"></script>
+					
 					<script src="/web_tiff_widget/static/src/js/jquery.menu-aim.js"></script>
 					<script src="/web_tiff_widget/static/src/js/main.js"></script> <!-- Resource jQuery -->		
 				</body>
