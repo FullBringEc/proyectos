@@ -47,7 +47,7 @@ Main Page Content
 
 -------------------------------- */
 .cd-main-content .content-wrapper {
-  position: absolute;
+  position: relative;
   min-height: 100vh;
   box-sizing: border-box;
 
