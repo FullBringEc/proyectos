@@ -31,6 +31,8 @@ class rbs_documento_mercantil_acta(models.Model):
 	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion', required = True )
 	autoridad_emisora = fields.Char(string = 'Autoridad que emitio el Acta' )
 
+	foleo_desde = fields.Char(string='Desde', required = True)
+	foleo_hasta = fields.Char (string='Hasta', required = True)
 	
 	disposicion = fields.Char(string ='Disposicion')	
 	fecha_disposicion = fields.Datetime(string = 'Fecha de Disposicion' )
@@ -61,7 +63,10 @@ class rbs_documento_mercantil_acta(models.Model):
 	#libro_tipo = fields.Selection(string='Tipo de Libro', related='libro_id.libro_tipo',store = True)
 
 	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True) 
-	
+	factura_incripcion_id = fields.Many2one('account.invoice', string = 'Factura de inscripcion')
+
+	factura_ids = fields.One2many('account.invoice', 'acta_id', string= 'Factura')
+
 	_defaults = {
 
 	}
@@ -380,7 +385,12 @@ class rbs_estado_inscripcion(models.Model):
 	_description = "Estado de Inscripion"
 	
 	name = fields.Char(string = 'Estado de Inscripion')
-	
+
+
+class factura_invoice(models.Model):
+	_inherit = 'account.invoice'
+	acta_id = fields.Many2one('rbs.documento.mercantil.acta', string='Acta')
+
 			
 
 	

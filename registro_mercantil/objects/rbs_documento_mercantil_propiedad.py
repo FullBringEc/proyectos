@@ -28,6 +28,9 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion' )
 	clave_catastral = fields.Char(string = 'Clave Catastral' )
 	tipo_bien_id = fields.Many2one('rbs.tipo.bien', string ='Tipo de Bien', required = True)
+
+	foleo_desde = fields.Char(string='Desde', required = True)
+	foleo_hasta = fields.Char (string='Hasta', required = True)
 	
 	
 	provincia_nombre_id = fields.Many2one('rbs.provincia', string ='Provincia', required = True)
@@ -65,6 +68,8 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	filedata = fields.Binary(related='filedata_id.filedata',filters='*.pdf')
 	esPesado = fields.Boolean(related='filedata_id.esPesado',string = '¿Es Pesado?')
 	rutaFTP = fields.Char(related='filedata_id.rutaFTP', string = 'Escriba la ruta del Archivo')
+
+	factura_ids = fields.One2many('account.invoice', 'propiedad_id', string= 'Factura')
 
 	def _getUltimoAnio(self, cr, uid, context=None):
 		acta_id = self.pool.get("rbs.documento.mercantil.propiedad").search(cr, uid,  [], limit=1, order='id desc')
@@ -355,3 +360,7 @@ class rbs_zona(models.Model):
 	_description = "Nombre de la zona"
 	
 	name = fields.Char(string = 'Nombre de la zona')
+
+class factura_invoice(models.Model):
+	_inherit = 'account.invoice'
+	propiedad_id = fields.Many2one('rbs.documento.mercantil.propiedad', string='Propiedad')

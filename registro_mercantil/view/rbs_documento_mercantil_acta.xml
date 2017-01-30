@@ -53,6 +53,11 @@
 		        		         		context="{'libro_id': libro_id}"/>-->
 
 		        		         	<field name="numero_inscripcion"  on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+		        		         	<label for="foleo_desde" string="Foleo"/>
+		        		         	<div class="address_format">
+	                                    <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+	                                    <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+                                	</div>
 		        		         	<field name="compania_id" on_change="onchange_compania_id(compania_id)"/>
 		        	           		<field name="compania_nombres"/>
 		                            <field name="compania_identificacion"/> 
@@ -99,6 +104,12 @@
                           		
                           	</group>
               	      	</page>       
+              	      	<page string="Facturación">
+              	      		<group>
+              	      		<field name="factura_incripcion_id" context="{'form_view_ref': 'account.invoice_form'}"/>
+              	      		<field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
+              	      		</group>
+              	      	</page>
               	    </notebook>                   
                     </sheet>   
 
@@ -113,6 +124,8 @@
 
 
         </record>
+
+
 
         <record id='rbs_documento_mercantil_acta_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.documento.mercantil.acta.tree</field>
