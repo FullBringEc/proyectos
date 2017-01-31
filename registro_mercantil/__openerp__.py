@@ -26,7 +26,7 @@
     'website': 'http://www.facebook.com/RubikSoft15.com',
     "description": "Modulo que permite Crear, Obtener, Actualizar y Borrar informacion de tipos de Archivos",
 
-    "depends" : ["web_pdf_widget","base","web"],
+    "depends" : ["web_pdf_widget","base","web","account"],
     
     'js': [],
     'qweb': [], 
@@ -38,8 +38,8 @@
               "view/rbs_archivo_anio_view.xml",
               "view/rbs_archivo_libro_view.xml",
               "view/rbs_archivo_tomo_view.xml",
-              'wizard/informe_view.xml'
-
+              'wizard/informe_view.xml',
+              "view/factura_view.xml"
     ],
     "demo" : [],
     "active":False,

@@ -44,8 +44,32 @@
             
             <field name='arch' type="xml">
 	            <form string="Documento Mercantil de Propiedad" version="8.0"> 
+                    <sheet>
+                        <div class="oe_title">
+                          <label for="name" class="oe_edit_only"/>
+                          <h1><field name="numero_inscripcion"  on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/></h1>
+                          <h3>
+                              <span class="oe_read_only">By</span>
+                              
+                              <field name="anio_id" 
+                                on_change="on_change_anio_id(anio_id)" 
+                                domain="[('state','=', 'close')]"
+                                class="oe_inline" />
+                              <label for="libro_id" class="oe_edit_only"/>
+                              <field name="libro_id" 
+                                on_change="on_change_libro_id(libro_id)" 
+                                domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'acta')]"
+                                context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"
+                                class="oe_inline" />
+                              <field name="tomo_id"  
+                                domain="[('libro_id', '=', libro_id)]"
+                                context="{'libro_id': libro_id}"
+                                class="oe_inline" />
+                          </h3>
+                      </div>
                     <!--<sheet string="Documento Mercantil de Propiedad" options="{'width': 700}"> -->
-                        <group>
+                        <notebook>
+                        <page String= 'Datos'>                  
                         	<group>
 	                        	<group>
 	        		         	
@@ -57,7 +81,12 @@
 		        		         		context="{'libro_id': libro_id}"/>
 
 		        		         	<field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
-		        		         	<field name="persona_id" on_change="onchange_persona_id(persona_id)" />
+		        		         	<label for="foleo_desde" string="Foleo"/>
+                                    <div class="address_format">
+                                        <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                                        <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+                                    </div>
+                                    <field name="persona_id" on_change="onchange_persona_id(persona_id)" />
 
 		        		         	
 		        	           		<field name="persona_nombres"/>
@@ -96,7 +125,8 @@
 
 		                      	</group>
 	                      	</group>
-	                      
+                          </page>
+	                      <page string='Archivo'>
 	                        <group>
 		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
                                 <button string="prueba" name="open_ui" type="object"/>
@@ -110,7 +140,16 @@
                                         attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                           	</div>
 	                       	</group> 
-                      	</group>
+                        </page>
+
+                        <page string="Facturación">
+                            <group>
+                            <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                      	
 						
                             
                                                     

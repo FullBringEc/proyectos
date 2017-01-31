@@ -22,6 +22,10 @@ class rbs_documento_mercantil_vehiculo(models.Model):
 	persona_cedula = fields.Char(string = 'Cedula del Compareciente')
 	persona_representante = fields.Char(string = 'Representante del Compareciente')
 	persona_razonSocial = fields.Char(string = 'Razon Social del Compareciente')
+
+	
+	foleo_desde = fields.Char(string='Desde', required = True)
+	foleo_hasta = fields.Char (string='Hasta', required = True)
 	
 	tipo_compareciente_id = fields.Many2one('rbs.tipo.compareciente.v', string ='Tipo de Compareciente')
 	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Contrato', required = True)
@@ -41,6 +45,7 @@ class rbs_documento_mercantil_vehiculo(models.Model):
 	canton_notaria = fields.Char(string = 'Canton de Notaria', required = True )
 	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de Escritura', required = True )
 
+
 	estado = fields.Selection([
             ('VIGENTE','VIGENTE'),
             ('NOVIGENTE','NO VIGENTE'),
@@ -55,6 +60,8 @@ class rbs_documento_mercantil_vehiculo(models.Model):
 
 	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True) 
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicacion del Dato', required = True)
+
+	factura_ids = fields.One2many('account.invoice', 'vehiculo_id', string= 'Factura')
 
 	def _getUltimoAnio(self, cr, uid, context=None):
 		acta_id = self.pool.get("rbs.documento.mercantil.vehiculo").search(cr, uid,  [], limit=1, order='id desc')
@@ -344,7 +351,11 @@ class rbs_tipo_bien(models.Model):
 	
 	name = fields.Char(string = 'Tipo Del Bien')
 	
-			
+class factura_invoice(models.Model):
+	_inherit = 'account.invoice'
+	vehiculo_id = fields.Many2one('rbs.documento.mercantil.vehiculo', string='Vehiculo')
+
+		
 	
 '''
 class crud_tipo_archivo(models.Model):
