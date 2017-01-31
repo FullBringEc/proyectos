@@ -109,6 +109,26 @@ class psController(http.Controller):
 
         return html
 
+    @http.route('/web_tiff_widget/web_separator', type='http', auth='user')
+    def a_s(self, **k):
+        cr, uid, context, session = request.cr, request.uid, request.context, request.session
+        print str(k) + "---------------------------------------------------------------------------------------------------------------------\
+        ---------------------------------------------------------------------------------------------------------------"
+        if not session.uid:
+            return login_redirect()
+
+        
+        modules =  simplejson.dumps(module_boot(request.db))
+        print modules
+        #init ="var tiff = TifWIdget('"+tipo+"',"+binary+");"
+        
+        html = request.registry.get('ir.ui.view').render(cr, session.uid,'web_tiff_widget.TiffSeparator',{
+         #   'init': init,
+            'modules': modules,
+        })
+
+        return html
+
 class BinaryTiff(Binary):
 
     @http.route('/web_tiff_widget/BinaryTiff/tiff', type='http', auth="public")
