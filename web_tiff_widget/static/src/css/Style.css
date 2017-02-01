@@ -47,7 +47,7 @@ Main Page Content
 
 -------------------------------- */
 .cd-main-content .content-wrapper {
-  position: relative;
+  
   min-height: 100vh;
   box-sizing: border-box;
 
@@ -716,7 +716,7 @@ Sidebar
 }
 @media only screen and (min-width: 1170px) {
   .has-children > ul {
-    width: 100%;
+    width: auto;
     z-index: 1;
   }
   .has-children ul a {

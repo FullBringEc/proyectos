@@ -112,24 +112,24 @@
 }
 
 #imagenCanvas{
-  
   -webkit-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
   -moz-box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
   box-shadow: 6px 7px 5px 0px rgba(0,0,0,0.6);
   position: absolute;
+  left: 30%;
   z-index: 0;
   width: 40%;
-  
-
 }
 
 #borradorCanvas{
   position: absolute;
   z-index: 1;
+  left: 30%;
   width: 40%; 
 }
 #figurasCanvas{
   position: absolute;
+  left: 30%;
   z-index: 2;
   width: 40%; 
 }
