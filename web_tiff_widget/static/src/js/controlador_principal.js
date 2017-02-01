@@ -123,7 +123,8 @@ function TifWIdget(tipo,id){
         // };
         //console.log(tiffs[cursorTiff].getTif());
 
-
+        $(".pagina_actual").val(cursorTiff+1)      
+        $(".pagina_final").val(lenTiff)
         imagenData = tiffs[cursorTiff].getTif()
         width = imagenData.width;
         height = imagenData.height;
@@ -144,12 +145,31 @@ function TifWIdget(tipo,id){
     }
      
 
+    
+    $(".pagina_actual").keypress(function(e){
+    if(e.keyCode == 13){
+        nueva_pagina=$(".pagina_actual").val()-1
+        if (nueva_pagina<lenTiff && nueva_pagina>=0){
+            if(tiffs[cursorTiff].isSaved()){
+                cursorTiff=nueva_pagina;
+                on_change();
+            }else{
+                alert("Para cambiar de imagen primero almacene la actual")
+            }
+        }
+        else {
+            $(".pagina_actual").val(cursorTiff+1) 
+        }
+    }}    
+    );
+
     // Eventos 
     $('.button-back').click(function(){
         if(cursorTiff!=0){
             if(tiffs[cursorTiff].isSaved()){
                 cursorTiff--;
                 on_change();
+
             }else{
                 alert("Para cambiar de imagen primero almacene la actual")
             }
@@ -160,6 +180,7 @@ function TifWIdget(tipo,id){
             if(tiffs[cursorTiff].isSaved()){
                 cursorTiff++;
                 on_change()
+
             }else{
                 alert("Para cambiar de imagen primero almacene la actual")
             }

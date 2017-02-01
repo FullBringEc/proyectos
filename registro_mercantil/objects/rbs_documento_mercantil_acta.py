@@ -63,8 +63,7 @@ class rbs_documento_mercantil_acta(models.Model):
 	#libro_tipo = fields.Selection(string='Tipo de Libro', related='libro_id.libro_tipo',store = True)
 
 	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True) 
-	factura_incripcion_id = fields.Many2one('account.invoice', string = 'Factura de inscripcion')
-
+	
 	factura_ids = fields.One2many('account.invoice', 'acta_id', string= 'Factura')
 
 	_defaults = {
