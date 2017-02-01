@@ -75,13 +75,13 @@
 					      </td>
 					      <td style="text-align: right;">
 							<span class="input input--yoshiko">
-								<input class="input__field input__field--yoshiko" type="text"  />
+								<input class="input__field input__field--yoshiko pagina_actual" type="text"  />
 								<label class="input__label input__label--yoshiko">
 									<span class="input__label-content input__label-content--yoshiko" data-content="Página">1</span>
 								</label>
 							</span>
 							<span class="input input--yoshiko">
-								<input class="input__field input__field--yoshiko" type="text"  />
+								<input class="input__field input__field--yoshiko pagina_final" type="text"  />
 								<label class="input__label input__label--yoshiko">
 									<span class="input__label-content input__label-content--yoshiko" data-content="Wing Span">Wing Span</span>
 								</label>

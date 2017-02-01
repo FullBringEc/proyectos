@@ -161,7 +161,7 @@ function CanvasState(figurasCanvas,borradorCanvas) {
     this.funcionActual = funcion;
   }
   document.onkeypress = function(e){
-    console.log(e);
+    if(e.target.tagName!="INPUT"){
     e.stopPropagation();
     e.preventDefault();
     if(myState.selection != null){ // comprobamos que haya un elemento seleccionado
@@ -217,6 +217,7 @@ function CanvasState(figurasCanvas,borradorCanvas) {
         return true;
     }
   }
+}
   document.addEventListener('mousedown', function(e) {
     if (e.button!=0)return
     myState.selection = null;
