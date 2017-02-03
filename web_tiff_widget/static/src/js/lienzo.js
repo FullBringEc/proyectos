@@ -155,12 +155,39 @@ function CanvasState(figurasCanvas,borradorCanvas) {
         this.BorradorXseleccion = null;
         this.BorradorXarrastre = "listo";
         break;
+      case "Texto":
+        break;
       default:
           return true;
     }
     this.funcionActual = funcion;
   }
+
+
+
   document.onkeypress = function(e){
+    //funcion para que solo acepte letras
+    function soloLetras(e) {
+      key = e.keyCode || e.which;
+      tecla = String.fromCharCode(key).toString();
+      letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789,.()\"/$%&#@!¡¿?";//Se define todo el abecedario que se quiere que se muestre.
+      especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+
+      tecla_especial = false
+      for(var i in especiales) {
+          if(key == especiales[i]) {
+              tecla_especial = true;
+              break;
+          }
+      }
+
+      if(letras.indexOf(tecla) == -1 && !tecla_especial){
+        //alert('Tecla no aceptada');
+          return false;
+        }
+        return true;
+    }
+
     if(e.target.tagName!="INPUT"){
     e.stopPropagation();
     e.preventDefault();
@@ -195,30 +222,10 @@ function CanvasState(figurasCanvas,borradorCanvas) {
         }
 
     }
-    //funcion para que solo acepte letras
-    function soloLetras(e) {
-      key = e.keyCode || e.which;
-      tecla = String.fromCharCode(key).toString();
-      letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789,.()\"/$%&#@!¡¿?";//Se define todo el abecedario que se quiere que se muestre.
-      especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
-
-      tecla_especial = false
-      for(var i in especiales) {
-          if(key == especiales[i]) {
-              tecla_especial = true;
-              break;
-          }
-      }
-
-      if(letras.indexOf(tecla) == -1 && !tecla_especial){
-        //alert('Tecla no aceptada');
-          return false;
-        }
-        return true;
-    }
+    
   }
 }
-  document.addEventListener('mousedown', function(e) {
+  this.canvas.addEventListener('mousedown', function(e) {
     if (e.button!=0)return
     myState.selection = null;
       myState.valid = false;
@@ -239,6 +246,13 @@ function CanvasState(figurasCanvas,borradorCanvas) {
           myState.dragoffy = my - mySel.y;
           myState.dragging = true;
           myState.selection = mySel;
+
+          if (mySel.type== 'Texto'){
+            myState.setFuncionActual('Texto')
+            $("#fuentesLetras").val(mySel.font_family)
+            $("#tamTexto").val(mySel.font_size)
+            $('#color').css("background-color", mySel.fill)
+          }
           myState.valid = false;
           return;
         }
@@ -292,7 +306,7 @@ function CanvasState(figurasCanvas,borradorCanvas) {
       //myState.valid = false;
     }
   }, true);
-  document.addEventListener('mouseup', function(e) {
+  this.canvas.addEventListener('mouseup', function(e) {
     if (e.button!=0)return
     //console.log("mouse arriba")
     myState.dragging = false;

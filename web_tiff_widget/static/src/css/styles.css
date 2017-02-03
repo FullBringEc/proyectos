@@ -257,7 +257,7 @@ input[type=range]:focus::-ms-fill-upper {
   border: none;
   border-radius: 0;
   background: #f0f0f0;
-  color: #aaa;
+  color: #FFFFFF;
   font-weight: 400;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-appearance: none; /* for box shadows to show on iOS */
@@ -319,7 +319,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .input__label-content--yoshiko {
-  color: #8B8C8B;
+  color: #8B8C8B ;
   padding: 0.25em 0;
   -webkit-transition: -webkit-transform 0.25s;
   transition: transform 0.25s;

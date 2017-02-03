@@ -2,6 +2,13 @@ var $canv;
 var $ctx;          
 var lienzo;      // Es el espacio donde se crearan los objetos seleccionables
 var controlZoom; // Este objeto contiene las funciones de zoom y movimiento del canvas // se lo inicializa en el archivo jquery.panzoom.js
+setTextColor=function(color){
+    if (lienzo.funcionActual=='Texto'){
+        
+        lienzo.selection.fill='#'+color
+        lienzo.valid=false
+    }
+}
 function TifWIdget(tipo,id){
     Tiff.initialize({TOTAL_MEMORY: 16777216 * 5});
     var s = new openerp.init();
@@ -137,14 +144,31 @@ function TifWIdget(tipo,id){
         $ctx.putImageData(imagenData, 0, 0);
 
         lienzo.setSize(width,height);
-
-        asd = new ShapeText(10,40,"escribir...","bold", 54,"verdana",null,'rgba(12, 25, 212, .5)')
-        lienzo.addShape(asd); 
-        //lienzo.addShape(new Shape(40,40,50,50));
+         //lienzo.addShape(new Shape(40,40,50,50));
         //image.src = tiffs[cursorTiff].getTif();
     }
      
+    $("#fuentesLetras").change(function(){        
+       if (lienzo.funcionActual=='Texto'){       
+        lienzo.selection.font_family= $("#fuentesLetras").val()
+        lienzo.valid=false
+    }   
+    })
 
+    $("#tamTexto").change(function(){        
+       if (lienzo.funcionActual=='Texto'){       
+        lienzo.selection.font_size= $("#tamTexto").val()
+        lienzo.valid=false
+    }   
+    })
+
+    $(".btnAddText").click(function(){        
+        lienzo.addShape(new ShapeText(10,40,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));      
+    })
+
+    $(".btnBorrar").click(function(){
+        lienzo.setFuncionActual("BorradorXseleccion");
+    })
     
     $(".pagina_actual").keypress(function(e){
     if(e.keyCode == 13){

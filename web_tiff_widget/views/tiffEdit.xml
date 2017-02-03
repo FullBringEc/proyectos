@@ -83,7 +83,7 @@
 							<span class="input input--yoshiko">
 								<input class="input__field input__field--yoshiko pagina_final" type="text"  />
 								<label class="input__label input__label--yoshiko">
-									<span class="input__label-content input__label-content--yoshiko" data-content="Wing Span">Wing Span</span>
+									<span class="input__label-content input__label-content--yoshiko" data-content="Página">1</span>
 								</label>
 							</span>
 				
@@ -177,9 +177,9 @@
 						      							</span>
 						      						</span>
 						      					</div>
-						      					<div class="tooltip">
+						      					<div class="tooltip btnBorrar">
 						      						<span class="zoom-out">
-						      							<span class="tooltiptext">Cortar</span>
+						      							<span class="tooltiptext">Borrar</span>
 						      							<span class="button btn">
 						      								<span ><i class="fa fa-crop" aria-hidden="true"></i></span>
 						      							</span>
@@ -200,11 +200,13 @@
 						      						
 						      							
 						      							
-						      								<input type="number"  />
-						      								<select>
-														      <option value="australia">Australia</option>
-														      <option value="canada">Canada</option>
-														      <option value="usa">USA</option>
+						      								<input id="tamTexto" type="number"  />
+
+						      								<select id= "fuentesLetras">
+														      <option value="cambria">Cambria</option>
+														      <option value="verdana">Verdana</option>
+														      <option value="arial">Arial</option>
+														      <option value="calibri">Calibri</option>
 														    </select>
 														    <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}" id="color">
 																Color
