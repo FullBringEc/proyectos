@@ -28,6 +28,12 @@ a {
   text-decoration: none;
 }
 
+label {
+  color: #ffffff;
+  font-size: 12px;
+  margin-left: 70px; 
+}
+
 input a {
   font-family: "Open Sans", sans-serif;
   font-size: 1.6rem;

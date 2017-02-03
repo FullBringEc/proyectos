@@ -17,6 +17,8 @@ function TifWIdget(tipo,id){
                                         id: id,
                                         field: "filedata",
                                         t: (new Date().getTime()),});
+
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.responseType = 'arraybuffer';
@@ -39,6 +41,12 @@ function TifWIdget(tipo,id){
             }
             // setInterval(function() { on_change(); cursorTiff++; console.log(cursorTiff)}, 1000);
             on_change();
+            new openerp.web.Model('rbs.documento.mercantil.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion']])
+                .then(function(result){
+                    $('#tipo').html(tipo)
+                    $('#propietario').html(result[0].compania_nombres)
+                    $('#fecha').html(result[0].fecha_inscripcion)
+                })
                 
     }
 
@@ -56,6 +64,15 @@ function TifWIdget(tipo,id){
         this.verActual = -1;
         this.texture;
         this.canv = null;
+        this.shapes = [];
+
+        this.getShapes = function(){
+            return this.shapes;
+        }
+
+        this.setShapes = function(s){
+            this.shapes = s;
+        }
 
         this.getTif = function (){ 
             if(this.versiones.length == 0){
@@ -114,6 +131,7 @@ function TifWIdget(tipo,id){
         }
         this.save = function(){
             this.saved = true;
+            this.setShapes(lienzo.shapes)
         }
         var accion
     }
@@ -130,8 +148,10 @@ function TifWIdget(tipo,id){
         // };
         //console.log(tiffs[cursorTiff].getTif());
 
+
         $(".pagina_actual").val(cursorTiff+1)      
         $(".pagina_final").val(lenTiff)
+        lienzo.shapes=tiffs[cursorTiff].getShapes()
         imagenData = tiffs[cursorTiff].getTif()
         width = imagenData.width;
         height = imagenData.height;
@@ -142,12 +162,12 @@ function TifWIdget(tipo,id){
       //this.canvas.setAttribute("height", this.height);
       
         $ctx.putImageData(imagenData, 0, 0);
-
+        lienzo.valid=false
         lienzo.setSize(width,height);
          //lienzo.addShape(new Shape(40,40,50,50));
         //image.src = tiffs[cursorTiff].getTif();
     }
-     
+
     $("#fuentesLetras").change(function(){        
        if (lienzo.funcionActual=='Texto'){       
         lienzo.selection.font_family= $("#fuentesLetras").val()

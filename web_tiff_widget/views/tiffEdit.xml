@@ -112,8 +112,11 @@
 									<a>Información</a>
 									<ul>
 										<li><a>Tipo de Documento: </a></li>
+										<label id="tipo"></label>
 										<li><a>Propietario: </a></li>
+										<label id="propietario"></label>
 										<li><a>Fecha: </a></li>
+										<label id="fecha"></label>
 									</ul>
 								</li>
 							</ul>
