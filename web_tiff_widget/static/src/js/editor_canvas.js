@@ -185,7 +185,7 @@ var app = ( function () {
                 pixels[ i * 4 + 2 ] = factor * ( b - 128 ) + 128;
             }
          
-            context.putImageData( imageData, 0, 0 );
+            getContext().putImageData( imageData, 0, 0 );
         };
 
         public.filters.brightness  = function (level) {

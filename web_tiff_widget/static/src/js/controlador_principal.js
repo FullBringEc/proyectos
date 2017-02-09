@@ -52,7 +52,8 @@ function TifWIdget(tipo,id){
 
 
     xhr.send();
-    
+
+
     function tifClass(TIfforiginal, index){ 
         this.saved= true
         this.TIfforiginal = TIfforiginal;
@@ -72,6 +73,22 @@ function TifWIdget(tipo,id){
 
         this.setShapes = function(s){
             this.shapes = s;
+        }
+
+        this.setOriginal = function(){
+            this.versiones = [];
+            this.verActual = -1;       
+            this.shapes = [];
+            this.TIfforiginal.setDirectory(index);
+            this.imagen = this.TIfforiginal.toImage();
+            this.width = this.imagen.width;
+            this.height = this.imagen.height;
+            var imageData = $ctx.createImageData(this.width, this.height);
+            (imageData).data.set(this.imagen.image);
+
+
+            this.setTif(imageData);
+            return this.getTif();
         }
 
         this.getTif = function (){ 
@@ -125,7 +142,38 @@ function TifWIdget(tipo,id){
             }
             
         }
-        
+        this.guardarImagen = function(){
+            var canvas = document.createElement('canvas');
+            context = canvas.getContext( '2d' )
+            imagenData = this.getTif();
+            canvas.width = imagenData.width;
+            canvas.height = imagenData.height;
+            context.putImageData(imagenData, 0, 0);
+            for (var i = this.shapes.length - 1; i >= 0; i--) {
+                if(this.shapes[i].type!='Texto'){                   
+                    this.shapes[i].draw(context);
+                }                
+            }
+            for (var i = this.shapes.length - 1; i >= 0; i--) {
+                if(this.shapes[i].type=='Texto'){                   
+                    this.shapes[i].draw(context);
+                }                
+            }
+
+            var link = window.document.createElement( 'a' ),
+                url = canvas.toDataURL(),
+                filename = 'screenshot.png';
+                console.log(url)
+         
+            link.setAttribute( 'href', url );
+            link.setAttribute( 'download', filename );
+            link.style.visibility = 'hidden';
+            window.document.body.appendChild( link );
+            link.click();
+            window.document.body.removeChild( link );
+        }
+
+
         this.isSaved = function(){
             return this.saved;
         }
@@ -135,6 +183,7 @@ function TifWIdget(tipo,id){
         }
         var accion
     }
+
     on_change = function(){
         //console.log($canv)
         // var image = new Image();
@@ -175,6 +224,8 @@ function TifWIdget(tipo,id){
     }   
     })
 
+
+
     $("#tamTexto").change(function(){        
        if (lienzo.funcionActual=='Texto'){       
         lienzo.selection.font_size= $("#tamTexto").val()
@@ -186,8 +237,17 @@ function TifWIdget(tipo,id){
         lienzo.addShape(new ShapeText(10,40,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));      
     })
 
+    $(".guardarimg").click(function(){
+        tiffs[cursorTiff].guardarImagen();
+
+    })
+
     $(".btnBorrar").click(function(){
         lienzo.setFuncionActual("BorradorXseleccion");
+    })
+
+    $(".btnBorrarDeslizar").click(function(){
+        lienzo.setFuncionActual("BorradorXarrastre");
     })
     
     $(".pagina_actual").keypress(function(e){
@@ -230,11 +290,17 @@ function TifWIdget(tipo,id){
             }
         }
     })
+
+    $('.button-original').click(function(){
+        tiffs[cursorTiff].setOriginal();
+        on_change()
+    })
+
     $('.btnDisenoPrueba').click(function(){
         app.filters.invert()
     })
     var contraste = 0 ;
-    $('.contraste').on("input change", function() {
+    $('.contraste-range').on("input change", function() {
         valor = this.value - contraste;
         //console.log("contraste :"+ valor)
         if(valor!=0){
@@ -243,6 +309,17 @@ function TifWIdget(tipo,id){
         
         contraste = this.value;
     });
+    var brightness = 0 ;
+    $('.brightness-range').on("input change", function() {
+        valor = this.value - brightness;
+        //console.log("contraste :"+ valor)
+        if(valor!=0){
+            app.filters.brightness(valor)    
+        }
+        
+        brightness = this.value;
+    });
+
     $('.contraste').mousedown(function() {
      //console.log('inicio')
     });
@@ -254,6 +331,17 @@ function TifWIdget(tipo,id){
     $('.button-undo').click(function(){
         tiffs[cursorTiff].setTifUndo();
         onchange()
+    })
+    $('.sepia').click(function(){
+        app.filters.sepia();
+    })
+
+    $('.bw').click(function(){
+        app.filters.bw();
+    })
+
+    $('.invertirColor').click(function(){
+        app.filters.invert();
     })
 
     $('.button-repeat').click(function(){
