@@ -19,5 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import objects
-from . import wizard
+import rbs_contenedor
+import objects
+import wizard
+import controllers

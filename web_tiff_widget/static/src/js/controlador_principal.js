@@ -173,6 +173,7 @@ function TifWIdget(tipo,id){
             window.document.body.removeChild( link );
         }
 
+        
 
         this.isSaved = function(){
             return this.saved;

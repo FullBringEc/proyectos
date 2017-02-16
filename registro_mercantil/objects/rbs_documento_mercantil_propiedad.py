@@ -101,7 +101,7 @@ class rbs_documento_mercantil_propiedad(models.Model):
 		#context['active_id'] = data.ids[0]
 		return {
 			'type' : 'ir.actions.act_url',
-			'url':   '/web_tiff_widget/web/?binary='+str(ids[0])+'&tipo=propiedad',
+			'url':   '/registro_mercantil/web/?binary='+str(ids[0])+'&tipo=propiedad',
 			'target': 'current',
 		}
 

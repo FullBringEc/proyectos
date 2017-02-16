@@ -4,6 +4,14 @@ from dateutil import parser
 from openerp import models, fields, api, _
 from openerp.osv import osv
 
+from PIL import Image
+import StringIO
+from io import BytesIO
+import base64
+import cStringIO
+
+
+
 
 
 class rbs_documento_mercantil_acta(models.Model):
@@ -66,6 +74,8 @@ class rbs_documento_mercantil_acta(models.Model):
 	
 	factura_ids = fields.One2many('account.invoice', 'acta_id', string= 'Factura')
 
+	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
+
 	_defaults = {
 
 	}
@@ -75,7 +85,7 @@ class rbs_documento_mercantil_acta(models.Model):
 		#context['active_id'] = data.ids[0]
 		return {
 			'type' : 'ir.actions.act_url',
-			'url':   '/web_tiff_widget/web/?binary='+str(ids[0])+'&tipo=acta',
+			'url':   '/registro_mercantil/web/?binary='+str(ids[0])+'&tipo=acta',
 			'target': 'current',
 		}
 
@@ -106,7 +116,32 @@ class rbs_documento_mercantil_acta(models.Model):
 	}
 	_rec_name='numero_inscripcion'
 
+	@api.onchange('filedata')
+	def on_change_filedata(self):
+		a = self.env['rbs.contenedor'].create({'name': 'A'})
+
+
+		im = Image.open(BytesIO(base64.b64decode(self.filedata)))
+		#raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+		n = 0
+		self.contenedor_id=a.id
+		while True:
+			try:
+				n = n+1
+				im.seek(n)
+				#im.save('Block_%s.tif'%(n,))
+
+				jpeg_image_buffer = cStringIO.StringIO()
+				im.save(jpeg_image_buffer, format="PNG")
+				imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+				a.imagenes_ids |= self.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':a.id})
+				#raise osv.except_osv('Esto es un Mesaje!',imgStr)
+			except EOFError:
+			    print "Se Cargo la imagen tiff",  n
+			    break;
+
 	
+
 
 	@api.depends('ubicacion_dato_id','persona_cedula','numero_inscripcion')
 	def _compute_upper(self):

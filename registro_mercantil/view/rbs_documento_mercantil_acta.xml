@@ -83,7 +83,7 @@
 		                            <field name="fecha_ultima_modificacion"/> 
 		                            <field name="identificacion_unica"/> 
 		                            <field name="estado_inscripcion_id"/>  
-		                            
+		                            <field name="contenedor_id"/>
 		                           	
 		                      	</group>
 		                      	
@@ -96,9 +96,9 @@
 		                        <div class="oe_title" >
 		                        	¿Es pesado?<field name="esPesado"/> 
 				                    <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
-				                    <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [500, 500]}"  attrs="{'invisible':['|', ('esPesado','=',True)]}" />
+				                    <field name="filedata"  options="{'size': [500, 500]}"  attrs="{'invisible':['|', ('esPesado','=',True)]}" />
                           			
-	                      			<field name="rutaFTP" widget= "FieldUrlTiff" options="{'size': [500, 500]}"
+	                      			<field name="rutaFTP"  options="{'size': [500, 500]}"
 	                      				attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                           		</div>
                           		
@@ -115,13 +115,7 @@
                     
                     
 	           	</form>
-
-
-                    
-
             </field>
-
-
         </record>
 
 

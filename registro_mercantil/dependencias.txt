@@ -1,0 +1,7 @@
+tifffile 
+numpy
+pip install -U scikit-image
+
+este es !!!
+pip install pil
+pillow
