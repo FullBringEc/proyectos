@@ -59,7 +59,7 @@
 	                                    <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
                                 	</div>
 		        		         	<field name="compania_id" on_change="onchange_compania_id(compania_id)"/>
-		        	           		<field name="compania_nombres"/>
+		        	           		<field name="causante"/>
 		                            <field name="compania_identificacion"/> 
 		                            <field name="compania_especie_id"/> 
 		                            <field name="fecha_inscripcion"/> 
@@ -67,8 +67,10 @@
 		                            <field name="persona_nombres"/>
 		                            <field name="persona_apellidos"/>
 		                            <field name="persona_cedula"/>
+		                            
 	                            </group>
 	                            <group>
+	                            	
 		        	           		<field name="cargo_id"/>
 		                            <field name="tipo_compareciente_id"/> 
 		                            <field name="disposicion"/> 
@@ -88,11 +90,24 @@
 		                      	</group>
 		                      	
 	                      	</group>
+	                      	<separator string="Posicion efectiva" colspan="2"/>
+	                      	<group>
+		                        <group>
+		                        	<field name="causante"/>
+		                        	<field name="fecha_defuncion"/>
+		                        	<field name="herederos"/>
+		                        	<field name="conyuge_sobreviviente"/>
+		                        </group>
+		        		         	
+		                      	
+	                      	</group>
+
 	                    </page>
                         <page string="Archivo">
 							<group>
 		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
 		                        <button string="Editar Archivo" name="open_ui" type="object"/>
+		                        <button string="Word" name="word" type="object"/>
 		                        <div class="oe_title" >
 		                        	¿Es pesado?<field name="esPesado"/> 
 				                    <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />

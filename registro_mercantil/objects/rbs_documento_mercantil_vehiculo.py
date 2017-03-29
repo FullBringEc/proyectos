@@ -321,11 +321,20 @@ class rbs_persona(models.Model):
 	_name ="rbs.persona"
 	_description = "persona"
 	
+	tipo_persona_id = fields.Many2one('rbs.persona', string ='Tipo de Persona')
+	persona_razonSocial = fields.Char(string = 'Razon Social')
+	persona_id = fields.Many2one('rbs.persona', string ='Compareciente(n)')
 	persona_nombres = fields.Char(string = 'Nombres del Compareciente')
 	persona_apellidos = fields.Char(string = 'Apellidos del Compareciente')
+	persona_tipo_interviniente_id = fields.Many2one('rbs.tipo.interviniente.a', string ='Tipo de Interviniente')
+	persona_calidad_compareciente = fields.Char(string = 'Calidad Compareciente')
+	persona_tipo_documento = fields.Char(string = 'Tipo Documento')
 	name = fields.Char(string = 'Cedula del Compareciente', required = True)
-	persona_representante = fields.Char(string = 'Representante del Compareciente')
-	persona_razonSocial = fields.Char(string = 'Razon Social del Compareciente')
+	persona_estado_civil = fields.Char(string = 'Estado Civil')
+	persona_nombres_conyuge = fields.Char(string = 'Nombres de Conyuge')
+	persona_apellidos_conyuge = fields.Char(string = 'Apellidos de Conyuge')
+	persona_cedula_conyuge = fields.Char(string = 'Cedula del Conyuge')
+	persona_separacion_bienes = fields.Char(string = 'Separacion de Bienes')
 	_sql_constraints = [
         ('namea_uniq', 'unique(name)',
             'La identificacion de la Persona debe ser unica'),

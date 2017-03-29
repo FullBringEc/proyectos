@@ -31,7 +31,7 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	
 	
 	provincia_nombre_id = fields.Many2one('rbs.provincia', string ='Provincia', required = True)
-	zona_nombre_id = fields.Many2one('rbs.zona', string ='Zona', required = True)
+	zona_nombre_id = fields.Many2one('rbs.zona', string ='Zona')
 	superficie_bien = fields.Char(string = 'Superficie del bien')
 	orientacio_lindero = fields.Char(string = 'Orientacion del lindero', default='NORTE/SUR/ESTE/OESTE', required = True)
 	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:', required = True)

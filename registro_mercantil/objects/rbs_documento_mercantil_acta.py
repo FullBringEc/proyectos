@@ -3,6 +3,12 @@
 from dateutil import parser
 from openerp import models, fields, api, _
 from openerp.osv import osv
+from docxtpl import DocxTemplate, RichText
+import base64
+from io import BytesIO , StringIO
+from openerp import http
+from openerp.http import request
+from openerp.addons.web.controllers.main import serialize_exception,content_disposition
 
 from PIL import Image
 import StringIO
@@ -41,6 +47,14 @@ class rbs_documento_mercantil_acta(models.Model):
 
 	foleo_desde = fields.Char(string='Desde', required = True)
 	foleo_hasta = fields.Char (string='Hasta', required = True)
+
+	#Categoria posicion efectiva
+	causante = fields.Char (string='Causante')
+	fecha_defuncion = fields.Datetime (string='Fecha defuncion')
+	herederos = fields.Char (string='Herederos')
+	conyuge_sobreviviente = fields.Char (string='Conyuge Sobreviviente')
+	#Fin categoria
+
 	
 	disposicion = fields.Char(string ='Disposicion')	
 	fecha_disposicion = fields.Datetime(string = 'Fecha de Disposicion' )
@@ -73,21 +87,53 @@ class rbs_documento_mercantil_acta(models.Model):
 	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True) 
 	
 	factura_ids = fields.One2many('account.invoice', 'acta_id', string= 'Factura')
+	data=fields.Binary("word")
 
 	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
 
 	_defaults = {
 
 	}
+
+
+	def generate_word(self, cr, uid, ids, context=None):
+
+		datos  = self.read(cr, uid, ids, context=context)[0]
+        # elId = repr(datos['caczxcgs<'])
+
+
+		output = BytesIO()
+		tpl=DocxTemplate('richtext_tpl.docx')
+		fecha = RichText(datos['fecha_ecritura'])
+		context = {
+		    'campo' : fecha,
+		}
+
+		tpl.render(context)
+		tpl.save(output)
+		return base64.b64encode(output.getvalue())
+	
+	def word(self, cr, uid, ids, context=None):
+		out = self.generate_word( cr, uid, ids, context=None)
+		self.write( cr, uid, ids,{'data':out})
+		return self.download_word( cr, uid, ids, context=None)
+
+	def download_word(self, cr, uid, ids, context=None):
+		data = self.browse(cr, uid, ids[0], context=context)
+		context = dict(context or {})
+		return {
+				'type' : 	'ir.actions.act_url',
+				'url':    	'/web/binary/download_document?model=rbs.documento.mercantil.acta&field=data&id=%s&filename=Certificado.docx'%(str(ids[0])),
+				'target': 	'new'
+			}
 	def open_ui(self, cr, uid, ids, context=None):
 		data = self.browse(cr, uid, ids[0], context=context)
 		context = dict(context or {})
-		#context['active_id'] = data.ids[0]
 		return {
 			'type' : 'ir.actions.act_url',
 			'url':   '/registro_mercantil/web/?binary='+str(ids[0])+'&tipo=acta',
 			'target': 'current',
-		}
+		} 
 
 	def _getUltimoAnio(self, cr, uid, context=None):
 		acta_id = self.pool.get("rbs.documento.mercantil.acta").search(cr, uid,  [], limit=1, order='id desc')
@@ -118,30 +164,35 @@ class rbs_documento_mercantil_acta(models.Model):
 
 	@api.onchange('filedata')
 	def on_change_filedata(self):
-		a = self.env['rbs.contenedor'].create({'name': 'A'})
+		try:
+		
+			
+		
+			a = self.env['rbs.contenedor'].create({'name': 'A'})
 
 
-		im = Image.open(BytesIO(base64.b64decode(self.filedata)))
-		#raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
-		n = 0
-		self.contenedor_id=a.id
-		while True:
-			try:
-				n = n+1
-				im.seek(n)
-				#im.save('Block_%s.tif'%(n,))
+			im = Image.open(BytesIO(base64.b64decode(self.filedata)))
+			#raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+			n = 0
+			self.contenedor_id=a.id
+			while True:
+				try:
+					n = n+1
+					im.seek(n)
+					#im.save('Block_%s.tif'%(n,))
 
-				jpeg_image_buffer = cStringIO.StringIO()
-				im.save(jpeg_image_buffer, format="PNG")
-				imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-				a.imagenes_ids |= self.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':a.id})
-				#raise osv.except_osv('Esto es un Mesaje!',imgStr)
-			except EOFError:
-			    print "Se Cargo la imagen tiff",  n
-			    break;
+					jpeg_image_buffer = cStringIO.StringIO()
+					im.save(jpeg_image_buffer, format="PNG")
+					imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+					a.imagenes_ids |= self.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':a.id})
+					#raise osv.except_osv('Esto es un Mesaje!',imgStr)
+				except EOFError:
+				    print "Se Cargo la imagen tiff",  n
+			    
 
 	
-
+		except :
+			pass
 
 	@api.depends('ubicacion_dato_id','persona_cedula','numero_inscripcion')
 	def _compute_upper(self):
@@ -425,6 +476,10 @@ class factura_invoice(models.Model):
 	_inherit = 'account.invoice'
 	acta_id = fields.Many2one('rbs.documento.mercantil.acta', string='Acta')
 
+class reportes_doc_mercantiles(models.Model):
+	_inherit = 'res.company'
+	certificacion = fields.Binary(string='certificacion')
+	inscripcion = fields.Binary(string='inscripcion')
 			
 
 	
