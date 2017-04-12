@@ -200,9 +200,9 @@
 
 
 
-		<menuitem id="menu_Documentos" name="Documentos"/>
+		
 
-		<menuitem id="submenu_Documento_Mercantil" name="Documentos Mercantiles" parent="menu_Documentos"/>
+		
 
 		
 		<menuitem id="submenu_Documento_M_Acta" name="Registro Actas Societarias" parent="submenu_Documento_Mercantil" action="id_accion_rbs_documento_mercantil_acta"/>
