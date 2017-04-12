@@ -58,7 +58,7 @@
                               <label for="libro_id" class="oe_edit_only"/>
                               <field name="libro_id" 
                                 on_change="on_change_libro_id(libro_id)" 
-                                domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'acta')]"
+                                domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
                                 context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"
                                 class="oe_inline" />
                               <field name="tomo_id"  
@@ -73,12 +73,12 @@
                         	<group>
 	                        	<group>
 	        		         	
-		        		         	<field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+		        		         	<!-- <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
 									<field name="libro_id" on_change="on_change_libro_id(libro_id)" 
 										domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
 										context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/>
 		        		         	<field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
-		        		         		context="{'libro_id': libro_id}"/>
+		        		         		context="{'libro_id': libro_id}"/> -->
 
 		        		         	<field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
 		        		         	<label for="foleo_desde" string="Foleo"/>
@@ -136,7 +136,7 @@
                           <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                           <field name="filedata"  widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
                             attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
                                         attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                           	</div>
 	                       	</group> 
