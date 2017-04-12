@@ -72,7 +72,7 @@
 		        	           		<field name="tipo_bien_id"/> 
 		                            <!--<field name="libro_nombre"/>--> 
 		                            <field name="provincia_nombre_id"/> 
-		                            <field name="zona_nombre_id" widget="selection"/>
+		                            <field name="zona_nombre_id"/>
                             	</group>
                             	<group>
 

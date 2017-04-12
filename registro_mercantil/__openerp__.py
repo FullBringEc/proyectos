@@ -39,10 +39,11 @@
               "view/rbs_archivo_libro_view.xml",
               "view/rbs_archivo_tomo_view.xml",
               'wizard/informe_view.xml',
+              "view/rbs_documento_certificaciones.xml",
               "view/factura_view.xml",            
               'views/tiffEdit.xml',
               "static/src/xml/template.xml",
-              'views/assets_backend.xml'
+              #'views/assets_backend.xml'
     ],
     "demo" : [],
     "active":False,

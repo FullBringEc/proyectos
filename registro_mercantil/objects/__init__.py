@@ -2,3 +2,4 @@ import rbs_documento_mercantil_vehiculo
 import rbs_documento_mercantil_acta
 import rbs_archivo
 import rbs_documento_mercantil_propiedad
+import controler

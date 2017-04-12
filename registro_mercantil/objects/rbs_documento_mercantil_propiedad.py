@@ -10,58 +10,116 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	_name ="rbs.documento.mercantil.propiedad"
 	_description = "Documento de la Propiedad"
 	#name= field.Char('Nombre')
-	
+
+	# categoria Datos libro
 	anio_id = fields.Many2one('rbs.archivo.anio', string ='Año',required = True)
-	libro_id = fields.Many2one('rbs.archivo.libro', string ='Libro' ,required = True)
+	libro_id = fields.Many2one('rbs.archivo.libro', string ='Nombre Acto/Contrato' ,required = True)
+	reg_acto_contrato = fields.Char (string='Registra Acto/Contrato', required = True)
+	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Acto/Contrato', required = True)
+	tipo_libro = fields.Char (string='Tipo Libro', required = True)
 	tomo_id = fields.Many2one("rbs.archivo.tomo", string ='Tomo', required = True)
-
-	persona_id = fields.Many2one('rbs.persona', string ='Compareciente(n)')
-	
-	persona_nombres = fields.Char(string = 'Nombres del Compareciente')
-	persona_apellidos = fields.Char(string = 'Apellidos del Compareciente')
-	persona_cedula = fields.Char(string = 'Cedula del Compareciente')
-	tipo_compareciente_id = fields.Many2one('rbs.tipo.compareciente.a', string ='Tipo de Compareciente')
-	persona_razonSocial = fields.Char(string = 'Razon Social del Compareciente')
-
-	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Contrato', required = True)
-	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion' , required = True)
-	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion' )
-	clave_catastral = fields.Char(string = 'Clave Catastral' )
-	tipo_bien_id = fields.Many2one('rbs.tipo.bien', string ='Tipo de Bien', required = True)
-
 	foleo_desde = fields.Char(string='Desde', required = True)
 	foleo_hasta = fields.Char (string='Hasta', required = True)
-	
-	
+	repertorio = fields.Char (string='Repertorio', required = True)
+	fecha_repertorio = fields.Datetime (string='Fecha Repertorio')
+	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion' , required = True)
+	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion' )
+	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True)
+	#Fin categoria
+
+	# categoria datos Persona/entidad
+	tipo_persona_id = fields.Many2one('rbs.persona', string ='Tipo de Persona')
+	persona_razonSocial = fields.Char(string = 'Razon Social')
+	persona_id = fields.Many2one('rbs.persona', string ='Compareciente(n)')
+	persona_nombres = fields.Char(string = 'Nombres del Compareciente')
+	persona_apellidos = fields.Char(string = 'Apellidos del Compareciente')
+	persona_tipo_interviniente_id = fields.Many2one('rbs.tipo.interviniente.a', string ='Tipo de Interviniente')
+	persona_calidad_compareciente = fields.Char(string = 'Calidad Compareciente')
+	persona_tipo_documento = fields.Char(string = 'Tipo Documento')
+	persona_cedula = fields.Char(string = 'Cedula del Compareciente')
+	persona_estado_civil = fields.Char(string = 'Estado Civil')
+	persona_nombres_conyuge = fields.Char(string = 'Nombres de Conyuge')
+	persona_apellidos_conyuge = fields.Char(string = 'Apellidos de Conyuge')
+	persona_cedula_conyuge = fields.Char(string = 'Cedula del Conyuge')
+	persona_separacion_bienes = fields.Char(string = 'Separacion de Bienes')
+	#Fin categoria
+
+	#Categoria Datos del Bien
+	clave_catastral_id = fields.Many2one('rbs.clavecatastral')
+
+	numero_predial = fields.Char(string = 'Numero Predial')
+	clave_catastral = fields.Char(string = 'Clave Catastral' )
+	descripcion_bien_id= fields.Many2one('rbs.tipo.bien', string ='Descripcion Bien', required = True)
 	provincia_nombre_id = fields.Many2one('rbs.provincia', string ='Provincia', required = True)
 	zona_nombre_id = fields.Many2one('rbs.zona', string ='Zona', required = True)
-	superficie_bien = fields.Char(string = 'Superficie del bien')
-	orientacio_lindero = fields.Char(string = 'Orientacion del lindero', default='NORTE/SUR/ESTE/OESTE', required = True)
+	superficie_bien = fields.Char(string = 'Superficie o Area')
+	ubicacion_geografica = fields.Char(string = 'Ubicacion Geografica', default='NORTE/SUR/ESTE/OESTE', required = True)
 	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:', required = True)
-	parroquia_nombre = fields.Selection([
+	parroquia_nombre_inmueble = fields.Selection([
             ('SAN VICENTE','SAN VICENTE'),
             ('CANOA','CANOA'),
-        ],string ='Nombre de la Parroquia')
-	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
-	
-	canton_nombre_id = fields.Many2one('rbs.canton', string ='Canton del Bien', required = True)
-
+        ],string ='Parroquia Inmueble')
+	canton_nombre_inmueble_id = fields.Many2one('rbs.canton', string ='Canton del Inmueble', required = True)
 	cuantia_valor = fields.Char(string ='Valor del bien' )
-
 	cuantia_unidad = fields.Selection([
             ('SUCRE','SUCRE'),
             ('DOLAR','DOLAR'),
-        ],string ='Unidad de la cuantia' )
-	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True) 
+        ],string ='Unidad Monetaria' )
+	
+	#Fin Categoria
+
+	#Categoria Datos Registrales
+	gravamen_limitacion = fields.Char (string='Gravamen / Limitación')
+	tipo_gravamen = fields.Char (string='Tipo Gravamen/Limitación')
+	genera_gravamen_limitacion = fields.Char (string='Genera Gravamen/Limitación')	
+	fecha_const_gravamen = fields.Datetime (string='Fecha Const Gravamen/Limitacion')
+	fecha_cancel_gravamen = fields.Datetime (string='Fecha Const Gravamen/Limitación')
+	marginacion_tramite_origi = fields.Char (string='Marginacion Trámite')
+	modificacion_fuente = fields.Datetime(string = 'Fecha modificacion de la fuente' )
+	canton_registro_id = fields.Many2one('rbs.canton', string ='Canton Registro Propiedad', required = True)
+	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
+	canton_notaria_id = fields.Many2one('rbs.notaria', string ='Canton de la Notaria', required = True)
+	# Fin categoría
+
+	# Datos Escritura
+	escritura_fecha = fields.Datetime(string = 'Fecha Escritura')
+	propiedad_horizontal = fields.Char (string='Propiedad Horizontal')
+	porcentaje_alicuota = fields.Char (string='Porcentaje Alícuota')
+	expensas = fields.Char (string='Expensas')
+	acto_menor_edad = fields.Char (string='Comparece Acto Menores de Edad')
+	tutor = fields.Char (string='Nombre Tutor')
+	fecha_adjudicion = fields.Datetime(string = 'Fecha de la Escritura')
+	fecha_insi_bienes = fields.Datetime(string = 'Fecha insinuación judicial/acta notarial')
+	# Fin categoria
+
+	#Categoria posicion efectiva
+	causante = fields.Char (string='Causante')
+	fecha_defuncion = fields.Datetime (string='Fecha Defunción')
+	herederos = fields.Char (string='Herederos')
+	conyuge_sobreviviente = fields.Char (string='Conyuge Sobreviviente')
+	#Fin categoria
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+
+	
+	
 	juicio_numero = fields.Integer(string ='Numero del juicio')
 	estado_inscripcion_id = fields.Many2one('rbs.estado.inscripcion', string ='Estado de la Inscripcion', required = True)
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicacion del Dato', required = True)
 
-	modificacion_fuente = fields.Datetime(string = 'Fecha de la modificacion de la fuente' )
-	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la Notaria', required = True)
+	
+	
 
 
-	escritura_fecha = fields.Datetime(string = 'Fecha de la Escritura')
+	
 	#filedata = fields.Binary('Archivo',filters='*.pdf')
 	#filename = fields.Char('Nombre de archivo', default="Archivo.pdf")
 	filedata_id = fields.Many2one('rbs.archivo.pdf')
@@ -225,8 +283,8 @@ class rbs_documento_mercantil_propiedad(models.Model):
 					pass
 
 				try:
-					if propiedad.tipo_bien_id:
-						result['tipo_bien_id'] = propiedad.tipo_bien_id.id
+					if propiedad.descripcion_bien_id:
+						result['descripcion_bien_id'] = propiedad.descripcion_bien_id.id
 
 				except: 
 					pass
@@ -251,8 +309,8 @@ class rbs_documento_mercantil_propiedad(models.Model):
 					pass
 
 				try:
-					if propiedad.orientacio_lindero:
-						result['orientacio_lindero'] = self.codigoascii(propiedad.orientacio_lindero)
+					if propiedad.ubicacion_geografica:
+						result['ubicacion_geografica'] = self.codigoascii(propiedad.ubicacion_geografica)
 					
 				except:
 					pass
@@ -265,15 +323,15 @@ class rbs_documento_mercantil_propiedad(models.Model):
 					pass
 
 				try:
-					if propiedad.parroquia_nombre:
-						result['parroquia_nombre'] = self.codigoascii(propiedad.parroquia_nombre)
+					if propiedad.parroquia_nombre_inmueble:
+						result['parroquia_nombre_inmueble'] = self.codigoascii(propiedad.ubicacion_geografica)
 					
 				except:
 					pass
 
 				try:
-					if propiedad.canton_nombre_id:
-						result['canton_nombre_id'] = propiedad.canton_nombre_id.id
+					if propiedad.canton_nombre_inmueble_id:
+						result['canton_nombre_inmueble_id'] = propiedad.parroquia_nombre_inmueble.id
 
 				except: 
 					pass
@@ -347,12 +405,48 @@ class rbs_documento_mercantil_propiedad(models.Model):
 		return { 'value':result, }
 
 
+class rbs_clavecatastral(models.Model):
+	_name = 'rbs.clavecatastral'
+	_description = "Tipo Bien"
+
+
+	name = fields.Char(string = 'Clave Catastral')
+	numero_predial = fields.Char(string = 'Numero Predial')
+	clave_catastral = fields.Char(string = 'Clave Catastral' )
+	descripcion_bien_id= fields.Many2one('rbs.tipo.bien', string ='Descripcion Bien', required = True)
+	provincia_nombre_id = fields.Many2one('rbs.provincia', string ='Provincia', required = True)
+	zona_nombre_id = fields.Many2one('rbs.zona', string ='Zona', required = True)
+	superficie_bien = fields.Char(string = 'Superficie o Area')
+	ubicacion_geografica = fields.Char(string = 'Ubicacion Geografica', default='NORTE/SUR/ESTE/OESTE', required = True)
+	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:', required = True)
+	parroquia_nombre_inmueble = fields.Selection([
+            ('SAN VICENTE','SAN VICENTE'),
+            ('CANOA','CANOA'),
+        ],string ='Parroquia Inmueble')
+	canton_nombre_inmueble_id = fields.Many2one('rbs.canton', string ='Canton del Inmueble', required = True)
+	cuantia_valor = fields.Char(string ='Valor del bien' )
+	cuantia_unidad = fields.Selection([
+            ('SUCRE','SUCRE'),
+            ('DOLAR','DOLAR'),
+        ],string ='Unidad Monetaria' )
+
+
+
+class rbs_notaria(models.Model):
+	_name = 'rbs.notaria'
+	_description = "Nombre de la Notaria"
+		
+	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
+	canton_notaria = fields.Char(string = 'Canton Notaria' )
+	
+
 
 class rbs_provincia(models.Model):
 	_name = 'rbs.provincia'
 	_description = "Nombre de la provincia"
 		
 	name = fields.Char(string = 'Nombre de la provincia')
+
 
 
 class rbs_zona(models.Model):

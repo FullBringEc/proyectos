@@ -12,7 +12,7 @@
             <field name="name" string="Cedula"/>
 			<field name="persona_nombres" string="Nombres"/>
 			<field name="persona_apellidos" string="Apellidos"/>
-			<field name="persona_representante" string="Representante"/>
+			<!-- <field name="persona_representante" string="Representante"/> -->
 			<field name="persona_razonSocial" string="Razon Social"/>
           </search>
           </field>
@@ -28,7 +28,7 @@
 					<field name="name"/>
 					<field name="persona_nombres"/>
 					<field name="persona_apellidos"/>
-					<field name="persona_representante"/>
+					<!-- <field name="persona_representante"/> -->
 					<field name="persona_razonSocial"/>
 
                 </tree>
@@ -43,19 +43,19 @@
             <field name='type'>form</field>
             
             <field name='arch' type="xml">
-	            <form string="Documento Mercantil de Propiedad" version="8.0"> 
+                <form string="Documento Mercantil de Propiedad" version="8.0"> 
                     <sheet>
                         <div class="oe_title">
                           <label for="name" class="oe_edit_only"/>
-                          <h1><field name="numero_inscripcion"  on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/></h1>
                           <h3>
                               <span class="oe_read_only">By</span>
-                              
+                              Año
                               <field name="anio_id" 
                                 on_change="on_change_anio_id(anio_id)" 
                                 domain="[('state','=', 'close')]"
                                 class="oe_inline" />
-                              <label for="libro_id" class="oe_edit_only"/>
+                                Libro
+                              <label for="libro_id" />
                               <field name="libro_id" 
                                 on_change="on_change_libro_id(libro_id)" 
                                 domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
@@ -67,70 +67,165 @@
                                 class="oe_inline" />
                           </h3>
                       </div>
-                    <!--<sheet string="Documento Mercantil de Propiedad" options="{'width': 700}"> -->
                         <notebook>
-                        <page String= 'Datos'>                  
-                        	<group>
-	                        	<group>
-	        		         	
-		        		         	<!-- <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
-									<field name="libro_id" on_change="on_change_libro_id(libro_id)" 
-										domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
-										context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/>
-		        		         	<field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
-		        		         		context="{'libro_id': libro_id}"/> -->
 
-		        		         	<field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
-		        		         	<label for="foleo_desde" string="Foleo"/>
-                                    <div class="address_format">
-                                        <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
-                                        <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
-                                    </div>
-                                    <field name="persona_id" on_change="onchange_persona_id(persona_id)" />
+                        <page String= 'Datos'>
+                            <!-- Grupo Datos Libro -->
+                            <separator string="Datos Libros" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                        <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+                                        <field name="libro_id" on_change="on_change_libro_id(libro_id)" 
+                                            domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
+                                            context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/>
+                                        <field name="reg_acto_contrato"/>
+                                        <field name="tipo_contrato_id"/>
+                                        <field name="tipo_libro"/>
+                                        <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+                                            context="{'libro_id': libro_id}"/>
+                                    </group>
+                                    <group>
+                                        <label for="foleo_desde" string="Foleo"/>
+                                        <div class="address_format">
+                                            <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                                            <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+                                        </div>
+                                        <field name="repertorio"/>
+                                        <field name="fecha_repertorio"/>
+                                        <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                                        <field name="fecha_inscripcion"/>
+                                        <field name="identificacion_unica"/>
 
-		        		         	
-		        	           		<field name="persona_nombres"/>
-		                            <field name="persona_apellidos"/> 
-		                            <field name="persona_cedula"/> 
-		                            <field name="tipo_compareciente_id"/> 
-		                            <field name="persona_razonSocial"/> 
-		                            <field name="tipo_contrato_id"/>
-		                            
-		                            <field name="fecha_inscripcion"/>
-		        	           		<field name="clave_catastral"/>
-		        	           		<field name="tipo_bien_id"/> 
-		                            <!--<field name="libro_nombre"/>--> 
-		                            <field name="provincia_nombre_id"/> 
-		                            <field name="zona_nombre_id" widget="selection"/>
-                            	</group>
-                            	<group>
+                                    </group>
+                                </group>
+                            </group>
+                            <!-- Fin Categoria -->
+                            <!-- Categoria Datos Persona -->
+                            <separator string="Datos Libros" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                        <field name="tipo_persona_id"/>
+                                        <field name="persona_razonSocial"/>
+                                        <field name="persona_id" on_change="onchange_persona_id(persona_id)" />
+                                        <field name="persona_nombres"/>
+                                        <field name="persona_apellidos"/> 
+                                        <field name="persona_tipo_interviniente_id"/>
+                                        <field name="persona_calidad_compareciente"/>
+                                    </group>
+                                    <group>
+                                        <field name="persona_tipo_documento"/>
+                                        <field name="persona_cedula"/>
+                                        <field name="persona_estado_civil"/>
+                                        <field name="persona_nombres_conyuge"/> 
+                                        <field name="persona_apellidos_conyuge"/> 
+                                        <field name="persona_cedula_conyuge"/>
+                                        <field name="persona_separacion_bienes"/>
+                                    </group>
+                                </group>
+                            </group>
+                            <!-- Fin categoria -->
 
-		                             
-		                            <field name="superficie_bien"/>
-		        	           		<field name="orientacio_lindero"/>
-		                            <field name="descripcion_lindero"/> 
-		                            <field name="parroquia_nombre"/>
-		                            <field name="canton_nombre_id"/>
-		                            <field name="cuantia_valor"/> 
-		                            <field name="cuantia_unidad"/> 
-		                            <field name="juicio_numero"/>
-		                            <field name="estado_inscripcion_id"/>  
-		                            <field name="ubicacion_dato_id"/>
-		                            <field name="modificacion_fuente"/>
-		                            <field name="canton_notaria_id"/>
-		                            <field name="notaria_juzgado_entidad"/>
-		                            <field name="escritura_fecha"/>
-		                            <field name="identificacion_unica"/> 
-		                          
 
-		                      	</group>
-	                      	</group>
+                            <!-- Categoria Bien -->
+                            <separator string="Datos del Bien" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                        <field name="numero_predial"/>  
+                                        <field name="clave_catastral"/>
+                                        <field name="descripcion_bien_id"/>
+                                        <field name="provincia_nombre_id"/> 
+                                        <field name="zona_nombre_id"/>
+                                        <field name="superficie_bien"/>
+                                        <field name="ubicacion_geografica"/>
+                                    </group>
+                                    <group>
+                                        
+                                        <field name="parroquia_nombre_inmueble"/>
+                                        <field name="canton_nombre_inmueble_id"/>
+                                        <field name="cuantia_valor"/> 
+                                        <field name="cuantia_unidad"/>
+                                        
+                                    </group>
+                                </group>
+                                
+                            </group>
+                            <label for="descripcion_lindero" string="Descipcion Lindero"/>
+                            <field name="descripcion_lindero"/>
+                            <!-- Fin Categoria -->
+
+
+                            <!-- Categoria Datos Registrales -->
+                            <separator string="Datos Registrales" colspan="2"/>
+                            <group>
+                                <group>
+                                    <field name="gravamen_limitacion"/>
+                                    <field name="tipo_gravamen"/>  
+                                    <field name="genera_gravamen_limitacion"/>
+                                    <field name="fecha_const_gravamen"/>
+                                    <field name="fecha_cancel_gravamen"/>
+                                </group>
+                                <group>
+                                    <field name="marginacion_tramite_origi"/>
+                                    <field name="modificacion_fuente"/>  
+                                    <field name="canton_registro_id"/>
+                                    <field name="notaria_juzgado_entidad"/>
+                                    <field name="canton_notaria_id"/>
+                                </group>
+                            </group>
+
+                            <!-- Categoria Escritura -->
+                            <separator string="Datos Registrales" colspan="2"/>
+                            <group>
+                                <group>
+                                    <field name="escritura_fecha"/>
+                                    <field name="propiedad_horizontal"/>  
+                                    <field name="porcentaje_alicuota"/>
+                                    <field name="expensas"/>
+                                </group>
+                                <group>
+                                    <field name="acto_menor_edad"/>
+                                    <field name="tutor"/>  
+                                    <field name="fecha_adjudicion"/>
+                                    <field name="fecha_insi_bienes"/>
+                                    
+                                </group>
+                            </group>
+
+
+
+
+
+                           <!--     <group>
+                                    <field name="juicio_numero"/>
+                                    <field name="estado_inscripcion_id"/>  
+                                    <field name="ubicacion_dato_id"/>
+                                    <field name="modificacion_fuente"/>
+                                    <field name="canton_notaria_id"/>
+                                    <field name="notaria_juzgado_entidad"/>
+                                    <field name="escritura_fecha"/>
+                            </group> -->
+                                
+
+                            
+                            <separator string="Posicion efectiva" colspan="2"/>
+                                <group>
+                                    <group>
+                                        <field name="causante"/>
+                                        <field name="fecha_defuncion"/>
+                                        <field name="herederos"/>
+                                        <field name="conyuge_sobreviviente"/>
+                                    </group>
+                                </group>
+
                           </page>
-	                      <page string='Archivo'>
-	                        <group>
-		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+                          <page string='Archivo'>
+                            <group>
+                                <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
                                 <button string="prueba" name="open_ui" type="object"/>
-		                        <div class="oe_title">
+                                <div class="oe_title">
                                     ¿Es pesado?<field name="esPesado"/> 
 
                           <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
@@ -138,8 +233,8 @@
                             attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
                           <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
                                         attrs="{'invisible':['|', ('esPesado','=',False)]}" />
-                          	</div>
-	                       	</group> 
+                            </div>
+                            </group> 
                         </page>
 
                         <page string="Facturación">
@@ -149,13 +244,13 @@
                         </page>
                     </notebook>
                 </sheet>
-                      	
-						
+                        
+                        
                             
                                                     
                     <!--</sheet>-->
                     
-	           	</form>
+                </form>
 
 
                     
@@ -164,6 +259,37 @@
 
 
         </record>
+
+
+        <record id='rbs_persona_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.persona.form</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+                <form string="Datos Personales" version="8.0"> 
+                    <sheet>
+                        <div class="oe_title">
+                          <h1><field name="persona_nombres"  /></h1>
+                          <h3>
+                              Año
+                              <field name="persona_apellidos" />
+                                Libro
+                              <field name="name" />
+                              <!-- <field name="persona_representante" /> -->
+                                <field name="persona_razonSocial"/>
+                          </h3>
+                      </div>
+                 
+                </sheet>
+                </form>
+
+
+                    
+
+            </field>
+        </record>
+
 
         <record id='rbs_documento_mercantil_propiedad_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.documento.mercantil.propiedad.tree</field>
@@ -179,7 +305,7 @@
                     <field name="persona_nombres"/> 
 					<field name="persona_apellidos"/> 
 					<field name="fecha_inscripcion"/> 
-					<field name="tipo_bien_id"/>
+					<field name="descripcion_bien_id"/>
 					<field name="cuantia_valor"/>
                     <field name="create_uid" string="Creado por"/>
                     <field name="write_uid" string="Ultima modificacion"/>
@@ -202,11 +328,11 @@
             <field name="anio_id" string="Año" />
             <field name="tomo_id" string="Tomo" />
             <field name="persona_nombres" string="Nombre" />
-            <field name="tipo_compareciente_id" string="Tipo de compareciente" />
+            <field name="persona_tipo_interviniente_id" string="Tipo de compareciente" />
             <field name="numero_inscripcion" string="Numero de inscripcion" />
             <field name="canton_notaria_id" string="Canton de la notaria" />
             <field name="tipo_contrato_id" string="Tipo de Contrato" />
-            <field name="parroquia_nombre" string="Parroquia" />
+            <field name="parroquia_nombre_inmueble" string="Parroquia" />
             <field name="persona_razonSocial" string="Razon Social" />
 
             <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>

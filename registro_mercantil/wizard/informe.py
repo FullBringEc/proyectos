@@ -20,35 +20,8 @@ import gzip
 
 
 class rbs_informe(osv.osv_memory):
-    
-
-    
-    
     def generate_excel(self, cr, uid, ids, context=None):
-        
         output = BytesIO()
-        '''
-        #workbook = xlwt.Workbook(output, {'in_memory': True})     
-                worksheet = workbook.add_worksheet()
-
-        # Widen the first column to make the text clearer.
-        worksheet.set_column('A:A', 20)
-
-        # Add a bold format to use to highlight cells.
-        bold = workbook.add_format({'bold': True})
-
-        # Write some simple text.
-        worksheet.write('A1', 'Hello')
-
-        # Text with formatting.
-        worksheet.write('A2', 'World', bold)
-
-        # Write some numbers, with row/column notation.
-        worksheet.write(2, 0, 123)
-        worksheet.write(3, 0, 123.456)
-
-        workbook.close()
-        '''
         style0 = xlwt.easyxf('font: name Times New Roman, colour red, bold on')
         style1 = xlwt.easyxf('',num_format_str='DD-MMM-YY')
         wb = xlwt.Workbook(encoding="utf-8")
