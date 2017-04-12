@@ -59,7 +59,11 @@
                               <field name="libro_id" 
                                 on_change="on_change_libro_id(libro_id)" 
                                 domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
+<<<<<<< HEAD
                                 context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"
+=======
+                                context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"
+>>>>>>> 8d2a896ad39b0b739139b192bd2214955002506c
                                 class="oe_inline" />
                               <field name="tomo_id"  
                                 domain="[('libro_id', '=', libro_id)]"
@@ -68,6 +72,7 @@
                           </h3>
                       </div>
                         <notebook>
+
                         <page String= 'Datos'>
                             <!-- Grupo Datos Libro -->
                             <separator string="Datos Libros" colspan="2"/>
@@ -231,7 +236,7 @@
                           <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                           <field name="filedata"  widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
                             attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
                                         attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                             </div>
                             </group> 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    
+    <data>
+        <record id="view_ftp_config_settings" model="ir.ui.view">
+            <field name="name">ftp.config.settings form</field>
+            <field name="model">ftp.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure datos del servidor FTP" version="8.0">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="Configuracion Ftp Mercantil"/>
+                    <group>
+                        <div>
+                            <div>
+                                <span class="oe_separate-from-text">
+                                    <label for="ftp_mercantil"/>
+                                    <field name="ftp_mercantil" class="oe_inline"/>
+                                </span>
+                            </div>
+                        </div>
+
+                    </group>
+                    <separator string="Configuracion Ftp Propiedad"/>
+                    <group>
+                        <div>
+                            <div>
+                                <span class="oe_separate-from-text">
+                                    <label for="ftp_propiedad"/>
+                                    <field name="ftp_propiedad" class="oe_inline"/>
+                                </span>
+                            </div>
+                        </div>
+
+                    </group>
+                    <!-- <separator string="Configuracion PLCs"/>
+                    <field name="relacion_ids" widget="one2many_list">
+                        <tree string="Invoice Lines" editable="bottom">
+                            <field name="stock_location_id"/>
+                            <field name="rbs_plc_id" />
+                        </tree>
+
+                    </field> -->
+                    
+                </form>
+            </field>
+        </record>
+
+        <record id="action_ftp_config" model="ir.actions.act_window">
+            <field name="name">Configure FTP</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ftp.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+        <menuitem id="menu_ftp_config" name="Ftp" parent="base.menu_config" action="action_ftp_config"/>
+        
+
+
+
+
+        <!--<record id="rbs_opc_config_settings_view" model="ir.ui.view">
+             <field name="name">rbs.opc.config.settings.view.form</field>
+             <field name="model">rbs.opc.config.settings</field>
+             <field name="arch" type="xml">
+                 <form string="my custom class" create="false" delete="false">
+                     <field name="opc_ip" string="Odoo Username"/>
+                 </form>
+             </field>
+        </record>
+        <record id="act_rbs_opc_config_settings_view" model="ir.actions.act_window">
+            <field name="name">rbs.opc.config.settings.view</field>
+            <field name="res_model">rbs.opc.config.settings</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+        the following is a one record as initial data 
+        <record id="act_rbs_opc_config_settings_view_only_one_record" model="rbs.opc.config.settings">
+            <field name="opc_ip">"test odoo user name"</field>
+        </record>
+
+        <menuitem action="act_rbs_opc_config_settings_view" id="menu_act_my_custom_class_view" parent="base.menu_config" sequence="30"/>-->
+
+
+    </data>
+</openerp>

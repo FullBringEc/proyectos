@@ -106,6 +106,7 @@
                         <page string="Archivo">
 							<group>
 		                        <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+
 		                        <button string="Editar Archivo" name="open_ui" type="object"/>
 		                        <button string="Word" name="word" type="object"/>
 		                        <div class="oe_title" >
@@ -113,7 +114,7 @@
 				                    <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
 				                    <field name="filedata"  options="{'size': [500, 500]}"  attrs="{'invisible':['|', ('esPesado','=',True)]}" />
                           			
-	                      			<field name="rutaFTP"  options="{'size': [500, 500]}"
+	                      			<field name="rutaFTP" widget="FieldUrlPdf" options="{'size': [750, 500],'ftp_param':'ftp.mercantil'}"
 	                      				attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                           		</div>
                           		

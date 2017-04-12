@@ -95,33 +95,66 @@ openerp.web_pdf_widget = function (instance)
             }
         }
 });
-
+adrian = null
 instance.web.form.FieldUrlPdf = instance.web.form.FieldChar.extend({
     template: 'FieldUrlPdf',
     initialize_content: function() {
         this._super();
+        self = this
+        
+        // console.log(self.options.ftp_param) 186.33.184.88
+        // $('#contFtpIframe')
+        adrian = this.$el
+        this.$el.find('.contFtpIframe')
+                    .css("width", "" + self.options.size[0] + "px")
+                    .css("height", "" + self.options.size[1] + "px")
+        this.$el.find('.contFtpExplorer')
+                    .css("width", "50%")
+                    .css("height", "" + self.options.size[1] + "px")
+        this.$el.find('.ftpExplorer').fileTree({ftp:self.options.ftp_param, root: '/', script: 'http://127.0.0.1:8069/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
+                    //alert(file);
+                    //window.open(file, '_blank');
+                    self.$el.find('iframe')
+                    .attr('src',file)
+                    .css("width", "50%")
+                    self.set_value(file)
+
+                });
+        
         var $button = this.$el.find('button');
         $button.click(this.on_button_clicked);
         this.setupFocus($button);
     },
     render_value: function() {
         var show_value = this.format_value(this.get('value'), '');
+        // alert(show_value)
         
-        
-        if (!this.get("effective_readonly")) {
+        //if (!this.get("effective_readonly")) {
             this.$el.find('input').val(show_value);
-        } else {
-            if (this.password) {
-                show_value = new Array(show_value.length + 1).join('*');
-            }
+
+
+
+        //} else {
+        if (this.password) {
+            show_value = new Array(show_value.length + 1).join('*');
+        }
+        if (this.get("effective_readonly")) {
             this.$(".oe_form_char_content").text(show_value);
             //alert(show_value);
             this.$el.find('iframe')
                     .attr('src',this.get('value'))
-                    .css("width", "" + this.options.size[0] + "px")
-                    .css("height", "" + this.options.size[1] + "px")
-
+                    .css("width", "100%")
+                    .css("height", "100%")
+        }else{
+            this.$(".oe_form_char_content").text(show_value);
+            this.$el.find('iframe')
+                    .attr('src',this.get('value'))
+                    .css("width", "50%")
+                    .css("height", "100%")
         }
+                    // .css("height", "" + this.options.size[1] + "px")
+
+        
 
 
 

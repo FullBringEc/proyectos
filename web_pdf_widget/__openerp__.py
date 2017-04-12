@@ -28,11 +28,15 @@
 
     "depends" : ["base","web",],
     
-    'js': ['static/src/js/resource.js'],
+    'js': [
+        
+            ],
     'qweb': ['static/src/xml/resource.xml'], 
     "data" : [
               #"view/crud_tabla_view.xml",
               "static/src/xml/template.xml",
+              "ftp_config.xml",
+              "ir_parameter.xml",
 
     ],
     "demo" : [],

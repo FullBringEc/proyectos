@@ -512,5 +512,39 @@ class BinaryPdf(Binary):
         except:
             pass
         return request.make_response(image_data, headers)
+    # @api.one
+    @http.route('/ftp/web', type='http', auth='user')
+    def ftp(self, debug=False, **k):
+        import urllib
+        import ftputil
+        cr, uid, context = request.cr, request.uid, request.context
+
+        #ftp = self.pool.get("ir.config_parameter").get_param(cr, uid, "ftp.mercantil", default=None, context=context)
+        ftp = request.registry["ir.config_parameter"].get_param(cr, uid, request.params.get('ftp',''), default=None, context=context)
+        
+
+
+        ftp_host = ftputil.FTPHost(ftp,"anonymous","")
+        r=['<ul class="jqueryFileTree" style="display: none;">']
+        try:
+            r=['<ul class="jqueryFileTree" style="display: none;">']
+            d = urllib.unquote(request.params.get('dir',''))
+            ftp_host.chdir(d)
+            list = ftp_host.listdir(ftp_host.curdir)   
+            if d[-1] == '/':
+                d = d[:-1] 
+            for ff in list:
+               f = ff.split("/")[-1]
+               if ftp_host.path.isdir(ff):
+                   r.append('<li class="directory collapsed"><a href="#" rel="%s/">%s</a></li>' % (ftp_host.getcwd()+"/"+ff,f))
+               else:
+                   e=f[1][1:] # get .ext and remove dot
+                   r.append('<li class="file ext_%s"><a href="#" rel="%s">%s</a></li>' % (e,ftp_host.getcwd()+"/"+ff,f))
+            r.append('</ul>')
+        except Exception,e:
+           r.append('Could not load directory: %s' % str(e))
+        r.append('</ul>')
+        
+        return ftp+"?"+''.join(r)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
