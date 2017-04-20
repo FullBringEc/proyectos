@@ -32,9 +32,9 @@
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
               #"view/crud_tabla_view.xml",
-              "view/rbs_documento_mercantil_acta.xml",
-              "view/rbs_documento_mercantil_vehiculo.xml",
+              #"view/rbs_documento_mercantil_acta.xml",
               "view/rbs_documento_mercantil_propiedad.xml",
+              "view/rbs_documento_mercantil_vehiculo.xml",
               "view/rbs_archivo_anio_view.xml",
               "view/rbs_archivo_libro_view.xml",
               "view/rbs_archivo_tomo_view.xml",

@@ -12,27 +12,49 @@ class rbs_documento_mercantil_vehiculo(models.Model):
 	_name ="rbs.documento.mercantil.vehiculo"
 	_description = "Documento Mercantil Vehiculo"
 	#name= field.Char('Nombre')
-	anio_id = fields.Many2one('rbs.archivo.anio', string ='Año',required = True)
-	libro_id = fields.Many2one('rbs.archivo.libro', string ='Libro' ,required = True)
-	tomo_id = fields.Many2one("rbs.archivo.tomo", string ='Tomo', required = True)
 
+	# Ctegoria Libro
+	anio_id = fields.Many2one('rbs.archivo.anio', string ='Año',required = True)
+	libro_id = fields.Many2one('rbs.archivo.libro', string ='Nombre Acto/Contrato' ,required = True)
+	reg_acto_contrato = fields.Selection([
+            ('ACTO','ACTO'),
+            ('CONTRATO','CONTRATO'),
+        ],string ='Registra Acto/Contrato')
+	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Acto/Contrato', required = True)
+	tipo_libro = fields.Char (string='Tipo Libro', required = True)
+	tomo_id = fields.Many2one("rbs.archivo.tomo", string ='Tomo', required = True)
+	foleo_desde = fields.Char(string='Desde', required = True)
+	foleo_hasta = fields.Char (string='Hasta', required = True)
+	repertorio = fields.Char (string='Repertorio', required = True)
+	fecha_repertorio = fields.Datetime (string='Fecha Repertorio')
+	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion' , required = True)
+	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion' )
+	fecha_cancelacion = fields.Datetime(string = 'Fecha de Cancelacion' )
+	identificacion_unica = fields.Char(string = 'Identificador',compute='_compute_upper',store = True)
+	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicacion del Dato', required = True)
+	#Fin categoria
+
+	# Datos Persona
+	tipo_persona_id = fields.Selection([
+            ('NATURAL','NATURAL'),
+            ('JURIDICA','JURIDICA'),
+        ],string ='Tipo de Persona')
 	persona_id = fields.Many2one('rbs.persona', string ='Compareciente(n)')
 	persona_nombres = fields.Char(string = 'Nombres del Compareciente')
 	persona_apellidos = fields.Char(string = 'Apellidos del Compareciente')
+	persona_estado_civil = fields.Char(string = 'Estado Civil')
 	persona_cedula = fields.Char(string = 'Cedula del Compareciente')
-	persona_representante = fields.Char(string = 'Representante del Compareciente')
-	persona_razonSocial = fields.Char(string = 'Razon Social del Compareciente')
+	persona_estado_civil = fields.Char(string = 'Estado Civil')
+	persona_nombres_conyuge = fields.Char(string = 'Nombres de Conyuge')
+	persona_apellidos_conyuge = fields.Char(string = 'Apellidos de Conyuge')
+	persona_cedula_conyuge = fields.Char(string = 'Cedula del Conyuge')
+	persona_tipo_interviniente_id = fields.Many2one('rbs.tipo.interviniente.a', string ='Tipo de Interviniente')
+	persona_calidad_compareciente = fields.Char(string = 'Calidad Compareciente')
+	persona_razonSocial = fields.Char(string = 'Razon Social')
+	acreedor_id = fields.Many2one('rbs.persona', string = 'Acreedor')
+	# Fin categoria
 
-	
-	foleo_desde = fields.Char(string='Desde', required = True)
-	foleo_hasta = fields.Char (string='Hasta', required = True)
-	
-	tipo_compareciente_id = fields.Many2one('rbs.tipo.compareciente.v', string ='Tipo de Compareciente')
-	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Contrato', required = True)
-	
-	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion', required = True )
-	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion' , required = True)
-	fecha_cancelacion = fields.Datetime(string = 'Fecha de Cancelacion' )
+	# Datos Bien
 	tipo_bien_id = fields.Many2one('rbs.tipo.bien', string ='Tipo de Bien', required = True)
 	chasis = fields.Char(string = 'Chasis' )
 	motor = fields.Char(string = 'Motor' )
@@ -40,10 +62,68 @@ class rbs_documento_mercantil_vehiculo(models.Model):
 	modelo = fields.Char(string = 'Modelo' )
 	anio_fabricacion = fields.Char(string = 'Año de Fabricacion' )
 	placa = fields.Char(string = 'Placa' )
+	numero_provisional = fields.Char(string = 'Numero Provisional' )
+	# Fin categoria
+
+	# Datos Registrales
+	canton_registro_id = fields.Many2one('rbs.canton', string ='Canton Registro Mercantil', required = True)
 	ultima_modificacion = fields.Char(string = 'Ultima Modificacion' )
+	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
+	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la Notaria', required = True)
+	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de Escritura', required = True )
+	marginacion_tramite_origi = fields.Char (string='Marginacion Trámite')
+	# Fin categoria
+
+	# Datos Representante
+	cargo = fields.Char (string='Cargo')
+	representante_id = fields.Many2one('rbs.persona', string ='Representante')
+	apellido_representante = fields.Char(string = 'Apellido Representante' )
+	nombre_representante = fields.Char(string ='Nombre Representante')
+	cedula_representante = fields.Char(string =u'Cédula Representante')
+	#Fin Categoria
+
+	# Categoria Accionistas
+	No_accionistas = fields.Char(string ='Numero Accionistas')
+	accionistas_id = fields.Many2one('rbs.persona', string ='Accionista')
+	Nombre_acci_socios = fields.Char(string ='Nombre Socios')
+	porecentaje_acciones = fields.Char(string ='Porcentaje de Acciones')
+	valor_acciones = fields.Char(string ='Valor de Acciones')
+	acta_junta = fields.Char(string ='Acta de Junta')
+	#Fin Categoria
+
+	# Categoria Nombramiento
+	fechaNombramiento = fields.Datetime(string = 'Fecha Nombramiento')
+	tipo_nombra = fields.Datetime(string = 'Tipo Nombraiento')
+	plazo_nombramiento = fields.Datetime(string = 'Plazo Nombramiento')
+	tipo_gravamen= fields.Datetime(string = 'Tipo Gravamen')
+	fecha_gravamen = fields.Datetime(string = 'Fecha Gravamen')
+	fecha_cancelacion = fields.Datetime(string = 'Fecha Cancelacion')
+	# Fin categoria
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Contrato', required = True)
+	
+	
+	
+	
+	
+	
 	nombre_institucion = fields.Char(string = 'Nombre de la Institucion', required = True )
 	canton_notaria = fields.Char(string = 'Canton de Notaria', required = True )
-	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de Escritura', required = True )
+	
 
 
 	estado = fields.Selection([
@@ -331,10 +411,7 @@ class rbs_persona(models.Model):
 	persona_tipo_documento = fields.Char(string = 'Tipo Documento')
 	name = fields.Char(string = 'Cedula del Compareciente', required = True)
 	persona_estado_civil = fields.Char(string = 'Estado Civil')
-	persona_nombres_conyuge = fields.Char(string = 'Nombres de Conyuge')
-	persona_apellidos_conyuge = fields.Char(string = 'Apellidos de Conyuge')
-	persona_cedula_conyuge = fields.Char(string = 'Cedula del Conyuge')
-	persona_separacion_bienes = fields.Char(string = 'Separacion de Bienes')
+	conyugue_id = fields.Many2one('rbs.persona', string ='Conyugue')
 	_sql_constraints = [
         ('namea_uniq', 'unique(name)',
             'La identificacion de la Persona debe ser unica'),

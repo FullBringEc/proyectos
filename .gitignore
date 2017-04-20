@@ -2,7 +2,11 @@
 _build/
 
 # dotfiles
+<<<<<<< HEAD
+.
+=======
 .*
+>>>>>>> 8d2a896ad39b0b739139b192bd2214955002506c
 !.pyc
 !.gitignore
 !.mailmap

@@ -94,6 +94,7 @@
                                         <field name="fecha_repertorio"/>
                                         <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
                                         <field name="fecha_inscripcion"/>
+                                        <field name="ubicacion_dato_id"/>
                                         <field name="identificacion_unica"/>
 
                                     </group>
@@ -101,7 +102,7 @@
                             </group>
                             <!-- Fin Categoria -->
                             <!-- Categoria Datos Persona -->
-                            <separator string="Datos Libros" colspan="2"/>
+                            <separator string="Datos Persona" colspan="2"/>
                             <group>
                                 <group>
                                     <group>
@@ -176,7 +177,7 @@
                             </group>
 
                             <!-- Categoria Escritura -->
-                            <separator string="Datos Registrales" colspan="2"/>
+                            <separator string="Datos Escritura" colspan="2"/>
                             <group>
                                 <group>
                                     <field name="escritura_fecha"/>
@@ -355,13 +356,13 @@
 
 
 
-    	
-		<menuitem id="submenu_Documento_Propiedad" name="Documentos de Propiedad" parent="menu_Documentos"/>
-		>
+    	<menuitem id="menu_Documentos" name="Documentos"/>
+		<menuitem id="submenu_Documento_Propiedad" name="Registro de la Propiedad" parent="menu_Documentos"/>
+		
         
 
 		
-		<menuitem id="submenu_Documento_Mercantil_propiedad" name="Documento de la Propiedad" parent="submenu_Documento_Propiedad" action="id_accion_rbs_documento_mercantil_propiedad"/>
+		<menuitem id="submenu_Documento_Mercantil_propiedad" name="Documentos de la Propiedad" parent="submenu_Documento_Propiedad" action="id_accion_rbs_documento_mercantil_propiedad"/>
 
     </data>
 </openerp>

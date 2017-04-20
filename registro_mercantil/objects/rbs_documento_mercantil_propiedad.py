@@ -14,7 +14,10 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	# categoria Datos libro
 	anio_id = fields.Many2one('rbs.archivo.anio', string ='Año',required = True)
 	libro_id = fields.Many2one('rbs.archivo.libro', string ='Nombre Acto/Contrato' ,required = True)
-	reg_acto_contrato = fields.Char (string='Registra Acto/Contrato', required = True)
+	reg_acto_contrato = fields.Selection([
+            ('ACTO','ACTO'),
+            ('CONTRATO','CONTRATO'),
+        ],string ='Registra Acto/Contrato')
 	tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Acto/Contrato', required = True)
 	tipo_libro = fields.Char (string='Tipo Libro', required = True)
 	tomo_id = fields.Many2one("rbs.archivo.tomo", string ='Tomo', required = True)
@@ -24,11 +27,16 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	fecha_repertorio = fields.Datetime (string='Fecha Repertorio')
 	numero_inscripcion = fields.Char(string = 'Numero de Inscripcion' , required = True)
 	fecha_inscripcion = fields.Datetime(string = 'Fecha de Inscripcion' )
-	identificacion_unica = fields.Char(string = 'Identificador Unico Sistema Remoto',compute='_compute_upper',store = True)
+	identificacion_unica = fields.Char(string = 'Identificador',compute='_compute_upper',store = True)
+	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicacion del Dato', required = True)
 	#Fin categoria
 
 	# categoria datos Persona/entidad
-	tipo_persona_id = fields.Many2one('rbs.persona', string ='Tipo de Persona')
+	tipo_persona_id = fields.Selection([
+            ('NATURAL','NATURAL'),
+            ('JURIDICA','JURIDICA'),
+        ],string ='Tipo de Persona')
+
 	persona_razonSocial = fields.Char(string = 'Razon Social')
 	persona_id = fields.Many2one('rbs.persona', string ='Compareciente(n)')
 	persona_nombres = fields.Char(string = 'Nombres del Compareciente')
@@ -41,7 +49,10 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	persona_nombres_conyuge = fields.Char(string = 'Nombres de Conyuge')
 	persona_apellidos_conyuge = fields.Char(string = 'Apellidos de Conyuge')
 	persona_cedula_conyuge = fields.Char(string = 'Cedula del Conyuge')
-	persona_separacion_bienes = fields.Char(string = 'Separacion de Bienes')
+	persona_separacion_bienes = fields.Selection([
+            ('SI','SI'),
+            ('NO','NO'),
+        ],string ='Separacion de Bienes')
 	#Fin categoria
 
 	#Categoria Datos del Bien
@@ -69,27 +80,39 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	#Fin Categoria
 
 	#Categoria Datos Registrales
-	gravamen_limitacion = fields.Char (string='Gravamen / Limitación')
+	gravamen_limitacion = fields.Selection([
+            ('SI','SI'),
+            ('NO','NO'),
+        ],string ='Gravamen/Limitacion')
 	tipo_gravamen = fields.Char (string='Tipo Gravamen/Limitación')
-	genera_gravamen_limitacion = fields.Char (string='Genera Gravamen/Limitación')	
+	genera_gravamen_limitacion = fields.Selection([
+            ('SI','SI'),
+            ('NO','NO'),
+        ],string ='Genera Gravamen/Limitacion')	
 	fecha_const_gravamen = fields.Datetime (string='Fecha Const Gravamen/Limitacion')
 	fecha_cancel_gravamen = fields.Datetime (string='Fecha Const Gravamen/Limitación')
 	marginacion_tramite_origi = fields.Char (string='Marginacion Trámite')
 	modificacion_fuente = fields.Datetime(string = 'Fecha modificacion de la fuente' )
 	canton_registro_id = fields.Many2one('rbs.canton', string ='Canton Registro Propiedad', required = True)
 	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
-	canton_notaria_id = fields.Many2one('rbs.notaria', string ='Canton de la Notaria', required = True)
+	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la Notaria', required = True)
 	# Fin categoría
 
 	# Datos Escritura
 	escritura_fecha = fields.Datetime(string = 'Fecha Escritura')
 	propiedad_horizontal = fields.Char (string='Propiedad Horizontal')
 	porcentaje_alicuota = fields.Char (string='Porcentaje Alícuota')
-	expensas = fields.Char (string='Expensas')
-	acto_menor_edad = fields.Char (string='Comparece Acto Menores de Edad')
-	tutor = fields.Char (string='Nombre Tutor')
+	expensas = fields.Selection([
+            ('CERTIFICADO','CERTIFICADO'),
+            ('DECLARACION','DECLARACION'),
+        ],string ='Expensas')
+	acto_menor_edad = fields.Selection([
+            ('SI','SI'),
+            ('NO','NO'),
+        ],string ='Expensas')
+	tutor = fields.Char (string='Comparece Menor de Edad')
 	fecha_adjudicion = fields.Datetime(string = 'Fecha de la Escritura')
-	fecha_insi_bienes = fields.Datetime(string = 'Fecha insinuación judicial/acta notarial')
+	fecha_insi_bienes = fields.Datetime(string = 'Fecha judicial/acta notarial')
 	# Fin categoria
 
 	#Categoria posicion efectiva
@@ -100,20 +123,9 @@ class rbs_documento_mercantil_propiedad(models.Model):
 	#Fin categoria
 	
 	
-	
-	
-	
-	
-	
-	
-
-	
-
-	
-	
 	juicio_numero = fields.Integer(string ='Numero del juicio')
 	estado_inscripcion_id = fields.Many2one('rbs.estado.inscripcion', string ='Estado de la Inscripcion', required = True)
-	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicacion del Dato', required = True)
+	
 
 	
 	
@@ -432,9 +444,9 @@ class rbs_clavecatastral(models.Model):
 
 
 
-class rbs_notaria(models.Model):
-	_name = 'rbs.notaria'
-	_description = "Nombre de la Notaria"
+class rbs_canton(models.Model):
+	_name = 'rbs.canton'
+	_description = "Nombre Canton"
 		
 	notaria_juzgado_entidad = fields.Char(string ='Nombre Notaria o juzgado')
 	canton_notaria = fields.Char(string = 'Canton Notaria' )

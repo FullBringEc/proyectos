@@ -35,60 +35,159 @@
                       </div>
                   <notebook>
                     <page String= 'Datos'>
-                   
-                        <group>
-	                        <group>
-                            <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
-                            <field name="libro_id" on_change="on_change_libro_id(libro_id)" 
-                          domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]"
-                              
-
-
-                                                context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"/>
-                            <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
-                              context="{'libro_id': libro_id}"/>
-
-                            <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
-              		         	<label for="foleo_desde" string="Foleo"/>
-                                    <div class="address_format">
-                                        <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
-                                        <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
-                                    </div>
-                            <field name="persona_id" on_change="onchange_persona_id(persona_id)" context="{'persona_cedula': 13456487}"/>
-  	        	           		<field name="persona_nombres"/>
-	                            <field name="persona_apellidos"/> 
-	                            <field name="persona_cedula"/> 
-	                            <field name="persona_representante"/> 
-	                            <field name="persona_razonSocial"/> 
-	                            <field name="tipo_compareciente_id"/>
-                              <field name="nombre_institucion"/>
-                              <field name="canton_notaria"/>
-
-                            </group>
+                     <!-- Grupo Datos Libro -->
+                            <separator string="Datos Libros" colspan="2"/>
                             <group>
-        	           		     <field name="tipo_contrato_id"/>
-	                            <field name="fecha_inscripcion"/> 
-                              <field name="fecha_cancelacion"/> 
-	                            <field name="fecha_escritura_contrato"/> 
-                              <field name="ultima_modificacion"/> 
-                              <field name="estado"/> 
-	                            <field name="tipo_bien_id"/> 
-	                            <field name="chasis"/>
-                              <field name="ubicacion_dato_id"/>
+                              <group>
+                                <group>
+                                  <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
+                                  <field name="libro_id" on_change="on_change_libro_id(libro_id)" domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]" context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"/>
+                                  <field name="reg_acto_contrato"/>
+                                  <field name="tipo_libro"/>
+                                  <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+                                    context="{'libro_id': libro_id}"/>
+                                  <label for="foleo_desde" string="Foleo"/>
+                                  <div class="address_format">
+                                      <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                                      <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+                                  </div>
+                                </group>
+                                <group>
+                                  <field name="repertorio"/>
+                                  <field name="fecha_repertorio"/>
+                                  <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                                  <field name="fecha_inscripcion"/>
+                                  <field name="fecha_cancelacion"/>
+                                  <field name="fecha_repertorio"/>
+                                  <field name="identificacion_unica"/> 
+                                  <field name="ubicacion_dato_id"/>
+                                </group>
+                              </group>
+                            </group>
+                    <!-- fin categoria   -->
 
-        	           		     <field name="motor"/>
-	                            <field name="marca"/> 
-	                            <field name="modelo"/> 
-                              <field name="placa"/> 
-	                            <field name="anio_fabricacion"/> 
-                              <div class="oe_title">
-                                <field name="identificacion_unica"/> 
-                              </div>
 
-	                      	</group>
-                          
-                      	</group>
+                    <!-- Categoria Datos Persona -->
+                            <separator string="Datos Persona" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                        <field name="tipo_persona_id"/>
+                                        <field name="persona_razonSocial"/>
+                                        <field name="persona_id" on_change="onchange_persona_id(persona_id)" />
+                                        <field name="persona_cedula"/>
+                                        <field name="persona_nombres"/>
+                                        <field name="persona_apellidos"/> 
+                                        
+                                    </group>
+                                    <group>
+                                        <field name="persona_estado_civil"/>
+                                        <field name="persona_calidad_compareciente"/>
+                                        <field name="persona_nombres_conyuge"/> 
+                                        <field name="persona_apellidos_conyuge"/> 
+                                        <field name="persona_cedula_conyuge"/>
+                                        <field name="persona_tipo_interviniente_id"/>
+                                        <field name="acreedor_id"/>
+                                    </group>
+                                </group>
+                            </group>
+                    <!-- fin categoria   -->
+
+                    <!-- Grupo Datos Bien -->
+                    <separator string="Datos Bien" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                      <field name="tipo_bien_id"/>
+                                      <field name="motor"/>
+                                      <field name="marca"/> 
+                                      <field name="modelo"/>
+                                    </group>
+                                    <group>
+                                      <field name="placa"/> 
+                                      <field name="anio_fabricacion"/> 
+                                      <field name="numero_provisional"/>
+                                    </group>
+                                </group>
+                              </group>
+                    <!-- fin categoria -->
+
+                    <!-- Datos registrales -->
+                    <separator string="Datos Registrales" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                      <field name="canton_registro_id"/>
+                                      <field name="ultima_modificacion"/>
+                                      <field name="notaria_juzgado_entidad"/> 
+                                    </group>
+                                    <group>
+                                      <field name="canton_notaria_id"/>
+                                      <field name="fecha_escritura_contrato"/>
+                                      <field name="marginacion_tramite_origi"/>
+                                    </group>
+                                </group>
+                            </group>
+                    <!-- fin categori  -->
+
+
+                    <!-- Datos Representante -->
+                    <separator string="Datos Representante" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                      <field name="cargo"/>
+                                      <field name="representante_id"/>
+                                      <field name="apellido_representante"/> 
+                                      <field name="nombre_representante"/> 
+                                    </group>
+                                    <group>
+                                      <field name="cedula_representante"/>
+                                      <field name="apellido_representante"/> 
+                                      <field name="nombre_representante"/>
+                                    </group>
+                                </group>
+                            </group>
+                    <!-- fin categori  -->
+
+                    <!-- Datos Accionistas -->
+                    <separator string="Datos Accionistas" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                      <field name="No_accionistas"/>
+                                      <field name="accionistas_id"/>
+                                      <field name="Nombre_acci_socios"/> 
+                                      <field name="porecentaje_acciones"/> 
+                                    </group>
+                                    <group>
+                                      <field name="porecentaje_acciones"/> 
+                                      <field name="valor_acciones"/>
+                                      <field name="acta_junta"/> 
+                                    </group>
+                                </group>
+                            </group>
+                    <!-- Fin categori -->
+
+                    <!-- Datos Accionistas -->
+                    <separator string="Datos Accionistas" colspan="2"/>
+                            <group>
+                                <group>
+                                    <group>
+                                      <field name="fechaNombramiento"/>
+                                      <field name="tipo_nombra"/>
+                                      <field name="plazo_nombramiento"/> 
+                                    </group>
+                                    <group>
+                                      <field name="tipo_gravamen"/> 
+                                      <field name="fecha_gravamen"/>
+                                      <field name="fecha_cancelacion"/> 
+                                    </group>
+                                </group>
+                            </group>
+                    <!-- Fin categori -->
                     </page>
+                    
                         <page string="Archivo">    
                           <group>
                             <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
@@ -136,7 +235,6 @@
                   <field name="persona_nombres"/>
                   <field name="persona_apellidos"/> 
                   <field name="persona_cedula"/> 
-                  <field name="persona_representante"/> 
                   <field name="persona_razonSocial"/> 
                   <!--<field name="tipo_compareciente_id"/>
                   <field name="tipo_contrato_id"/>-->
@@ -164,7 +262,7 @@
             <field name="anio_id" string="Año" />
             <field name="tomo_id" string="Tomo" />
             <field name="persona_nombres" string="Nombre" />
-            <field name="tipo_compareciente_id" string="Tipo de compareciente" />
+            <!-- <field name="tipo_compareciente_id" string="Tipo de compareciente" /> -->
             <field name="numero_inscripcion" string="Numero de inscripcion" />
             <field name="canton_notaria" string="Canton de Notaria" />
             <field name="nombre_institucion" string="Nombre de Institucion" />
@@ -194,8 +292,8 @@
 
 
 
-
-		<menuitem id="submenu_Documento_M_vehicular" name="Registro Vehicular" parent="submenu_Documento_Mercantil" action="id_accion_rbs_documento_mercantil_vehiculo"/>
+    <menuitem id="submenu_Documento_Mercantil" name="Registro Mercantil" parent="menu_Documentos"/>   
+		<menuitem id="submenu_Documento_M_vehicular" name="Documentos Mercantiles" parent="submenu_Documento_Mercantil" action="id_accion_rbs_documento_mercantil_vehiculo"/>
 
     </data>
 </openerp>
