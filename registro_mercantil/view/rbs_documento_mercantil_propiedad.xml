@@ -55,11 +55,10 @@
                                 domain="[('state','=', 'close')]"
                                 class="oe_inline" />
                                 Libro
-                              <label for="libro_id" />
                               <field name="libro_id" 
                                 on_change="on_change_libro_id(libro_id)" 
                                 domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
-                                context="{'anio_id': anio_id, 'libro_tipo': 'acta'}"
+                                context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"
                                 class="oe_inline" />
                               <field name="tomo_id"  
                                 domain="[('libro_id', '=', libro_id)]"
@@ -75,15 +74,15 @@
                             <group>
                                 <group>
                                     <group>
-                                        <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/>
-                                        <field name="libro_id" on_change="on_change_libro_id(libro_id)" 
+                                        <!-- <field name="anio_id" on_change="on_change_anio_id(anio_id)" domain="[('state','=', 'close')]"/> -->
+                                       <!--  <field name="libro_id" on_change="on_change_libro_id(libro_id)" 
                                             domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
-                                            context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/>
+                                            context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"/> -->
                                         <field name="reg_acto_contrato"/>
                                         <field name="tipo_contrato_id"/>
                                         <field name="tipo_libro"/>
-                                        <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
-                                            context="{'libro_id': libro_id}"/>
+                                        <!-- <field name="tomo_id"  domain="[('libro_id', '=', libro_id)]"
+                                            context="{'libro_id': libro_id}"/> -->
                                     </group>
                                     <group>
                                         <label for="foleo_desde" string="Foleo"/>

@@ -49,7 +49,7 @@
         <div class="contFtpIframe">
             <t t-if="!widget.get('effective_readonly')">
                 <div class ="contFtpExplorer" style="float:left;overflow : auto;">
-                    <div class="ftpExplorer" style="width:50%;height:100%"/>
+                    <div class="ftpExplorer" style="height:100%"/>
                 </div>
             </t>
             <iframe t-att-src='widget.value'
