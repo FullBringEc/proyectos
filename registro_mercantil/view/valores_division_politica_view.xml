@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="submenu_division_politica" name="División política" parent="menu_clasificacion_documentos"/>
+
+        <record id='rbs_provincia_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.provincia.tree</field>
+            <field name='model'>rbs.provincia</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Provincias" version="8.0"> 
+                        <field name="name"/>
+                        <field name="pais_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_provincia_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.provincia.form</field>
+            <field name='model'>rbs.provincia</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Provincia">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="pais_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window"   id="action_rbs_provincia">
+        	<field name="name">Provincias</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.provincia</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_provincia" name="Provincia" parent="submenu_division_politica" action="action_rbs_provincia"/>
+
+
+
+        <record id='rbs_provincia_canton_view' model='ir.ui.view'>
+            <field name='name'>rbs.canton.tree</field>
+            <field name='model'>rbs.canton</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Cantones" version="8.0"> 
+                        <field name="name"/>
+                        <field name="provincia_id"/>
+                        <field name="pais_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_canton_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.canton.form</field>
+            <field name='model'>rbs.canton</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Cantón">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="provincia_id"/>
+                            <field name="pais_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window"   id="action_rbs_canton">
+            <field name="name">Cantones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.canton</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_canton" name="Cantón" parent="submenu_division_politica" action="action_rbs_canton"/>
+
+
+
+        <record id='rbs_provincia_parroquia_view' model='ir.ui.view'>
+            <field name='name'>rbs.parroquia.tree</field>
+            <field name='model'>rbs.parroquia</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Parroquias" version="8.0"> 
+                        <field name="name"/>
+                        <field name="canton_id"/>
+                        <field name="provincia_id"/>
+                        <field name="pais_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_parroquia_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.parroquia.form</field>
+            <field name='model'>rbs.parroquia</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Parroquia">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="canton_id"/>
+                            <field name="provincia_id" readonly="1"/>
+                            <field name="pais_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window"   id="action_rbs_parroquia">
+            <field name="name">Parroquias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.parroquia</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_parroquia" name="Parroquia" parent="submenu_division_politica" action="action_rbs_parroquia"/>
+        <record model="ir.actions.act_window"   id="action_rbs_zona">
+            <field name="name">Zonas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.zona</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_zona" name="Zona" parent="submenu_division_politica" action="action_rbs_zona"/>
+    </data>
+</openerp>

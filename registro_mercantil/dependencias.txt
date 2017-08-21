@@ -1,6 +1,5 @@
 este es !!!
-pip install pil
-pillow
+pip install pillow==2.8.1
 
 
 doctemplate

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	
+
+        <record id='rbs_documento_propiedad_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.propiedad.form</field>
+            <field name='model'>rbs.documento.propiedad</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+<form string="Documento de Propiedad" version="8.0"> 
+    <header>
+        <field name="state" widget="statusbar"/>
+    </header>
+    <sheet>
+        <div class="oe_title">
+          <label for="name" class="oe_edit_only"/>
+          <h3>
+              <!-- <span class="oe_read_only">By</span> -->
+            Año
+            <field name="anio_id" 
+                on_change="on_change_anio_id(anio_id)" 
+                domain="[('state','=', 'close')]"
+                class="oe_inline" />
+            Libro
+            <field name="libro_id" 
+                on_change="on_change_libro_id(libro_id)" 
+                domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
+                context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"
+                class="oe_inline" />
+            <field name="tipo_libro_propiedad_id" 
+                invisible="1"
+                class="oe_inline" />
+            Tomo
+            <field name="tomo_id"  
+                domain="[('libro_id', '=', libro_id)]"
+                context="{'libro_id': libro_id}"
+                class="oe_inline" />
+          </h3>
+          <h3>
+              Tipo de tramite
+              <field name="tipo_tramite_id" class="oe_inline"/>
+              Tramite
+              <field name="tramite_id" class="oe_inline" domain="[('tipo_libro_propiedad_ids', 'in', tipo_libro_propiedad_id)]"/>
+          </h3>
+      </div>
+        <notebook>
+        <page string='Informacion de la inscripcion'>
+            <group>
+                <group>
+                    
+                    <field name="repertorio"/>
+                    <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                    <field name="cuantia_unidad"/>
+                    <field name="fecha_cancel_gravamen"/>
+                    <field name="fecha_ultima_modificacion_inscripcion"/>
+                    <field name="fecha_escritura"/>
+                    <field name="fecha_adjudicion"/>  
+                    <field name="fecha_insi_bienes"/>
+                    <field name="cuantia_valor"/>
+                </group>
+                <group>
+                    <field name="fecha_repertorio"/>
+                    <field name="fecha_inscripcion"/>
+                    <field name="fecha_const_gravamen"/>
+                    
+                    <field name="provincia_notaria_id"/>
+                    <field name="canton_notaria_id"/>
+                    <field name="notaria_id"/>
+
+                    <!-- <field name="gravamen_limitacion"/> -->
+                    <!-- <field name="genera_gravamen_limitacion"/> -->
+                    <field name="expensas"/>
+                    <field name="numero_acuerdo_ministerial"/>
+                    <!-- <field name="tipo_acto_contrato" 
+
+                        domain="['|',('tipo_acta_contrato_sel','=', tipo_acto_contrato_sel),('tipo_acta_contrato_sel','=','AMBOS')]" 
+
+                        widget="many2many_checkboxes"/> -->
+                      <field name="tipo_acto_contrato" 
+                        widget="many2many_checkboxes"/>
+                </group>
+            </group>
+
+        </page>
+        <page string = "Partes">
+            <field name="parte_ids">
+                <tree string="Invoice Lines" editable="bottom">
+
+                    
+                    <field name="persona_id" />
+                    <field name="nombres"/>
+                    <field name="apellidos"/> 
+                    <field name="tipo_persona"/>
+                    <field name="razon_social"/>
+                    <field name="tipo_interviniente_id"/>
+                    <field name="calidad_compareciente_id"/>
+                    <field name="tipo_documento"/>
+                    <field name="num_identificacion"/>
+                    <field name="estado_civil"/>
+                    <field name="num_identificacion_conyuge"/>
+                    <field name="nombres_conyuge"/> 
+                    <field name="separacion_bienes"/>
+                    <field name="es_menor"/>
+                    <field name="tutor"/>
+                </tree>
+            </field>
+            <!-- <field name="parte_char_ids" >
+                <tree string="Partes char" editable="bottom">
+
+                    <field name="name"/>
+                  <field name="bienauxiliar_ids" widget="many2many_tags" domain="[('documento_propiedad_id','=', parent.id)]"/>
+                    
+                </tree>
+            </field> -->
+
+        </page>
+        
+        <page string = "Bienes">
+            <field name="bien_ids">
+                <tree string="Bienes" editable="bottom">
+
+                    <field name="numero_predial" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                    <field name="clave_catastral"/>
+                    <field name="descripcion_bien" />
+                    <field name="descripcion_lindero"/>
+                    <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
+                    <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="parroquia_id" domain="[('canton_id','=', canton_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="zona_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="ubicacion_geografica"/>
+                    <field name="superficie_area_numero"/>
+                    <field name="es_propiedad_horizontal"/>
+                    <field name="parte_char_ids" domain="[('documento_propiedad_id','=', parent.id)]" widget="many2many_tags" />
+                    <field name="alicuota_ids">
+                        <tree string="porcentajes">
+                            <field name = "name" />
+                            <field name = "porcentaje"/>
+                        </tree>
+                        <!-- <field name="porcentajes" widget="many2many_kanban"> -->
+                        <form>
+                            <group>
+                                <field name="name" required="True"/>
+                                <field name="porcentaje" required="True"/>
+                            </group>
+                        </form>
+                           
+                        <!-- </field> -->
+                    </field>
+                </tree>
+            </field>
+            
+               <!--  <field name="bien_auxiliar_ids">
+                    <tree string="bienes auxiliares" editable="bottom">
+
+                        <field name="name"/>
+                      
+                        
+                    </tree>
+                </field>
+            </group>
+             -->
+
+        </page>
+        <!-- <page string = "Alicuota">
+            <field name="alicuota_ids">
+                <tree string="Alicuotas" editable="bottom">
+                    <field name="name" />
+                    <field name="alicuota_ids">
+                        <tree string="porcentajes" editable="bottom">
+                            <field name = "name" required="True"/>
+                            <field name = "porcentaje" required="True"/>
+                        </tree>
+                    </field>
+                </tree>
+            </field>
+
+        </page> -->
+        <page string="Posicion efectiva">
+            <group>
+                <group>
+                    <field name="causante"/>
+                    <field name="conyuge_sobreviviente"/>
+                </group>
+                <group>
+                    <field name="fecha_defuncion"/>
+                </group>
+            </group>
+            <field name="heredero_ids">
+                <tree string="Herederos" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </page>
+        <page String= 'Marginaciones'>
+
+            <field name="marginacion_ids">
+                <tree string="marginaciones" editable="bottom">
+                    <field name="anio_tramite_origi_id" />
+                    <field name="libro_tramite_origi_id" domain = "[('libro_tipo','=', 'propiedad')]"/>
+                    <field name="marginacion_propiedad_tramite_origi_id" domain="[('id','!=', parent.id)]"/> 
+                </tree>
+            </field>
+
+        </page>
+        <page String= 'Gravamenes'>
+            <group>
+                <field name="gravamen_limitacion"/>
+                
+            </group>
+            <field name="tipo_gravamen_ids">
+                <tree string='Tipo Gravamen/Limitación' editable="bottom">
+                    <field name="name" />
+                </tree>
+            </field>
+        </page>
+        <page String= 'Gravamenes generados'>
+            <group>
+                <field name="genera_gravamen_limitacion"/>
+            </group>
+            <field name="genera_tipo_gravamen_ids">
+                <tree string='Tipo Gravamen/Limitación' editable="bottom">
+                    <field name="name" />
+                </tree>
+            </field>
+        </page>
+ <!--        <page String= 'Datos'>
+            <separator string="Datos Libros" colspan="2"/>
+            <group>
+                <group>
+                    <group>
+                        <field name="reg_acto_contrato"/>
+                        <field name="tipo_libro"/>
+                    </group>
+                    <group>
+                        <label for="foleo_desde" string="Foleo"/>
+                        <div class="address_format">
+                            <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                            <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+                        </div>
+                        
+                        
+                        <field name="ubicacion_dato_id"/>
+                        <field name="identificacion_unica"/>
+
+                    </group>
+                </group>
+            </group>
+            <separator string="Datos Escritura" colspan="2"/>
+            <group>
+                <group>
+                    <field name="fecha_escritura"/>
+                    <field name="propiedad_horizontal"/>  
+                    <field name="porcentaje_alicuota"/>
+                </group>
+                <group>
+                    <field name="acto_menor_edad"/>
+                    <field name="tutor"/>  
+                    <field name="fecha_adjudicion"/>
+                    <field name="fecha_insi_bienes"/>
+                    
+                </group>
+            </group>
+
+        </page> -->
+          <page string='Archivo'>
+            <group>
+                <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+                <button string="prueba" name="open_ui" type="object"/>
+                <div class="oe_title">
+                    ¿Es pesado?<field name="esPesado"/> 
+
+          <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+          <field name="filedata"  widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
+            attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
+                        attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+            </div>
+            </group> 
+        </page>
+
+        <page string="Facturación">
+            <group>
+            <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
+            </group>
+        </page>
+    </notebook>
+    <group>
+        <group>
+            <field name='observacion'/>
+        </group>
+        <group>
+            <label for="foleo_desde" string="Foleo"/>
+            <div class="address_format">
+                <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+            </div>
+        </group>
+    </group>
+</sheet>
+        
+        
+            
+                                    
+    <!--</sheet>-->
+    
+</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+
+
+        
+
+
+        <record id='rbs_documento_propiedad_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.propiedad.tree</field>
+            <field name='model'>rbs.documento.propiedad</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+ 
+					<field name="tomo_id"/>
+					<field name="numero_inscripcion"/>
+					<!-- <field name="persona_id"/>  -->
+                    <!-- <field name="persona_nombres"/>  -->
+					<!-- <field name="persona_apellidos"/>  -->
+					<field name="fecha_inscripcion"/> 
+					<!-- <field name="descripcion_bien_id"/> -->
+					<field name="cuantia_valor"/>
+                    <field name="create_uid" string="Creado por"/>
+                    <field name="write_uid" string="Ultima modificacion"/>
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+        <record id="rbs_documento_propiedad_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.documento.propiedad.tree.filter</field>
+        <field name='model'>rbs.documento.propiedad</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <!-- <field name="persona_cedula" string="Cedula" /> -->
+            <!-- <field name="persona_apellidos" string="Apellido" /> -->
+            <field name="anio_id" string="Año" />
+            <field name="tomo_id" string="Tomo" />
+            <!-- <field name="persona_nombres" string="Nombre" /> -->
+            <!-- <field name="persona_tipo_interviniente_id" string="Tipo de compareciente" /> -->
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+            <field name="canton_notaria_id" string="Canton de la notaria" />
+            <field name="tipo_tramite_id" string="Tipo de Contrato" />
+            <!-- <field name="parroquia_nombre_inmueble" string="Parroquia" /> -->
+            <!-- <field name="persona_razonSocial" string="Razon Social" /> -->
+
+            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+			<filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+
+          </search>
+          </field>
+         </record>
+        <record model="ir.actions.act_window"   id="id_accion_rbs_documento_propiedad">
+        	<field name="name">Documento de la Propiedad</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.documento.propiedad</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="search_view_id" ref="rbs_documento_propiedad_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_documento_propiedad_tree_view"/>
+        </record>
+
+
+
+    	<menuitem id="menu_Documentos" name="Documentos"/>
+		<menuitem id="submenu_propiedad" name="Registro de la Propiedad" parent="menu_Documentos"/>
+		
+        
+
+		
+		<menuitem id="submenu_documento_propiedad" name="Documentos de la Propiedad" parent="submenu_propiedad" action="id_accion_rbs_documento_propiedad"/>
+
+    </data>
+</openerp>

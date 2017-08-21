@@ -1,0 +1,19 @@
+.openerp .oe_form_sheet_width {
+  min-width: 650px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.oe_form_label {
+	font-size: 9px
+}
+
+.oe_sortable{
+	font-size: 9px
+}
+
+/*.oe_form_field_one2many_list_row_add   {
+	background-color: cyan;
+}*/
+/*.oe_list_field_cell{
+	background-color: white;
+}*/

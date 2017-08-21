@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_clasificacion_documentos" name="Valores" sequence="3"/>
+        <menuitem id="submenu_valores" name="Valores" parent="menu_clasificacion_documentos"/>
+
+        <record id='rbs_tipo_acto_contrato_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.acto.contrato.form</field>
+            <field name='model'>rbs.tipo.acto.contrato</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Tipo acto/contrato" version="8.0"> 
+                    <sheet string="Tipo acto/contrato"> 
+								<group>
+	        		         		<field name="name"/>
+                                    <field name="is_acto"/>
+                                    <field name="is_contrato"/>
+                                    <field name="tipo_acta_contrato_sel"/>
+	        		         	</group>
+                    </sheet>
+	           	</form>
+            </field>
+        </record>
+        <record id='rbs_tipo_acto_contrato_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.acto.contrato.tree</field>
+            <field name='model'>rbs.tipo.acto.contrato</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Tipo acto/contrato" version="8.0"> 
+                        <field name="name"/>
+                        <field name="is_acto"/>
+                        <field name="is_contrato"/>     
+                        <field name="tipo_acta_contrato_sel"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window"   id="action_tipo_acto_contrato">
+        	<field name="name">Tipos de Acto/Contrato</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.tipo.acto.contrato</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="view_id" ref="rbs_tipo_acto_contrato_tree_view"/>
+        </record>
+        <menuitem id="submenu_tipo_contrato" name="Tipos de Acto/Contrato" parent="submenu_valores" action="action_tipo_acto_contrato"/>
+
+
+        
+		<record model="ir.actions.act_window"   id="action_rbs_institucion">
+            <field name="name">Instituciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.institucion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_institucion" name="Institucion" parent="submenu_valores" action="action_rbs_institucion"/>
+
+        <record model="ir.actions.act_window"   id="action_rbs_tipo_gravamen">
+            <field name="name">Tipo de gravamen</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tipo.gravamen</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_tipo_gravamen" name="Tipo de gravamenes" parent="submenu_valores" action="action_rbs_tipo_gravamen"/>
+
+        <record model="ir.actions.act_window"   id="action_rbs_tramite_propiedad">
+            <field name="name">Trámite propiedad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tramite.propiedad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id='rbs_tramite_propiedad_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tramite.propiedad.tree</field>
+            <field name='model'>rbs.tramite.propiedad</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Trámite propiedad" version="8.0"> 
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_tramite_propiedad_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tramite.propiedad.form</field>
+            <field name='model'>rbs.tramite.propiedad</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Trámite propiedad" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <field name="tipo_libro_propiedad_ids"/>     
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="submenu_rbs_tramite_propiedad" name="Trámites de propiedad" parent="submenu_valores" action="action_rbs_tramite_propiedad"/>
+
+
+        <record model="ir.actions.act_window"   id="action_rbs_tipo_libro_propiedad">
+            <field name="name">Tipo de libro propiedad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tipo.libro.propiedad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id='rbs_tipo_libro_propiedad_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.libro.propiedad.tree</field>
+            <field name='model'>rbs.tipo.libro.propiedad</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Tipo de libro de propiedad" version="8.0"> 
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_tipo_libro_propiedad_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.libro.propiedad.form</field>
+            <field name='model'>rbs.tipo.libro.propiedad</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Tipo de libro de propiedad" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <field name="tramite_propiedad_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="submenu_rbs_tipo_libro_propiedad" name="Tipo de libro de propiedad" parent="submenu_valores" action="action_rbs_tipo_libro_propiedad"/>
+
+
+
+        <record model="ir.actions.act_window"   id="action_rbs_tramite_mercantil">
+            <field name="name">Trámite mercantil</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tramite.mercantil</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id='rbs_tramite_mercantil_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tramite.mercantil.tree</field>
+            <field name='model'>rbs.tramite.mercantil</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Tramite mercantil" version="8.0"> 
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_tramite_mercantil_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tramite.mercantil.form</field>
+            <field name='model'>rbs.tramite.mercantil</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Trámite mercantil" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <field name="tipo_libro_mercantil_ids"/>     
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="submenu_rbs_tramite_mercantil" name="Trámites de mercantil" parent="submenu_valores" action="action_rbs_tramite_mercantil"/>
+
+
+        <record model="ir.actions.act_window"   id="action_rbs_tipo_libro_mercantil">
+            <field name="name">Tipo de libro mercantil</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tipo.libro.mercantil</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id='rbs_tipo_libro_mercantil_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.libro.mercantil.tree</field>
+            <field name='model'>rbs.tipo.libro.mercantil</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Tipo de libro de mercantil" version="8.0"> 
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_tipo_libro_mercantil_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tipo.libro.mercantil.form</field>
+            <field name='model'>rbs.tipo.libro.mercantil</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Tipo de libro de mercantil" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <field name="tramite_mercantil_ids"/>     
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="submenu_rbs_tipo_libro_mercantil" name="Tipo de libro de mercantil" parent="submenu_valores" action="action_rbs_tipo_libro_mercantil"/>
+
+
+        <record model="ir.actions.act_window"   id="action_rbs_nombramiento_mercantil">
+            <field name="name">Nombramiento mercantil</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.nombramiento.mercantil</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id='rbs_nombramiento_mercantil_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.nombramiento.mercantil.tree</field>
+            <field name='model'>rbs.nombramiento.mercantil</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree string="Nombramiento mercantil" version="8.0"> 
+                        <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id='rbs_nombramiento_mercantil_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.nombramiento.mercantil.form</field>
+            <field name='model'>rbs.nombramiento.mercantil</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Nombramiento mercantil" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="submenu_rbs_nombramiento_mercantil" name="Nombramiento mercantil" parent="submenu_valores" action="action_rbs_nombramiento_mercantil"/>
+
+
+
+
+    </data>
+</openerp>

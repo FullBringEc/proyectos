@@ -12,13 +12,13 @@ setTextColor=function(color){
 function TifWIdget(tipo,id){
     Tiff.initialize({TOTAL_MEMORY: 16777216 * 5});
     var s = new openerp.init();
-    url = s.session.url('/registro_mercantil/BinaryTiff/tiff', {
-                                        model: "rbs.documento.mercantil."+tipo,
-                                        id: id,
-                                        field: "filedata",
-                                        t: (new Date().getTime()),});
+    // url = s.session.url('/registro_mercantil/BinaryTiff/tiff', {
+    //                                     model: "rbs.documento."+tipo,
+    //                                     id: id,
+    //                                     field: "filedata",
+    //                                     t: (new Date().getTime()),});
 
-
+    // console.log(url)
     var lenTiff = 0;
     var cursorTiff =  0;
     var tiffs = [];
@@ -26,7 +26,7 @@ function TifWIdget(tipo,id){
     $ctx = $canv[0].getContext("2d");
     lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
 
-    new openerp.web.Model('rbs.documento.mercantil.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
+    new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
                 .then(function(result){
                     $('#tipo').html(tipo)
                     $('#propietario').html(result[0].compania_nombres)
@@ -100,40 +100,12 @@ function TifWIdget(tipo,id){
             this.versiones = [];
             this.verActual = -1;       
             this.shapes = [];
-            // this.TIfforiginal.setDirectory(index);
-            // this.imagen = this.TIfforiginal.toImage();
-            // this.width = this.imagen.width;
-            // this.height = this.imagen.height;
-            // var imageData = $ctx.createImageData(this.width, this.height);
-            // (imageData).data.set(this.imagen.image);
-
-
-            //this.setTif(imageData);
             return this.TIfforiginal;
         }
 
         this.getTif = function (){ 
             if(this.versiones.length == 0){
-                // var newImg = new Image();
-                // self=this
-                // newImg.onload = function() {
-                //     //_img.src = this.src;
-                //     //this.imagen = this.TIfforiginal;
-                //     self.width = this.width;
-                //     self.height = this.height;
-                //     //ctx = this.canvasOriginal.getContext("2d")
-                //     console.log(this.imagen)
-
-                //     var imageData = $ctx.createImageData(self.width, self.height);
-                //     (imageData).data.set(this);
-
-
-                //     self.setTif(imageData);
-                //     return self.getTif();
-                // }
                 return this.TIfforiginal;
-                //return newImg.onload
-                //this.TIfforiginal.setDirectory(index);
                 
             }else{
 
@@ -209,7 +181,8 @@ function TifWIdget(tipo,id){
             window.document.body.removeChild( link );
             }
             //console.log(this.getTif())
-            image.src = "data:image/png;base64,"+this.getTif();
+            // image.src = "data:image/png;base64,"+this.getTif();
+            image.src = $('#imagenCanvas')[0].toDataURL();
             
         }
 
@@ -218,38 +191,46 @@ function TifWIdget(tipo,id){
             var mensaje = confirm("¿Esta seguro que desea guardar?");
             //Detectamos si el usuario acepto el mensaje
             if (mensaje) {
-            self=this
-            var canvas = document.createElement('canvas');
-            context = canvas.getContext( '2d' )
+                self=this
+                var canvas = document.createElement('canvas');
+                context = canvas.getContext( '2d' )
 
-            var image = new Image();
-            image.onload = function() {
-            var width = image.naturalWidth;   // this will be 300
-            var height = image.naturalHeight; // this will be 400
-            canvas.width = width;
-            canvas.height = height;
+                var image = new Image();
+                image.onload = function() {
+                    var width = image.naturalWidth;   // this will be 300
+                    var height = image.naturalHeight; // this will be 400
+                    canvas.width = width;
+                    canvas.height = height;
 
-            context.drawImage(image, 0, 0, width, height);
-            for (var i = self.shapes.length - 1; i >= 0; i--) {
-                if(self.shapes[i].type!='Texto'){                   
-                    self.shapes[i].draw(context);
-                }                
+                    context.drawImage(image, 0, 0, width, height);
+                    for (var i = self.shapes.length - 1; i >= 0; i--) {
+                        if(self.shapes[i].type!='Texto'){                   
+                            self.shapes[i].draw(context);
+                        }                
+                    }
+                    for (var i = self.shapes.length - 1; i >= 0; i--) {
+                        if(self.shapes[i].type=='Texto'){                   
+                            self.shapes[i].draw(context);
+                        }                
+                    }
+                    var cadena=canvas.toDataURL();
+                    c = cadena.substr(-cadena.length+22)
+                    // console.log(c)
+                    new openerp.web.Model('rbs.imagenes').call('actualizarImagen',[[self.idBD],c])
+                        .then(function(result){
+                            console.log(result)
+                            if(result){
+                                self.setTif(c)
+                                self.save()
+                            }
+                        })
+                } 
+
+                // image.src = "data:image/png;base64,"+this.getTif(); 
+                src = $('#imagenCanvas')[0].toDataURL();
+                image.src = src
+
             }
-            for (var i = self.shapes.length - 1; i >= 0; i--) {
-                if(self.shapes[i].type=='Texto'){                   
-                    self.shapes[i].draw(context);
-                }                
-            }
-            var cadena=canvas.toDataURL();
-            c = cadena.substr(-cadena.length+22)
-            new openerp.web.Model('rbs.imagenes').call('actualizarImagen',[[self.idBD],c])
-                .then(function(result){
-                    console.log(result)
-                })
-            } 
-
-            image.src = "data:image/png;base64,"+this.getTif(); 
-        }
         }
 
         
@@ -259,7 +240,11 @@ function TifWIdget(tipo,id){
         }
         this.save = function(){
             this.saved = true;
-            this.setShapes(lienzo.shapes)
+            // this.setShapes(lienzo.shapes)
+        }
+        this.unsave = function(){
+            this.saved = false;
+            // this.setShapes(lienzo.shapes)
         }
         var accion
     }
@@ -276,37 +261,13 @@ function TifWIdget(tipo,id){
             $(".pagina_actual").val(cursorTiff+1)      
             $(".pagina_final").val(lenTiff)
             lienzo.shapes=tiffs[cursorTiff].getShapes()
-            //imagenData = tiffs[cursorTiff].getTif()
-            //console.log(imagenData)
-            //width = imagenData.width;
-            //height = imagenData.height;
             $canv[0].width = width;
             $canv[0].height = height;
-            //canvas.width = canvas.width
-            //this.canvas.setAttribute("width", this.width);
-            //this.canvas.setAttribute("height", this.height);
-          
-            //$ctx.putImageData(imagenData, 0, 0);   
             $ctx.drawImage(image, 0, 0, width, height);
             lienzo.valid=false
             lienzo.setSize(width,height);
-            //$canv.css("width", "75%");
         };
         image.src = "data:image/png;base64,"+tiffs[cursorTiff].getTif();
-        //console.log(tiffs[cursorTiff].getTif());
-
-
-        // $(".pagina_actual").val(cursorTiff+1)      
-        // $(".pagina_final").val(lenTiff)
-        // lienzo.shapes=tiffs[cursorTiff].getShapes()
-        // imagenData = tiffs[cursorTiff].getTif()
-        // width = imagenData.width;
-        // height = imagenData.height;
-        // $canv[0].width = width;
-        // $canv[0].height = height;
-        // $ctx.putImageData(imagenData, 0, 0);
-        // lienzo.valid=false
-        // lienzo.setSize(width,height);
         
     }
 
@@ -314,6 +275,8 @@ function TifWIdget(tipo,id){
        if (lienzo.funcionActual=='Texto'){       
         lienzo.selection.font_family= $("#fuentesLetras").val()
         lienzo.valid=false
+        tiffs[cursorTiff].unsave();
+
     }   
     })
 
@@ -323,6 +286,7 @@ function TifWIdget(tipo,id){
        if (lienzo.funcionActual=='Texto'){       
         lienzo.selection.font_size= $("#tamTexto").val()
         lienzo.valid=false
+        tiffs[cursorTiff].unsave();
     }   
     })
 
@@ -349,7 +313,8 @@ function TifWIdget(tipo,id){
     })
 
     $(".btnAddText").click(function(){        
-        lienzo.addShape(new ShapeText(10,40,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));      
+        lienzo.addShape(new ShapeText(10,40,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));  
+        tiffs[cursorTiff].unsave();    
     })
 
     $(".descargarimg").click(function(){
@@ -359,10 +324,12 @@ function TifWIdget(tipo,id){
 
     $(".btnBorrar").click(function(){
         lienzo.setFuncionActual("BorradorXseleccion");
+        tiffs[cursorTiff].unsave();
     })
 
     $(".btnBorrarDeslizar").click(function(){
         lienzo.setFuncionActual("BorradorXarrastre");
+        tiffs[cursorTiff].unsave();
     })
     
     $(".pagina_actual").keypress(function(e){
@@ -408,11 +375,38 @@ function TifWIdget(tipo,id){
 
     $('.button-original').click(function(){
         tiffs[cursorTiff].setOriginal();
+        minContraste = 0
+        maxContraste = 100
+
+        inpRanContraste = $('.contraste-range')[0]
+        if(inpRanContraste.max != ""){
+            maxContraste = inpRanContraste.max
+        }
+        if(inpRanContraste.min != ""){
+            minContraste = inpRanContraste.min
+        }
+
+        minBrillo = 0
+        maxBrillo = 100
+
+        inpRanBrillo = $('.brightness-range')[0]
+        if(inpRanBrillo.max != ""){
+            minBrillo = inpRanBrillo.max
+        }
+        if(inpRanBrillo.min != ""){
+            maxBrillo = inpRanBrillo.min
+        }
+
+        inpRanContraste.value   = (maxContraste+minContraste)/2
+        inpRanBrillo.value      = (minBrillo+maxBrillo)/2
+
         on_change()
+        tiffs[cursorTiff].unsave();
     })
 
     $('.btnDisenoPrueba').click(function(){
         app.filters.invert()
+        tiffs[cursorTiff].unsave();
     })
     var contraste = 0 ;
     $('.contraste-range').on("input change", function() {
@@ -423,6 +417,7 @@ function TifWIdget(tipo,id){
         }
         
         contraste = this.value;
+        tiffs[cursorTiff].unsave();
     });
     var brightness = 0 ;
     $('.brightness-range').on("input change", function() {
@@ -433,6 +428,7 @@ function TifWIdget(tipo,id){
         }
         
         brightness = this.value;
+        tiffs[cursorTiff].unsave();
     });
 
     $('.contraste').mousedown(function() {
@@ -449,14 +445,17 @@ function TifWIdget(tipo,id){
     })
     $('.sepia').click(function(){
         app.filters.sepia();
+        tiffs[cursorTiff].unsave();
     })
 
     $('.bw').click(function(){
         app.filters.bw();
+        tiffs[cursorTiff].unsave();
     })
 
     $('.invertirColor').click(function(){
         app.filters.invert();
+        tiffs[cursorTiff].unsave();
     })
 
     $('.button-repeat').click(function(){

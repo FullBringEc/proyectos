@@ -134,7 +134,7 @@ function openerp_tiff_models(instance, module){ //module is instance.point_of_sa
             },
         },
         {
-            model:  'rbs.documento.mercantil.propiedad',
+            model:  'rbs.documento.propiedad',
             fields: ['name','company_id','anio_id','libro_id','tomo_id'],
             //ids:    function(self){ return [self.session.uid]; },
             domain: null,
@@ -142,7 +142,7 @@ function openerp_tiff_models(instance, module){ //module is instance.point_of_sa
                 self.propiedad = propiedad; 
             },
         },{ 
-            model:  'rbs.documento.mercantil.vehiculo',
+            model:  'rbs.documento.mercantil',
             fields: ['name','company_id','anio_id','libro_id','tomo_id'],
             //ids:    function(self){ return [self.session.uid]; },
             domain: null,

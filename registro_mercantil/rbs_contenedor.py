@@ -1,5 +1,5 @@
 from openerp import models, fields, api, _
-
+from openerp.osv import osv
 
 
 class rbs_contenedor(models.Model):
@@ -20,4 +20,5 @@ class rbs_imagenes(models.Model):
 	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor de imagenes")
 
 	def actualizarImagen (self, cr, uid, id, binary):
-		self.browse(cr, uid, id).write({"imagen":binary})
+		# raise osv.except_osv('Esto es un Mesaje!',"sada")
+		return self.browse(cr, uid, id).write({"imagen":binary})

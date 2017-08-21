@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="submenu_valores_persona" name="Personas" parent="menu_clasificacion_documentos" sequence="2" />
+        <record id="rbs_persona_tree_filter_view" model="ir.ui.view" >
+            <field name="name">rbs.persona.tree.filter</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>search</field>
+            <field name='priority' eval="20"/>
+            <field name='arch' type="xml">
+                <search string="Detalle de Busqueda">
+            
+                    <field name="num_identificacion" string="Cedula"/>
+                    <field name="persona_nombres" string="Nombres"/>
+                    <field name="persona_apellidos" string="Apellidos"/>
+                    <!-- <field name="persona_representante" string="Representante"/> -->
+                    <field name="persona_razonSocial" string="Razon Social"/>
+                </search>
+            </field>
+         </record>
+
+        <record id='rbs_persona_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.persona.tree</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos"> 
+                    <field name="num_identificacion"/>
+                    <field name="persona_nombres"/>
+                    <field name="persona_apellidos"/>
+                    <!-- <field name="persona_representante"/> -->
+                    <field name="persona_razonSocial"/>
+                    <field name="tipo_persona"  />
+                    <field name="estado_civil"/>
+                </tree>
+                   
+            </field>
+
+        </record>
+        <record id='rbs_persona_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.persona.form</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+                <form string="Datos Personales" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="tipo_persona"  />
+                                <field name="persona_razonSocial"   attrs="{'invisible':[('tipo_persona','not in','JURIDICA')],'required':[('tipo_persona','in','JURIDICA')]}"/>
+                                <field name="persona_nombres"       attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                                <field name="persona_apellidos"     attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                                <!-- <field name="persona_tipo_interviniente_id"  /> -->
+                            </group>
+                            <group>
+                                <!-- <field name="persona_calidad_compareciente"  /> -->
+                                <field name="tipo_documento"        />
+                                <field name="num_identificacion"  />
+                                <field name="estado_civil"          attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                                <field name="conyuge_id" context="{'conyuge_id': id}" attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id='rbs_persona_sin_conyuge_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.persona.form</field>
+            <field name='model'>rbs.persona</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+                <form string="Datos Personales" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="tipo_persona"  />
+                                <field name="persona_razonSocial"   attrs="{'invisible':[('tipo_persona','not in','JURIDICA')],'required':[('tipo_persona','in','JURIDICA')]}"/>
+                                <field name="persona_nombres"       attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                                <field name="persona_apellidos"     attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                                <!-- <field name="persona_tipo_interviniente_id"  /> -->
+                            </group>
+                            <group>
+                                <!-- <field name="persona_calidad_compareciente"  /> -->
+                                <field name="tipo_documento" />
+                                <field name="num_identificacion"  />
+                                <field name="estado_civil"          attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window"   id="action_rbs_persona">
+            <field name="name">Personas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.persona</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="submenu_rbs_personas" name="Persona" parent="submenu_valores_persona" action="action_rbs_persona"/>
+
+        <record model="ir.actions.act_window"   id="action_rbs_tipo_interviniente">
+            <field name="name">Tipos de Intervinientes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tipo.interviniente</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_tipo_interviniente" name="Tipo de interviniente" parent="submenu_valores_persona" action="action_rbs_tipo_interviniente"/>
+
+        <record model="ir.actions.act_window"   id="action_rbs_calidad_compareciente">
+            <field name="name">Calidad de Compareciente</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.calidad.compareciente</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="submenu_rbs_calidad_compareciente" name="Calidad de compareciente" parent="submenu_valores_persona" action="action_rbs_calidad_compareciente"/>
+
+
+    </data>
+</openerp>

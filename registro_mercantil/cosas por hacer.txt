@@ -1,0 +1,11 @@
+cosas por hacer
+# analizar tipo_acto_contrato que mierda era, puede que falte algun domain, para que salgan ciertos datos en propiedad y ciertos datos en mercantil
+# tipo de nombramiento en registro mercantil
+
+
+#gravamenes mercantil y propiedad son distintos, verificar	
+#en partes de mercantil hay mas campos de representantes
+
+
+0924684723
+Luis1986.

@@ -1,5 +1,8 @@
-import rbs_documento_mercantil_vehiculo
-import rbs_documento_mercantil_acta
+import rbs_documento_mercantil
 import rbs_archivo
-import rbs_documento_mercantil_propiedad
+import rbs_documento_propiedad
 import controler
+import parte
+import bien
+import accionista
+import marginacion_gravamen

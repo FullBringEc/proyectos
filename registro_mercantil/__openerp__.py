@@ -31,23 +31,45 @@
     'js': ['static/src/js/resource.js'],
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
-              #"view/crud_tabla_view.xml",
-              #"view/rbs_documento_mercantil_acta.xml",
-              "view/rbs_documento_mercantil_propiedad.xml",
-              "view/rbs_documento_mercantil_vehiculo.xml",
-              "view/rbs_archivo_anio_view.xml",
-              "view/rbs_archivo_libro_view.xml",
-              "view/rbs_archivo_tomo_view.xml",
+
+                'data/rbs.tramite.propiedad.csv',
+                'data/rbs.tipo.libro.propiedad.csv',
+                'data/rbs.tramite.mercantil.csv',
+                'data/rbs.tipo.libro.mercantil.csv',
+
+                'data/rbs.nombramiento.mercantil.csv',
+                'data/rbs.provincia.csv',
+                'data/rbs.canton.csv',
+                'data/rbs.parroquia.csv',
+                'data/rbs.calidad.compareciente.csv',
+                'data/rbs.tipo.interviniente.csv',
+                'data/rbs.zona.csv',
+                'data/rbs.tipo.gravamen.csv',
+                'data/rbs.tipo.tramite.csv',
+                'data/rbs.tipo.bien.csv',
+
+
+
+
+              "view/valores_view.xml",
+              "view/valores_division_politica_view.xml",
+              "view/valores_persona_view.xml",
+              "view/rbs_documento_propiedad.xml",
+              "view/rbs_documento_mercantil.xml",
+              "view/rbs_anio_view.xml",
+              "view/rbs_libro_view.xml",
+              "view/rbs_tomo_view.xml",
               'wizard/informe_view.xml',
               "view/rbs_documento_certificaciones.xml",
               "view/factura_view.xml",            
               'views/tiffEdit.xml',
               "static/src/xml/template.xml",
-              #'views/assets_backend.xml'
+              'views/assets_backend.xml'
     ],
     "demo" : [],
     "active":False,
     "installable": True,
     "certificate":"",
+    'application': True,
 }
 

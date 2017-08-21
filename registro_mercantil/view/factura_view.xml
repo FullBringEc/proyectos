@@ -8,15 +8,16 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name='type'>form</field>
             <field name='arch' type="xml">
-            <xpath expr="//field[@name='fiscal_position']" position="after">
+           <!--  <xpath expr="//field[@name='fiscal_position']" position="after">
                     <field name="acta_id"/>
+                </xpath> -->
+                <xpath expr="//field[@name='fiscal_position']" position="after">
+                        <field name="mercantil_id"/>
+                        <field name="propiedad_id"/>
                 </xpath>
-            <xpath expr="//field[@name='acta_id']" position="after">
-                    <field name="vehiculo_id"/>
-                </xpath>
-            <xpath expr="//field[@name='vehiculo_id']" position="after">
-                    <field name="propiedad_id"/>
-                </xpath>
+            <!-- <xpath expr="//field[@name='mercantil_id']" position="after">
+                    
+                </xpath> -->
             </field>
         </record>
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id='rbs_tomo_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.tomo.form</field>
+            <field name='model'>rbs.tomo</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Tomos" version="8.0"> 
+                    <sheet string="Tomos"> 
+                      <group>
+					<field name="name"/>
+					<field name="anio_id" domain="[('state','=', 'close')]"/>
+					<field name="libro_id" domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id)]" />
+					<field name="libro_tipo" attrs="{'readonly':True}"/>
+					</group> 
+					<notebook>
+						<page string="Registros">
+							
+							<field name="mercantil_line" attrs="{'invisible':[('libro_tipo', '!=', 'mercantil')]}" />
+							<!-- <field name="acta_line" attrs="{'invisible':[('libro_tipo', '!=', 'acta')]}"/> -->
+				 		    <field name="propiedad_line" 	attrs="{'invisible':[('libro_tipo', '!=', 'propiedad')]}"/> 
+				 		</page>
+				 	</notebook>
+		        		        			
+                                                    
+                    </sheet>
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+		
+		<record id="rbs_tomo_tree_filter_view" model="ir.ui.view" >
+			<field name="name">rbs.tomo.tree.filter</field>
+			<field name='model'>rbs.tomo</field>
+			<field name='type'>search</field>
+			<field name='priority' eval="20"/>
+			<field name='arch' type="xml">
+				<search string="Search Detail">
+					<group expand="0" string="Group By...">
+						<filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+						<filter string="Tipo" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_tipo'}"/>
+						<filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+						
+<!-- 						<filter string="Años" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/> -->
+					</group>
+				</search>
+			</field>
+				
+		</record>
+        <record id='rbs_tomo_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.tomo.tree</field>
+            <field name='model'>rbs.tomo</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Tomos" version="8.0"> 
+ 
+					<field name="name"/>
+					<field name="libro_id"/>
+					<field name="anio_id"/>
+					<field name="libro_tipo"/>
+					
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_tomo">
+        	<field name="name">Tomos</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.tomo</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="search_view_id" ref="rbs_tomo_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_tomo_tree_view"/>
+        </record>
+
+
+
+
+        
+
+		
+		<menuitem id="submenu_tomo" name="Tomos" parent="submenu_clasificacion" action="id_accion_rbs_tomo"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,50 @@
+************Propiedad
+Hacer inscripcion 
+Hacer certificado
+Subir archivo pdf
+eliminar archivo pdf
+edita archivo
+Crear, Editar, eliminar tipo de tramite
+Crear, Editar, eliminar Crear tramite para registro de propiedad
+Crear, Editar, eliminar Crear tipo de libro para registro d propiedad
+facturar certificacion
+facturar inscripcion
+
+************Mercantil
+Hacer inscripcion 
+Hacer certificado
+Subir archivo pdf
+eliminar archivo pdf
+edita archivo
+Crear, Editar, eliminar tipo de tramite
+Crear, Editar, eliminar Crear tramite para registro mercantil
+Crear, Editar, eliminar Crear tipo de libro para registro mercantil
+facturar certificacion
+facturar inscripcion
+
+************Clasificacion de las inscripciones
+Crear, Editar, eliminar Año
+Crear, Editar, eliminar Libro
+Crear, Editar, eliminar Tomo
+
+************Todo lo relacionado a personas
+Crear, Editar, eliminar persona
+Crear, Editar, eliminar tipo de inteviniente
+Crear, Editar, eliminar calidad de compareciente
+
+
+************Division politica
+Crear, Editar, eliminar Provincia
+Crear, Editar, eliminar Canton
+Crear, Editar, eliminar Parroquia
+Crear, Editar, eliminar Zona
+
+************Otros valores
+Crear, Editar, eliminar Tipos de Acto/Contrato
+Crear, Editar, eliminar Institucion
+Crear, Editar, eliminar Tipo de gravamenes
+Crear, Editar, eliminar Tramites de propiedad
+Crear, Editar, eliminar Tipo de libro de propiedad
+Crear, Editar, eliminar Tramites de mercantil
+Crear, Editar, eliminar Tipo de libro de mercantil
+

@@ -1,0 +1,25 @@
+id,name,pais_id/id
+registro_mercantil.PROVINCIA_AZUAY,AZUAY,base.ec
+registro_mercantil.PROVINCIA_BOLIVAR,BOLIVAR,base.ec
+registro_mercantil.PROVINCIA_CAÑAR,CAÑAR,base.ec
+registro_mercantil.PROVINCIA_CARCHI,CARCHI,base.ec
+registro_mercantil.PROVINCIA_COTOPAXI,COTOPAXI,base.ec
+registro_mercantil.PROVINCIA_CHIMBORAZO,CHIMBORAZO,base.ec
+registro_mercantil.PROVINCIA_EL_ORO,EL ORO,base.ec
+registro_mercantil.PROVINCIA_ESMERALDAS,ESMERALDAS,base.ec
+registro_mercantil.PROVINCIA_GUAYAS,GUAYAS,base.ec
+registro_mercantil.PROVINCIA_IMBABURA,IMBABURA,base.ec
+registro_mercantil.PROVINCIA_LOJA,LOJA,base.ec
+registro_mercantil.PROVINCIA_LOS_RIOS,LOS RIOS,base.ec
+registro_mercantil.PROVINCIA_MANABI,MANABI,base.ec
+registro_mercantil.PROVINCIA_MORONA_SANTIAGO,MORONA SANTIAGO,base.ec
+registro_mercantil.PROVINCIA_NAPO,NAPO,base.ec
+registro_mercantil.PROVINCIA_PASTAZA,PASTAZA,base.ec
+registro_mercantil.PROVINCIA_PICHINCHA,PICHINCHA,base.ec
+registro_mercantil.PROVINCIA_TUNGURAHUA,TUNGURAHUA,base.ec
+registro_mercantil.PROVINCIA_ZAMORA_CHINCHIPE,ZAMORA CHINCHIPE,base.ec
+registro_mercantil.PROVINCIA_GALAPAGOS,GALAPAGOS,base.ec
+registro_mercantil.PROVINCIA_SUCUMBIOS,SUCUMBIOS,base.ec
+registro_mercantil.PROVINCIA_ORELLANA,ORELLANA,base.ec
+registro_mercantil.PROVINCIA_SANTO_DOMINGO_DE_LOS_TSACHILAS,SANTO DOMINGO DE LOS TSACHILAS,base.ec
+registro_mercantil.PROVINCIA_SANTA_ELENA,SANTA ELENA,base.ec

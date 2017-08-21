@@ -12,7 +12,6 @@
 	            <form string="Archivos" version="8.0"> 
                     <group>
                         <group>
-
         		         	<field name="name"/>
         	           		<field name="fecha_archivo"/>
                             <field name="destino_archivo"/> 
@@ -21,29 +20,18 @@
                             <field name="crud_ubicacion_arch_id"/> 
                             <field name="comprobante_fname"/> 
                             <field name="filedata" filename='comprobante_fname' widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>
-                            
                         </group>
                         <group>
                             <iframe src="http://www.watergovernance.org/documents/WGF/Water_Integrity_Training_Manual/manual-ASADAS-final-21agosto-b.pdf" style="width:500px; height:375px;" frameborder="0"></iframe>
-                                    <!--<iframe style="width:500px; height:375px;" frameborder="0" src="data:application/pdf,%s' % o.filedata"></iframe>-->
                         </group>
                     </group>
-                    
 	           	</form>
-
-
-                    
-
             </field>
-
-
         </record>
-
         <record id='archivo_tree_view' model='ir.ui.view'>
             <field name='name'>crud.gestion_archivo</field>
             <field name='model'>crud.archivo</field>
             <field name='type'>tree</field>
-            
             <field name='arch' type="xml">
                 <tree string="Archivos" version="8.0"> 
 

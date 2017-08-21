@@ -34,7 +34,7 @@ class rbs_informe(osv.osv_memory):
                         "(select rbs_tipo_contrato.name from rbs_tipo_contrato where rbs_tipo_contrato.id= rbs_documento_mercantil_propiedad.tipo_contrato_id ) as \"Tipo de Contrato\", rbs_documento_mercantil_propiedad.numero_inscripcion as \"Número de Inscripcón\", rbs_documento_mercantil_propiedad.fecha_inscripcion as \"Fecha de Inscripción\",rbs_documento_mercantil_propiedad.clave_catastral as \"Clave Catastral\","+
                         "(select rbs_tipo_bien.name from rbs_tipo_bien where rbs_tipo_bien.id=rbs_documento_mercantil_propiedad.tipo_bien_id) as \"Descripción del Bien \","+
                         "(select rbs_archivo_libro.name from rbs_archivo_libro where rbs_archivo_libro.id=rbs_documento_mercantil_propiedad.libro_id ) as \"Libro\" , "+
-                        "(select rbs_provincia.name from rbs_provincia where rbs_provincia.id=rbs_documento_mercantil_propiedad.provincia_nombre_id ) as \"Provincia\" , "+
+                        "(select rbs_provincia.name from rbs_provincia where rbs_provincia.id=rbs_documento_mercantil_propiedad.provincia_id ) as \"Provincia\" , "+
                         "(select rbs_zona.name from rbs_zona where rbs_zona.id= rbs_documento_mercantil_propiedad.zona_nombre_id  ) as \"Zona\" ,"+
                         "rbs_documento_mercantil_propiedad.superficie_bien as \"Superficie\","+
                         "rbs_documento_mercantil_propiedad.orientacio_lindero as \"Lindero-Orientación\","+

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id='rbs_libro_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.libro.form</field>
+            <field name='model'>rbs.libro</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+	            <form string="Libro" version="8.0"> 
+                    <header>
+                        
+                        <button name='validarLibro' type="object" icon="gtk-execute" string='Validar' attrs="{'invisible':[('state','not in','open')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="open,close"/>
+                    </header>
+                    <sheet string="Libro"> 
+<!--                         <group> -->
+                    	<group>
+        		         	<field name="name"  attrs="{'readonly':[('state','not in','open')]}"/>
+        		            <field name="anio_id"  attrs="{'readonly':[('state','not in','open')]}" domain="[('state','=', 'close')]"/>
+        		         	<field name="libro_tipo"  attrs="{'readonly':[('state','not in','open')]}"/>
+                            <field name="tipo_libro_propiedad_id" attrs="{'invisible':[('libro_tipo','=','mercantil')]}"/>
+                            <field name="tipo_libro_mercantil_id" attrs="{'invisible':[('libro_tipo','=','propiedad')]}"/>
+                            <!-- <field name="es_propiedad" invisible ='True'/> -->
+                            <!-- <field name="es_mercantil" invisible ='True'/> -->
+    		         	</group>
+    		         	<notebook>
+							<page string="Tomos">
+								<field name="tomo_line" attrs="{'readonly':[('state','in','open')]}" context="{'libro_id':  id}">
+									
+									<form string="Tomos">
+										<group>
+		    		         				<field name="name"/>
+	    		         				</group>
+    		         					<field name="libro_id" attrs="{'invisible':True}"/>
+    		         					<field name="libro_tipo" attrs="{'invisible':True}"/>
+    		         					
+        		         				<field name="mercantil_line" attrs="{'invisible':[('libro_tipo', '!=', 'mercantil')]}" />
+        		         				<!-- <field name="acta_line" 	attrs="{'invisible':[('libro_tipo', '!=', 'acta')]}"/> -->
+	        		         			<field name="propiedad_line" attrs="{'invisible':[('libro_tipo', '!=', 'propiedad')]}"/>
+        		         			</form>
+									
+								</field>
+							</page>
+						</notebook>
+                                                    
+                    </sheet>
+                    
+	           	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+		
+		<record id="rbs_libro_tree_filter_view" model="ir.ui.view" >
+			<field name="name">rbs.libro.tree.filter</field>
+			<field name='model'>rbs.libro</field>
+			<field name='type'>search</field>
+			<field name='priority' eval="20"/>
+			<field name='arch' type="xml">
+				<search string="Search Detail">
+					<group expand="0" string="Group By...">
+						<filter string="Años" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+					</group>
+				</search>
+			</field>
+				
+		</record>
+        <record id='rbs_libro_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.libro.tree</field>
+            <field name='model'>rbs.libro</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Libros" version="8.0"> 
+ 
+					<field name="name"/>
+     		        <field name="anio_id"/>
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_libro">
+        	<field name="name">Libro</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.libro</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+        	<field name="search_view_id" ref="rbs_libro_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_libro_tree_view"/>
+        </record>
+
+
+
+
+        
+
+		
+		<menuitem id="submenu_libro" name="Libros" parent="submenu_clasificacion" action="id_accion_rbs_libro"/>
+
+    </data>
+</openerp>

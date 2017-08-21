@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id='rbs_documento_mercantil_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.form</field>
+            <field name='model'>rbs.documento.mercantil</field>
+            <field name='type'>form</field>
+            
+            <field name='arch' type="xml">
+<form string="Documento Mercantil" version="8.0"> 
+  <!-- <header>
+        <field name="state" widget="statusbar"/>
+    </header> -->
+  <sheet>
+       <div class="oe_title">
+            <label for="name" class="oe_edit_only"/>
+            <h3>
+                Año
+                <field name="anio_id" 
+                  on_change="on_change_anio_id(anio_id)" 
+                  domain="[('state','=', 'close')]"
+                  class="oe_inline" />
+                Libro
+                <field name="libro_id" 
+                  on_change="on_change_libro_id(libro_id)" 
+                  domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]"
+                  context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"
+                  class="oe_inline" />
+                <field name="tipo_libro_mercantil_id" 
+                  invisible="1"
+                  class="oe_inline" />
+                Tomo
+                <field name="tomo_id"  
+                  domain="[('libro_id', '=', libro_id)]"
+                  context="{'libro_id': libro_id}"
+                  class="oe_inline" />
+            </h3>
+            <h3>
+              Tipo de tramite
+              <field name="tipo_tramite_id" class="oe_inline"/>
+              Tramite
+              <field name="tramite_id" class="oe_inline" domain="[('tipo_libro_mercantil_ids', 'in', tipo_libro_mercantil_id)]"/>
+          </h3>
+        </div>
+    <notebook>
+      <page String= 'Informacion de la inscripcion'>
+        <group>
+                <group>
+                    
+                    <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                    <field name="repertorio"/>
+                    <field name="provincia_notaria_id"/>
+                    <field name="canton_notaria_id"/>
+                    <field name="notaria_id"/>
+                    <field name="cuantia_valor"/>
+
+                    <field name="fecha_acta_junta"/>
+                    <field name="fecha_cancel_gravamen"/>
+                    <field name="fecha_const_gravamen"/>
+
+                    
+                </group>
+                <group>
+                    <field name="fecha_inscripcion"/>
+
+                    <field name="fecha_repertorio"/>
+                    <field name="fecha_cancelacion"/>
+                    <field name="fecha_ultima_modificacion"/>
+                    <field name="fecha_escritura"/>
+                    <field name="nombramiento_mercantil_id"/>
+
+                    <label for="plazo_nombramiento_cant" string="Plazo Nombramiento"/>
+                    <div class="address_format">
+                        <field name="plazo_nombramiento_cant" style="width: 50%" />
+                        <field name="plazo_nombramiento_tipo" style="width: 50%" />
+                    </div>
+                    <field name="fecha_nombramiento"/>
+
+                    <field name="tipo_acto_contrato" 
+                        widget="many2many_checkboxes"/>
+                </group>
+            </group>
+
+      </page>
+      <page string = "Partes">
+        <field name="parte_ids">
+          <tree string="Partes" editable="bottom">
+
+              
+            <field name="persona_id" />
+            <field name="persona_id_tipo_persona" invisible = "1"/>
+
+            <field name="nombres" readonly="0"/>
+            <field name="apellidos" readonly="0"/> 
+            <field name="tipo_persona" readonly="0"/>
+            <!-- <field name="razon_social" readonly="0"/> -->
+            <field name="tipo_documento" readonly="0"/>
+            <field name="num_identificacion" readonly="0"/>
+            <field name="tipo_interviniente_id"/>
+            <field name="calidad_compareciente_id"/>
+            <field name="estado_civil" readonly="0"/>
+            <field name="num_identificacion_conyuge"/>
+            <field name="nombres_conyuge"/> 
+            <!-- <field name="separacion_bienes"/> -->
+            <!-- <field name="es_menor"/> -->
+            <!-- <field name="tutor"/> -->
+          </tree>
+        </field>
+        <field name="parte_char_ids" invisible="1"/>
+        <separator string="Datos del representante" colspan="2"/>
+        <group>
+          <group>
+            <field name="repr_identificacion"/>
+            <field name="repr_nombre"/>
+            <field name="repr_acreedor"/>
+          </group>
+          <group>
+            <field name="repr_nombramiento_id"/>
+            <field name="repr_apellido"/>
+            <field name="repr_razon_social"/>
+          </group>
+        </group>
+
+      </page>
+      <page string = "Bienes">
+          <field name="bien_ids">
+              <tree string="Bienes" editable="bottom">
+                  <field name="tipo_bien_id" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                  <field name="chasis"/>
+                  <field name="motor" />
+                  <field name="marca"/>
+                  <field name="modelo" /> 
+                  <field name="anio_fabricacion" />
+                  <field name="placa" />
+                  <field name="numero_provisional" />
+                  <field name="parte_char_ids" domain="[('documento_mercantil_id','=', parent.id)]" widget="many2many_tags" />
+                 
+              </tree>
+          </field>
+      </page>
+      <page string = "Accionistas">
+          <field name="accionista_ids">
+              <tree string="Accionistas" editable="bottom">
+                  <field name="accionista_nombre" />
+                  <field name="accionista_porcentaje_acciones"/>
+                  <field name="accionista_valor_accion" />
+              </tree>
+          </field>
+      </page>
+      <page String= 'Marginaciones'>
+
+            <field name="marginacion_ids">
+                <tree string="marginaciones" editable="bottom">
+                    <field name="anio_tramite_origi_id" />
+                    <field name="libro_tramite_origi_id" domain = "[('libro_tipo','=', 'mercantil')]"/>
+                    <field name="marginacion_mercantil_tramite_origi_id" domain="[('id','!=', parent.id)]"/> 
+                </tree>
+            </field>
+
+        </page>
+      <page String= 'Gravamenes'>
+            <field name="tipo_gravamen_ids">
+                <tree string='Tipo Gravamen/Limitación' editable="bottom">
+                    <field name="name" />
+                </tree>
+            </field>
+        </page>
+<!--       <page String= 'Datos'>
+              <separator string="Datos Persona" colspan="2"/>
+              <group>
+                  <group>
+                      <group>
+                          <field name="tipo_persona_id"/>
+                          <field name="persona_razonSocial"/>
+                          <field name="persona_id" />
+                          <field name="persona_cedula"/>
+                          <field name="persona_nombres"/>
+                          <field name="persona_apellidos"/> 
+                      </group>
+                      <group>
+                          <field name="persona_estado_civil"/>
+                          <field name="persona_calidad_compareciente"/>
+                          <field name="persona_nombres_conyuge"/> 
+                          <field name="persona_apellidos_conyuge"/> 
+                          <field name="persona_cedula_conyuge"/>
+                          <field name="persona_tipo_interviniente_id"/>
+                          <field name="acreedor_id"/>
+                      </group>
+                  </group>
+              </group>
+      <separator string="Datos Registrales" colspan="2"/>
+              <group>
+                  <group>
+                      <group>
+                        <field name="canton_registro_id"/>
+                        <field name="ultima_modificacion"/>
+                        <field name="notaria_juzgado_entidad"/> 
+                      </group>
+                      <group>
+                        <field name="canton_notaria_id"/>
+                        <field name="fecha_escritura_contrato"/>
+                        <field name="marginacion_tramite_origi"/>
+                      </group>
+                  </group>
+              </group>
+
+      <separator string="Datos Accionistas" colspan="2"/>
+              <group>
+                  <group>
+                      <group>
+                        <field name="No_accionistas"/>
+                        <field name="accionistas_id"/>
+                        <field name="Nombre_acci_socios"/> 
+                        <field name="porecentaje_acciones"/> 
+                      </group>
+                      <group>
+                        <field name="porecentaje_acciones"/> 
+                        <field name="valor_acciones"/>
+                        <field name="acta_junta"/> 
+                      </group>
+                  </group>
+              </group>
+
+      <separator string="Datos Accionistas" colspan="2"/>
+              <group>
+                  <group>
+                      <group>
+                        <field name="fechaNombramiento"/>
+                        <field name="tipo_nombra"/>
+                        <field name="plazo_nombramiento"/> 
+                      </group>
+                      <group>
+                        <field name="tipo_gravamen"/> 
+                        <field name="fecha_gravamen"/>
+                        <field name="fecha_cancelacion"/> 
+                      </group>
+                  </group>
+              </group>
+      </page> -->
+      
+          <page string="Archivo">    
+            <button string="Certificado en word" name="word" type="object"/>
+            <group>
+              <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+              <button string="prueba" name="open_ui" type="object"/>
+              <div class="oe_title">
+                ¿Es pesado?<field name="esPesado"/> 
+
+            <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+            <field name="filedata" widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
+              attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+            <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                  attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+              </div>
+            </group>                                
+         </page> 
+         <page string="Facturación">
+            <group>
+            <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
+            </group>
+          </page>  
+          
+      </notebook>
+      <group>
+        <group>
+            <field name='observacion'/>
+        </group>
+        <group>
+            <label for="foleo_desde" string="Foleo"/>
+            <div class="address_format">
+                <field name="foleo_desde" placeholder="Desde" style="width: 50%" />
+                <field name="foleo_hasta" placeholder="Hasta" style="width: 50%" />
+            </div>
+        </group>
+      </group>
+
+    </sheet> 
+      
+	</form>
+
+
+                    
+
+            </field>
+
+
+        </record>
+
+        <record id='rbs_documento_mercantil_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.tree</field>
+            <field name='model'>rbs.documento.mercantil</field>
+            <field name='type'>tree</field>
+            
+            <field name='arch' type="xml">
+                <tree string="Archivos" version="8.0"> 
+                  <field name="tomo_id"/>
+                  <field name="numero_inscripcion"/>
+                  <field name="persona_nombres"/>
+                  <field name="persona_apellidos"/> 
+                  <field name="persona_cedula"/> 
+                  <field name="persona_razonSocial"/> 
+                  <!--<field name="tipo_compareciente_id"/>
+                  <field name="tipo_contrato_id"/>-->
+                  <field name="fecha_inscripcion"/> 
+                  <field name="fecha_cancelacion"/> 
+                  <field name="create_uid" string="Creado por"/>
+                  <field name="write_uid" string="Ultima modificacion"/>
+                        
+                </tree>
+                   
+            </field>
+
+
+        </record>
+
+        <record id="rbs_documento_mercantil_tree_filter_view" model="ir.ui.view" >
+        <field name="name">rbs.documento.mercantil.tree.filter</field>
+        <field name='model'>rbs.documento.mercantil</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <field name="persona_cedula" string="Cedula" />
+            <field name="persona_apellidos" string="Apellido" />
+            <field name="anio_id" string="Año" />
+            <field name="tomo_id" string="Tomo" />
+            <field name="persona_nombres" string="Nombre" />
+            <!-- <field name="tipo_compareciente_id" string="Tipo de compareciente" /> -->
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+            <field name="canton_notaria" string="Canton de Notaria" />
+            <field name="nombre_institucion" string="Nombre de Institucion" />
+            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+            <filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+            
+
+
+          </search>
+        </field>
+          
+      </record>
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_documento_mercantil">
+        	<field name="name">Documento Mercantil</field>
+        	<field name="type">ir.actions.act_window</field>
+        	<field name="res_model">rbs.documento.mercantil</field>
+        	<field name="view_type">form</field>
+        	<field name="view_mode">tree,form</field>
+          <field name="search_view_id" ref="rbs_documento_mercantil_tree_filter_view"/>
+        	<field name="view_id" ref="rbs_documento_mercantil_tree_view"/>
+        </record>
+
+
+
+
+    <menuitem id="submenu_mercantil" name="Registro Mercantil" parent="menu_Documentos"/>   
+		<menuitem id="submenu_documento_mercantil" name="Documentos Mercantiles" parent="submenu_mercantil" action="id_accion_rbs_documento_mercantil"/>
+
+    </data>
+</openerp>

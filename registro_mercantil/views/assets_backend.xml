@@ -3,8 +3,7 @@
     <data>
         <template id="assets_backend" name="registro_mercantil assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/main.js"></script> -->
-                <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/widgets.js"></script> -->
+                <link rel="stylesheet" href="/registro_mercantil/static/src/css/base.css"/>
             </xpath>
         </template>
 
