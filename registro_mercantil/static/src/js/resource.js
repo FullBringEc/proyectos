@@ -136,19 +136,21 @@ openerp.registro_mercantil = function (instance)
             $canv = $('.imagenCanvas')
             $ctx = $canv[0].getContext("2d");
             // lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
-
+            console.log(tipo+" - "+id)
             new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
                         .then(function(result){
+                            console.log(result)
                             $('#tipo').html(tipo)
                             $('#propietario').html(result[0].compania_nombres)
                             $('#fecha').html(result[0].fecha_inscripcion)
                             new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['contenedor_id','=',result[0].contenedor_id[0]]]).context(null).all()
-                            .then(function(result){                     
+                            .then(function(result){  
+
                                 lenTiff =  result.length;
                                 for (var i=0; i<result.length; i++){
                                     tiffs.push(new tifClass(result[i].imagen,i,result[i].id));
                                 }
-                                // console.log(result)
+                                
                                 on_change();
                             })
                         })
@@ -353,7 +355,7 @@ openerp.registro_mercantil = function (instance)
                     $canv.css("width", "" + (self.options.size[0]*(9/10)) + "px")
 
                 }catch(e){
-                    console.log(e)
+                    // console.log(e)
                 }
                 
                 
