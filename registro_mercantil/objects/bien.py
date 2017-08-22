@@ -11,14 +11,14 @@ class rbs_bien(models.Model):
 	numero_predial = fields.Char(string = 'Numero Predial')
 	# name = fields.Char(string = 'Clave Catastral')
 	clave_catastral = fields.Char(string = 'Clave Catastral' )
-	descripcion_bien= fields.Char(string ='Descripcion del Bien', required = True)
-	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:', required = True)
+	descripcion_bien= fields.Char(string ='Descripcion del Bien')
+	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:')
 	
 
-	provincia_id = fields.Many2one('rbs.provincia', string ='Provincia', required = True)
-	canton_id = fields.Many2one('rbs.canton', string ='Canton del Inmueble', required = True)
-	parroquia_id = fields.Many2one('rbs.parroquia',string ='Parroquia Inmueble', required = True)
-	zona_id = fields.Many2one('rbs.zona', string ='Zona', required = True)
+	provincia_id = fields.Many2one('rbs.provincia', string ='Provincia')
+	canton_id = fields.Many2one('rbs.canton', string ='Canton del Inmueble')
+	parroquia_id = fields.Many2one('rbs.parroquia',string ='Parroquia Inmueble')
+	zona_id = fields.Many2one('rbs.zona', string ='Zona')
 	
 	ubicacion_geografica = fields.Selection([
             ('NORTE','NORTE'),
@@ -29,7 +29,7 @@ class rbs_bien(models.Model):
             ('SURESTE','SURESTE'),
             ('NOROESTE','NOROESTE'),
             ('NORESTE','NORESTE'),
-        ],string = 'Ubicacion Geografica', default='NORTE', required = True)
+        ],string = 'Ubicacion Geografica', default='NORTE')
 	superficie_area_numero = fields.Integer(string = 'Superficie o Area')
 	superficie_area_letras = fields.Char(string = 'Superficie o Area')
 	es_propiedad_horizontal = fields.Boolean(String = 'Propiedad Horizontal')
@@ -49,6 +49,7 @@ class rbs_bien(models.Model):
 	modelo = fields.Char(string = 'Modelo' )
 	anio_fabricacion = fields.Many2one('rbs.anio',string = 'Año de Fabricacion' )
 	placa = fields.Char(string = 'Placa' )
+	color = fields.Char(string = 'Color' )
 	numero_provisional = fields.Char(string = 'Numero Provisional' )
 	
 	def name_get(self, cr, uid, ids, context=None):

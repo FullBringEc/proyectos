@@ -56,9 +56,9 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-        
-        <menuitem name="Informe" id="infome_registros"/>
-        <menuitem name="Informe" id="submenu_Informe" parent="infome_registros"/>
+      
+        <menuitem name="Informe" id="informe_registros"/>
+        <menuitem name="Informe" id="submenu_Informe" parent="informe_registros"/>
         <menuitem name="Exportar xls" action="action_wizard_xls_export" id="submenu_export_xls" parent="submenu_Informe"/>
     </data>
 </openerp>

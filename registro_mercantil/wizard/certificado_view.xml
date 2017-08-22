@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_certificado_export" model="ir.ui.view">
+            <field name="name">rbs.certificado.wizard.view</field>
+            <field name="model">rbs.certificado</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="ATS Export">
+                    <group col="8">
+                    	<field name = "name"/>
+                        <!-- <field name = "filedata"/> -->
+                        <field name = "solicitante"/>
+                        
+                            <button icon="gtk-cancel" name="act_cancelar" special="cancel" string="Cerrar" type="object"/>
+                            <button icon="gtk-ok" name ="generate_word" string="Exportar" type="object"/>
+                       
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_certificado_word_export" model="ir.actions.act_window">
+            <field name="name">Exportar xls</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.certificado</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem name="Certificado" action="action_certificado_word_export" id="submenu_certificado" parent="submenu_Informe"/>
+    </data>
+</openerp>

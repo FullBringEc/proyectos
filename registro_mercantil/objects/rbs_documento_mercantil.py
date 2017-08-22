@@ -102,7 +102,7 @@ class rbs_documento_mercantil(models.Model):
 	marginacion_ids = fields.One2many('rbs.marginacion','documento_mercantil_id',string ='Marginaciones')
 	tipo_gravamen_ids = fields.One2many('rbs.gravamen','documento_mercantil_id',string = 'Tipo gravamen/limitación')
 	identificacion_unica = fields.Char(string = 'Identificador',compute='_compute_upper',store = True)
-	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato', required = True)
+	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
 	#Fin categoria
 
 	# Datos Persona
@@ -130,11 +130,11 @@ class rbs_documento_mercantil(models.Model):
 	# Fin categoria
 
 	# Datos Registrales
-	canton_registro_id = fields.Many2one('rbs.canton', string ='Cantón registro mercantil', required = True)
+	canton_registro_id = fields.Many2one('rbs.canton', string ='Cantón registro mercantil')
 	ultima_modificacion = fields.Char(string = 'Última modificación' )
 	notaria_juzgado_entidad = fields.Char(string ='Nombre notaria o juzgado')
 	canton_notaria_id = fields.Many2one('rbs.canton', string ='Cantón de la notaria', required = True)
-	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de escritura', required = True )
+	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de escritura')
 	marginacion_tramite_origi = fields.Char (string='Marginacion trámite')
 	# Fin categoria
 
@@ -257,7 +257,7 @@ class rbs_documento_mercantil(models.Model):
  
 
 	identificacion_unica = fields.Char(string = 'Identificador único sistema remoto',compute='_compute_upper',store = True) 
-	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato', required = True)
+	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
 
 	factura_ids = fields.One2many('account.invoice', 'mercantil_id', string= 'Factura')
 
