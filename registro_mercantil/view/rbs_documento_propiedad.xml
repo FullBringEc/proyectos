@@ -272,7 +272,7 @@
                     ¿Es pesado?<field name="esPesado"/> 
 
           <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
-          <field name="filedata"  widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
+          <field name="filedata"  widget= "FieldBinaryTiff" options="{'size': [500, 500]}" 
             attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
           <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
                         attrs="{'invisible':['|', ('esPesado','=',False)]}" />

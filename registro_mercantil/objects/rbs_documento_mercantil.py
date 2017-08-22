@@ -195,21 +195,48 @@ class rbs_documento_mercantil(models.Model):
 	rutaFTP = fields.Char(related='filedata_id.rutaFTP', string = 'Ruta del Archivo')
 	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
 
+	@api.one 
+	def borrar_contenedor(self):
+		self.contenedor_id = None
+
 	@api.onchange('filedata')
 	def on_change_filedata(self):
-		if self.filedata!= None and self.anio_id and self.libro_id and self.tomo_id and (self.numero_inscripcion!=0):
-		 	contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
+		# raise osv.except_osv('Esto es un Mesaje!',"repr(im.info)")
+
+		# if self.filedata!= None and self.filedata != False  and self.anio_id and self.libro_id and self.tomo_id and (self.numero_inscripcion!=0):
+	 	try:
+	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
 			filedataByte = BytesIO(base64.b64decode(self.filedata))
 			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
 			self.contenedor_id=contenedor.id
-		else:
+		except:
+			pass
+		# raise osv.except_osv('Esto es un Mesaje!',str(self.contenedor_id)+" - "+ str(len(self.contenedor_id.imagenes_ids)))
+			
 
-			self.filedata = None
-			raise osv.except_osv('Esto es un Mesaje!',"Por favor ingrese los datos de año libro tomo y numero de inscripcion para cargar el archivo")
+		# else:
+
+		# 	self.filedata = None
+		# 	raise osv.except_osv('Esto es un Mesaje!',"Por favor ingrese los datos de año libro tomo y numero de inscripcion para cargar el archivo")
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			# raise osv.except_osv('Est',str(self.filedata != None)+str(self.anio_id) + str(self.libro_id) + str(self.tomo_id != None) +  str(self.numero_inscripcion!=0))
 			
 		# im = Image.open(BytesIO(filedataByte))
-		# #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
 		# n = 0
 		# self.contenedor_id=contenedor.id
 		# while True:

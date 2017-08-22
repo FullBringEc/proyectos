@@ -242,17 +242,20 @@
       
           <page string="Archivo">    
             <button string="Certificado en word" name="word" type="object"/>
+            <button string="prueba" name="open_ui" type="object"/>
             <group>
               <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
-              <button string="prueba" name="open_ui" type="object"/>
+              
+
               <div class="oe_title">
                 ¿Es pesado?<field name="esPesado"/> 
-
-            <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
-            <field name="filedata" widget= "FieldBinaryPdf" options="{'size': [500, 500]}" 
-              attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-            <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
-                  attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                <br/>
+                <field name="contenedor_id" invisible = "1"/>
+                <br/>
+                <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+                <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'mercantil'}" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [700, 500]}"
+                      attrs="{'invisible':['|', ('esPesado','=',False)]}" />
               </div>
             </group>                                
          </page> 

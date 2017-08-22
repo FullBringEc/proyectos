@@ -112,56 +112,19 @@
                 </t>
             </div>
         </t>
-        <!--<button class="buttonback">
-            <span>
-                <i class="fa fa-backward"/>Atras
-            </span>
-        </button>
-        <button class="buttonnext">
-            <span>
-                <i class="fa fa-forward"/>Adelante
-            </span>
-        </button>
-        <button class="btnDiseno">
-            <span>
-                <i class="fa fa-pencil-square-o"/>Diseño
-            </span>
-        </button>
-        <div class="div-diseno" style="background-color:blue">
-            <button class="button-undo">
-                <span>
-                    <i class="fa fa-undo"/>Deshacer
-                </span>
-            </button>
-            <button class="button-repeat">
-                <span>
-                    <i class="fa fa-repeat"/>Rehacer
-                </span>
-            </button>
-            <button class="button-save">
-                <span>
-                    <i class="fa fa-floppy-o"/>Guardar
-                </span>
-            </button>
-            <div style="text-align:center; height: 95%;vertical-align: middle;">
-                <canvas class="canvasTiff"/>
-            </div>
-        </div>-->
-
-
-
-        <button class="oe_button multitiff" type="button" title="Save As">
+        <!-- <button class="oe_button multitiff" type="button" title="Save As">
             <img t-att-src='_s + "/web/static/src/img/icons/gtk-save.png"'/>
             <span>Save As</span>
-        </button>
+        </button> -->
+        <br/>
         <div class="divgeneral">
             <div class="contenido" style="text-align: center">
                 <table class="table">
-                    <td>
+                   <!--  <td>
                         <button class="button btn">
                             <span ><i class="fa fa-print" aria-hidden="true"></i></span>
                         </button>
-                    </td>
+                    </td> -->
                   <td style="text-align: center">
                     <span class="button buttonback btn" >
                       <span>Atras</span>
@@ -172,30 +135,30 @@
                     </span>
                   </td>
 
-                  <td>
+                  <!-- <td>
                     <span class="button button-save">
                       <span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
                     </span>
-                  </td>
+                  </td> -->
                 </table>
             </div>
             
             <div class="divC">
-                <canvas class="canvas"> </canvas>
+                <canvas class="imagenCanvas"> </canvas>
             </div>
 
             <div class="contenido">
-                <button class="button" style="vertical-align:middle">
+                <button class="button exportar_pdf" style="vertical-align:middle">
                     <span><i class="fa fa-print" aria-hidden="true"></i></span>
                 </button>
-
+<!-- 
                 <button class="button button-undo" style="vertical-align:middle">
                     <span><i class="fa fa-undo"/>Deshacer</span>
                 </button>
 
                 <button class="button button-repeat" style="vertical-align:middle">
                     <span><i class="fa fa-repeat"/>Rehacer</span>
-                </button>
+                </button> -->
 
                 <button class="button btnDiseno" style="vertical-align:middle">
                     <span><i class="fa fa-pencil-square-o"/></span>
