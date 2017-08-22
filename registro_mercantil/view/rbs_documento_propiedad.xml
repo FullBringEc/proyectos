@@ -265,20 +265,26 @@
 
         </page> -->
           <page string='Archivo'>
+            
+            <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
+            <button string="Editar" name="open_ui" type="object" groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"/>
             <group>
-                <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
-                <button string="prueba" name="open_ui" type="object"/>
-                <div class="oe_title">
-                    ¿Es pesado?<field name="esPesado"/> 
+                <div class="text-center">
+                    <!-- ¿Es mayor a 100mb?<field name="esPesado"/>  -->
+                    ¿Es mayor a 100mb?<field name="esPesado"/> 
+                    <br/>
+                    <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
 
-          <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
-          <field name="filedata"  widget= "FieldBinaryTiff" options="{'size': [500, 500]}" 
-            attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-          <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500],'ftp_param':'ftp.propiedad'}"
-                        attrs="{'invisible':['|', ('esPesado','=',False)]}" />
-            </div>
+                    <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
+                    <field name="filedata"  widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'propiedad'}" 
+                    attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                    <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                            attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                </div>
             </group> 
         </page>
+
+         
 
         <page string="Facturación">
             <group>

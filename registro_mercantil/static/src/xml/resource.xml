@@ -164,7 +164,7 @@
                     <span><i class="fa fa-pencil-square-o"/></span>
                 </button>
 
-                <input type="range"/>
+                <!-- <input type="range"/> -->
             </div>
         </div>
     </span>
@@ -172,7 +172,7 @@
 
 
 <t t-name="FieldUrlTiff">
-    <span t-att-class="'oe_form_field '+widget.widget_class" t-att-style="widget.node.attrs.style">
+    <span t-att-class="'oe_form_field '+widget.widget_class" t-att-style="widget.node.attrs.style; text-align:center">
         <t t-if="!widget.get('effective_readonly')">
             <input t-att-type="widget.password ? 'password' : 'text'"
                 
@@ -193,6 +193,7 @@
             t-att-name="widget.name"
             t-att-width="widget.node.attrs.img_width || widget.node.attrs.width"
             t-att-height="widget.node.attrs.img_height || widget.node.attrs.height"
+            style="text-align:center;"
         />
     </span>
 </t>

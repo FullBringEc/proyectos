@@ -7,7 +7,7 @@ from openerp import models, fields, api, _
 from openerp.osv import osv
 from docxtpl import DocxTemplate, RichText
 import base64
-from io import BytesIO 
+
 from openerp import http
 from openerp.http import request
 from openerp.addons.web.controllers.main import serialize_exception,content_disposition
