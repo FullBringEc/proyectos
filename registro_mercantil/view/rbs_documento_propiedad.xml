@@ -265,6 +265,7 @@
 
         </page> -->
           <page string='Archivo'>
+            <button string="Inscripción" name="word" type="object"/>
             
             <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
             <button string="Editar" name="open_ui" type="object" groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"/>

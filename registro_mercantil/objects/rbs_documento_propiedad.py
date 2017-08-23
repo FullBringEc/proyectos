@@ -6,6 +6,9 @@ from openerp.osv import osv
 from io import BytesIO 
 import base64
 import pdfmod
+from docxtpl import DocxTemplate, RichText
+import time
+import datetime
 
 class rbs_documento_propiedad(models.Model):
 	_name ="rbs.documento.propiedad"
@@ -100,7 +103,91 @@ class rbs_documento_propiedad(models.Model):
 	
 	
 
+	dataWord=fields.Binary("word")
+	def generate_word(self, cr, uid, ids, context=None):
 
+		datos  = self.read(cr, uid, ids, context=context)[0]
+		output = BytesIO()
+		tpl=DocxTemplate('inscripcionp.docx')
+		# bien_obj =  self.pool.get('rbs.bien')
+		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
+
+		# bien_obj =  self.pool.get('rbs.parte')
+		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
+
+
+		documento_propiedad = self.browse(cr,uid,ids,context = context)
+ 			# raise osv.except_osv('Esto es un Mesaje!',str(documento_mercantil.parte_ids))
+
+		compareciente = [] 
+
+		for partes in documento_propiedad.parte_ids:
+			detalle = {}
+			detalle['cliente'] = partes.tipo_persona
+			detalle['identi'] = partes.num_identificacion
+			detalle['compareciente'] = RichText (str (partes.nombres)+' '+str(partes.apellidos ))
+			detalle['estado'] = RichText (str (partes.estado_civil))
+			detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
+			detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
+			compareciente.append(detalle)
+	
+		datosbien = []
+		for bien in documento_propiedad.bien_ids:
+		    detalle = {}
+		    documento_propiedad = None
+		    if bien.documento_propiedad_id:
+		        documento_propiedad = bien.documento_propiedad_id
+		    else:
+		        documento_propiedad = bien.documento_propiedad_id
+
+		    detalle['numero'] = RichText (str (documento_propiedad.numero_inscripcion))
+		    detalle['fecha_inscripcion'] = RichText (str (documento_propiedad.fecha_inscripcion))	
+		    detalle['tipobien'] = RichText (str(bien.tipo_bien_id.name))
+		    datosbien.append(detalle)
+		  
+
+		context = {
+		    'acto' : RichText (documento_propiedad.tipo_tramite_id.name),
+		    'compareciente' : compareciente,
+		    'datosbien' : datosbien,
+		    'ntomo': RichText (str (documento_propiedad.tomo_id.name)),
+		    'ninscripcion' : RichText (str (documento_propiedad.numero_inscripcion)),
+		    'nrepertorio' : RichText (str (documento_propiedad.repertorio)),
+		    'frepertorio' : RichText (str (documento_propiedad.fecha_repertorio)),
+		    'natacto' : RichText ('SD'),
+		    'folioi' : RichText (str (documento_propiedad.foleo_desde)),
+		    'foliof' : RichText (str (documento_propiedad.foleo_hasta)),
+		    'periodo' : RichText (str (documento_propiedad.anio_id.name)),
+		    'natcontrato' : RichText (str (documento_propiedad.libro_id.name)),
+		    'notaria' : RichText (str (documento_propiedad.notaria_id.name)),
+		    'nomcanton' : RichText (str (documento_propiedad.canton_notaria_id.name)),
+		    'fechaprov' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+		    'fresolucion' : RichText (str (documento_propiedad.fecha_escritura)),
+		    'observacion' : RichText (str (documento_propiedad.observacion)),
+
+		}
+
+
+
+
+
+		tpl.render(context)
+		tpl.save(output)
+		return base64.b64encode(output.getvalue())
+	
+	def word(self, cr, uid, ids, context=None):
+		out = self.generate_word( cr, uid, ids, context=None)
+		self.write( cr, uid, ids,{'dataWord':out})
+		return self.download_word( cr, uid, ids, context=None)
+
+	def download_word(self, cr, uid, ids, context=None):
+		data = self.browse(cr, uid, ids[0], context=context)
+		context = dict(context or {})
+		return {
+				'type' : 	'ir.actions.act_url',
+                'url':      '/web/binary/download_document?model=rbs.documento.propiedad&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(ids[0])),
+				'target': 	'new'
+			}
 	
 	#filedata = fields.Binary('Archivo',filters='*.pdf')
 	#filename = fields.Char('Nombre de archivo', default="pdf")

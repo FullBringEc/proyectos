@@ -241,7 +241,7 @@
       </page> -->
       
           <page string="Archivo">    
-            <button string="Certificado en word" name="word" type="object"/>
+            <button string="Inscripción" name="word" type="object"/>
             <button string="Editar" name="open_ui" type="object"/>
             <group>
               <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->

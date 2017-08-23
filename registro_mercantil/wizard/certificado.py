@@ -176,19 +176,6 @@ class rbs_certificado(osv.osv_memory):
 
             movimientos.append(detalle)
 
-            # detalle['fechaactual'] = RichText (doc.foleo_hasta)
-            # detalle['ccatastral'] = doc.foleo_hasta
-            # detalle['fapertura'] = doc.foleo_hasta
-            # detalle['infmuni'] = doc.foleo_hasta
-            # detalle['tpredio'] = doc.foleo_hasta
-            # detalle['parroquia'] = doc.foleo_hasta
-            # detalle['lindero'] = doc.foleo_hasta
-            # detalle['nombresoli'] = doc.foleo_hasta
-            # detalle['sesion'] = doc.foleo_hasta
-
-        # inscripcion_ids = self.env['rbs.parte'].search([('clave_catastral', '==', datos['name'])])# fecha = RichText(datos['fecha_ecritura'])
-        # raise osv.except_osv('Esto es un Mesaje!',str(Inscripciones))
-
         context = {
             'campo' : RichText ('fecha'),
             'resumen' : resumen,
