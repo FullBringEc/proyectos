@@ -11,7 +11,8 @@ import base64
 from openerp import http
 from openerp.http import request
 from openerp.addons.web.controllers.main import serialize_exception,content_disposition
-
+import time
+import datetime
 from PIL import Image
 import StringIO
 from io import BytesIO
@@ -267,15 +268,69 @@ class rbs_documento_mercantil(models.Model):
 	def generate_word(self, cr, uid, ids, context=None):
 
 		datos  = self.read(cr, uid, ids, context=context)[0]
-        # elId = repr(datos['caczxcgs<'])
-
-
 		output = BytesIO()
-		tpl=DocxTemplate('richtext_tpl.docx')
-		fecha = RichText(datos['fecha_ecritura'])
+		tpl=DocxTemplate('inscripcion.docx')
+		# bien_obj =  self.pool.get('rbs.bien')
+		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
+
+		# bien_obj =  self.pool.get('rbs.parte')
+		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
+
+
+		documento_mercantil = self.browse(cr,uid,ids,context = context)
+ 			# raise osv.except_osv('Esto es un Mesaje!',str(documento_mercantil.parte_ids))
+
+		compareciente = [] 
+
+		for partes in documento_mercantil.parte_ids:
+			detalle = {}
+			detalle['cliente'] = partes.tipo_persona
+			detalle['identi'] = partes.num_identificacion
+			detalle['compareciente'] = RichText (str (partes.nombres)+' '+str(partes.apellidos ))
+			detalle['estado'] = RichText (str (partes.estado_civil))
+			detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
+			detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
+			compareciente.append(detalle)
+	
+		datosbien = []
+		for bien in documento_mercantil.bien_ids:
+		    detalle = {}
+		    documento_mercantil = None
+		    if bien.documento_mercantil_id:
+		        documento_mercantil = bien.documento_mercantil_id
+		    else:
+		        documento_mercantil = bien.documento_propiedad_id
+
+		    detalle['numero'] = RichText (str (documento_mercantil.numero_inscripcion))
+		    detalle['fecha_inscripcion'] = RichText (str (documento_mercantil.fecha_inscripcion))
+		    detalle['tipobien'] = RichText (str(bien.tipo_bien_id.name))
+		    datosbien.append(detalle)
+		  
+
 		context = {
-		    'campo' : fecha,
+		    'acto' : RichText (documento_mercantil.tipo_tramite_id.name),
+		    'compareciente' : compareciente,
+		    'datosbien' : datosbien,
+		    'ntomo': RichText (str (documento_mercantil.tomo_id.name)),
+		    'ninscripcion' : RichText (str (documento_mercantil.numero_inscripcion)),
+		    'nrepertorio' : RichText (str (documento_mercantil.repertorio)),
+		    'frepertorio' : RichText (str (documento_mercantil.fecha_repertorio)),
+		    'natacto' : RichText ('SD'),
+		    'folioi' : RichText (str (documento_mercantil.foleo_desde)),
+		    'foliof' : RichText (str (documento_mercantil.foleo_hasta)),
+		    'periodo' : RichText (str (documento_mercantil.anio_id.name)),
+		    'natcontrato' : RichText (str (documento_mercantil.libro_id.name)),
+		    'notaria' : RichText (str (documento_mercantil.notaria_id.name)),
+		    'nomcanton' : RichText (str (documento_mercantil.canton_notaria_id.name)),
+		    'fechaprov' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+		    'fresolucion' : RichText (str (documento_mercantil.fecha_escritura)),
+		    'observacion' : RichText (str (documento_mercantil.observacion)),
+
 		}
+
+
+
+
 
 		tpl.render(context)
 		tpl.save(output)
@@ -291,7 +346,7 @@ class rbs_documento_mercantil(models.Model):
 		context = dict(context or {})
 		return {
 				'type' : 	'ir.actions.act_url',
-				'url':    	'/web/binary/download_document?model=rbs.documento.mercantil.acta&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+                'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(ids[0])),
 				'target': 	'new'
 			}
 
