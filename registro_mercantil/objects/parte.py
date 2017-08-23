@@ -7,6 +7,7 @@ class rbs_parte_char(models.Model):
 	_description = "Parte"
 	name = fields.Char("Parte")
 	parte_id = fields.Many2one('rbs.parte',string='Parte')
+	bien_ids = fields.Many2many('rbs.bien',string='Bien')
 	documento_propiedad_id = fields.Many2one('rbs.documento.propiedad',"Documento de Propiedad")
 	documento_mercantil_id = fields.Many2one('rbs.documento.mercantil',"Documento mercantil")
 
