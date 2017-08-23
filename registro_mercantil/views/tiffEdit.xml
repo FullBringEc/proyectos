@@ -26,7 +26,7 @@
 
 					
 					
-					<script type="text/javascript" src="/registro_mercantil/static/src/libs/js/porra.js"></script>
+					<script type="text/javascript" src="/registro_mercantil/static/src/libs/js/lib.js"></script>
 
 					<!-- <script type="text/javascript" src="/registro_mercantil/static/src/js/prototype.js"></script> -->
 					<script type="text/javascript" src="/registro_mercantil/static/src/js/lienzo.js"></script>
@@ -75,31 +75,25 @@
 					      </td>
 					      <td style="text-align: right;">
 							<span class="input input--yoshiko">
-								<input class="input__field input__field--yoshiko pagina_actual" type="text"  />
+								<input class="input__field--yoshiko pagina_actual" type="text" />
 								<label class="input__label input__label--yoshiko">
 									<span class="input__label-content input__label-content--yoshiko" data-content="Página">1</span>
 								</label>
 							</span>
+							/
 							<span class="input input--yoshiko">
-								<input class="input__field input__field--yoshiko pagina_final" type="text"  />
+								<input class="input__field--yoshiko pagina_final" type="text" readonly="True" />
 								<label class="input__label input__label--yoshiko">
 									<span class="input__label-content input__label-content--yoshiko" data-content="Página">1</span>
 								</label>
 							</span>
-				
-
-					        <div class="tooltip">
-					          <span class="tooltiptext">Anterior</span>
-					          <span class="button  btn button-back" >
-					            <span><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> </span>
-					          </span>
-					        </div>
-					        <div class="tooltip">
-					          <span class="tooltiptext">Siguiente</span>
-					          <span class="button btn button-next">
-					            <span><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>
-					          </span>
-					        </div>
+							<button class="button-back" style="background-color: #080908;color: white;">
+								← 
+							</button>
+							<button class="button-next" style="background-color: #080908;color: white;">
+								→ 
+							</button>
+							
 					      </td>
 					</table>
 				</header>

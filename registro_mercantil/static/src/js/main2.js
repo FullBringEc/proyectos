@@ -279,7 +279,7 @@ function TifWIdget(tipo,id){
     //     this.setTif(origen);
         
     // }
-    // a = new tifClass("porra",2)
+    // a = new tifClass("",2)
     // a.setTif("asd")
     // a.getTifUndo()
     // a.getTifUndo()

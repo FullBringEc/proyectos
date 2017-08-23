@@ -32,7 +32,7 @@
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
 
-                "security/hospital_security.xml",
+                "security/registro_security.xml",
                 "security/ir.model.access.csv",
                 'data/rbs.tramite.propiedad.csv',
                 'data/rbs.tipo.libro.propiedad.csv',

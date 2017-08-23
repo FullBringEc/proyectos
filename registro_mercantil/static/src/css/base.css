@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 .oe_form_label {
-	font-size: 9px
+	font-size: 11px
 }
 
 .oe_sortable{
@@ -22,6 +22,6 @@
 /*.oe_form_field_one2many_list_row_add   {
 	background-color: cyan;
 }*/
-/*.oe_list_field_cell{
+.oe_list_field_cell{
 	background-color: white;
-}*/
+}

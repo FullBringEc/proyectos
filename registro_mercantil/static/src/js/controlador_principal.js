@@ -3,7 +3,9 @@ var $ctx;
 var lienzo;      // Es el espacio donde se crearan los objetos seleccionables
 var controlZoom; // Este objeto contiene las funciones de zoom y movimiento del canvas // se lo inicializa en el archivo jquery.panzoom.js
 setTextColor=function(color){
-    if (lienzo.funcionActual=='Texto'){
+    lienzo.setFuncionActual("Texto");
+    if (lienzo.selection.type=='Texto'){  
+    // if (lienzo.funcionActual=='Texto'){
         
         lienzo.selection.fill='#'+color
         lienzo.valid=false
@@ -271,23 +273,25 @@ function TifWIdget(tipo,id){
         
     }
 
-    $("#fuentesLetras").change(function(){        
-       if (lienzo.funcionActual=='Texto'){       
-        lienzo.selection.font_family= $("#fuentesLetras").val()
-        lienzo.valid=false
-        tiffs[cursorTiff].unsave();
+    $("#fuentesLetras").change(function(){ 
+        lienzo.setFuncionActual("Texto");    
+       if (lienzo.selection.type=='Texto'){       
+            lienzo.selection.font_family= $("#fuentesLetras").val()
+            lienzo.valid=false
+            tiffs[cursorTiff].unsave();
 
-    }   
+        }   
     })
 
 
 
-    $("#tamTexto").change(function(){        
-       if (lienzo.funcionActual=='Texto'){       
-        lienzo.selection.font_size= $("#tamTexto").val()
-        lienzo.valid=false
-        tiffs[cursorTiff].unsave();
-    }   
+    $("#tamTexto").change(function(){       
+        lienzo.setFuncionActual("Texto");
+        if (lienzo.selection.type=='Texto'){             
+            lienzo.selection.font_size= $("#tamTexto").val()
+            lienzo.valid=false
+            tiffs[cursorTiff].unsave();
+        }   
     })
 
     $(".eliminarImagen").click(function(){
@@ -324,6 +328,7 @@ function TifWIdget(tipo,id){
 
     $(".btnBorrar").click(function(){
         lienzo.setFuncionActual("BorradorXseleccion");
+        
         tiffs[cursorTiff].unsave();
     })
 
