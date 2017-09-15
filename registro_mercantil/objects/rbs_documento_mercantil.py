@@ -202,9 +202,6 @@ class rbs_documento_mercantil(models.Model):
 
 	@api.onchange('filedata')
 	def on_change_filedata(self):
-		# raise osv.except_osv('Esto es un Mesaje!',"repr(im.info)")
-
-		# if self.filedata!= None and self.filedata != False  and self.anio_id and self.libro_id and self.tomo_id and (self.numero_inscripcion!=0):
 	 	try:
 	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
 			filedataByte = BytesIO(base64.b64decode(self.filedata))
@@ -212,76 +209,16 @@ class rbs_documento_mercantil(models.Model):
 			self.contenedor_id=contenedor.id
 		except:
 			pass
-		# raise osv.except_osv('Esto es un Mesaje!',str(self.contenedor_id)+" - "+ str(len(self.contenedor_id.imagenes_ids)))
-			
-
-		# else:
-
-		# 	self.filedata = None
-		# 	raise osv.except_osv('Esto es un Mesaje!',"Por favor ingrese los datos de año libro tomo y numero de inscripcion para cargar el archivo")
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			# raise osv.except_osv('Est',str(self.filedata != None)+str(self.anio_id) + str(self.libro_id) + str(self.tomo_id != None) +  str(self.numero_inscripcion!=0))
-			
-		# im = Image.open(BytesIO(filedataByte))
-		# n = 0
-		# self.contenedor_id=contenedor.id
-		# while True:
-		# 	try:
-		# 		n = n+1
-		# 		im.seek(n)
-		# 		#im.save('Block_%s.tif'%(n,))
-
-		# 		jpeg_image_buffer = cStringIO.StringIO()
-		# 		im.save(jpeg_image_buffer, format="PNG")
-		# 		imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-		# 		contenedor.imagenes_ids |= self.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id})
-		# 		#raise osv.except_osv('Esto es un Mesaje!',imgStr)
-		# 	except EOFError:
-		# 	    print "Se Cargo la imagen tiff",  n
-		# 	    break;
-		# return True
- 
-
 	identificacion_unica = fields.Char(string = 'Identificador único sistema remoto',compute='_compute_upper',store = True) 
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
-
 	factura_ids = fields.One2many('account.invoice', 'mercantil_id', string= 'Factura')
-
-
-
 	dataWord=fields.Binary("word")
 	def generate_word(self, cr, uid, ids, context=None):
-
 		datos  = self.read(cr, uid, ids, context=context)[0]
 		output = BytesIO()
 		tpl=DocxTemplate('inscripcion.docx')
-		# bien_obj =  self.pool.get('rbs.bien')
-		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
-
-		# bien_obj =  self.pool.get('rbs.parte')
-		# bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['name'])], context=context)
-
-
 		documento_mercantil = self.browse(cr,uid,ids,context = context)
- 			# raise osv.except_osv('Esto es un Mesaje!',str(documento_mercantil.parte_ids))
-
 		compareciente = [] 
-
 		for partes in documento_mercantil.parte_ids:
 			detalle = {}
 			detalle['cliente'] = partes.tipo_persona
@@ -291,7 +228,6 @@ class rbs_documento_mercantil(models.Model):
 			detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
 			detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
 			compareciente.append(detalle)
-	
 		datosbien = []
 		for bien in documento_mercantil.bien_ids:
 		    detalle = {}
@@ -390,7 +326,6 @@ class rbs_documento_mercantil(models.Model):
 
 	@api.onchange('parte_ids','bien_ids')
 	def onchange_parte_ids(self):
-
 		parte_char_ids_num = []
 		self.parte_char_ids = None
 		for parte in self.parte_ids:
@@ -398,24 +333,12 @@ class rbs_documento_mercantil(models.Model):
 			r = [x for x in self.parte_char_ids if x.name == nombres]
 			if r:
 				continue
-			# print nombres+"------------"
 			parte_char = self.env['rbs.parte.char'].create({'name':parte.razon_social or parte.nombres or "",'parte_id':parte.id,'documento_mercantil_id':self.id})
 			self.parte_char_ids |= parte_char
 			parte_char_ids_num.append(parte_char.id)
 		print parte_char_ids_num
-		# raise osv.except_osv('Esto es un Mesaje!',str(len(self.bien_ids)))
 		for bien in self.bien_ids:
 			bien.parte_char_ids = [(6,0,parte_char_ids_num)]
-
-		# 	bien_auxiliar_ids_num=[]
-		# 	for bienauxiliar in self.bien_auxiliar_ids:
-		# 		bien_auxiliar_ids_num.append(bienauxiliar.id)
-		# 	self.parte_bien_ids |= self.env['rbs.parte.bien.rel'].create({
-		# 		'parte':parte.razon_social or parte.nombres,
-		# 		'bienauxiliar_ids':[(6, 0, bien_auxiliar_ids_num)]})
-
-		# for parte in self.parte_ids:
-			
 		return
 	@api.depends('ubicacion_dato_id','persona_cedula','numero_inscripcion')
 	def _compute_upper(self):

@@ -11,7 +11,8 @@
             <field name='arch' type="xml">
 <form string="Documento de Propiedad" version="8.0"> 
     <header>
-        <field name="state" widget="statusbar"/>
+        <button string="Inscripción" name="word" type="object"/>
+        <!-- <field name="state" widget="statusbar"/> -->
     </header>
     <sheet>
         <div class="oe_title">
@@ -66,7 +67,7 @@
                     <field name="fecha_const_gravamen"/>
                     
                     <field name="provincia_notaria_id"/>
-                    <field name="canton_notaria_id"/>
+                    <field name="canton_notaria_id" domain="[('provincia_id','=', provincia_notaria_id)]"/>
                     <field name="notaria_id"/>
 
                     <!-- <field name="gravamen_limitacion"/> -->
@@ -265,10 +266,11 @@
 
         </page> -->
           <page string='Archivo'>
-            <button string="Inscripción" name="word" type="object"/>
+            
             
             <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
-            <button string="Editar" name="open_ui" type="object" groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"/>
+            <button string="Editar" name="open_ui" type="object" groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
+                attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
             <group>
                 <div class="text-center">
                     <!-- ¿Es mayor a 100mb?<field name="esPesado"/>  -->

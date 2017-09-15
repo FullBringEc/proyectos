@@ -10,9 +10,9 @@
             
             <field name='arch' type="xml">
 <form string="Documento Mercantil" version="8.0"> 
-  <!-- <header>
-        <field name="state" widget="statusbar"/>
-    </header> -->
+  <header>
+        <button string="Inscripción" name="word" type="object"/>
+    </header>
   <sheet>
        <div class="oe_title">
             <label for="name" class="oe_edit_only"/>
@@ -95,7 +95,6 @@
             <field name="nombres" readonly="0"/>
             <field name="apellidos" readonly="0"/> 
             <field name="tipo_persona" readonly="0"/>
-            <!-- <field name="razon_social" readonly="0"/> -->
             <field name="tipo_documento" readonly="0"/>
             <field name="num_identificacion" readonly="0"/>
             <field name="tipo_interviniente_id"/>
@@ -103,9 +102,6 @@
             <field name="estado_civil" readonly="0"/>
             <field name="num_identificacion_conyuge"/>
             <field name="nombres_conyuge"/> 
-            <!-- <field name="separacion_bienes"/> -->
-            <!-- <field name="es_menor"/> -->
-            <!-- <field name="tutor"/> -->
           </tree>
         </field>
         <field name="parte_char_ids" invisible="1"/>
@@ -127,7 +123,7 @@
       <page string = "Bienes">
           <field name="bien_ids">
               <tree string="Bienes" editable="bottom">
-                  <field name="tipo_bien_id" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                  <field name="tipo_bien_id" />
                   <field name="chasis"/>
                   <field name="motor" />
                   <field name="marca"/>
@@ -167,84 +163,13 @@
                 </tree>
             </field>
         </page>
-<!--       <page String= 'Datos'>
-              <separator string="Datos Persona" colspan="2"/>
-              <group>
-                  <group>
-                      <group>
-                          <field name="tipo_persona_id"/>
-                          <field name="persona_razonSocial"/>
-                          <field name="persona_id" />
-                          <field name="persona_cedula"/>
-                          <field name="persona_nombres"/>
-                          <field name="persona_apellidos"/> 
-                      </group>
-                      <group>
-                          <field name="persona_estado_civil"/>
-                          <field name="persona_calidad_compareciente"/>
-                          <field name="persona_nombres_conyuge"/> 
-                          <field name="persona_apellidos_conyuge"/> 
-                          <field name="persona_cedula_conyuge"/>
-                          <field name="persona_tipo_interviniente_id"/>
-                          <field name="acreedor_id"/>
-                      </group>
-                  </group>
-              </group>
-      <separator string="Datos Registrales" colspan="2"/>
-              <group>
-                  <group>
-                      <group>
-                        <field name="canton_registro_id"/>
-                        <field name="ultima_modificacion"/>
-                        <field name="notaria_juzgado_entidad"/> 
-                      </group>
-                      <group>
-                        <field name="canton_notaria_id"/>
-                        <field name="fecha_escritura_contrato"/>
-                        <field name="marginacion_tramite_origi"/>
-                      </group>
-                  </group>
-              </group>
-
-      <separator string="Datos Accionistas" colspan="2"/>
-              <group>
-                  <group>
-                      <group>
-                        <field name="No_accionistas"/>
-                        <field name="accionistas_id"/>
-                        <field name="Nombre_acci_socios"/> 
-                        <field name="porecentaje_acciones"/> 
-                      </group>
-                      <group>
-                        <field name="porecentaje_acciones"/> 
-                        <field name="valor_acciones"/>
-                        <field name="acta_junta"/> 
-                      </group>
-                  </group>
-              </group>
-
-      <separator string="Datos Accionistas" colspan="2"/>
-              <group>
-                  <group>
-                      <group>
-                        <field name="fechaNombramiento"/>
-                        <field name="tipo_nombra"/>
-                        <field name="plazo_nombramiento"/> 
-                      </group>
-                      <group>
-                        <field name="tipo_gravamen"/> 
-                        <field name="fecha_gravamen"/>
-                        <field name="fecha_cancelacion"/> 
-                      </group>
-                  </group>
-              </group>
-      </page> -->
       
           <page string="Archivo">    
-            <button string="Inscripción" name="word" type="object"/>
-            <button string="Editar" name="open_ui" type="object"/>
+            
+            <button string="Editar" name="open_ui" type="object"
+              groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
+              attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
             <group>
-              <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
               
 
               <div class="text-center">
@@ -257,7 +182,7 @@
                 <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [700, 500]}"
                       attrs="{'invisible':['|', ('esPesado','=',False)]}" />
               </div>
-            </group>                                
+            </group>
          </page> 
          <page string="Facturación">
             <group>
@@ -304,8 +229,7 @@
                   <field name="persona_apellidos"/> 
                   <field name="persona_cedula"/> 
                   <field name="persona_razonSocial"/> 
-                  <!--<field name="tipo_compareciente_id"/>
-                  <field name="tipo_contrato_id"/>-->
+                  
                   <field name="fecha_inscripcion"/> 
                   <field name="fecha_cancelacion"/> 
                   <field name="create_uid" string="Creado por"/>
@@ -330,7 +254,6 @@
             <field name="anio_id" string="Año" />
             <field name="tomo_id" string="Tomo" />
             <field name="persona_nombres" string="Nombre" />
-            <!-- <field name="tipo_compareciente_id" string="Tipo de compareciente" /> -->
             <field name="numero_inscripcion" string="Numero de inscripcion" />
             <field name="canton_notaria" string="Canton de Notaria" />
             <field name="nombre_institucion" string="Nombre de Institucion" />

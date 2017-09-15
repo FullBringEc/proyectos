@@ -135,9 +135,11 @@ openerp.registro_mercantil = function (instance)
             id = parseInt(JSON.stringify(this.view.datarecord.id))
             $canv = $('.imagenCanvas')
             $ctx = $canv[0].getContext("2d");
+            // alert(id)
             // lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
             console.log(tipo+" - "+id)
-            new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
+            if(id){
+                new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
                         .then(function(result){
                             console.log(result)
                             $('#tipo').html(tipo)
@@ -154,6 +156,7 @@ openerp.registro_mercantil = function (instance)
                                 on_change();
                             })
                         })
+                }
             // console.log($ctx)
             function tifClass(TIfforiginal, index, id){
                 this.saved= true

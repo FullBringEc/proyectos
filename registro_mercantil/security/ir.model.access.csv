@@ -15,9 +15,6 @@ imagenes group_visualizador,rbs_imagenes group_visualizador,model_rbs_imagenes,r
 tipo_acto_contrato group_visualizador,tipo.acto.contrato group_visualizador,model_rbs_tipo_acto_contrato,registro_mercantil.group_visualizador,1,0,0,0
 rbs_heredero group_visualizador, rbs.heredero group_visualizador,model_rbs_heredero,registro_mercantil.group_visualizador,1,0,0,0
 alicuota group_visualizador, rbs.alicuota group_visualizador,model_rbs_alicuota,registro_mercantil.group_visualizador,1,0,0,0
-
-
-
 rbs_documento_mercantil group_registrador,rbs.documento.mercantil group_registrador,model_rbs_documento_mercantil,registro_mercantil.group_registrador,1,1,1,1
 rbs_documento_propiedad group_registrador,rbs.documento.propiedad group_registrador,model_rbs_documento_propiedad,registro_mercantil.group_registrador,1,1,1,1
 rbs_marginacion group_registrador,rbs.marginacion group_registrador,model_rbs_marginacion,registro_mercantil.group_registrador,1,1,1,1
@@ -32,7 +29,6 @@ imagenes group_registrador,rbs_imagenes group_registrador,model_rbs_imagenes,reg
 tipo_acto_contrato group_registrador,tipo.acto.contrato group_registrador,model_rbs_tipo_acto_contrato,registro_mercantil.group_registrador,1,1,1,1
 rbs_heredero group_registrador, rbs.heredero group_registrador,model_rbs_heredero,registro_mercantil.group_registrador,1,1,1,1
 alicuota group_registrador, rbs.alicuota group_registrador,model_rbs_alicuota,registro_mercantil.group_registrador,1,1,1,1
-
 canton group_registrador,rbs.canton group_registrador,model_rbs_canton,registro_mercantil.group_registrador,1,0,0,0
 provincia group_registrador,rbs.provincia group_registrador,model_rbs_provincia,registro_mercantil.group_registrador,1,0,0,0
 nombramiento.mercantil group_registrador,rbs.nombramiento.mercantil group_registrador,model_rbs_nombramiento_mercantil,registro_mercantil.group_registrador,1,0,0,0
@@ -47,12 +43,4 @@ rbs_tomo group_registrador,rbs.tomo group_registrador,model_rbs_tomo,registro_me
 rbs_tramite_mercantil group_registrador,rbs_tramite_mercantil group_registrador,model_rbs_tramite_mercantil,registro_mercantil.group_registrador,1,0,0,0
 rbs_tipo_tramite group_registrador,rbs.tipo.tramite group_registrador,model_rbs_tipo_tramite,registro_mercantil.group_registrador,1,0,0,0
 rbs_tipo_gravamen group_registrador, rbs.tipo.gravamen group_registrador,model_rbs_tipo_gravamen,registro_mercantil.group_registrador,1,0,0,0
-
-
-
-
-
-
-
-
 

@@ -128,7 +128,7 @@ class rbs_documento_propiedad(models.Model):
 			detalle['compareciente'] = RichText (str (partes.nombres)+' '+str(partes.apellidos ))
 			detalle['estado'] = RichText (str (partes.estado_civil))
 			detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
-			detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
+			detalle['ciudad'] = RichText (str(documento_propiedad.canton_notaria_id.name))
 			compareciente.append(detalle)
 	
 		datosbien = []
