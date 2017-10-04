@@ -9,6 +9,15 @@
 
 // Constructor for Shape objects to hold data for all drawn objects.
 // For now they will just be defined as rectangles.
+log = console.log;
+toRadians = function(degrees) {
+  return degrees * Math.PI / 180;
+};
+ 
+// Converts from radians to degrees.
+toDegrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
 function Shape(x, y, w, h, fill) {
   // This is a very simple and unsafe constructor. All we're doing is checking if the values exist.
   // "x || 0" just means "if there is a value for x, use that. Otherwise use 0."
@@ -19,6 +28,8 @@ function Shape(x, y, w, h, fill) {
   this.h = h || 1;
   this.fill = fill || '#AAAAAA';
   this.type = 'Rectangulo';
+  // this.giro_anterior = 0;
+  this.giro = 0;
 }
 
 // Draws this shape to a given context
@@ -26,13 +37,89 @@ Shape.prototype.draw = function(ctx) {
   ctx.fillStyle = this.fill;
   ctx.fillRect(this.x, this.y, this.w, this.h);
 }
+Shape.prototype.rotar = function(angulo) {
+  this.giro = this.giro+angulo;
+  if(this.giro>=360){
+    this.giro = this.giro-360;
+  }
+}
 
 // Determine if a point is inside the shape's bounds
 Shape.prototype.contains = function(mx, my) {
   // All we have to do is make sure the Mouse X,Y fall in the area between
   // the shape's X and (X + Width) and its Y and (Y + Height)
-  return  (this.x <= mx) && (this.x + this.w >= mx) &&
-          (this.y <= my) && (this.y + this.h >= my);
+
+  if(this.giro != 0){
+    x1 = this.x;
+    y1 = this.y;
+    x2 = mx;
+    y2 = my;
+    angulo = this.giro
+    // toDegrees(Math.atan(pendiente));
+    anguloPendienteParcial = Math.abs(toDegrees(Math.atan((y2-y1)/(x2-x1))));
+    // console.log("pendienteParcial : "+pendienteParcial);
+    
+    anguloPendiente = 0;
+    // console.log(x1,y1,x2,y2)
+    if(x2>x1 && y2>y1){
+
+      anguloPendiente = anguloPendienteParcial;
+
+    }else if(x2<x1 && y2>y1){
+      anguloPendiente = 180-anguloPendienteParcial;
+
+
+    }else if(x2<x1 && y2<y1){
+      anguloPendiente = 180+anguloPendienteParcial;
+
+    }else if(x2>x1 && y2<y1){
+      anguloPendiente = 360-anguloPendienteParcial;
+    }
+    console.log("pendiente : "+anguloPendiente);
+    difAngulos = (angulo - anguloPendiente)
+    console.log("diferencia de angulo " +(angulo - anguloPendiente));
+    difAngulosRadianes = toRadians(difAngulos)
+
+
+    r = Math.sqrt( Math.pow(x2-x1, 2)+Math.pow(y2-y1, 2))
+    mx = this.x + (Math.cos(difAngulosRadianes) * r);
+    my = this.y - (Math.sin(difAngulosRadianes) * r);
+
+    log(mx,my);
+
+    // angulo = 90
+    // x1 = 200;
+    // x2 = 250;
+    // y1 = 200;
+    // y2 = 250;
+    
+    // console.log("pendiente :" +pendiente);
+    // anguloPunto = toDegrees(Math.atan(pendiente));
+
+    // hipotenusa = Math.sqrt( Math.pow(x2-x1, 2)+Math.pow(y2-y1, 2))
+    // // console.log(hipotenusa);
+    // giroRadian = angulo * Math.PI / 180;
+    // senAngulo = Math.sin(giroRadian);
+    // cosAngulo = Math.cos(giroRadian);
+    // catOpuesto = senAngulo * hipotenusa;
+
+
+
+    // catAdyacente = cosAngulo * hipotenusa 
+
+    // console.log(hipotenusa);
+    // console.log(catOpuesto);
+    // console.log(catAdyacente);
+    // mx = this.x + catAdyacente;
+    // my = this.y + catOpuesto;
+  }
+  
+
+
+
+
+
+  return  (this.x <= mx) && (this.x + this.w >= mx) && (this.y <= my) && (this.y + this.h >= my);
 }
 var ctxAuxiliar = document.createElement("canvas").getContext("2d"); // usado para determinar el tamaño de un texto
 
@@ -71,7 +158,24 @@ ShapeText.prototype.draw = function(ctx) {
   ctx.textBaseline = "top"
   this.w = ctx.measureText(this.text).width;
   this.h = parseInt(this.font_size);
-  ctx.fillText(this.text,this.x, this.y);
+  
+  // if(this.giro != this.giro_anterior){
+  // giroR = this.giro - this.giro_anterior
+  ctx.translate(this.x, this.y);
+  // console.log("giro");
+  ctx.rotate((this.giro)*Math.PI/180);
+  // this.giro_anterior = this.giro;
+  ctx.fillText(this.text,0,0);
+  
+  ctx.rotate(-(this.giro)*Math.PI/180);
+  ctx.translate(-this.x, -this.y);
+  // }else{
+    // ctx.fillText(this.text,this.x, this.y);
+  // }
+
+  
+  
+  
 }
 function ShapeBorradorXseleccion (x, y, w, h, fill){
   this.x = x || 0;
@@ -249,9 +353,9 @@ function CanvasState(figurasCanvas,borradorCanvas) {
 
           if (mySel.type== 'Texto'){
             myState.setFuncionActual('Texto')
-            $("#fuentesLetras").val(mySel.font_family)
-            $("#tamTexto").val(mySel.font_size)
-            $('#color').css("background-color", mySel.fill)
+            $(".btnFuentesLetras").val(mySel.font_family)
+            $(".btnTamTexto").val(mySel.font_size)
+            $('.btnColorTexto').css("background-color", mySel.fill)
           }
           myState.valid = false;
           return;
@@ -409,7 +513,19 @@ CanvasState.prototype.draw = function() {
       ctx.strokeStyle = this.selectionColor;
       ctx.lineWidth = this.selectionWidth;
       var mySel = this.selection;
-      ctx.strokeRect(mySel.x,mySel.y,mySel.w,mySel.h);
+
+      ctx.translate(mySel.x, mySel.y);
+      ctx.rotate((mySel.giro)*Math.PI/180);
+      ctx.strokeRect(0,0,mySel.w,mySel.h);
+
+      ctx.rotate(-(mySel.giro)*Math.PI/180);
+      ctx.translate(-mySel.x, -mySel.y);
+
+   
+      
+      
+
+
     }
 
     if (this.BorradorXseleccion != null) {

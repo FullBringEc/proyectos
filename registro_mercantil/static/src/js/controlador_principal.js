@@ -273,10 +273,10 @@ function TifWIdget(tipo,id){
         
     }
 
-    $("#fuentesLetras").change(function(){ 
+    $(".btnFuentesLetras").change(function(){ 
         lienzo.setFuncionActual("Texto");    
        if (lienzo.selection.type=='Texto'){       
-            lienzo.selection.font_family= $("#fuentesLetras").val()
+            lienzo.selection.font_family= $(".btnFuentesLetras").val()
             lienzo.valid=false
             tiffs[cursorTiff].unsave();
 
@@ -285,10 +285,20 @@ function TifWIdget(tipo,id){
 
 
 
-    $("#tamTexto").change(function(){       
+    $(".btnTamTexto").change(function(){       
         lienzo.setFuncionActual("Texto");
         if (lienzo.selection.type=='Texto'){             
-            lienzo.selection.font_size= $("#tamTexto").val()
+            lienzo.selection.font_size= $(".btnTamTexto").val()
+            lienzo.valid=false
+            tiffs[cursorTiff].unsave();
+        }   
+    })
+    $(".btnRotation").click(function(){       
+        lienzo.setFuncionActual("Texto");
+        if (lienzo.selection.type=='Texto'){             
+
+            lienzo.selection.rotar(45);
+            console.log(lienzo.selection.giro); 
             lienzo.valid=false
             tiffs[cursorTiff].unsave();
         }   
@@ -317,7 +327,7 @@ function TifWIdget(tipo,id){
     })
 
     $(".btnAddText").click(function(){        
-        lienzo.addShape(new ShapeText(10,40,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));  
+        lienzo.addShape(new ShapeText(200,200,"Escriba","bold", 54,"verdana",null,'rgba(12, 240, 22, .5)'));  
         tiffs[cursorTiff].unsave();    
     })
 

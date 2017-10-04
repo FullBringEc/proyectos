@@ -15,8 +15,8 @@
 					
 
 
-              		<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/Styles.css"/>
-              		<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/style.css"/>
+              		<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/styles.css"/>
+              		<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/Style.css"/>
               		
 					<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/font-awesome.css"/>
 					<link rel="stylesheet" type="text/css" href="/registro_mercantil/static/src/css/reset.css"/>
@@ -220,22 +220,26 @@
 										<li>
 											<a>
 												
-						      						
+						      					<button class="btnRotation btn_text">
+													Rotar
+												</button>
 						      							
 						      							
-						      								<input id="tamTexto" type="number"  />
+			      								<input class="btnTamTexto" type="number"  />
 
-						      								<select id= "fuentesLetras">
-														      <option value="cambria">Cambria</option>
-														      <option value="verdana">Verdana</option>
-														      <option value="arial">Arial</option>
-														      <option value="calibri">Calibri</option>
-														    </select>
-														    <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}" id="color">
-																Color
-															</button>
-															<button class="descargarimg">Descargar</button>
-														
+			      								<select class= "btnFuentesLetras btn_text">
+											      <option value="cambria">Cambria</option>
+											      <option value="verdana">Verdana</option>
+											      <option value="arial">Arial</option>
+											      <option value="calibri">Calibri</option>
+											    </select>
+
+											    <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'} btn_text btnColorTexto" 
+											    	>
+													Color
+												</button>
+												<button class="descargarimg">Descargar</button>
+											
 						      							
 						      						
 						      					

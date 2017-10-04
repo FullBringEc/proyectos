@@ -375,18 +375,16 @@ input[type="number"]:focus {
   -moz-appearance: number-input;
   width: 20%;
 }
-
-select {
-    
+.btn_text {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-#color{
+/*.btn_text{
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
+}*/
