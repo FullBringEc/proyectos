@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id='contenedor_view' model='ir.ui.view'>
+            <field name='name'>contenedo.form</field>
+            <field name='model'>rbs.contenedor</field>          
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Contenedor" version="8.0"> 
+                    <sheet>
+                    <field name="name"/>
+                    <field name="imagenes_ids">
+                        <tree string="Bienes">
+
+                            <field name="imagen" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                            <field name="posicion"/>
+                            <field name="create_uid" />
+                        </tree>
+                    </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id='imagenes_view' model='ir.ui.view'>
+            <field name='name'>imagenes.form</field>
+            <field name='model'>rbs.imagenes</field>          
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="imagenes" version="8.0"> 
+                    <sheet>
+                        <group>
+                            <field name="posicion"/>
+                            <field name="imagen" widget="image" options="{'size': [500, 900]}" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

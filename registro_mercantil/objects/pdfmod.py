@@ -18,9 +18,16 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
     file = None
     try:
         file = PyPDF2.PdfFileReader(filedataByte)
+        for p in range(file.getNumPages()):    
+            page0 = file.getPage(p)
+            # print page0
+            jpeg_image_buffer = recurse(p, page0)
+            imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+            #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+            contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
     except:
         im = Image.open(filedataByte)
-        #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+        
         n = 0
         # modelo.contenedor_id=contenedor.id
         while True:
@@ -32,19 +39,14 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
                 jpeg_image_buffer = cStringIO.StringIO()
                 im.save(jpeg_image_buffer, format="PNG")
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id})
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
                 #raise osv.except_osv('Esto es un Mesaje!',imgStr)
             except EOFError:
                 print "Se Cargo la imagen tiff",  n
                 break;
         return
 
-    for p in range(file.getNumPages()):    
-        page0 = file.getPage(p)
-        # print page0
-        jpeg_image_buffer = recurse(p, page0)
-        imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-        contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id})
+
 
     print('%s extracted images'% number)
 def tiff_header_for_CCITT(width, height, img_size, CCITT_group=4):

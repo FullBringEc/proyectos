@@ -66,6 +66,12 @@
 					            <span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
 					          </span>
 					        </div>
+					        <div class="tooltip nuevaHoja">
+					          <span class="tooltiptext">Nueva Hoja</span>
+					          <span class="button btn">
+					            <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+					          </span>
+					        </div>
 					        <div class="tooltip eliminarImagen">
 					          <span class="tooltiptext">Eliminar</span>
 					          <span class="button btn">
