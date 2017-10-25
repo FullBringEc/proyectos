@@ -2,6 +2,7 @@ var $canv;
 var $ctx;          
 var lienzo;      // Es el espacio donde se crearan los objetos seleccionables
 var controlZoom; // Este objeto contiene las funciones de zoom y movimiento del canvas // se lo inicializa en el archivo jquery.panzoom.js
+var contenedor_id; // Este objeto contiene las funciones de zoom y movimiento del canvas // se lo inicializa en el archivo jquery.panzoom.js
 setTextColor=function(color){
     lienzo.setFuncionActual("Texto");
     if (lienzo.selection.type=='Texto'){  
@@ -33,52 +34,51 @@ function TifWIdget(tipo,id){
                     $('#tipo').html(tipo)
                     $('#propietario').html(result[0].compania_nombres)
                     $('#fecha').html(result[0].fecha_inscripcion)
-                    new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['contenedor_id','=',result[0].contenedor_id[0]]]).context(null).all()
+                    contenedor_id = result[0].contenedor_id[0]
+                    new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['contenedor_id','=',contenedor_id]]).context(null).all()
                     .then(function(result){                     
                         lenTiff =  result.length;
                         for (var i=0; i<result.length; i++){
+                            // tiffs.push(new tifClass(null,i,result[i].id));
+                            // console.log(result[i].imagen);
                             tiffs.push(new tifClass(result[i].imagen,i,result[i].id));
                         }
                         on_change();
                     })
                 })
 
+    function tifClass(imagensrc, index, id){
+        
+        
+        if(imagensrc == null){
 
 
-/*    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'arraybuffer';
-
-    xhr.onload = function (e) {
-            var tiff;    
-            var buffer = xhr.response;
-            console.log((buffer))
-            tiff = new Tiff({buffer: buffer});
-            lenTiff =  tiff.countDirectory();
-            for (var i = 0, len = tiff.countDirectory(); i < len; ++i) {
-                tiffs.push(new tifClass(tiff,i));
-                //console.log("Asdasd"+i);
+            var canvasAux = document.createElement("canvas");
+            canvasAux.width = 1000;
+            canvasAux.height = 1400;
+            var ctx = canvasAux.getContext("2d");
+            var imgData=ctx.createImageData(1000,1400);
+            data = imgData.data;
+            for (var i = 0; i < data.length; i += 4) {
+              data[i]     = 255;     // red
+              data[i + 1] = 255; // green
+              data[i + 2] = 255; // blue
+              data[i + 3] = 255; // blue
             }
-            // setInterval(function() { on_change(); cursorTiff++; console.log(cursorTiff)}, 1000);
-            on_change();
-            new openerp.web.Model('rbs.documento.mercantil.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion']])
-                .then(function(result){
-                    $('#tipo').html(tipo)
-                    $('#propietario').html(result[0].compania_nombres)
-                    $('#fecha').html(result[0].fecha_inscripcion)
-                })
+            ctx.putImageData(imgData, 0, 0);
 
+            var url = canvasAux.toDataURL();
+            // console.log(url);
+            url = url.substr(-url.length+22)
 
             
-    }
-
-
-    xhr.send();*/
-
-
-    function tifClass(TIfforiginal, index, id){
+            // console.log(url);
+            this.imagensrc = url;
+        }else{
+            this.imagensrc = imagensrc;
+        }
         this.saved= true
-        this.TIfforiginal = TIfforiginal;
+        // this.imagensrc = imagensrc;
         this.canvasOriginal
         this.width;
         this.height;
@@ -102,12 +102,12 @@ function TifWIdget(tipo,id){
             this.versiones = [];
             this.verActual = -1;       
             this.shapes = [];
-            return this.TIfforiginal;
+            return this.imagensrc;
         }
 
         this.getTif = function (){ 
             if(this.versiones.length == 0){
-                return this.TIfforiginal;
+                return this.imagensrc;
                 
             }else{
 
@@ -189,7 +189,7 @@ function TifWIdget(tipo,id){
         }
 
 
-        this.guardarImagen = function(){
+        this.guardarImagen = function(posicion){
             var mensaje = confirm("¿Esta seguro que desea guardar?");
             //Detectamos si el usuario acepto el mensaje
             if (mensaje) {
@@ -217,8 +217,7 @@ function TifWIdget(tipo,id){
                     }
                     var cadena=canvas.toDataURL();
                     c = cadena.substr(-cadena.length+22)
-                    // console.log(c)
-                    new openerp.web.Model('rbs.imagenes').call('actualizarImagen',[[self.idBD],c])
+                    new openerp.web.Model('rbs.imagenes').call('actualizarImagen',[[self.idBD],c,posicion])
                         .then(function(result){
                             console.log(result)
                             if(result){
@@ -293,7 +292,7 @@ function TifWIdget(tipo,id){
             tiffs[cursorTiff].unsave();
         }   
     })
-    $(".btnRotation").click(function(){       
+    $(".btnRotationReloj").click(function(){       
         lienzo.setFuncionActual("Texto");
         if (lienzo.selection.type=='Texto'){             
 
@@ -303,14 +302,21 @@ function TifWIdget(tipo,id){
             tiffs[cursorTiff].unsave();
         }   
     })
+    $(".btnRotationAntiReloj").click(function(){       
+        lienzo.setFuncionActual("Texto");
+        if (lienzo.selection.type=='Texto'){             
+
+            lienzo.selection.rotar(-45);
+            console.log(lienzo.selection.giro); 
+            lienzo.valid=false
+            tiffs[cursorTiff].unsave();
+        }   
+    })
 
     $(".eliminarImagen").click(function(){
-
-            //Ingresamos un mensaje a mostrar
             var mensaje = confirm("¿Esta seguro que desea eliminar?");
-            //Detectamos si el usuario acepto el mensaje
             if (mensaje) {
-                new openerp.web.Model('rbs.imagenes').call('unlink',[[tiffs[cursorTiff].idBD]])
+                new openerp.web.Model('rbs.imagenes').call('eliminarImagen',[[tiffs[cursorTiff].idBD]])
                 .then(function(result){
                     tiffs.splice(cursorTiff,1)     
                     if (cursorTiff==lenTiff){      
@@ -321,9 +327,41 @@ function TifWIdget(tipo,id){
                 })
             }
     })
+    /*
+        Cambiar de pagina mediante el teclado
+    */
+    $(document).keydown(function(e){
+        // console.log(e)
+        if(e.shiftKey == true){
+            if(e.which ==37){
+                $('.button-back').click()
+            }
+            if(e.which ==39){
+                $('.button-next').click()
+            }
+        }
+    })
+    //funcion para que solo acepte letras
+
 
     $(".guardarImagen").click(function(){        
-          tiffs[cursorTiff].guardarImagen();
+          tiffs[cursorTiff].guardarImagen(cursorTiff);
+    })
+    $(".nuevaHoja").click(function(){   
+        // tiffs.splice(cursorTiff,new tifClass(null,i,null));  
+        if(tiffs[cursorTiff].isSaved()){
+            new openerp.web.Model('rbs.imagenes').call('insertarImagen',[[],contenedor_id,cursorTiff])
+            .then(function(result){
+                if(typeof result){
+                    tiffs.splice(cursorTiff+1,0,new tifClass(null,cursorTiff+1,result));  
+                    lenTiff++;
+                    $('.button-next').click() 
+                }
+            })  
+        }else{
+            alert("Para cambiar de imagen primero almacene la actual")
+        } 
+        
     })
 
     $(".btnAddText").click(function(){        

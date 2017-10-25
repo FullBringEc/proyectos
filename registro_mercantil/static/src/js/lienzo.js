@@ -42,6 +42,9 @@ Shape.prototype.rotar = function(angulo) {
   if(this.giro>=360){
     this.giro = this.giro-360;
   }
+  if(this.giro<=0){
+    this.giro = 360+this.giro;
+  }
 }
 
 // Determine if a point is inside the shape's bounds
@@ -236,17 +239,8 @@ function CanvasState(figurasCanvas,borradorCanvas) {
   this.BorradorXarrastre = null;
   this.dragoffx = 0;      //Ver eventos de mousedown y mousemove para explicación
   this.dragoffy = 0;
-  // **** ¡Entonces eventos! ****
-  // Este es un ejemplo de un cierre!
-  // Aqui "this" significa el CanvasState. Pero estamos haciendo eventos en la propia lona,
-  // y cuando los eventos son disparados en el lienzo la variable "this" va a significar el lienzo!
-  // Debido a que todavía queremos usar este CanvasState en particular en los eventos tenemos que guardar una referencia a él.
-  // Esta es nuestra referencia!
   var myState = this;
-  
-  //corrige un problema cuando un doble clic hace que el texto se seleccione en el lienzo
   this.canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
-  // Arriba, abajo y mover son para arrastrar 
   
     
   this.setFuncionActual = function(funcion){
@@ -269,7 +263,7 @@ function CanvasState(figurasCanvas,borradorCanvas) {
 
 
 
-  document.onkeypress = function(e){
+  document.onkeydown = function(e){
     //funcion para que solo acepte letras
     function soloLetras(e) {
       key = e.keyCode || e.which;
@@ -400,27 +394,22 @@ function CanvasState(figurasCanvas,borradorCanvas) {
       myState.BorradorXseleccion.w = mouse.x - myState.BorradorXseleccion.x;
       myState.BorradorXseleccion.h = mouse.y - myState.BorradorXseleccion.y;
       myState.valid = false;
-      //console.log("asd")
     }
     if (myState.BorradorXarrastre!=null && myState.BorradorXarrastre != "listo") {
       var mouse = myState.getMouse(e);
       myState.ctx_borrador.lineTo(mouse.x , mouse.y)
       myState.BorradorXarrastre.push({x:mouse.x,y:mouse.y})
       myState.ctx_borrador.stroke();
-      //myState.valid = false;
     }
   }, true);
   this.canvas.addEventListener('mouseup', function(e) {
     if (e.button!=0)return
-    //console.log("mouse arriba")
     myState.dragging = false;
     if(myState.BorradorXseleccion!=null){
-      //controlZoom.bloquearMovimiento(false);
       var x = myState.BorradorXseleccion.x;
       var y = myState.BorradorXseleccion.y;
       var w = myState.BorradorXseleccion.w;
       var h = myState.BorradorXseleccion.h;
-      //console.log(x+' - '+y+' - '+w+' - '+h);
       if(w<0){
         myState.BorradorXseleccion.x = x+w; myState.BorradorXseleccion.w = w*-1;
       }
@@ -468,8 +457,6 @@ CanvasState.prototype.addShape = function(shape) {
                         if(s.type == 'Rectangulo')b = 1;
                         else if(s.type == 'Texto')b = 2;
                         else b=0;
-                        
-                        //console.log(a +" : "+b)
                         return a-b;
                       });
     this.valid = false;
@@ -521,11 +508,6 @@ CanvasState.prototype.draw = function() {
       ctx.rotate(-(mySel.giro)*Math.PI/180);
       ctx.translate(-mySel.x, -mySel.y);
 
-   
-      
-      
-
-
     }
 
     if (this.BorradorXseleccion != null) {
@@ -535,8 +517,6 @@ CanvasState.prototype.draw = function() {
       ctx.strokeRect(mySel.x,mySel.y,mySel.w,mySel.h);
     }
     ctx.restore()
-    //ctx.stroke();
-    
     // ** Añadir cosas que desea dibujar en la parte superior todo el tiempo aquí **
     
     this.valid = true;
@@ -554,40 +534,20 @@ CanvasState.prototype.drawBorrador = function() {
     for (var i = 0; i < l; i++) {
       var shape = shapes[i];
       // We can skip the drawing of elements that have moved off the screen:
-      //if (shape.x > this.width || shape.y > this.height ||
-      //    shape.x + shape.w < 0 || shape.y + shape.h < 0) continue;
       if(shapes[i].type == 'BorradorXseleccion' || shapes[i].type == 'BorradorXarrastre') {
-        //console.log(ctx);
         shapes[i].draw(ctx);  
       }
         
     }
 }
 CanvasState.prototype.setSize = function(width,height){
-  // console.log(height +' - '+width);
-  // console.log(srcFondo);
 
-  
   this.canvas_borrador.setAttribute("width", width);
   this.canvas_borrador.setAttribute("height", height);
   this.width = width; 
   this.height = height;
   this.canvas.setAttribute("width", width);
   this.canvas.setAttribute("height", height);
-  //this.valid = false;
-  //this.fondo = srcFondo
-
-  // s = this; //s representa el objeto CanvasState 
-  // var fondo = new Image();
-  //   fondo.onload = function() {
-      
-  //     s.width = fondo.naturalWidth; 
-  //     s.height = fondo.naturalHeight;
-  //     //s.valid = false;
-  //     s.fondo = fondo
-  //     s.valid = false;
-  //   }
-  //   fondo.src = srcFondo;
 }
 CanvasState.prototype.setShapes = function(shapes) {
   // Cambiar los objetos que se muestran
@@ -598,8 +558,6 @@ CanvasState.prototype.getShapes = function() {
   // Cambiar los objetos que se muestran
   return this.shapes;
 }
-
-
 // Crea un objeto con 'x' y 'y' definidas, establecidas en la posición del ratón en relación con el lienzo del estado
 // Si quieres ser super-correcto esto puede ser complicado, tenemos que preocuparnos por el relleno y las fronteras
 CanvasState.prototype.getMouse = function(e) {
@@ -610,23 +568,3 @@ CanvasState.prototype.getMouse = function(e) {
   my = this.height * (my - rect.top)/(rect.height) ;
   return {x: mx, y: my};
 }
-
-//  Si no quieres usar <body onLoad = 'init ()'>
-// Puede descomentar esta referencia init () y colocar la referencia del script dentro de la etiqueta body
-// init();
-// s = false;
-// function init() {
-//   s = new CanvasState(document.getElementById('canvas1'));
-  
-//   asd = new ShapeText(10,40,"bold 24px verdana",null,'rgba(12, 25, 212, .5)')
-//   s.addShape(asd); 
-  
-//   s.addShape(new Shape(40,40,50,50)); // The default is gray
-//   s.addShape(new Shape(60,140,40,60, 'lightskyblue'));
-//   // Lets make some partially transparent
-//   s.addShape(new Shape(80,150,60,30, 'rgba(127, 255, 212, .5)'));
-//   s.addShape(new Shape(125,80,30,80, 'rgba(245, 222, 179, .7)'));
-//   s.setFondo('https://ratticatte.files.wordpress.com/2008/05/imagen-original3.jpg');
-// }
-
-// Now go make something amazing!
