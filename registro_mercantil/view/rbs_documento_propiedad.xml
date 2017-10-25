@@ -332,26 +332,19 @@
             <field name='name'>rbs.documento.propiedad.tree</field>
             <field name='model'>rbs.documento.propiedad</field>
             <field name='type'>tree</field>
-            
             <field name='arch' type="xml">
                 <tree string="Archivos" version="8.0"> 
- 
-					<field name="tomo_id"/>
-					<field name="numero_inscripcion"/>
-					<!-- <field name="persona_id"/>  -->
-                    <!-- <field name="persona_nombres"/>  -->
-					<!-- <field name="persona_apellidos"/>  -->
-					<field name="fecha_inscripcion"/> 
-					<!-- <field name="descripcion_bien_id"/> -->
-					<field name="cuantia_valor"/>
+                    <field name="tomo_id"/>
+                    <field name="numero_inscripcion"/>
+                    <field name="fecha_inscripcion"/> 
+                    <field name="cuantia_valor"/>
                     <field name="create_uid" string="Creado por"/>
                     <field name="write_uid" string="Ultima modificacion"/>
                 </tree>
-                   
             </field>
-
-
         </record>
+
+        
 
         <record id="rbs_documento_propiedad_tree_filter_view" model="ir.ui.view" >
         <field name="name">rbs.documento.propiedad.tree.filter</field>

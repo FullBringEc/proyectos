@@ -292,11 +292,21 @@ function TifWIdget(tipo,id){
             tiffs[cursorTiff].unsave();
         }   
     })
-    $(".btnRotation").click(function(){       
+    $(".btnRotationReloj").click(function(){       
         lienzo.setFuncionActual("Texto");
         if (lienzo.selection.type=='Texto'){             
 
             lienzo.selection.rotar(45);
+            console.log(lienzo.selection.giro); 
+            lienzo.valid=false
+            tiffs[cursorTiff].unsave();
+        }   
+    })
+    $(".btnRotationAntiReloj").click(function(){       
+        lienzo.setFuncionActual("Texto");
+        if (lienzo.selection.type=='Texto'){             
+
+            lienzo.selection.rotar(-45);
             console.log(lienzo.selection.giro); 
             lienzo.valid=false
             tiffs[cursorTiff].unsave();
@@ -338,17 +348,20 @@ function TifWIdget(tipo,id){
           tiffs[cursorTiff].guardarImagen(cursorTiff);
     })
     $(".nuevaHoja").click(function(){   
-        // tiffs.splice(cursorTiff,new tifClass(null,i,null));   
-        new openerp.web.Model('rbs.imagenes').call('insertarImagen',[[],contenedor_id,cursorTiff])
-        // new openerp.web.Model('rbs.imagenes').call('unlink',[[tiffs[cursorTiff].idBD]])
-                .then(function(result){
-                    if(typeof result){
-                        tiffs.splice(cursorTiff+1,0,new tifClass(null,cursorTiff+1,result));  
-                        lenTiff++;
-                        $('.button-next').click() 
-                    }
-                })  
-          // tiffs[cursorTiff].guardarImagen(cursorTiff);
+        // tiffs.splice(cursorTiff,new tifClass(null,i,null));  
+        if(tiffs[cursorTiff].isSaved()){
+            new openerp.web.Model('rbs.imagenes').call('insertarImagen',[[],contenedor_id,cursorTiff])
+            .then(function(result){
+                if(typeof result){
+                    tiffs.splice(cursorTiff+1,0,new tifClass(null,cursorTiff+1,result));  
+                    lenTiff++;
+                    $('.button-next').click() 
+                }
+            })  
+        }else{
+            alert("Para cambiar de imagen primero almacene la actual")
+        } 
+        
     })
 
     $(".btnAddText").click(function(){        

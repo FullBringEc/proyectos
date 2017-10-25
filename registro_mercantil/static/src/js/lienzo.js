@@ -42,6 +42,9 @@ Shape.prototype.rotar = function(angulo) {
   if(this.giro>=360){
     this.giro = this.giro-360;
   }
+  if(this.giro<=0){
+    this.giro = 360+this.giro;
+  }
 }
 
 // Determine if a point is inside the shape's bounds
