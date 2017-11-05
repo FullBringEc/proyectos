@@ -12,6 +12,8 @@
 <form string="Documento de Propiedad" version="8.0"> 
     <header>
         <button string="Inscripción" name="word" type="object"/>
+        <button string="Razón Inscripción" name="word1" type="object"/>
+        <button string="Solvencia" name="word2" type="object"/>
         <!-- <field name="state" widget="statusbar"/> -->
     </header>
     <sheet>

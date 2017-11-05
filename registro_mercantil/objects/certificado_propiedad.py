@@ -260,6 +260,12 @@ class rbs_documento_propiedad(models.Model):
         bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['clave_catastral'])], context=context)
         bienes = bien_obj.browse(cr, uid, bien_ids, context=context)
         user = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0]
+
+        
+
+        if len(bien_ids)==0:
+            raise osv.except_osv('No existe la clave catastral', bien_ids)
+                
         resumen = []
         libro = {}
         for bien in bienes:

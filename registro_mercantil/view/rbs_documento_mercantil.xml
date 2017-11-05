@@ -12,6 +12,8 @@
 <form string="Documento Mercantil" version="8.0"> 
   <header>
         <button string="Inscripción" name="word" type="object"/>
+        <button string="Razón Inscripción" name="word1" type="object"/>
+        <button string="Solvencia" name="word2" type="object"/>
     </header>
   <sheet>
        <div class="oe_title">
