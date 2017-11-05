@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="seq_type_numero_tarea" model="ir.sequence.type"> 
+		  <field name="name">Tipo numero de tarea</field> 
+		  <field name="code">numero_tarea</field> 
+		</record> 
+		<record id="seq_numero_tarea" model="ir.sequence"> 
+		    <field name="name">Numero de tarea</field> 
+		    <field name="code">numero_tarea</field> 
+		    <field name="prefix">NUMERO_TAREA_</field> 
+		    <field name="padding">7</field> 
+		</record>
+	</data>
+</openerp>

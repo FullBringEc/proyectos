@@ -27,6 +27,12 @@
             <field name="implied_ids" eval="[(4, ref('group_registrador'))]"/>
         </record>
 
+        <record id="group_administrador" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="module_category_registro_mercantil"/>
+            <field name="implied_ids" eval="[(4, ref('group_coordinador'))]"/>
+        </record>
+
     </data>
 
     <data noupdate="1">

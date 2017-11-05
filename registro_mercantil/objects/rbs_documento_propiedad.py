@@ -16,27 +16,27 @@ class rbs_documento_propiedad(models.Model):
 	#name= field.Char('Nombre')
 
 	#Encabezado
-	anio_id = fields.Many2one('rbs.anio', string ='Año',required = True)
-	libro_id = fields.Many2one('rbs.libro', string ='Libro' ,required = True)
+	anio_id = fields.Many2one('rbs.anio', string ='Año')
+	libro_id = fields.Many2one('rbs.libro', string ='Libro' )
 
 	tipo_libro_propiedad_id = fields.Many2one(related="libro_id.tipo_libro_propiedad_id",string='Tipo de Libro P')
 	# reg_acto_contrato = fields.Selection([
  #            ('ACTO','ACTO'),
  #            ('CONTRATO','CONTRATO'),
  #        ],string ='Registra Acto/Contrato')
-	tipo_tramite_id = fields.Many2one('rbs.tipo.tramite',string ='Tipo de trámite', required = True)
+	tipo_tramite_id = fields.Many2one('rbs.tipo.tramite',string ='Tipo de trámite')
 	# tipo_libro = fields.Char (string='Tipo Libro', required = True)
-	tramite_id = fields.Many2one('rbs.tramite.propiedad',string='Trámite', required= True)
-	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo', required = True)
+	tramite_id = fields.Many2one('rbs.tramite.propiedad',string='Trámite')
+	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo')
 	observacion = fields.Char(string='Observación')
-	foleo_desde = fields.Integer(string='Desde', required = True)
-	foleo_hasta = fields.Integer (string='Hasta', required = True)
+	foleo_desde = fields.Integer(string='Desde')
+	foleo_hasta = fields.Integer (string='Hasta')
 	
    #########Informacion de la inscripcion
 
-	repertorio = fields.Char (string='Repertorio', required = True)
+	repertorio = fields.Char (string='Repertorio')
 	fecha_repertorio = fields.Datetime (string='Fecha repertorio')
-	numero_inscripcion = fields.Integer(string = 'Número de inscripción' , required = True)
+	numero_inscripcion = fields.Integer(string = 'Número de inscripción')
 	fecha_inscripcion = fields.Datetime(string = 'Fecha de inscripción' )
 	cuantia_unidad = fields.Selection([
             ('SUCRE','Sucre'),
@@ -48,8 +48,8 @@ class rbs_documento_propiedad(models.Model):
 	fecha_const_gravamen = fields.Datetime (string='Fecha de constitución del gravamen  o limitación')
 	fecha_cancel_gravamen = fields.Datetime (string='Fecha de cancelación del gravamen  o limitación')
 	fecha_ultima_modificacion_inscripcion = fields.Datetime(string = 'Fecha de última modificación de la inscripción' )
-	provincia_notaria_id = fields.Many2one('rbs.provincia', string ='Provincia de la notaria, juzgado o institución pública', required = True)
-	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la notaria', required = True)
+	provincia_notaria_id = fields.Many2one('rbs.provincia', string ='Provincia de la notaria, juzgado o institución pública')
+	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la notaria')
 	notaria_id = fields.Many2one('rbs.institucion',string ='Nombre notaria o juzgado')
 	expensas = fields.Selection([
             ('CERTIFICADO','Certificado'),

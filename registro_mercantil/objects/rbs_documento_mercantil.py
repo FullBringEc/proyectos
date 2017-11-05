@@ -29,30 +29,30 @@ class rbs_documento_mercantil(models.Model):
 	#name= field.Char('Nombre')
 
 	# Ctegoria Libro
-	anio_id = fields.Many2one('rbs.anio', string ='Año',required = True)
-	libro_id = fields.Many2one('rbs.libro', string ='Libro' ,required = True)
+	anio_id = fields.Many2one('rbs.anio', string ='Año')
+	libro_id = fields.Many2one('rbs.libro', string ='Libro')
 	tipo_libro_mercantil_id = fields.Many2one(related="libro_id.tipo_libro_mercantil_id",string='Tipo de Libro M')
 	# reg_acto_contrato = fields.Selection([
 	#            ('ACTO','ACTO'),
 	#            ('CONTRATO','CONTRATO'),
 	#        ],string ='Registra Acto/Contrato')
-	tipo_tramite_id = fields.Many2one('rbs.tipo.tramite',string ='Tipo de trámite', required = True)
-	# tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Acto/Contrato', required = True)
-	tramite_id = fields.Many2one('rbs.tramite.mercantil',string='Trámite', required= True)
-	# tipo_libro = fields.Char (string='Tipo Libro', required = True)
-	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo', required = True)
+	tipo_tramite_id = fields.Many2one('rbs.tipo.tramite',string ='Tipo de trámite')
+	# tipo_contrato_id = fields.Many2one('rbs.tipo.contrato', string ='Tipo de Acto/Contrato')
+	tramite_id = fields.Many2one('rbs.tramite.mercantil',string='Trámite')
+	# tipo_libro = fields.Char (string='Tipo Libro')
+	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo')
 	observacion = fields.Char(string='Observación')
-	foleo_desde = fields.Char(string='Desde', required = True)
-	foleo_hasta = fields.Char (string='Hasta', required = True)
+	foleo_desde = fields.Char(string='Desde')
+	foleo_hasta = fields.Char (string='Hasta')
 	
 
 
 	# INFORMACION DE LA INSCRIPCION
 
-	numero_inscripcion = fields.Integer(string = 'Número de inscripción' , required = True)
-	repertorio = fields.Char (string='Repertorio', required = True)
-	provincia_notaria_id = fields.Many2one('rbs.provincia', string ='Provincia de la notaria, juzgado o institución pública', required = True)
-	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la notaria', required = True)
+	numero_inscripcion = fields.Integer(string = 'Número de inscripción' )
+	repertorio = fields.Char (string='Repertorio')
+	provincia_notaria_id = fields.Many2one('rbs.provincia', string ='Provincia de la notaria, juzgado o institución pública')
+	canton_notaria_id = fields.Many2one('rbs.canton', string ='Canton de la notaria')
 	notaria_id = fields.Many2one('rbs.institucion',string ='Nombre notaria o juzgado')
 	cuantia_valor = fields.Char(string ='Cuantia' )
 	fecha_acta_junta = fields.Datetime (string='Fecha de acta de la junta')
@@ -134,7 +134,7 @@ class rbs_documento_mercantil(models.Model):
 	canton_registro_id = fields.Many2one('rbs.canton', string ='Cantón registro mercantil')
 	ultima_modificacion = fields.Char(string = 'Última modificación' )
 	notaria_juzgado_entidad = fields.Char(string ='Nombre notaria o juzgado')
-	canton_notaria_id = fields.Many2one('rbs.canton', string ='Cantón de la notaria', required = True)
+	canton_notaria_id = fields.Many2one('rbs.canton', string ='Cantón de la notaria')
 	fecha_escritura_contrato = fields.Datetime(string = 'Fecha de escritura')
 	marginacion_tramite_origi = fields.Char (string='Marginacion trámite')
 	# Fin categoria

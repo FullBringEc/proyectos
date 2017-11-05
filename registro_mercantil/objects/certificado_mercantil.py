@@ -23,8 +23,8 @@ from docxtpl import DocxTemplate, RichText
 #import StringIO
 
 
-class rbs_certificado(osv.osv):
-
+class rbs_certificado_mercantil(osv.osv):
+    _name = 'rbs.certificado.mercantil'
     def generate_word(self, cr, uid, ids, context=None):
         datos  = self.read(cr, uid, ids, context=context)[0]
         # elId = repr(datos['caczxcgs<'])
@@ -106,18 +106,18 @@ class rbs_certificado(osv.osv):
         context = dict(context or {})
         return {
                 'type' :    'ir.actions.act_url',
-                'url':      '/web/binary/download_document?model=rbs.certificado&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+                'url':      '/web/binary/download_document?model=rbs.certificado.mercantil&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
                 'target':   'new'
             }
 
-    _name = 'rbs.certificado'
+    
     
     # _columns = {
                 
                 
     # }
-    clave_catastral = field.Char('Clave Catastral', size=30, required=True)
-    cedula = field.Char('Cedula', size=30, required=True)
+    # clave_catastral = field.Char('Clave Catastral', size=30, required=True)
+    # cedula = field.Char('Cedula', size=30, required=True)
     solicitante = field.Char('Solicitante', size=90, required=True)
     dataWord=field.Binary("word")
     state=field.Selection([
@@ -128,25 +128,66 @@ class rbs_certificado(osv.osv):
         ], string = 'Estado', index=True, default='draft')
 
 
-    propiedad_ids = field.Many2many('rbs.documento.propiedad',string ='Documentos')
+    mercantil_ids = field.Many2many('rbs.documento.mercantil',string ='Documentos')
+    criterio_busqueda = field.Selection([
+        ('cedula','Cedula'),
+        ('clave_catastral','Clave Catastral'),
+        ], string="Criterio de busqueda")
 
-    @api.onchange('clave_catastral','cedula')
+    valor_busqueda = field.Char('Busqueda', size=30, required=True)
+
+    @api.onchange('valor_busqueda','criterio_busqueda')
     def get_documentos(self):
         if self.state == 'draft':
-            a = self.env['rbs.documento.propiedad'].search(
-                    ['|',('bien_ids.clave_catastral', 'like', self.clave_catastral),
-                    ('parte_ids.num_identificacion', 'like', self.cedula),
-                    ])
-            self.propiedad_ids = None
-            self.propiedad_ids |= a
-        
+            # resultado=None
+            if self.criterio_busqueda == 'cedula':
+                #######  buscar todos las inscripciones donde el comprador tenga la cedula buscada
+                claves_catastrales = []
+                resultado_sin_filtrar = self.env['rbs.documento.mercantil'].search(
+                    [
+                    ('parte_ids.num_identificacion', '=', self.valor_busqueda),
+                    ('parte_ids.tipo_interviniente_id.name', '=', 'COMPRADOR'),
+                    ],
+                    order='fecha_inscripcion desc')
+
+                #######  Hacer una lista de todas las claves catastrales
+                for res in resultado_sin_filtrar:
+                    for bien in res.bien_ids:
+                        # print str(bien.clave_catastral)
+                        if bien.clave_catastral:
+                            claves_catastrales.append(bien.clave_catastral)
+                ####### elmininar claves repetidas
+                claves_catastrales = list(set(claves_catastrales))
+                print str(claves_catastrales)
+                ####### busca el ultimo movimiento de cada una de las claves catastrales y las agrega al campo 'mercantil_ids'
+                self.mercantil_ids = None
+                for clv_cat in claves_catastrales:
+                    
+                    resultado = self.env['rbs.documento.mercantil'].search(
+                        [
+                        ('bien_ids.clave_catastral', '=', clv_cat),
+                        ],limit=1,
+                        order='fecha_inscripcion desc')
+                    for parte in resultado.parte_ids:
+                        if parte.num_identificacion == self.valor_busqueda:
+                            self.mercantil_ids |= resultado
+
+            elif self.criterio_busqueda == 'clave_catastral':
+                resultado = self.env['rbs.documento.mercantil'].search(
+                        [
+                        ('bien_ids.clave_catastral', '=', self.valor_busqueda),
+                        ],limit=1,
+                        order='fecha_inscripcion desc')
+                self.mercantil_ids = None
+                self.mercantil_ids |= resultado
 
 
-class rbs_documento_propiedad(models.Model):
-    # _name ="rbs.documento.propiedad"
-    _inherit ="rbs.documento.propiedad"
-    _description = "Documento de la Propiedad"
-    certificado_ids = field.Many2many('rbs.certificado',string ='Certificados')
+
+class rbs_documento_mercantil(models.Model):
+    # _name ="rbs.documento.mercantil"
+    _inherit ="rbs.documento.mercantil"
+    _description = "Documento de la mercantil"
+    certificado_mercantil_ids = field.Many2many('rbs.certificado.mercantil',string ='Certificados Mercantil')
     dataWord=field.Binary("word")
 
     vendedor_virtual = field.Char(string="Vendedor",compute="get_vendedor")
@@ -286,6 +327,6 @@ class rbs_documento_propiedad(models.Model):
         context = dict(context or {})
         return {
                 'type' :    'ir.actions.act_url',
-                'url':      '/web/binary/download_document?model=rbs.documento.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+                'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
                 'target':   'new'
             }

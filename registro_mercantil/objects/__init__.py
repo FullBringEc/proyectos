@@ -6,3 +6,6 @@ import parte
 import bien
 import accionista
 import marginacion_gravamen
+import tarea
+import certificado_propiedad
+import certificado_mercantil
