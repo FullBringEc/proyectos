@@ -33,8 +33,8 @@ class rbs_tarea(models.Model):
 	propiedad_id = fields.Many2one('rbs.documento.propiedad',string='Documento de propiedad')
 	mercantil_id = fields.Many2one('rbs.documento.mercantil',string='Documento mercantil')
 
-	certificado_propiedad_id = fields.Many2one('rbs.certificado',string='Certificado de propiedad')
-	certificado_mercantil_id = fields.Many2one('rbs.certificado',string='Certificado de propiedad')
+	certificado_propiedad_id = fields.Many2one('rbs.certificado.propiedad',string='Certificado de propiedad')
+	certificado_mercantil_id = fields.Many2one('rbs.certificado.mercantil',string='Certificado de propiedad')
 	@api.multi
 	def crear_inscripcion_propiedad(self):
 		self.validar_usuario()
@@ -54,14 +54,14 @@ class rbs_tarea(models.Model):
 	def crear_certificacion_propiedad(self):
 		self.validar_usuario()
 		if self.tipo_servicio == 'certificacion_propiedad':
-			self.certificado_propiedad_id = self.env['rbs.certificado'].create({})
+			self.certificado_propiedad_id = self.env['rbs.certificado.propiedad'].create({'valor_busqueda':self.cliente_factura_id.vat,'criterio_busqueda':'cedula','solicitante':self.cliente_factura_id.name})
 			self.iniciar_tarea()
 
 	@api.multi
 	def crear_certificacion_mercantil(self):
 		self.validar_usuario()
 		if self.tipo_servicio == 'certificacion_mercantil':
-			self.certificado_mercantil_id = self.env['rbs.certificado'].create({})
+			self.certificado_mercantil_id = self.env['rbs.certificado.mercantil'].create({})
 			self.iniciar_tarea()
 	@api.one
 	def iniciar_tarea(self):

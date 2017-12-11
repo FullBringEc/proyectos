@@ -15,7 +15,7 @@
                         <button name="crear_certificacion_mercantil"  string="Certificacion mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_mercantil'),('state','!=','pendiente')]}"/>
 
                         <button name="firmar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_firmar')]}"/>
-	            		<button name="entregar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_entregar')]}"/>
+	            		<button name="entregar"  string="Entregar" type="object" attrs="{'invisible':[('state','!=','por_entregar')]}"/>
 	            		<field name="state" widget="statusbar" />
 
 
