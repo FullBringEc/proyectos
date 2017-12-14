@@ -59,7 +59,7 @@
                                 <field name="tipo_documento"        />
                                 <field name="num_identificacion"  />
                                 <field name="estado_civil"          attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>
-                                <field name="conyuge_id" context="{'conyuge_id': id}" attrs="{'invisible':[('tipo_persona','not in','NATURAL')],'required':[('tipo_persona','in','NATURAL')]}"/>/>
+                              <!--   <field name="conyuge_id" context="{'conyuge_id': id}" attrs="{'invisible':[('tipo_persona','not in','NATURAL')]}"/> -->
                             </group>
                         </group>
 

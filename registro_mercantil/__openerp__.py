@@ -22,7 +22,7 @@
 {
     "name" : "Registro Mercantil",
     "version" : "1.0",
-    "author" : "RubikSoft, Universidad Laica Eloy Alfalo de Manabí - Facultad de Ciencias Informaticas",
+    "author" : "RubikSoft",
     'website': 'http://www.facebook.com/RubikSoft15.com',
     "description": """Modulo que permite Crear, Obtener, Actualizar y Borrar informacion de tipos de Archivos""",
 
@@ -64,9 +64,9 @@
               "view/rbs_tomo_view.xml",
               "view/tarea_view.xml",
               'wizard/informe_view.xml',
-              'view/certificado_view.xml',
-              "view/rbs_documento_certificaciones.xml",
-              "view/factura_view.xml",            
+              'view/certificado_propiedad_view.xml',
+              'view/certificado_mercantil_view.xml',
+              "view/rbs_documento_certificaciones.xml",       
               'views/tiffEdit.xml',
               "static/src/xml/template.xml",
               'views/assets_backend.xml'

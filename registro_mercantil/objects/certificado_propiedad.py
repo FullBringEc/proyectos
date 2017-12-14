@@ -25,6 +25,8 @@ from docxtpl import DocxTemplate, RichText
 
 class rbs_certificado_propiedad(osv.osv):
     _name = 'rbs.certificado.propiedad'
+    _rec_name = 'valor_busqueda'
+   
     def generate_word(self, cr, uid, ids, context=None):
         datos  = self.read(cr, uid, ids, context=context)[0]
         # elId = repr(datos['caczxcgs<'])
@@ -251,7 +253,7 @@ class rbs_documento_propiedad(models.Model):
         datos  = self.read(cr, uid, ids, context=context)[0]
         # elId = repr(datos['caczxcgs<'])
 
-        raise osv.except_osv('Esto es un Mesaje!',str(datos))
+        # raise osv.except_osv('Esto es un Mesaje!',str(datos))
         output = BytesIO()
         # import os
 
