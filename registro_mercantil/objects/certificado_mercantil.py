@@ -251,7 +251,7 @@ class rbs_documento_mercantil(models.Model):
         datos  = self.read(cr, uid, ids, context=context)[0]
         # elId = repr(datos['caczxcgs<'])
 
-        raise osv.except_osv('Esto es un Mesaje!',str(datos))
+        # raise osv.except_osv('Esto es un Mesaje!',str(datos))
         output = BytesIO()
         # import os
 
