@@ -25,9 +25,24 @@ import warnings
 class rbs_documento_mercantil(models.Model):
 	_name ="rbs.documento.mercantil"
 	_description = "Documento Mercantil"
-	_rec_name='numero_inscripcion'
+	#_rec_name='numero_inscripcion'
 	#name= field.Char('Nombre')
+	def name_get(self, cr, uid, ids, context=None):
+		if context is None:
+			context = {}
+		res = []
+		for record in self.browse(cr, uid, ids, context=context):
+			if record.anio_id:
+				anio = record.anio_id.name
+				libro = record.libro_id.name
+				tomo = record.tomo_id.name
+				tit = "%s-%s-%s" % (anio, libro,tomo)
+				res.append((record.id, tit))
 
+			else:
+				tit = "Sin registro"
+				res.append((record.id,tit))
+		return res
 	# Ctegoria Libro
 	anio_id = fields.Many2one('rbs.anio', string ='Año')
 	libro_id = fields.Many2one('rbs.libro', string ='Libro')

@@ -100,13 +100,13 @@ class rbs_persona(models.Model):
             ('UNION LIBRE','UNION LIBRE'),
             ('VIUDO','VIUDO'),
         ], string = 'Estado Civil')
-	conyuge_id = fields.Many2one('rbs.persona', string ='Cónyuge')
+	# conyuge_id = fields.Many2one('rbs.persona', string ='Cónyuge')
 	_sql_constraints = [
 	    ('namea_uniq', 'unique(num_identificacion)',
 	        'La identificacion de la Persona debe ser unica'),
 	]
 	_order = 'persona_nombres'
-
+	
 	@api.onchange('tipo_persona')
 	def onchangeTipo_persona(self):
 		if self.tipo_persona == 'JURIDICA':
@@ -116,9 +116,10 @@ class rbs_persona(models.Model):
 			self.conyuge_id = None
 		if self.tipo_persona == 'NATURAL':
 			self.persona_razonSocial = ""
-	@api.onchange('conyuge_id')
-	def onchangeConyuge(self):
-		# raise osv.except_osv('Esto es un Mesaje!',self.conyuge_id)
-		self.conyuge_id.conyuge_id = self.id
+	# @api.multi
+	# @api.onchange('conyuge_id')
+	# def onchangeConyuge(self):
+	# 	# raise osv.except_osv('Esto es un Mesaje!',self.conyuge_id)
+	# 	self.conyuge_id.conyuge_id = self.id
 
 	
