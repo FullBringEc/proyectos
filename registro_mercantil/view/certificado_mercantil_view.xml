@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_certificado_export_1" model="ir.ui.view">
+            <field name="name">rbs.certificado.mercantil.wizard.view</field>
+            <field name="model">rbs.certificado.mercantil</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Certificado">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="8">
+                            <field name = "criterio_busqueda"/>
+                            <field name = "valor_busqueda"/>
+                            <field name = "solicitante"/>
+                            <button icon="gtk-cancel" name="act_cancelar" special="cancel" string="Cerrar" type="object"/>
+                            <button icon="gtk-ok" name ="generate_word" string="Exportar" type="object"/>
+                        </group>
+                            <field name = "mercantil_ids" readonly="1" view_id="rbs_documento_mercantil_tree2_view"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_certificado_mercantil" model="ir.actions.act_window">
+            <field name="name">Certificado</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.certificado.mercantil</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+        <record id='rbs_documento_mercantil_tree2_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.mercantil.tree</field>
+            <field name='model'>rbs.documento.mercantil</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree>
+                    <field name = "numero_inscripcion"/>
+                    <field name = "vendedor_virtual"/>        
+                    <field name = "comprador_virtual"/>        
+                    <field name = "clave_catastral_virtual"/>        
+                    <field name = "descripcion_lindero_virtual"/>        
+                    <field name = "canton_virtual"/>        
+                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
+                </tree>
+            </field>
+        </record>
+
+
+        <record id='tareas_invoice_form_view' model='ir.ui.view'>
+            <field name='name'>acta.form</field>
+            <field name='model'>account.invoice</field>          
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+           <!--  <xpath expr="//field[@name='fiscal_position']" position="after">
+                    <field name="acta_id"/>
+                </xpath> -->
+                <xpath expr="//page[@string='Payments']" position="after">
+                    <page string="Tareas" groups="base.group_user">
+                        <field name="tarea_ids"/>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']//tree//field[@name='product_id']" position="after">
+                    <!-- <page string="Tareas" groups="base.group_user"> -->
+                        <field name="tipo_servicio"/>
+                        <field name="user_id"/>
+                    <!-- </page> -->
+                </xpath>
+            <!-- <xpath expr="//field[@name='mercantil_id']" position="after">
+                    
+                </xpath> -->
+            </field>
+        </record>
+
+        <record id='product_template_tipo_servicio_form_view' model='ir.ui.view'>
+            <field name='name'>product.template.form</field>
+            <field name='model'>product.template</field>          
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+               
+
+                <xpath expr="//field[@name='type']" position="after">
+                        <field name="tipo_servicio"/>
+                </xpath>
+          
+            </field>
+        </record>
+
+
+        <!-- <menuitem name="Certificado" action="action_certificado_word_export" id="submenu_certificado" parent="submenu_Informe"/> -->
+
+
+        <menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/>
+        <menuitem id="submenu_certificado_mercantil" name="Mercantil" parent="submenu_certificados" action="action_certificado_mercantil"/>
+    </data>
+</openerp>

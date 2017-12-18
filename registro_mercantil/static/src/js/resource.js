@@ -8,7 +8,6 @@ openerp.registro_mercantil = function (instance)
 	var QWeb = instance.web.qweb;  
     /*instance.web.client_actions.add('tiff.ui', 'instance.web_tiff_widget.TiffWidget');*/
     instance.web.form.FieldBinaryTiff = instance.web.form.FieldBinary.extend({
-
         template: 'FieldBinaryTiff',
         placeholder: "/web/static/src/img/placeholder.png",
         numRender : 0,
@@ -27,52 +26,58 @@ openerp.registro_mercantil = function (instance)
             }
         },
         render_value: function(){
-            
+
             var self = this;
+            // console.log(self.numRender)
             self.$el.find('.divC').css('width',self.options.size[0])
-            if(self.numRender == 0){
-                self.numRender=1;
-                $btnAtras = self.$el.find('.buttonback');
-                $btnAtras.click(function(){
-                    onclickAtras()
-                });
-                $btnAdelante = self.$el.find('.buttonnext');
-                $btnAdelante.click(function(){
-                    onclickAdelante()
-                    console.log("adelante")
-                });
+            // if(self.numRender == 0){
+                // self.numRender=1;
+            $btnAtras = self.$el.find('.buttonback');
+            $btnAtras.unbind('click');
+            $btnAtras.click(function(){
+                onclickAtras()
+            });
+            $btnAdelante = self.$el.find('.buttonnext');
+            $btnAdelante.unbind('click');
+            $btnAdelante.click(function(){
+                onclickAdelante()
+                console.log("adelante")
+            });
+
+            $pagina_actual = self.$el.find('.pagina_actual');
+            $pagina_actual.unbind('keypress');
+            $pagina_actual.keypress(function(e){
+                if(e.keyCode == 13){
+                    nueva_pagina=$(".pagina_actual").val()-1
+                    if (nueva_pagina<lenTiff && nueva_pagina>=0){
+                        cursorTiff=nueva_pagina;
+                        on_change();
+                    }
+                    else {
+                        $(".pagina_actual").val(cursorTiff+1) 
+                    }
+                }}    
+                );
 
 
-                $btnDiseno = self.$el.find('.btnDiseno');
-                $btnDiseno.click(function(){
-                    onclickDiseno()
-                })
-
-                $btnUndo = self.$el.find('.button-undo');
-                $btnUndo.click(function(){
-                    onclickUndo()
-                })
-
-                $btnRepeat = self.$el.find('.button-repeat');
-                $btnRepeat.click(function(){
-                    onclickRepeat()
-                })
-                $btnSave = self.$el.find('.button-save');
-                $btnSave.click(function(){
-                    onclickSave()
-                })
-                $exportar_pdf = self.$el.find('.exportar_pdf');
-                $exportar_pdf.click(function(){
-                    var doc = null;
-                    cursor = 0;
-                    function load_imagen(index){
-                        if(index > (lenTiff-1)){
-                                return true
-                            }
-                        imagen = tiffs[index].getTif()
+            $btnDiseno = self.$el.find('.btnDiseno');
+            $btnDiseno.unbind('click');
+            $btnDiseno.click(function(){
+                onclickDiseno()
+            })
+            $exportar_pdf = self.$el.find('.exportar_pdf');
+            $exportar_pdf.unbind('click');
+            $exportar_pdf.click(function(){
+                var doc = null;
+                cursor = 0;
+                function load_imagen(index){
+                    if(index > (lenTiff-1)){
+                            return true
+                        }
+                    tiffs[index].getTif(cb)
+                    function cb(imagen){
                         var img = new Image();
                         img.onload = function() {
-
                             var w = img.naturalWidth/10;   // this will be 300
                             var h = img.naturalHeight/10;
                             console.log(doc)
@@ -81,53 +86,21 @@ openerp.registro_mercantil = function (instance)
                             }else{
                                 doc.addPage(w,h)
                             }
-                            // w = 2000//tiffs[i].width
-                            // h = 2000//tiffs[i].height
-                            // console.log(w +" - "+ h)
-                            
-                            doc.addImage(this.src, 'png', 0, 0, w,h);
-                            
-                            // console.log("imagen")
+                            doc.addImage(this.src, 'jpeg', 0, 0, w,h);
                             if(index >= (lenTiff-1)){
                                 console.log(index +" " + (lenTiff-1))
-
                                 doc.save('Test.pdf');
                             }
                             load_imagen(index+1)
-                            
                         }
-                        //console.log(this.getTif())
-                        // image.src = "data:image/png;base64,"+this.getTif();
-                        img.src = "data:image/png;base64,"+imagen
+                        img.src = "data:image/jpeg;base64,"+imagen
                     }
-                    load_imagen(0)
-                   
-                    
-                    
-                })
-
-
-
-
+                }
+                load_imagen(0)
+               
                 
-                // $btnMultitif = self.$el.find('.multitiff');
-                // $btnMultitif.click(function(){
-                //     instance.web.blockUI();
-                //     var c = instance.webclient.crashmanager;
-                //     //alert(tiffs[cursorTiff])
-                //     self.session.get_file({
-                //         url: '/web/binary/multitiff',
-                //         data: {
-                //             data: JSON.stringify({
-                //                 model: tiffs[cursorTiff].getTif().toDataURL()
-                //             })},
-                //         complete: instance.web.unblockUI,
-                //         error: c.rpc_error.bind(c)
-                //     });
-
-
-                // })
-            }
+                
+            })
             var lenTiff = 0;
             var cursorTiff =  0;
             var tiffs = [];
@@ -145,22 +118,19 @@ openerp.registro_mercantil = function (instance)
                             $('#tipo').html(tipo)
                             $('#propietario').html(result[0].compania_nombres)
                             $('#fecha').html(result[0].fecha_inscripcion)
-                            new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['contenedor_id','=',result[0].contenedor_id[0]]]).context(null).all()
+                            new openerp.web.Model('rbs.imagenes').query(['id']).filter([['contenedor_id','=',result[0].contenedor_id[0]]]).context(null).all()
                             .then(function(result){  
-
                                 lenTiff =  result.length;
                                 for (var i=0; i<result.length; i++){
-                                    tiffs.push(new tifClass(result[i].imagen,i,result[i].id));
+                                    tiffs.push(new tifClass(i,result[i].id));
                                 }
-                                
                                 on_change();
                             })
                         })
                 }
-            // console.log($ctx)
-            function tifClass(TIfforiginal, index, id){
+            function tifClass(index, id){
                 this.saved= true
-                this.TIfforiginal = TIfforiginal;
+                // this.TIfforiginal = TIfforiginal;
                 this.canvasOriginal
                 this.width;
                 this.height;
@@ -172,29 +142,13 @@ openerp.registro_mercantil = function (instance)
                 this.shapes = [];
                 this.idBD = id;
 
-                this.getShapes = function(){
-                    return this.shapes;
-                }
-
-                this.setShapes = function(s){
-                    this.shapes = s;
-                }
-
-                this.setOriginal = function(){
-                    this.versiones = [];
-                    this.verActual = -1;       
-                    this.shapes = [];
-                    return this.TIfforiginal;
-                }
-
-                this.getTif = function (){ 
-                    if(this.versiones.length == 0){
-                        return this.TIfforiginal;
-                        
-                    }else{
-
-                        return this.versiones[this.verActual]
-                    }
+                
+                this.getTif = function(cb){ 
+                    
+                    new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['id','=',this.idBD]]).context(null).all()
+                    .then(function(result){  
+                        cb(result[0].imagen)
+                    })
                 }
                 this.setTifUndo = function (){ 
                     if(this.verActual<=0){
@@ -238,8 +192,6 @@ openerp.registro_mercantil = function (instance)
                     var height = image.naturalHeight; // this will be 400
                     canvas.width = width;
                     canvas.height = height;
-                    // console.log(width+" "+height)
-
                     context.drawImage(image, 0, 0, width, height);
                     for (var i = self.shapes.length - 1; i >= 0; i--) {
                         if(self.shapes[i].type!='Texto'){                   
@@ -324,88 +276,45 @@ openerp.registro_mercantil = function (instance)
                 }
                 this.save = function(){
                     this.saved = true;
-                    // this.setShapes(lienzo.shapes)
                 }
                 this.unsave = function(){
                     this.saved = false;
-                    // this.setShapes(lienzo.shapes)
                 }
                 var accion
             }
             on_change = function(){
-                //console.log($canv)
                 try{
-                    var image = new Image();
-                    image.onload = function() {
-                        var width = image.naturalWidth;   // this will be 300
-                        var height = image.naturalHeight; // this will be 400
-
-
-
-                        // $(".pagina_actual").val(cursorTiff+1)      
-                        // $(".pagina_final").val(lenTiff)
-                        // lienzo.shapes=tiffs[cursorTiff].getShapes()
-                        $canv[0].width = width;
-                        $canv[0].height = height;
-                        $ctx.drawImage(image, 0, 0, width, height);
-
-                        // lienzo.valid=false
-                        // lienzo.setSize(width,height);
-                    };
-                    // console.log(tiffs[0])
-                    image.src = "data:image/png;base64,"+tiffs[cursorTiff].getTif();
-                    // console.log("paso por aqui"+self.options.size[0])
-                    $canv.css("width", "" + (self.options.size[0]*(9/10)) + "px")
-
+                    tiffs[cursorTiff].getTif(reload_image)
                 }catch(e){
-                    // console.log(e)
+
                 }
-                
                 
             }
-                        
-
-            /*
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url);
-            xhr.responseType = 'arraybuffer';
-
-
-            var lenTiff = 0;
-            var cursorTiff =  0;
-            var tiffs = [];
-            var $canv;
-            var canv;
-            var texture;
-            xhr.onload = function (e) {
-                var tiff;    
-                var buffer = xhr.response;
-                tiff = new Tiff({buffer: buffer});
-                lenTiff =  tiff.countDirectory();
-                for (var i = 0, len = tiff.countDirectory(); i < len; ++i) {
-                    tiffs.push(new tifClass(tiff,i));
-                }
-                onchange();
-                
-            }*/
-            //var canvasEditable = fx.canvas();
+            reload_image = function(img){
+                var image = new Image();
+                image.onload = function() {
+                    var width = image.naturalWidth;   // this will be 300
+                    var height = image.naturalHeight; // this will be 400
+                    $(".pagina_actual").val(cursorTiff+1)      
+                    $(".pagina_final").val(lenTiff)
+                    $canv[0].width = width;
+                    $canv[0].height = height;
+                    $ctx.drawImage(image, 0, 0, width, height);
+                };
+                image.src = "data:image/png;base64,"+img;
+                $canv.css("width", "" + (self.options.size[0]*(9/10)) + "px")
+            }
             onclickAdelante = function(){
                 if(cursorTiff!=lenTiff-1){
-                    if(tiffs[cursorTiff].isSaved()){
-                        cursorTiff++;
-                        on_change()
-                    }else{
-                        alert("Para cambiar de imagen primero almacene la actual")
-                    }
+                    cursorTiff++;
+                    console.log(cursorTiff,"index")
+                    on_change()
                 }
             }
             onclickAtras = function(){
                 if(cursorTiff!=0){
-                    if(tiffs[cursorTiff].isSaved()){
-                        cursorTiff--;on_change();
-                    }else{
-                        alert("Para cambiar de imagen primero almacene la actual")
-                    }
+                        cursorTiff--;
+                        on_change();
                 }
             }
             onclickUndo = function(){

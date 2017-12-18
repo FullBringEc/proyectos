@@ -17,42 +17,42 @@ number = 0
 def pdfOrTiff2image(modelo,filedataByte,contenedor):
     file = None
     try:
-        with(ImageWand(file=filedataByte,resolution=250)) as source:
-            images=source.sequence
-            pages=len(images)
-            for i in range(pages):
-                print 'page' + str(i)
-                imagen = ImageWand(images[i])
-                print imagen.format
-                imagen.format = 'PNG'
+        im = Image.open(filedataByte)
+            
+        n = 0
+        # modelo.contenedor_id=contenedor.id
+        while True:
+            try:
+                n = n+1
+                im.seek(n)
+                #im.save('Block_%s.tif'%(n,))
+
                 jpeg_image_buffer = cStringIO.StringIO()
-                ImageWand(imagen).save(jpeg_image_buffer)
+                im.save(jpeg_image_buffer, format="PNG")
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
-
-
-
-    
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
+                #raise osv.except_osv('Esto es un Mesaje!',imgStr)
+            except EOFError:
+                print "Se Cargo la imagen tiff",  n
+                break;
+        print "metodo 1"
+        return
     except:
         try:
-            im = Image.open(filedataByte)
-            
-            n = 0
-            # modelo.contenedor_id=contenedor.id
-            while True:
-                try:
-                    n = n+1
-                    im.seek(n)
-                    #im.save('Block_%s.tif'%(n,))
-
+            filedataByte = BytesIO(base64.b64decode(modelo.filedata))
+            with(ImageWand(file=filedataByte,resolution=200)) as source:
+                images=source.sequence
+                pages=len(images)
+                for i in range(pages):
+                    print 'page' + str(i)
+                    imagen = ImageWand(images[i])
+                    print imagen.format
+                    imagen.format = 'jpeg'
                     jpeg_image_buffer = cStringIO.StringIO()
-                    im.save(jpeg_image_buffer, format="PNG")
+                    ImageWand(imagen).save(jpeg_image_buffer)
                     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
-                    #raise osv.except_osv('Esto es un Mesaje!',imgStr)
-                except EOFError:
-                    print "Se Cargo la imagen tiff",  n
-                    break;
+                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
+            print "metodo 2"
             return
         except:
             file = PyPDF2.PdfFileReader(filedataByte)
@@ -63,7 +63,7 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
                 #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
                 contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
-
+            print "metodo 3"
 
 
     print('%s extracted images'% number)

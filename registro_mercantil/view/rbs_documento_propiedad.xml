@@ -291,11 +291,11 @@
 
          
 
-        <page string="Facturación">
+      <!--   <page string="Facturación">
             <group>
             <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
             </group>
-        </page>
+        </page> -->
     </notebook>
     <group>
         <group>

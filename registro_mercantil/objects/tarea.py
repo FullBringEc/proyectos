@@ -61,7 +61,7 @@ class rbs_tarea(models.Model):
 	def crear_certificacion_mercantil(self):
 		self.validar_usuario()
 		if self.tipo_servicio == 'certificacion_mercantil':
-			self.certificado_mercantil_id = self.env['rbs.certificado.mercantil'].create({})
+			self.certificado_mercantil_id = self.env['rbs.certificado.mercantil'].create({'valor_busqueda':self.cliente_factura_id.vat,'criterio_busqueda':'cedula','solicitante':self.cliente_factura_id.name})
 			self.iniciar_tarea()
 	@api.one
 	def iniciar_tarea(self):
@@ -92,7 +92,7 @@ class factura_invoice(models.Model):
 			# if line.tipo_servicio == 'inscripcion_propiedad' or line.tipo_servicio == 'inscripcion_mercantil':
 			if line.tipo_servicio:
 
-				self.tarea_ids |= self.env['rbs.tarea'].create({'tipo_servicio':line.tipo_servicio,'user_id':line.user_id.id})
+				self.tarea_ids |= self.env['rbs.tarea'].create({'tipo_servicio':line.tipo_servicio,'user_id':line.user_id.id,'factura_id':self.id})
 			# if line.tipo_servicio == 'certificacion_propiedad' or line.tipo_servicio == 'certificacion_mercantil':
 				# self.tarea_ids |= self.env['rbs.tarea'].create({'tipo_servicio':line.tipo_servicio,'user_id':line.user_id.id})
 		return super(factura_invoice, self).invoice_validate()

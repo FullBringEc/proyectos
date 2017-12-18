@@ -14,7 +14,22 @@ class rbs_documento_propiedad(models.Model):
 	_name ="rbs.documento.propiedad"
 	_description = "Documento de la Propiedad"
 	#name= field.Char('Nombre')
+	def name_get(self, cr, uid, ids, context=None):
+		if context is None:
+			context = {}
+		res = []
+		for record in self.browse(cr, uid, ids, context=context):
+			if record.anio_id:
+				anio = record.anio_id.name
+				libro = record.libro_id.name
+				tomo = record.tomo_id.name
+				tit = "%s-%s-%s" % (anio, libro,tomo)
+				res.append((record.id, tit))
 
+			else:
+				tit = "Sin registro"
+				res.append((record.id,tit))
+		return res
 	#Encabezado
 	anio_id = fields.Many2one('rbs.anio', string ='Año')
 	libro_id = fields.Many2one('rbs.libro', string ='Libro' )
@@ -209,7 +224,7 @@ class rbs_documento_propiedad(models.Model):
 	 	try:
 	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
 			filedataByte = BytesIO(base64.b64decode(self.filedata))
-			print filedataByte
+			# print filedataByte
 			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
 			self.contenedor_id=contenedor.id
 			raise osv.except_osv('Esto es un Mesaje!',"repr(im.sd)")

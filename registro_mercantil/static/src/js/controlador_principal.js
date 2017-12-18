@@ -48,11 +48,7 @@ function TifWIdget(tipo,id){
                 })
 
     function tifClass(imagensrc, index, id){
-        
-        
         if(imagensrc == null){
-
-
             var canvasAux = document.createElement("canvas");
             canvasAux.width = 1000;
             canvasAux.height = 1400;
@@ -78,7 +74,6 @@ function TifWIdget(tipo,id){
             this.imagensrc = imagensrc;
         }
         this.saved= true
-        // this.imagensrc = imagensrc;
         this.canvasOriginal
         this.width;
         this.height;
