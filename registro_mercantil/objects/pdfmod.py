@@ -7,7 +7,7 @@ from io import BytesIO
 import cStringIO
 from openerp.osv import osv
 
-
+from wand.image import Image as ImageWand
 import sys
 from os import path
 import warnings
@@ -17,34 +17,52 @@ number = 0
 def pdfOrTiff2image(modelo,filedataByte,contenedor):
     file = None
     try:
-        file = PyPDF2.PdfFileReader(filedataByte)
-        for p in range(file.getNumPages()):    
-            page0 = file.getPage(p)
-            # print page0
-            jpeg_image_buffer = recurse(p, page0)
-            imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-            #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
-            contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
-    except:
-        im = Image.open(filedataByte)
-        
-        n = 0
-        # modelo.contenedor_id=contenedor.id
-        while True:
-            try:
-                n = n+1
-                im.seek(n)
-                #im.save('Block_%s.tif'%(n,))
-
+        with(ImageWand(file=filedataByte,resolution=250)) as source:
+            images=source.sequence
+            pages=len(images)
+            for i in range(pages):
+                print 'page' + str(i)
+                imagen = ImageWand(images[i])
+                print imagen.format
+                imagen.format = 'PNG'
                 jpeg_image_buffer = cStringIO.StringIO()
-                im.save(jpeg_image_buffer, format="PNG")
+                ImageWand(imagen).save(jpeg_image_buffer)
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
-                #raise osv.except_osv('Esto es un Mesaje!',imgStr)
-            except EOFError:
-                print "Se Cargo la imagen tiff",  n
-                break;
-        return
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
+
+
+
+    
+    except:
+        try:
+            im = Image.open(filedataByte)
+            
+            n = 0
+            # modelo.contenedor_id=contenedor.id
+            while True:
+                try:
+                    n = n+1
+                    im.seek(n)
+                    #im.save('Block_%s.tif'%(n,))
+
+                    jpeg_image_buffer = cStringIO.StringIO()
+                    im.save(jpeg_image_buffer, format="PNG")
+                    imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
+                    #raise osv.except_osv('Esto es un Mesaje!',imgStr)
+                except EOFError:
+                    print "Se Cargo la imagen tiff",  n
+                    break;
+            return
+        except:
+            file = PyPDF2.PdfFileReader(filedataByte)
+            for p in range(file.getNumPages()):    
+                page0 = file.getPage(p)
+                # print page0
+                jpeg_image_buffer = recurse(p, page0)
+                imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+                #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
 
 
 
