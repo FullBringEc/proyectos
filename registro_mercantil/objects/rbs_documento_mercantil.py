@@ -6,8 +6,10 @@ from dateutil import parser
 from openerp import models, fields, api, _
 from openerp.osv import osv
 from docxtpl import DocxTemplate, RichText
-import base64
+from jinja2 import Environment, FileSystemLoader
 
+import base64
+import os
 from openerp import http
 from openerp.http import request
 from openerp.addons.web.controllers.main import serialize_exception,content_disposition
@@ -81,7 +83,7 @@ class rbs_documento_mercantil(models.Model):
 	nombramiento_mercantil_id = fields.Many2one('rbs.nombramiento.mercantil', string ='Tipo de nombramiento')
 	plazo_nombramiento_cant = fields.Integer(string = 'Plazo nombramiento')
 	plazo_nombramiento_tipo = fields.Selection([
-            ('DÍAS','Días'),
+            ('DIAS','Dias'),
             ('SEMANAS','Semanas'),
             ('MESES','Meses'),
             ('AÑOS','Años'),
@@ -228,78 +230,149 @@ class rbs_documento_mercantil(models.Model):
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
 	factura_ids = fields.One2many('account.invoice', 'mercantil_id', string= 'Factura')
 	dataWord=fields.Binary("word")
-	def generate_word(self, cr, uid, ids, context=None):
-		datos  = self.read(cr, uid, ids, context=context)[0]
+	
+
+
+	@api.multi
+	def word(self):
 		output = BytesIO()
-		tpl=DocxTemplate('inscripcion.docx')
-		documento_mercantil = self.browse(cr,uid,ids,context = context)
+		tmpl_path = os.path.join(os.path.dirname(__file__), 'Documentos/DocMercantil')
+		tpl=DocxTemplate(tmpl_path+'/inscripcion.docx')
+
 		compareciente = [] 
-		for partes in documento_mercantil.parte_ids:
+		for partes in self.parte_ids:
 			detalle = {}
 			detalle['cliente'] = partes.tipo_persona
 			detalle['identi'] = partes.num_identificacion
 			detalle['compareciente'] = RichText (str (partes.nombres)+' '+str(partes.apellidos ))
 			detalle['estado'] = RichText (str (partes.estado_civil))
 			detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
-			detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
+			detalle['ciudad'] = RichText (str(self.canton_notaria_id.name))
 			compareciente.append(detalle)
-		datosbien = []
-		for bien in documento_mercantil.bien_ids:
-		    detalle = {}
-		    documento_mercantil = None
-		    if bien.documento_mercantil_id:
-		        documento_mercantil = bien.documento_mercantil_id
-		    else:
-		        documento_mercantil = bien.documento_propiedad_id
 
-		    detalle['numero'] = RichText (str (documento_mercantil.numero_inscripcion))
-		    detalle['fecha_inscripcion'] = RichText (str (documento_mercantil.fecha_inscripcion))
-		    detalle['tipobien'] = RichText (str(bien.tipo_bien_id.name))
-		    datosbien.append(detalle)
-		  
+		datosbien = []
+		for bien in self.bien_ids:
+			detalle = {}
+			# documento_mercantil = None
+			# if bien.documento_mercantil_id:
+			#     documento_mercantil = bien.documento_mercantil_id
+			# else:
+			#     documento_mercantil = bien.documento_propiedad_id
+
+			detalle['numero'] = RichText (str (self.numero_inscripcion))
+			detalle['fecha_inscripcion'] = RichText (str (self.fecha_inscripcion))
+			detalle['tipobien'] = RichText (str(bien.tipo_bien_id.name))
+
+			datosbien.append(detalle)
 
 		context = {
-		    'acto' : RichText (documento_mercantil.tipo_tramite_id.name),
-		    'compareciente' : compareciente,
-		    'datosbien' : datosbien,
-		    'ntomo': RichText (str (documento_mercantil.tomo_id.name)),
-		    'ninscripcion' : RichText (str (documento_mercantil.numero_inscripcion)),
-		    'nrepertorio' : RichText (str (documento_mercantil.repertorio)),
-		    'frepertorio' : RichText (str (documento_mercantil.fecha_repertorio)),
-		    'natacto' : RichText ('SD'),
-		    'folioi' : RichText (str (documento_mercantil.foleo_desde)),
-		    'foliof' : RichText (str (documento_mercantil.foleo_hasta)),
-		    'periodo' : RichText (str (documento_mercantil.anio_id.name)),
-		    'natcontrato' : RichText (str (documento_mercantil.libro_id.name)),
-		    'notaria' : RichText (str (documento_mercantil.notaria_id.name)),
-		    'nomcanton' : RichText (str (documento_mercantil.canton_notaria_id.name)),
-		    'fechaprov' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
-		    'fresolucion' : RichText (str (documento_mercantil.fecha_escritura)),
-		    'observacion' : RichText (str (documento_mercantil.observacion)),
+			'acto' : RichText (self.tipo_tramite_id.name),
+			'compareciente' : compareciente,
+			'datosbien' : datosbien,
+			'ntomo': RichText (str (self.tomo_id.name)),
+			'ninscripcion' : RichText (str (self.numero_inscripcion)),
+			'nrepertorio' : RichText (str (self.repertorio)),
+			'frepertorio' : RichText (str (self.fecha_repertorio)),
+			'natacto' : RichText ('SD'),
+			'folioi' : RichText (str (self.foleo_desde)),
+			'foliof' : RichText (str (self.foleo_hasta)),
+			'periodo' : RichText (str (self.anio_id.name)),
+			'natcontrato' : RichText (str (self.libro_id.name)),
+			'notaria' : RichText (str (self.notaria_id.name)),
+			'nomcanton' : RichText (str (self.canton_notaria_id.name)),
+			'fechaprov' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+			'fresolucion' : RichText (str (self.fecha_escritura)),
+			'observacion' : RichText (str (self.observacion)),
 
 		}
 
 
 
-
-
 		tpl.render(context)
 		tpl.save(output)
-		return base64.b64encode(output.getvalue())
-	
-	def word(self, cr, uid, ids, context=None):
-		out = self.generate_word( cr, uid, ids, context=None)
-		self.write( cr, uid, ids,{'dataWord':out})
-		return self.download_word( cr, uid, ids, context=None)
 
-	def download_word(self, cr, uid, ids, context=None):
-		data = self.browse(cr, uid, ids[0], context=context)
-		context = dict(context or {})
+		self.write({'dataWord':base64.b64encode(output.getvalue())})
+		# return self.word( cr, uid, ids, context=None)
 		return {
-				'type' : 	'ir.actions.act_url',
-                'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(ids[0])),
-				'target': 	'new'
+			'type' : 	'ir.actions.act_url',
+			'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(self.id)),
+			'target': 	'new'
 			}
+
+
+
+	# def generate_word(self, cr, uid, ids, context=None):
+	# 	datos  = self.read(cr, uid, ids, context=context)[0]
+	# 	output = BytesIO()
+	# 	tpl=DocxTemplate('inscripcion.docx')
+	# 	documento_mercantil = self.browse(cr,uid,ids,context = context)
+	# 	compareciente = [] 
+	# 	for partes in documento_mercantil.parte_ids:
+	# 		detalle = {}
+	# 		detalle['cliente'] = partes.tipo_persona
+	# 		detalle['identi'] = partes.num_identificacion
+	# 		detalle['compareciente'] = RichText (str (partes.nombres)+' '+str(partes.apellidos ))
+	# 		detalle['estado'] = RichText (str (partes.estado_civil))
+	# 		detalle['interviniente'] = RichText (str(partes.tipo_interviniente_id.name))
+	# 		detalle['ciudad'] = RichText (str(documento_mercantil.canton_notaria_id.name))
+	# 		compareciente.append(detalle)
+	# 	datosbien = []
+	# 	for bien in documento_mercantil.bien_ids:
+	# 	    detalle = {}
+	# 	    documento_mercantil = None
+	# 	    if bien.documento_mercantil_id:
+	# 	        documento_mercantil = bien.documento_mercantil_id
+	# 	    else:
+	# 	        documento_mercantil = bien.documento_propiedad_id
+
+	# 	    detalle['numero'] = RichText (str (documento_mercantil.numero_inscripcion))
+	# 	    detalle['fecha_inscripcion'] = RichText (str (documento_mercantil.fecha_inscripcion))
+	# 	    detalle['tipobien'] = RichText (str(bien.tipo_bien_id.name))
+	# 	    datosbien.append(detalle)
+		  
+
+	# 	context = {
+	# 	    'acto' : RichText (documento_mercantil.tipo_tramite_id.name),
+	# 	    'compareciente' : compareciente,
+	# 	    'datosbien' : datosbien,
+	# 	    'ntomo': RichText (str (documento_mercantil.tomo_id.name)),
+	# 	    'ninscripcion' : RichText (str (documento_mercantil.numero_inscripcion)),
+	# 	    'nrepertorio' : RichText (str (documento_mercantil.repertorio)),
+	# 	    'frepertorio' : RichText (str (documento_mercantil.fecha_repertorio)),
+	# 	    'natacto' : RichText ('SD'),
+	# 	    'folioi' : RichText (str (documento_mercantil.foleo_desde)),
+	# 	    'foliof' : RichText (str (documento_mercantil.foleo_hasta)),
+	# 	    'periodo' : RichText (str (documento_mercantil.anio_id.name)),
+	# 	    'natcontrato' : RichText (str (documento_mercantil.libro_id.name)),
+	# 	    'notaria' : RichText (str (documento_mercantil.notaria_id.name)),
+	# 	    'nomcanton' : RichText (str (documento_mercantil.canton_notaria_id.name)),
+	# 	    'fechaprov' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+	# 	    'fresolucion' : RichText (str (documento_mercantil.fecha_escritura)),
+	# 	    'observacion' : RichText (str (documento_mercantil.observacion)),
+
+	# 	}
+
+
+
+
+
+	# 	tpl.render(context)
+	# 	tpl.save(output)
+	# 	return base64.b64encode(output.getvalue())
+	
+	# def word(self, cr, uid, ids, context=None):
+	# 	out = self.generate_word( cr, uid, ids, context=None)
+	# 	self.write( cr, uid, ids,{'dataWord':out})
+	# 	return self.download_word( cr, uid, ids, context=None)
+
+	# def download_word(self, cr, uid, ids, context=None):
+	# 	data = self.browse(cr, uid, ids[0], context=context)
+	# 	context = dict(context or {})
+	# 	return {
+	# 			'type' : 	'ir.actions.act_url',
+ #                'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(ids[0])),
+	# 			'target': 	'new'
+	# 		}
 
 
 

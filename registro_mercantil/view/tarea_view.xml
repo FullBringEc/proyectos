@@ -39,6 +39,21 @@
 	           	</form>
             </field>
         </record>
+        <record id="rbs_tarea_tree_filter_view" model="ir.ui.view" >
+        <field name='name'>rbs.tarea.tree</field>
+        <field name='model'>rbs.tarea</field>
+        <field name='type'>search</field>
+        <field name='priority' eval="20"/>
+        <field name='arch' type="xml">
+          <search string="Search Detail">
+            <field name="user_id" string="Usuario" />
+        
+
+            <filter string="Usuario" icon="terp-folder-orange" domain="[]" context="{'group_by':'user_id'}"/>
+
+          </search>
+          </field>
+         </record>
         <record id='rbs_tarea_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.tarea.tree</field>
             <field name='model'>rbs.tarea</field>
@@ -62,11 +77,29 @@
         	<field name="res_model">rbs.tarea</field>
         	<field name="view_type">form</field>
         	<field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="rbs_tarea_tree_filter_view"/>
         	<field name="view_id" ref="rbs_tarea_tree_view"/>
+            <field name="domain">[('user_id','=',uid)]</field>
+            <field name="context">{
+                'user_id': uid,
+                'default_user_id': uid,
+                }</field>
+        </record>
+
+        <record model="ir.actions.act_window"   id="id_accion_rbs_tarea_admin">
+            <field name="name">Tarea</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rbs.tarea</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="rbs_tarea_tree_filter_view"/>
+            <field name="view_id" ref="rbs_tarea_tree_view"/>
+           
         </record>
 
 		<menuitem id="submenu_tareas" name="Tareas" parent="menu_Documentos"/>
-		<menuitem id="submenu_lista_tareas" name="Lista de Tareas" parent="submenu_tareas" action="id_accion_rbs_tarea"/>
+		<menuitem id="submenu_lista_tareas" name="Lista de Tareas" parent="submenu_tareas" action="id_accion_rbs_tarea" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador"/>
+        <menuitem id="submenu_lista_tareas_admin" name="Lista de Tareas Administrador" parent="submenu_tareas" action="id_accion_rbs_tarea_admin" groups="registro_mercantil.group_administrador"/>
 
     </data>
 </openerp>
