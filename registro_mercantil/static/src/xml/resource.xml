@@ -125,15 +125,22 @@
                             <span ><i class="fa fa-print" aria-hidden="true"></i></span>
                         </button>
                     </td> -->
-                  <td style="text-align: center">
+                <td style="text-align: center">
                     <span class="button buttonback btn" >
-                      <span>Atras</span>
+                        <span>Atras</span>
                     </span>
 
                     <span class="button buttonnext btn">
-                      <span>Adelante</span>
+                        <span>Adelante</span>
                     </span>
-                  </td>
+                </td>
+                <span class="input input--yoshiko">
+                    <input class="input__field--yoshiko pagina_actual" type="text" />
+                </span>
+                /
+                <span class="input input--yoshiko">
+                    <input class="input__field--yoshiko pagina_final" type="text" readonly="True" />
+                </span>
 
                   <!-- <td>
                     <span class="button button-save">
@@ -151,20 +158,9 @@
                 <button class="button exportar_pdf" style="vertical-align:middle">
                     <span><i class="fa fa-print" aria-hidden="true"></i></span>
                 </button>
-<!-- 
-                <button class="button button-undo" style="vertical-align:middle">
-                    <span><i class="fa fa-undo"/>Deshacer</span>
-                </button>
-
-                <button class="button button-repeat" style="vertical-align:middle">
-                    <span><i class="fa fa-repeat"/>Rehacer</span>
-                </button> -->
-
-                <button class="button btnDiseno" style="vertical-align:middle">
+                <!-- <button class="button btnDiseno" style="vertical-align:middle">
                     <span><i class="fa fa-pencil-square-o"/></span>
-                </button>
-
-                <!-- <input type="range"/> -->
+                </button> -->
             </div>
         </div>
     </span>

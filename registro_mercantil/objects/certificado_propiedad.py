@@ -28,7 +28,6 @@ class rbs_certificado_propiedad(osv.osv):
     _name = 'rbs.certificado.propiedad'
     _rec_name = 'valor_busqueda'
 
-
     @api.multi
     def word_certificado(self):
         output = BytesIO()

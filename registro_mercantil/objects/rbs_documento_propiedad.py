@@ -210,6 +210,7 @@ class rbs_documento_propiedad(models.Model):
 	 	try:
 	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
 			filedataByte = BytesIO(base64.b64decode(self.filedata))
+			# print filedataByte
 			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
 			self.contenedor_id=contenedor.id
 			raise osv.except_osv('Esto es un Mesaje!',"repr(im.sd)")
@@ -217,6 +218,7 @@ class rbs_documento_propiedad(models.Model):
 			print "------------------\n"
 			print e
 			print "------------------\n"
+
 	@api.onchange('parte_ids','bien_ids')
 	def onchange_parte_ids(self):
 		parte_char_ids_num = []
@@ -226,7 +228,6 @@ class rbs_documento_propiedad(models.Model):
 			r = [x for x in self.parte_char_ids if x.name == nombres]
 			if r:
 				continue
-			# print nombres+"------------"
 			parte_char = self.env['rbs.parte.char'].create({'name':parte.razon_social or parte.nombres or "",'parte_id':parte.id,'documento_propiedad_id':self.id})
 			self.parte_char_ids |= parte_char
 			parte_char_ids_num.append(parte_char.id)
@@ -234,15 +235,7 @@ class rbs_documento_propiedad(models.Model):
 		for bien in self.bien_ids:
 			bien.parte_char_ids = [(6,0,parte_char_ids_num)]
 
-		# 	bien_auxiliar_ids_num=[]
-		# 	for bienauxiliar in self.bien_auxiliar_ids:
-		# 		bien_auxiliar_ids_num.append(bienauxiliar.id)
-		# 	self.parte_bien_ids |= self.env['rbs.parte.bien.rel'].create({
-		# 		'parte':parte.razon_social or parte.nombres,
-		# 		'bienauxiliar_ids':[(6, 0, bien_auxiliar_ids_num)]})
 
-		# for parte in self.parte_ids:
-			
 		return
 
 	def _getUltimoAnio(self, cr, uid, context=None):

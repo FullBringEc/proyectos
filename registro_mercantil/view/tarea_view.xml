@@ -13,6 +13,7 @@
 	            		<button name="crear_inscripcion_mercantil"  string="Inscripcion mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','inscripcion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_registrador"/>
 	            		<button name="crear_certificacion_propiedad"  string="Certificacion propiedad" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_propiedad'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador"/>
                         <button name="crear_certificacion_mercantil"  string="Certificacion mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador"/>
+
                         <button name="firmar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_firmar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador"/>
 	            		<button name="entregar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_entregar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador"/>
 	            		<field name="state" widget="statusbar"/>
