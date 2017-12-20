@@ -18,7 +18,8 @@ import datetime
 from io import BytesIO , StringIO
 import gzip
 from docxtpl import DocxTemplate, RichText
-
+from jinja2 import Environment, FileSystemLoader
+import os
 #from xlsxwriter import workbook as Workbook
 #import StringIO
 
@@ -26,41 +27,34 @@ from docxtpl import DocxTemplate, RichText
 class rbs_certificado_propiedad(osv.osv):
     _name = 'rbs.certificado.propiedad'
     _rec_name = 'valor_busqueda'
-    def generate_word(self, cr, uid, ids, context=None):
-        datos  = self.read(cr, uid, ids, context=context)[0]
-        # elId = repr(datos['caczxcgs<'])
 
-
+    @api.multi
+    def word_certificado(self):
         output = BytesIO()
-        # import os
+        tmpl_path = os.path.join(os.path.dirname(__file__), 'Documentos/DocPropiedad')
+        tpl=DocxTemplate(tmpl_path+'/certificado.docx')
 
-        tpl=DocxTemplate('certificado.docx')
-        bien_obj =  self.pool.get('rbs.bien')
-        bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['clave_catastral'])], context=context)
-        bienes = bien_obj.browse(cr, uid, bien_ids, context=context)
-        user = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0]
         resumen = []
         libro = {}
-        for bien in bienes:
-            detalle = {}
-            doc = None
-            if bien.documento_mercantil_id:
-                doc = bien.documento_mercantil_id
-            else:
-                doc = bien.documento_propiedad_id
+        
+        for propiedad_line in self.propiedad_ids:
 
-            detalle['libro'] = doc.libro_id.name
-            detalle['acto'] = doc.tipo_tramite_id.name
-            detalle['numero'] = RichText (str (doc.numero_inscripcion))
-            detalle['finscrip'] = RichText (str (doc.fecha_inscripcion))
-            detalle['finicial'] = RichText (str(doc.foleo_desde))
-            detalle['ffinal'] = RichText (str(doc.foleo_hasta))
-            resumen.append(detalle)
-            if libro.has_key(doc.libro_id.name):
-                libro[doc.libro_id.name] = libro[doc.libro_id.name]+1
-            else:
-                libro[doc.libro_id.name] = 1
+                detalle = {}
+                detalle['libro'] = propiedad_line.libro_id.name
+                detalle['acto'] = propiedad_line.tipo_tramite_id.name
+                detalle['numero'] = RichText (str (propiedad_line.numero_inscripcion))
+                detalle['finscrip'] = RichText (str (propiedad_line.fecha_inscripcion))
+                detalle['finicial'] = RichText (str(propiedad_line.foleo_desde))
+                detalle['ffinal'] = RichText (str(propiedad_line.foleo_hasta))
+                resumen.append(detalle)
 
+            
+                
+                if libro.has_key(propiedad_line.libro_id.name):
+                    libro[propiedad_line.libro_id.name] = libro[propiedad_line.libro_id.name]+1
+                else:
+                    libro[propiedad_line.libro_id.name] = 1
+        
         movimientos  = []
 
         for clave in libro:
@@ -68,48 +62,126 @@ class rbs_certificado_propiedad(osv.osv):
             detalle = {}
             l = clave
             ni = libro[clave]
-            # raise osv.except_osv('Esto es un Mesaje!',str(ni))
+           
             detalle['libro'] = l
             detalle['sumainscrp'] = RichText (str(ni))
 
             movimientos.append(detalle)
-
+        usuario_actual = self.env['res.users'].search([('id', '=', self._uid)])[0]
         context = {
-            'campo' : RichText ('fecha'),
-            'resumen' : resumen,
-            'ccatastral': RichText (str (bien.clave_catastral)),
-            'fapertura' : RichText (str (doc.fecha_adjudicion)),
-            'infmuni' : RichText (str (doc.canton_notaria_id.name)),
-            'tpredio' : RichText (str (bien.descripcion_bien)),
-            'parroquia' : RichText (str (bien.parroquia_id.name)),
-            'lindero' : RichText (str (bien.descripcion_lindero)),
-            'nombresoli' : RichText (str (datos['solicitante'])),
-            'sesion' : RichText (str (user.name)),
-            'fechaactual' : RichText ( str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
-            'movimientos':movimientos,
+                    # 'campo' : RichText ('fecha'),
+                    'resumen' : resumen,
+                    'ccatastral': RichText (str (self.valor_busqueda)),
+                    'fapertura' : RichText (str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+                    # 'infmuni' : RichText (str (self.canton_notaria_id.name)),
+                    # 'tpredio' : RichText (str (self.descripcion_bien)),
+                    # 'parroquia' : RichText (str (self.parroquia_id.name)),
+                    # 'lindero' : RichText (str (self.descripcion_lindero)),
+                    'nombresoli' : RichText (str (self.solicitante)),
+                    'sesion' : RichText (str (usuario_actual.name)),
+                    'fechaactual' : RichText ( str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+                    'movimientos':movimientos,
 
-        }
+                }
+
 
         tpl.render(context)
         tpl.save(output)
 
-        self.write( cr, uid, ids,{'dataWord':base64.b64encode(output.getvalue())})
-        return self.download_word( cr, uid, ids, context=None)
-        # return base64.b64encode(output.getvalue())
-    
-    def word(self, cr, uid, ids, context=None):
-        out = self.generate_word( cr, uid, ids, context=None)
-        self.write( cr, uid, ids,{'dataWord':out})
-        return self.download_word( cr, uid, ids, context=None)
-
-    def download_word(self, cr, uid, ids, context=None):
-        data = self.browse(cr, uid, ids[0], context=context)
-        context = dict(context or {})
+        self.write({'dataWord':base64.b64encode(output.getvalue())})
+        # return self.word( cr, uid, ids, context=None)
         return {
                 'type' :    'ir.actions.act_url',
-                'url':      '/web/binary/download_document?model=rbs.certificado.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+                'url':      '/web/binary/download_document?model=rbs.certificado.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(self.id)),
                 'target':   'new'
             }
+
+
+
+    # def generate_word(self, cr, uid, ids, context=None):
+    #     datos  = self.read(cr, uid, ids, context=context)[0]
+    #     # elId = repr(datos['caczxcgs<'])
+
+
+    #     output = BytesIO()
+    #     # import os
+
+    #     tpl=DocxTemplate('certificado.docx')
+    #     bien_obj =  self.pool.get('rbs.bien')
+    #     bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['clave_catastral'])], context=context)
+    #     bienes = bien_obj.browse(cr, uid, bien_ids, context=context)
+    #     user = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0]
+    #     resumen = []
+    #     libro = {}
+    #     for bien in bienes:
+    #         detalle = {}
+    #         doc = None
+    #         if bien.documento_mercantil_id:
+    #             doc = bien.documento_mercantil_id
+    #         else:
+    #             doc = bien.documento_propiedad_id
+
+    #         detalle['libro'] = doc.libro_id.name
+    #         detalle['acto'] = doc.tipo_tramite_id.name
+    #         detalle['numero'] = RichText (str (doc.numero_inscripcion))
+    #         detalle['finscrip'] = RichText (str (doc.fecha_inscripcion))
+    #         detalle['finicial'] = RichText (str(doc.foleo_desde))
+    #         detalle['ffinal'] = RichText (str(doc.foleo_hasta))
+    #         resumen.append(detalle)
+    #         if libro.has_key(doc.libro_id.name):
+    #             libro[doc.libro_id.name] = libro[doc.libro_id.name]+1
+    #         else:
+    #             libro[doc.libro_id.name] = 1
+
+    #     movimientos  = []
+
+    #     for clave in libro:
+
+    #         detalle = {}
+    #         l = clave
+    #         ni = libro[clave]
+    #         # raise osv.except_osv('Esto es un Mesaje!',str(ni))
+    #         detalle['libro'] = l
+    #         detalle['sumainscrp'] = RichText (str(ni))
+
+    #         movimientos.append(detalle)
+
+    #     context = {
+    #         'campo' : RichText ('fecha'),
+    #         'resumen' : resumen,
+    #         'ccatastral': RichText (str (bien.clave_catastral)),
+    #         'fapertura' : RichText (str (doc.fecha_adjudicion)),
+    #         'infmuni' : RichText (str (doc.canton_notaria_id.name)),
+    #         'tpredio' : RichText (str (bien.descripcion_bien)),
+    #         'parroquia' : RichText (str (bien.parroquia_id.name)),
+    #         'lindero' : RichText (str (bien.descripcion_lindero)),
+    #         'nombresoli' : RichText (str (datos['solicitante'])),
+    #         'sesion' : RichText (str (user.name)),
+    #         'fechaactual' : RichText ( str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+    #         'movimientos':movimientos,
+
+    #     }
+
+    #     tpl.render(context)
+    #     tpl.save(output)
+
+    #     self.write( cr, uid, ids,{'dataWord':base64.b64encode(output.getvalue())})
+    #     return self.download_word( cr, uid, ids, context=None)
+    #     # return base64.b64encode(output.getvalue())
+    
+    # def word(self, cr, uid, ids, context=None):
+    #     out = self.generate_word( cr, uid, ids, context=None)
+    #     self.write( cr, uid, ids,{'dataWord':out})
+    #     return self.download_word( cr, uid, ids, context=None)
+
+    # def download_word(self, cr, uid, ids, context=None):
+    #     data = self.browse(cr, uid, ids[0], context=context)
+    #     context = dict(context or {})
+    #     return {
+    #             'type' :    'ir.actions.act_url',
+    #             'url':      '/web/binary/download_document?model=rbs.certificado.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+    #             'target':   'new'
+    #         }
 
     
     
@@ -129,7 +201,7 @@ class rbs_certificado_propiedad(osv.osv):
         ], string = 'Estado', index=True, default='draft')
 
 
-    propiedad_ids = field.Many2many('rbs.documento.propiedad',string ='Documentos')
+    propiedad_ids = field.Many2many('rbs.documento.propiedad',string ='Documentos',compute='get_documentos')
     criterio_busqueda = field.Selection([
         ('cedula','Cedula'),
         ('clave_catastral','Clave Catastral'),
@@ -243,98 +315,94 @@ class rbs_documento_propiedad(models.Model):
 
 
 
-    @api.one
-    def imprimirCertificado(self):
+    # @api.one
+    # def imprimirCertificado(self):
         
-        return self.word()
-        # raise osv.except_osv('Esto es un Mesaje!','Hola')
-    def generate_word(self, cr, uid, ids, context=None):
-        datos  = self.read(cr, uid, ids, context=context)[0]
-        # elId = repr(datos['caczxcgs<'])
-
-        # raise osv.except_osv('Esto es un Mesaje!',str(datos))
-        output = BytesIO()
-        # import os
-
-        tpl=DocxTemplate('certificado.docx')
-        bien_obj =  self.pool.get('rbs.bien')
-        bien_ids = bien_obj.search(cr, uid, [('clave_catastral', '=', datos['clave_catastral'])], context=context)
-        bienes = bien_obj.browse(cr, uid, bien_ids, context=context)
-        user = self.pool.get('res.users').browse(cr, uid, [uid], context=context)[0]
-
+    #     return self.word()
+        # raise osv.except_osv('Esto es un Mesaje!','Hola'
+    # @api.multi
+    # def word(self):
+    #     # datos  = self.read(cr, uid, ids, context=context)[0]
         
+    #     # elId = repr(datos['caczxcgs<'])
 
-        if len(bien_ids)==0:
-            raise osv.except_osv('No existe la clave catastral', bien_ids)
-                
-        resumen = []
-        libro = {}
-        for bien in bienes:
-            detalle = {}
-            doc = None
-            if bien.documento_mercantil_id:
-                doc = bien.documento_mercantil_id
-            else:
-                doc = bien.documento_propiedad_id
+    #     # raise osv.except_osv('Esto es un Mesaje!',str(datos))
+    #     output = BytesIO()
+    #     # import os
 
-            detalle['libro'] = doc.libro_id.name
-            detalle['acto'] = doc.tipo_tramite_id.name
-            detalle['numero'] = RichText (str (doc.numero_inscripcion))
-            detalle['finscrip'] = RichText (str (doc.fecha_inscripcion))
-            detalle['finicial'] = RichText (str(doc.foleo_desde))
-            detalle['ffinal'] = RichText (str(doc.foleo_hasta))
-            resumen.append(detalle)
-            if libro.has_key(doc.libro_id.name):
-                libro[doc.libro_id.name] = libro[doc.libro_id.name]+1
-            else:
-                libro[doc.libro_id.name] = 1
+    #     tpl=DocxTemplate('inscripcionp.docx')
+       
+    #     resumen = []
+    #     libro = {}
+    #     for bien in self.bien_ids:
+    #         detalle = {}
+    #         doc = None
+    #         if bien.documento_mercantil_id:
+    #             doc = bien.documento_mercantil_id
+    #         else:
+    #             doc = bien.documento_propiedad_id
 
-        movimientos  = []
+    #         detalle['libro'] = doc.libro_id.name
+    #         detalle['acto'] = doc.tipo_tramite_id.name
+    #         detalle['numero'] = RichText (str (doc.numero_inscripcion))
+    #         detalle['finscrip'] = RichText (str (doc.fecha_inscripcion))
+    #         detalle['finicial'] = RichText (str(doc.foleo_desde))
+    #         detalle['ffinal'] = RichText (str(doc.foleo_hasta))
+    #         resumen.append(detalle)
+    #         if libro.has_key(doc.libro_id.name):
+    #             libro[doc.libro_id.name] = libro[doc.libro_id.name]+1
+    #         else:
+    #             libro[doc.libro_id.name] = 1
 
-        for clave in libro:
+    #     movimientos  = []
 
-            detalle = {}
-            l = clave
-            ni = libro[clave]
-            # raise osv.except_osv('Esto es un Mesaje!',str(ni))
-            detalle['libro'] = l
-            detalle['sumainscrp'] = RichText (str(ni))
+    #     for clave in libro:
 
-            movimientos.append(detalle)
+    #         detalle = {}
+    #         l = clave
+    #         ni = libro[clave]
+    #         # raise osv.except_osv('Esto es un Mesaje!',str(ni))
+    #         detalle['libro'] = l
+    #         detalle['sumainscrp'] = RichText (str(ni))
 
-        context = {
-            'campo' : RichText ('fecha'),
-            'resumen' : resumen,
-            'ccatastral': RichText (str (bien.clave_catastral)),
-            'fapertura' : RichText (str (doc.fecha_adjudicion)),
-            'infmuni' : RichText (str (doc.canton_notaria_id.name)),
-            'tpredio' : RichText (str (bien.descripcion_bien)),
-            'parroquia' : RichText (str (bien.parroquia_id.name)),
-            'lindero' : RichText (str (bien.descripcion_lindero)),
-            'nombresoli' : RichText (str (datos['solicitante'])),
-            'sesion' : RichText (str (user.name)),
-            'fechaactual' : RichText ( str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
-            'movimientos':movimientos,
+    #         movimientos.append(detalle)
 
-        }
+    #     context = {
+    #         'campo' : RichText ('fecha'),
+    #         'resumen' : resumen,
+    #         'ccatastral': RichText (str (bien.clave_catastral)),
+    #         'fapertura' : RichText (str (doc.fecha_adjudicion)),
+    #         'infmuni' : RichText (str (doc.canton_notaria_id.name)),
+    #         'tpredio' : RichText (str (bien.descripcion_bien)),
+    #         'parroquia' : RichText (str (bien.parroquia_id.name)),
+    #         'lindero' : RichText (str (bien.descripcion_lindero)),
+    #         'nombresoli' : RichText (str (datos['solicitante'])),
+    #         'sesion' : RichText (str (user.name)),
+    #         'fechaactual' : RichText ( str (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+    #         'movimientos':movimientos,
 
-        tpl.render(context)
-        tpl.save(output)
+    #     }
 
-        self.write( cr, uid, ids,{'dataWord':base64.b64encode(output.getvalue())})
-        return self.download_word( cr, uid, ids, context=None)
+    #     tpl.render(context)
+    #     tpl.save(output)
+
+    #     self.write( cr, uid, ids,{'dataWord':base64.b64encode(output.getvalue())})
+    #     # return self.word( cr, uid, ids, context=None)
+
+    #     return {
+    #             'type' :    'ir.actions.act_url',
+    #             'url':      '/web/binary/download_document?model=rbs.documento.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
+    #             'target':   'new'
+    #         }
         # return base64.b64encode(output.getvalue())
     
-    def word(self, cr, uid, ids, context=None):
-        out = self.generate_word( cr, uid, ids, context=None)
-        self.write( cr, uid, ids,{'dataWord':out})
-        return self.download_word( cr, uid, ids, context=None)
-
-    def download_word(self, cr, uid, ids, context=None):
-        data = self.browse(cr, uid, ids[0], context=context)
-        context = dict(context or {})
-        return {
-                'type' :    'ir.actions.act_url',
-                'url':      '/web/binary/download_document?model=rbs.documento.propiedad&field=dataWord&id=%s&filename=Certificado.docx'%(str(ids[0])),
-                'target':   'new'
-            }
+    # @api.multi
+    # def word(self, context=None):
+    #     # out = self.generate_word( cr, uid, ids, context=None)
+    #     # self.write( cr, uid, ids,{'dataWord':out})
+    #     # return self.download_word( cr, uid, ids, context=None)
+        
+    # def download_word(self, cr, uid, ids, context=None):
+    #     data = self.browse(cr, uid, ids[0], context=context)
+    #     context = dict(context or {})
+    #     

@@ -227,11 +227,8 @@
                 <tree string="Archivos" version="8.0"> 
                   <field name="tomo_id"/>
                   <field name="numero_inscripcion"/>
-                  <field name="persona_nombres"/>
-                  <field name="persona_apellidos"/> 
-                  <field name="persona_cedula"/> 
-                  <field name="persona_razonSocial"/> 
-                  
+                  <field name="comprador_virtual"/>
+                  <field name="vendedor_virtual"/> 
                   <field name="fecha_inscripcion"/> 
                   <field name="fecha_cancelacion"/> 
                   <field name="create_uid" string="Creado por"/>

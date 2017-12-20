@@ -12,12 +12,11 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <group col="8">
+                        <group col="7">
                             <field name = "criterio_busqueda"/>
                             <field name = "valor_busqueda"/>
                             <field name = "solicitante"/>
-                            <button icon="gtk-cancel" name="act_cancelar" special="cancel" string="Cerrar" type="object"/>
-                            <button icon="gtk-ok" name ="generate_word" string="Exportar" type="object"/>
+                            <button class="oe_inline oe_stat_button" icon="fa-file-word-o" name ="word_certificado" string="Certificado" type="object"/>                         
                         </group>
                             <field name = "propiedad_ids" readonly="1" view_id="rbs_documento_propiedad_tree2_view"/>
                     </sheet>
@@ -30,7 +29,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">rbs.certificado.propiedad</field>
             <field name="view_type">form</field>
-            <field name="view_mode">form,tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
         <record id='rbs_documento_propiedad_tree2_view' model='ir.ui.view'>

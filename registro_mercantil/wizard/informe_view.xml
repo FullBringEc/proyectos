@@ -57,8 +57,8 @@
             <field name="target">new</field>
         </record>
       
-        <menuitem name="Informe" id="informe_registros"/>
-        <menuitem name="Informe" id="submenu_Informe" parent="informe_registros"/>
-        <menuitem name="Exportar xls" action="action_wizard_xls_export" id="submenu_export_xls" parent="submenu_Informe"/>
+      
+        <menuitem name="Informe Xls" id="submenu_Informe_xls" parent="base.menu_reporting"/>
+        <menuitem name="Exportar xls" action="action_wizard_xls_export" id="submenu_export_xls" parent="submenu_Informe_xls"/>
     </data>
 </openerp>
