@@ -5,7 +5,6 @@ from openerp import models, fields, api, _
 from openerp.osv import osv
 from io import BytesIO 
 import base64
-import pdfmod
 from docxtpl import DocxTemplate, RichText
 import time
 import datetime
@@ -234,14 +233,12 @@ class rbs_documento_propiedad(models.Model):
 	}
 	_rec_name='numero_inscripcion'
 
-	def open_ui(self, cr, uid, ids, context=None):
-		data = self.browse(cr, uid, ids[0], context=context)
-		context = dict(context or {})
-		#context['active_id'] = data.ids[0]
+	@api.multi
+	def open_ui(self, context=None):
 		return {
 			'type' : 'ir.actions.act_url',
-			'url':   '/registro_mercantil/web/?binary='+str(ids[0])+'&tipo=propiedad',
-			'target': 'current',
+			'url':   '/registro_mercantil/web/?binary='+str(self.id)+'&tipo=propiedad',
+			'target': 'new',
 		}
 
 	# @api.depends('ubicacion_dato_id','numero_inscripcion')

@@ -20,7 +20,6 @@ import StringIO
 from io import BytesIO
 import base64
 import cStringIO
-import pdfmod
 import warnings
 
 
@@ -205,27 +204,7 @@ class rbs_documento_mercantil(models.Model):
             ('NOVIGENTE','No vigente'),
             
         ], string = 'Estado')
-	#filedata = fields.Binary('Archivo',filters='*.pdf')
-	#filename = fields.Char('Nombre de archivo', default="pdf")
-	filedata_id = fields.Many2one('rbs.pdf')
-	filedata = fields.Binary(related='filedata_id.filedata',filters='*.pdf')
-	esPesado = fields.Boolean(related='filedata_id.esPesado',string = '100 mb')
-	rutaFTP = fields.Char(related='filedata_id.rutaFTP', string = 'Ruta del Archivo')
-	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
-
-	@api.one 
-	def borrar_contenedor(self):
-		self.contenedor_id = None
-
-	@api.onchange('filedata')
-	def on_change_filedata(self):
-	 	try:
-	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
-			filedataByte = BytesIO(base64.b64decode(self.filedata))
-			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
-			self.contenedor_id=contenedor.id
-		except:
-			pass
+	
 	identificacion_unica = fields.Char(string = 'Identificador único sistema remoto',compute='_compute_upper',store = True) 
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
 	factura_ids = fields.One2many('account.invoice', 'mercantil_id', string= 'Factura')
@@ -390,26 +369,19 @@ class rbs_documento_mercantil(models.Model):
 		tomo = self.pool.get("rbs.documento.mercantil").browse(cr,uid,acta_id,context = None).tomo_id.id
 		return tomo
 
-	def _create_pdf(self, cr, uid, context=None):
-		return self.pool.get("rbs.pdf").create(cr, uid,{},context=None)
-
 	_defaults = {
 		'anio_id': _getUltimoAnio,
 		'libro_id': _getUltimoLibro,
 		'tomo_id' : _getUltimoTomo,
-		'filedata_id' : _create_pdf,
 	}
-
+	@api.multi
 	def open_ui(self, cr, uid, ids, context=None):
-		data = self.browse(cr, uid, ids[0], context=context)
-		context = dict(context or {})
-		#context['active_id'] = data.ids[0]
+	
 		return {
 			'type' : 'ir.actions.act_url',
-			'url':   '/registro_mercantil/web/?binary='+str(ids[0])+'&tipo=mercantil',
+			'url':   '/registro_mercantil/web/?binary='+str(self.id)+'&tipo=mercantil',
 			'target': 'current',
 		}
-
 	
 
 	@api.onchange('parte_ids','bien_ids')

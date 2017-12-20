@@ -20,7 +20,7 @@
 				<script type="text/javascript" src="/registro_mercantil/static/src/js/lienzo.js"></script>
 				<script type="text/javascript" src="/registro_mercantil/static/src/js/controlador_principal.js"></script>
 				<script type="text/javascript" src="/registro_mercantil/static/src/js/editor_canvas.js"></script>
-				<script type="text/javascript" src="/registro_mercantil/static/src/js/tiff.js"></script>
+				<!-- <script type="text/javascript" src="/registro_mercantil/static/src/js/tiff.js"></script> -->
 				<script type="text/javascript" src="/registro_mercantil/static/src/js/jquery.panzoom.js"></script>
 				<script src="/registro_mercantil/static/src/js/jscolor.js"></script>
 				<script type="text/javascript" id="loading-script">

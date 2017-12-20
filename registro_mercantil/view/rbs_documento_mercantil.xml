@@ -167,10 +167,10 @@
         </page>
       
           <page string="Archivo">    
-            
-            <button string="Editar" name="open_ui" type="object"
+            <field name='state_filedata' widget="statusbar"/>
+            <button string="Editar archivo" name="open_ui" type="object" 
               groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
-              attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+              attrs="{'invisible':['|', ('esPesado','=',True),('state_filedata','!=','done')]}"/>
             <group>
               
 

@@ -8,50 +8,13 @@ import cStringIO
 from openerp.osv import osv
 
 from wand.image import Image as ImageWand
+from wand.color import Color
 import sys
 from os import path
 import warnings
 warnings.filterwarnings("ignore")
-
-
-
-
-
-# from openerp.addons.connector.queue.job import job, related_action
-# from openerp.addons.connector.session import ConnectorSession
-# from openerp.addons.connector.exception import FailedJobError
-
-
-
-
-# def related_attachment(session, thejob):
-#     attachment_id = thejob.args[1]
-
-#     action = {
-#         'name': _("Attachment"),
-#         'type': 'ir.actions.act_window',
-#         'res_model': "ir.attachment",
-#         'view_type': 'form',
-#         'view_mode': 'form',
-#         'res_id': attachment_id,
-#     }
-#     return action
-# @job
-# @related_action(action=related_attachment)
-# def Hola(session, model_name):
-# #     model_obj = session.pool[model_name]
-#     print "hola asdasd"
-#     return
-    # job_uuid = split_file.delay(session,
-    #                         record.res_model,
-    #                         translated_model_name,
-    #                         )
-
 number = 0
 def pdfOrTiff2image(modelo,filedataByte,contenedor):
-    # modelo.Hola.delay()
-    # session = ConnectorSession(modelo._cr,modelo._uid,modelo._context)
-    # Hola.delay(session,'rbs.documento.propiedad')
     file = None
     try:
         im = Image.open(filedataByte)
@@ -75,32 +38,34 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
         print "metodo 1"
         return
     except:
-        try:
-            filedataByte = BytesIO(base64.b64decode(modelo.filedata))
-            with(ImageWand(file=filedataByte,resolution=200)) as source:
-                images=source.sequence
-                pages=len(images)
-                for i in range(pages):
-                    print 'page' + str(i)
-                    imagen = ImageWand(images[i])
-                    print imagen.format
-                    imagen.format = 'jpeg'
-                    jpeg_image_buffer = cStringIO.StringIO()
-                    ImageWand(imagen).save(jpeg_image_buffer)
-                    imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
-            print "metodo 2"
-            return
-        except:
-            file = PyPDF2.PdfFileReader(filedataByte)
-            for p in range(file.getNumPages()):    
-                page0 = file.getPage(p)
-                # print page0
-                jpeg_image_buffer = recurse(p, page0)
+        # try:
+        filedataByte = BytesIO(base64.b64decode(modelo.filedata))
+        with(ImageWand(file=filedataByte,resolution=200)) as source:
+            images=source.sequence
+            pages=len(images)
+            for i in range(pages):
+                print 'page' + str(i)
+                imagen = ImageWand(images[i])
+                print imagen.format
+                imagen.format = 'jpeg'
+                imagen.background_color = Color("white")
+                imagen.alpha_channel = 'remove'
+                jpeg_image_buffer = cStringIO.StringIO()
+                ImageWand(imagen).save(jpeg_image_buffer)
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
-            print "metodo 3"
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
+        print "metodo 2"
+        return
+        # except:
+            # file = PyPDF2.PdfFileReader(filedataByte)
+            # for p in range(file.getNumPages()):    
+            #     page0 = file.getPage(p)
+            #     # print page0
+            #     jpeg_image_buffer = recurse(p, page0)
+            #     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+            #     #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+            #     contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
+            # print "metodo 3"
 
 
     print('%s extracted images'% number)

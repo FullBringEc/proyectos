@@ -269,10 +269,11 @@
         </page> -->
           <page string='Archivo'>
             
-            <field name='state_filedata'/>
+            <field name='state_filedata' widget="statusbar"/>
             <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
-            <button string="Editar" name="open_ui" type="object" groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
-                attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+            <button string="Editar archivo" name="open_ui" type="object" 
+                groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
+                attrs="{'invisible':['|', ('esPesado','=',True),('state_filedata','!=','done')]}"/>
             <group>
                 <div class="text-center">
                     <!-- ¿Es mayor a 100mb?<field name="esPesado"/>  -->
