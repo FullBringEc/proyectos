@@ -32,6 +32,7 @@
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
                 'sequence.xml',
+                "cron/pdf_cron.xml",
                 "security/registro_security.xml",
                 "security/ir.model.access.csv",
                 'data/rbs.tramite.propiedad.csv',

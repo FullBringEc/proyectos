@@ -67,14 +67,6 @@ class rbs_libro(models.Model):
 		self.state = 'close'
 		return True
 
-	# @api.depends('libro_tipo','tipo_libro_id')
-	# def domain_compute_def(self):
-	# 	if self.libro_tipo == 'propiedad':
-	# 		self.es_propiedad = True
-	# 		self.es_mercantil = False
-	# 	if self.libro_tipo == 'mercantil':
-	# 		self.es_mercantil = True
-	# 		self.es_propiedad = False
 class rbs_tomo(models.Model):
 	_name ="rbs.tomo"
 	_description = "Tomos"

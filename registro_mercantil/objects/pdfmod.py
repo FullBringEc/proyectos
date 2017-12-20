@@ -13,8 +13,45 @@ from os import path
 import warnings
 warnings.filterwarnings("ignore")
 
+
+
+
+
+# from openerp.addons.connector.queue.job import job, related_action
+# from openerp.addons.connector.session import ConnectorSession
+# from openerp.addons.connector.exception import FailedJobError
+
+
+
+
+# def related_attachment(session, thejob):
+#     attachment_id = thejob.args[1]
+
+#     action = {
+#         'name': _("Attachment"),
+#         'type': 'ir.actions.act_window',
+#         'res_model': "ir.attachment",
+#         'view_type': 'form',
+#         'view_mode': 'form',
+#         'res_id': attachment_id,
+#     }
+#     return action
+# @job
+# @related_action(action=related_attachment)
+# def Hola(session, model_name):
+# #     model_obj = session.pool[model_name]
+#     print "hola asdasd"
+#     return
+    # job_uuid = split_file.delay(session,
+    #                         record.res_model,
+    #                         translated_model_name,
+    #                         )
+
 number = 0
 def pdfOrTiff2image(modelo,filedataByte,contenedor):
+    # modelo.Hola.delay()
+    # session = ConnectorSession(modelo._cr,modelo._uid,modelo._context)
+    # Hola.delay(session,'rbs.documento.propiedad')
     file = None
     try:
         im = Image.open(filedataByte)

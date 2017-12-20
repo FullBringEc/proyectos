@@ -204,35 +204,11 @@ class rbs_documento_propiedad(models.Model):
 				'target': 	'new'
 			}
 	
-	#filedata = fields.Binary('Archivo',filters='*.pdf')
-	#filename = fields.Char('Nombre de archivo', default="pdf")
-	filedata_id = fields.Many2one('rbs.pdf')
-	filedata = fields.Binary(related='filedata_id.filedata',filters='*.pdf')
-	esPesado = fields.Boolean(related='filedata_id.esPesado',string = '100 mb')
-	rutaFTP = fields.Char(related='filedata_id.rutaFTP', string = 'Ruta del Archivo')
+	
 
 	factura_ids = fields.One2many('account.invoice', 'propiedad_id', string= 'Factura')
-	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
-	@api.one 
-	def borrar_contenedor(self):
-		self.contenedor_id = None
-	@api.onchange('filedata')
-	def on_change_filedata(self):
-		# raise osv.except_osv('Esto es un Mesaje!',"repr(im.info)")
-
-		# if self.filedata!= None and self.filedata != False  and self.anio_id and self.libro_id and self.tomo_id and (self.numero_inscripcion!=0):
-	 	try:
-	 		contenedor = self.env['rbs.contenedor'].create({'name': str(self.anio_id.name) + str(self.libro_id.name) + str(self.tomo_id.name) + str(self.numero_inscripcion) + str("mercantil")})
-			filedataByte = BytesIO(base64.b64decode(self.filedata))
-			# print filedataByte
-			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
-			self.contenedor_id=contenedor.id
-			raise osv.except_osv('Esto es un Mesaje!',"repr(im.sd)")
-		except Exception as e:
-			print "------------------\n"
-			print e
-			print "------------------\n"
-
+	
+	
 	@api.onchange('parte_ids','bien_ids')
 	def onchange_parte_ids(self):
 		parte_char_ids_num = []
@@ -265,14 +241,10 @@ class rbs_documento_propiedad(models.Model):
 		tomo = self.pool.get("rbs.documento.propiedad").browse(cr,uid,acta_id,context = None).tomo_id.id
 		return tomo
 
-	def _create_pdf(self, cr, uid, context=None):
-		return self.pool.get("rbs.pdf").create(cr, uid,{},context=None)
-
 	_defaults = {
 		'anio_id': _getUltimoAnio,
 		'libro_id': _getUltimoLibro,
 		'tomo_id' : _getUltimoTomo,
-		'filedata_id' : _create_pdf,
 	}
 	_rec_name='numero_inscripcion'
 
