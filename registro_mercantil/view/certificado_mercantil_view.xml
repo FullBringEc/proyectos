@@ -32,6 +32,19 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+         <record id='rbs_certificado_mercantil_tree_view_certificado' model='ir.ui.view'>
+            <field name='name'>rbs.certificado.mercantil.tree</field>
+            <field name='model'>rbs.certificado.mercantil</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree>
+                    <field name = "solicitante"/>
+                    <field name = "valor_busqueda"/>               
+                </tree>
+            </field>
+        </record>
+
+
         <record id='rbs_documento_mercantil_tree2_view' model='ir.ui.view'>
             <field name='name'>rbs.documento.mercantil.tree</field>
             <field name='model'>rbs.documento.mercantil</field>
