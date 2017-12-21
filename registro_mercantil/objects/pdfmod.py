@@ -38,34 +38,34 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
         print "metodo 1"
         return
     except:
-        # try:
-        filedataByte = BytesIO(base64.b64decode(modelo.filedata))
-        with(ImageWand(file=filedataByte,resolution=200)) as source:
-            images=source.sequence
-            pages=len(images)
-            for i in range(pages):
-                print 'page' + str(i)
-                imagen = ImageWand(images[i])
-                print imagen.format
-                imagen.format = 'jpeg'
-                imagen.background_color = Color("white")
-                imagen.alpha_channel = 'remove'
-                jpeg_image_buffer = cStringIO.StringIO()
-                ImageWand(imagen).save(jpeg_image_buffer)
+        try:
+            filedataByte = BytesIO(base64.b64decode(modelo.filedata))
+            with(ImageWand(file=filedataByte,resolution=200)) as source:
+                images=source.sequence
+                pages=len(images)
+                for i in range(pages):
+                    print 'page' + str(i)
+                    imagen = ImageWand(images[i])
+                    print imagen.format
+                    imagen.format = 'jpeg'
+                    imagen.background_color = Color("white")
+                    imagen.alpha_channel = 'remove'
+                    jpeg_image_buffer = cStringIO.StringIO()
+                    ImageWand(imagen).save(jpeg_image_buffer)
+                    imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
+                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
+            print "metodo 2"
+            return
+        except:
+            file = PyPDF2.PdfFileReader(filedataByte)
+            for p in range(file.getNumPages()):    
+                page0 = file.getPage(p)
+                # print page0
+                jpeg_image_buffer = recurse(p, page0)
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
-        print "metodo 2"
-        return
-        # except:
-            # file = PyPDF2.PdfFileReader(filedataByte)
-            # for p in range(file.getNumPages()):    
-            #     page0 = file.getPage(p)
-            #     # print page0
-            #     jpeg_image_buffer = recurse(p, page0)
-            #     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-            #     #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
-            #     contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
-            # print "metodo 3"
+                #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
+            print "metodo 3"
 
 
     print('%s extracted images'% number)
