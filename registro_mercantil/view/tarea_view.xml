@@ -9,13 +9,13 @@
             <field name='arch' type="xml">
 	            <form string="Tarea" create="false" edit="false" version="8.0"> 
 	            	<header>
-	            		<button name="crear_inscripcion_propiedad"  string="Inscripcion propiedad" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','inscripcion_propiedad'),('state','!=','pendiente')]}" groups="registro_mercantil.group_registrador"/>
-	            		<button name="crear_inscripcion_mercantil"  string="Inscripcion mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','inscripcion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_registrador"/>
-	            		<button name="crear_certificacion_propiedad"  string="Certificacion propiedad" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_propiedad'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador"/>
-                        <button name="crear_certificacion_mercantil"  string="Certificacion mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador"/>
+	            		<button name="crear_inscripcion_propiedad"  string="Inscrip.Propiedad" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','inscripcion_propiedad'),('state','!=','pendiente')]}" groups="registro_mercantil.group_registrador" class="oe_inline oe_stat_button" icon="fa-file-text-o " />
+	            		<button name="crear_inscripcion_mercantil"  string="Inscrip. Mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','inscripcion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_registrador" class="oe_inline oe_stat_button" icon="fa-file-text-o "/>
+	            		<button name="crear_certificacion_propiedad"  string="Cert. Propiedad" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_propiedad'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador" class="oe_inline oe_stat_button" icon="fa-file-text-o "/>
+                        <button name="crear_certificacion_mercantil"  string="Cert. Mercantil" type="object" attrs="{'invisible':['|',('tipo_servicio','!=','certificacion_mercantil'),('state','!=','pendiente')]}" groups="registro_mercantil.group_certificador" class="oe_inline oe_stat_button" icon="fa-file-text-o "/>
 
-                        <button name="firmar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_firmar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador"/>
-	            		<button name="entregar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_entregar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador"/>
+                        <button name="firmar"  string="Firmar" type="object" attrs="{'invisible':[('state','!=','por_firmar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador" class="oe_inline oe_stat_button" icon="fa-pencil"/>
+	            		<button name="entregar"  string="Entregar" type="object" attrs="{'invisible':[('state','!=','por_entregar')]}" groups="registro_mercantil.group_registrador,registro_mercantil.group_certificador,registro_mercantil.group_administrador" class="oe_inline oe_stat_button" icon="fa-folder-o"/>
 	            		<field name="state" widget="statusbar"/>
                 	</header>
                     <sheet string="Tarea"> 
