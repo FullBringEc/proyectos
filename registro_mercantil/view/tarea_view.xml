@@ -21,7 +21,8 @@
                     <sheet string="Tarea"> 
 						<group>
 
-    		         		<field name="fecha_registro"/>
+                            <field name="fecha_registro"/>
+    		         		<field name="fecha_estimada"/>
     		         		<field name="user_id"/>
     		         		<field name="tipo_servicio"/>
     		         		<field name="numero_tarea"/>
@@ -60,8 +61,12 @@
             <field name='model'>rbs.tarea</field>
             <field name='type'>tree</field>
             <field name='arch' type="xml">
-                <tree string="Tareas" create="false" version="8.0"> 
-					<field name="fecha_registro"/>
+                <!-- default_order="state desc,fecha_alerta asc  orange: fecha_alerta &lt; current_date" -->
+                <tree default_order="fecha_registro desc" string = "Tareas" colors="gray:state =='done';red: fecha_estimada &lt; current_date;">
+                <!-- <tree string="Tareas" create="false" version="8.0">  -->
+                    <field name="state" invisible="1"/>
+                    <field name="fecha_registro"/>
+					<field name="fecha_estimada"/>
 					<field name="user_id"/>
 					<field name="tipo_servicio"/>
 					<field name="numero_tarea"/>

@@ -183,7 +183,7 @@ class rbs_documento_propiedad(models.Model):
 		# return self.word( cr, uid, ids, context=None)
 		return {
 			'type' : 	'ir.actions.act_url',
-			'url':      '/web/binary/download_document?model=rbs.documento.mercantil&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(self.id)),
+			'url':      '/web/binary/download_document?model=rbs.documento.propiedad&field=dataWord&id=%s&filename=Inscripcion.docx'%(str(self.id)),
 			'target': 	'new'
 			}
 

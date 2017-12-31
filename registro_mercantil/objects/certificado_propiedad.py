@@ -249,7 +249,7 @@ class rbs_certificado_propiedad(osv.osv):
                 resultado = self.env['rbs.documento.propiedad'].search(
                         [
                         ('bien_ids.clave_catastral', '=', self.valor_busqueda),
-                        ],limit=1,
+                        ],
                         order='fecha_inscripcion desc')
                 self.propiedad_ids = None
                 self.propiedad_ids |= resultado

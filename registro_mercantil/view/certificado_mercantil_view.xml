@@ -82,6 +82,7 @@
                     <!-- <page string="Tareas" groups="base.group_user"> -->
                         <field name="tipo_servicio"/>
                         <field name="user_id"/>
+                        <field name="fecha_estimada"/>
                     <!-- </page> -->
                 </xpath>
             <!-- <xpath expr="//field[@name='mercantil_id']" position="after">
@@ -100,6 +101,7 @@
 
                 <xpath expr="//field[@name='type']" position="after">
                         <field name="tipo_servicio"/>
+                        <field name="cantidad_dias"/>
                 </xpath>
           
             </field>
