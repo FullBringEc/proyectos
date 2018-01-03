@@ -372,10 +372,10 @@ class rbs_informe(osv.osv_memory):
     def act_export(self, cr, uid, ids, context={}):
         this = self.browse(cr, uid, ids)[0]
         #root = self.generate_excel(cr,uid,ids)
-        this.name = "REPORTE.xls"
+        name_arch = "Reporte.xls"
         #self._write_attachment(cr,uid,ids,root,context)
         out = self.generate_excel(cr,uid,ids)
-        self.write(cr, uid, ids, {'data':out, 'name':this.name, 'state': 'get'}, context=context)
+        self.write(cr, uid, ids, {'data':out, 'name':name_arch, 'state': 'get'}, context=context)
         a = self.read(cr, uid, ids, context=context)[0]
         elId = repr(a['id'])
         

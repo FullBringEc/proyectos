@@ -27,20 +27,17 @@
                                 <separator string="Guarde el archivo en su computador" colspan="4"/>
                                 <field name="name" invisible="" colspan="4"/>
                                 <field name="data" nolabel="1" readonly="1" filename="name" colspan="4"/>
-                            
+                                <!-- <button name="data" nolabel="1" readonly="1" filename="name" class="oe_inline oe_stat_button" icon="fa-file-excel-o" string="Descargar" colspan="4"/> -->
                             </group>
                         </group>
                         <group colspan="8" col="8" states="choose">
                             <separator string="" colspan="8"/>
-                            <label string="Esta" width="220"/>
-                            <button icon="gtk-cancel" name="act_cancelar" special="cancel" string="_Close" type="object"/>
-                            <button icon="gtk-ok" name ="act_export" string="_Export" type="object"/>
+                            <button class="oe_inline oe_stat_button" icon="fa-file-excel-o" name ="act_export" string="Descargar" type="object"/>
                             
                         </group>
                          <group colspan="8" col="8" states="get">
                             <separator string="" colspan="8"/>
-                            <label colspan="7" string="Esta!!!!" width="220"/>
-                            <button icon="gtk-close" name="act_destroy" special="cancel" string="_Close" type="object"/>
+                            <button class="oe_inline oe_stat_button" icon="fa-ban" name="act_destroy" special="cancel" string="Cerrar" type="object"/>
                         
                         </group>
                     </group>

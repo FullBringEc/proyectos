@@ -10,18 +10,20 @@
         <record id="group_certificador" model="res.groups">
             <field name="name">Certificador</field>
             <field name="category_id" ref="module_category_registro_mercantil"/>
-            <field name="comment">es el usuario base para crear comprobante</field>
+            <field name="comment">Usuario que crea certificaciones y las firma</field>
         </record>
 
         <record id="group_registrador" model="res.groups">
             <field name="name">Registrador</field>
             <field name="category_id" ref="module_category_registro_mercantil"/>
-            <field name="comment">es el usuario base para crear comprobante</field>
+            <field name="comment">Usuario que registra los movimientos</field>
         </record>
 
         <record id="group_cajero" model="res.groups">
             <field name="name">Cajero</field>
             <field name="category_id" ref="module_category_registro_mercantil"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_sale_manager'))]"/>
+            <field name="comment">Usuario que registra factura y crea tareas</field>
         </record>
 
         <record id="group_administrador" model="res.groups">
