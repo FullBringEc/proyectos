@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sri_formadepago,sri.formapag.t16,model_sri_formapag_t16,,1,1,1,1
-access_sri_tipoprov,sri.tpidprov.t2,model_sri_tpidprov_t2,,1,1,1,1
-access_sri_paisefecpago,sri.paisefecpago.t2,model_sri_paisefecpago_t19,,1,1,1,1
-access_sri_pagolocext_t18,sri.pagolocext.t18,model_sri_pagolocext_t18,,1,1,1,1
-access_sri_tipocomprobante_t4,sri.tipocomprobante.t4,model_sri_tipocomprobante_t4,,1,1,1,1
-access_sri_codsustento_t5,sri.codsustento.t5,model_sri_codsustento_t5,,1,1,1,1

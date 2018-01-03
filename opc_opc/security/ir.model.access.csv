@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-opc_opc_asset_manager,opc.opc manager,model_opc_opc,opc_opc.group_opc_manager,1,1,1,1
-opc_item_state_manager,opc.item manager,model_opc_item,opc_opc.group_opc_manager,1,1,1,1
-opc_opc_asset_user,opc.opc user,model_opc_opc,opc_opc.group_opc_user,1,0,0,0
-opc_item_state_user,opc.item user,model_opc_item,opc_opc.group_opc_user,1,0,0,0
