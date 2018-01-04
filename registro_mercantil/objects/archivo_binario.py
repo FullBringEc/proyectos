@@ -3,7 +3,7 @@ from openerp import models, fields, api, osv, _
 from io import BytesIO 
 import base64
 import pdfmod
-from openerp.osv import osv
+# from openerp.osv import osv
 from PIL import Image
 import cStringIO
 

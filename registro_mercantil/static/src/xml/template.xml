@@ -6,7 +6,7 @@
           <xpath expr="." position="inside">
               <script type="text/javascript" src="/registro_mercantil/static/src/js/resource.js"></script>
               <!-- <script type="text/javascript" src="/registro_mercantil/static/src/js/tiff.js"></script> -->
-              <script type="text/javascript" src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+              <script type="text/javascript" src="registro_mercantil/static/src/libs/js/jspdf.min.js"></script>
               
               <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/glfx.js"></script> -->
 

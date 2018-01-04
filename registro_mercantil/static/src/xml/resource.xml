@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-<t t-name="TiffWidget">
+<templates>
+<!-- <t t-name="TiffWidget">
     <div class="pos">
         <div class="pos-topheader">
             <div class="pos-branding">
@@ -13,7 +13,6 @@
                     <span class="order-button square neworder-button"><i class='fa fa-plus' /></span>
                     <span class="order-button square deleteorder-button"><i class='fa fa-minus' /></span>
                 </div>
-                <!-- here goes header buttons -->
             </div>
         </div>
 
@@ -83,48 +82,27 @@
             </div>
         </div>
 
-        &lt;!--[if IE]&gt;
-        <div class='not-supported-browser'>
-            <div class='message'>
-                <img src='/point_of_sale/static/src/img/pos_screenshot.jpg' />
-                <p>
-                    The Point of Sale is not supported by Microsoft Internet Explorer. Please use
-                    a modern browser like <a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a> 
-                    or <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a>. 
-                </p>
-            </div>
-        </div>
-        &lt;![endif]--&gt;
+        
     </div>
-</t>
+</t> -->
 <t t-name="FieldBinaryTiff">
-    <span class="oe_form_field oe_form_field_image" t-att-style="widget.node.attrs.style">
+    <!-- <span class="o_form_field_image">
         <t t-if="!widget.get('effective_readonly')">
-            <div class="oe_form_field_image_controls oe_edit_only">
-              <i class="fa fa-pencil fa-1g pull-left col-md-offset-1 oe_form_binary_file_edit" title="Edit"/>
-              <i class="fa fa-trash-o fa-1g col-md-offset-5 oe_form_binary_file_clear" title="Clear"/>
-                <div class="oe_form_binary_progress" style="display: none">
-                    <img t-att-src='_s + "/web/static/src/img/throbber.gif"' width="16" height="16"/>
-                    <b>Uploading ...</b>
-                </div>
+            <div class="o_form_image_controls">
+                <span class="fa fa-pencil fa-lg pull-left o_select_file_button" title="Edit"/>
+                <span class="fa fa-trash-o fa-lg pull-right o_clear_file_button" title="Clear"/>
+
+                <span class="o_form_binary_progress">Uploading...</span>
                 <t t-call="HiddenInputFile">
                     <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
                 </t>
             </div>
         </t>
-        <!-- <button class="oe_button multitiff" type="button" title="Save As">
-            <img t-att-src='_s + "/web/static/src/img/icons/gtk-save.png"'/>
-            <span>Save As</span>
-        </button> -->
         <br/>
         <div class="divgeneral">
             <div class="contenido" style="text-align: center">
                 <table class="table">
-                   <!--  <td>
-                        <button class="button btn">
-                            <span ><i class="fa fa-print" aria-hidden="true"></i></span>
-                        </button>
-                    </td> -->
+       
                 <td style="text-align: center">
                     <span class="button buttonback btn" >
                         <span>Atras</span>
@@ -134,19 +112,15 @@
                         <span>Adelante</span>
                     </span>
                 </td>
-                <span class="input input--yoshiko">
-                    <input class="input__field--yoshiko pagina_actual" type="text" />
+                <span class="input ">
+                    <input class="pagina_actual" type="text" />
                 </span>
                 /
-                <span class="input input--yoshiko">
-                    <input class="input__field--yoshiko pagina_final" type="text" readonly="True" />
+                <span class="input ">
+                    <input class="pagina_final" type="text" readonly="True" />
                 </span>
 
-                  <!-- <td>
-                    <span class="button button-save">
-                      <span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
-                    </span>
-                  </td> -->
+                  
                 </table>
             </div>
             
@@ -158,16 +132,13 @@
                 <button class="button exportar_pdf" style="vertical-align:middle">
                     <span><i class="fa fa-print" aria-hidden="true"></i></span>
                 </button>
-                <!-- <button class="button btnDiseno" style="vertical-align:middle">
-                    <span><i class="fa fa-pencil-square-o"/></span>
-                </button> -->
             </div>
         </div>
-    </span>
+    </span> -->
 </t>
 
 
-<t t-name="FieldUrlTiff">
+<!-- <t t-name="FieldUrlTiff">
     <span t-att-class="'oe_form_field '+widget.widget_class" t-att-style="widget.node.attrs.style; text-align:center">
         <t t-if="!widget.get('effective_readonly')">
             <input t-att-type="widget.password ? 'password' : 'text'"
@@ -192,7 +163,7 @@
             style="text-align:center;"
         />
     </span>
-</t>
+</t> -->
 
 </templates>
 

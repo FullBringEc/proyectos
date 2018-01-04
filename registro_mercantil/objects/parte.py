@@ -49,11 +49,9 @@ class rbs_parte(models.Model):
 	separacion_bienes = fields.Boolean(string ='Separacion de Bienes')
 	es_menor = fields.Boolean(string ='Es menor')
 	tutor = fields.Char(string ='Tutor o curador')
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			razon_social = record.razon_social or ''
 			nombres = record.nombres or ''
 			# pais = record.pais_id.name

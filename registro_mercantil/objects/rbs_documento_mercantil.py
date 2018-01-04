@@ -28,11 +28,9 @@ class rbs_documento_mercantil(models.Model):
 	_description = "Documento Mercantil"
 	#_rec_name='numero_inscripcion'
 	#name= field.Char('Nombre')
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			if record.anio_id:
 				anio = record.anio_id.name
 				libro = record.libro_id.name
@@ -356,18 +354,15 @@ class rbs_documento_mercantil(models.Model):
 
 
 
-	def _getUltimoAnio(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.mercantil").search(cr, uid,  [], limit=1, order='id desc')
-		anio = self.pool.get("rbs.documento.mercantil").browse(cr,uid,acta_id,context = None).anio_id.id
-		return anio
-	def _getUltimoLibro(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.mercantil").search(cr, uid,  [], limit=1, order='id desc')
-		libro = self.pool.get("rbs.documento.mercantil").browse(cr,uid,acta_id,context = None).libro_id.id
-		return libro
-	def _getUltimoTomo(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.mercantil").search(cr, uid,  [], limit=1, order='id desc')
-		tomo = self.pool.get("rbs.documento.mercantil").browse(cr,uid,acta_id,context = None).tomo_id.id
-		return tomo
+	def _getUltimoAnio(self, context=None):
+		acta_id = self.search(  [], limit=1, order='id desc')
+		return acta_id
+	def _getUltimoLibro(self, context=None):
+		libro_id = self.search( [], limit=1, order='id desc')
+		return libro_id
+	def _getUltimoTomo(self, context=None):
+		tomo_id = self.search([], limit=1, order='id desc')
+		return tomo_id
 
 	_defaults = {
 		'anio_id': _getUltimoAnio,
@@ -410,14 +405,14 @@ class rbs_documento_mercantil(models.Model):
 					rec.identificacion_unica = '03'+rec.ubicacion_dato_id.name+rec.numero_inscripcion+rec.numero_inscripcion
 				except:
 					pass
-	def on_change_anio_id(self, cr, uid, ids,anio_id,context=None):
+	def on_change_anio_id(self,anio_id,context=None):
 		result = {}		
-		if(self._getUltimoAnio(cr, uid, context=None) != anio_id):
+		if(self._getUltimoAnio(context=None) != anio_id):
 			result['libro_id'] = 0;
 		return { 'value':result, }
-	def on_change_libro_id(self, cr, uid, ids,libro_id,context=None):
+	def on_change_libro_id(self,libro_id,context=None):
 		result = {}		
-		if(self._getUltimoLibro(cr, uid, context=None) != libro_id):
+		if(self._getUltimoLibro(context=None) != libro_id):
 			result['tomo_id'] = 0;
 		return { 'value':result, }
 
@@ -467,9 +462,9 @@ class rbs_documento_mercantil(models.Model):
 		return { 'value':result, }
 
 
-	def onchange_inscripcion(self, cr, uid, ids, inscripcion_num,libro_id,context=None):
-		mercantil_id = self.pool.get('rbs.documento.mercantil').search(cr, uid, [('numero_inscripcion','=',inscripcion_num),('libro_id','=',libro_id)])
-		mercantil = self.pool.get('rbs.documento.mercantil').browse(cr,uid,mercantil_id,context = None)
+	def onchange_inscripcion(self, inscripcion_num,libro_id,context=None):
+		mercantil = self.search([('numero_inscripcion','=',inscripcion_num),('libro_id','=',libro_id)])
+		# mercantil = self.browse(cr,uid,mercantil_id,context = None)
 		result = {}
 
 		
@@ -611,7 +606,7 @@ class rbs_documento_mercantil(models.Model):
 					pass
 
 			if not mercantil:
-				result['filedata_id'] = self._create_pdf(cr, uid, context=None)
+				result['filedata_id'] = self._create_pdf(context=None)
 		except:
 			pass
 		
@@ -681,11 +676,11 @@ class rbs_cargo(models.Model):
 	
 	name = fields.Char(string = 'Tipo de cargo')
 
-class rbs_canton(models.Model):
-	_name = 'rbs.canton'
-	_description = "Nombre del cantón"
+# class rbs_canton(models.Model):
+# 	_name = 'rbs.canton'
+# 	_description = "Nombre del cantón"
 	
-	name = fields.Char(string = 'Nombre del cantón')
+# 	name = fields.Char(string = 'Nombre del cantón')
 	
 class rbs_tipo_tramite(models.Model):
 	_name = 'rbs.tipo.tramite'

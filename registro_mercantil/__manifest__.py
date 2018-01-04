@@ -36,21 +36,21 @@
                 'sequence.xml',
                 "cron/pdf_cron.xml",
                 
-                # 'data/rbs.tramite.propiedad.csv',
-                # 'data/rbs.tipo.libro.propiedad.csv',
-                # 'data/rbs.tramite.mercantil.csv',
-                # 'data/rbs.tipo.libro.mercantil.csv',
+                'data/rbs.tramite.propiedad.csv',
+                'data/rbs.tipo.libro.propiedad.csv',
+                'data/rbs.tramite.mercantil.csv',
+                'data/rbs.tipo.libro.mercantil.csv',
 
-                # 'data/rbs.nombramiento.mercantil.csv',
-                # 'data/rbs.provincia.csv',
-                # 'data/rbs.canton.csv',
-                # 'data/rbs.parroquia.csv',
-                # 'data/rbs.calidad.compareciente.csv',
-                # 'data/rbs.tipo.interviniente.csv',
-                # 'data/rbs.zona.csv',
-                # 'data/rbs.tipo.gravamen.csv',
-                # 'data/rbs.tipo.tramite.csv',
-                # 'data/rbs.tipo.bien.csv',
+                'data/rbs.nombramiento.mercantil.csv',
+                'data/rbs.provincia.csv',
+                'data/rbs.canton.csv',
+                'data/rbs.parroquia.csv',
+                'data/rbs.calidad.compareciente.csv',
+                'data/rbs.tipo.interviniente.csv',
+                'data/rbs.zona.csv',
+                'data/rbs.tipo.gravamen.csv',
+                'data/rbs.tipo.tramite.csv',
+                'data/rbs.tipo.bien.csv',
 
 
               
@@ -71,8 +71,8 @@
               'view/certificado_mercantil_view.xml',
               "view/rbs_documento_certificaciones.xml",       
               # 'views/tiffEdit.xml',
-              # "static/src/xml/template.xml",
-              # 'views/assets_backend.xml'
+              "static/src/xml/template.xml",
+              'views/assets_backend.xml'
               
 
     ],

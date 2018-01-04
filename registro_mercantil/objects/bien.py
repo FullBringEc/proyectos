@@ -52,11 +52,9 @@ class rbs_bien(models.Model):
 	color = fields.Char(string = 'Color' )
 	numero_provisional = fields.Char(string = 'Numero Provisional' )
 	
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			numero_predial = record.numero_predial
 			clave_catastral = record.clave_catastral
 			# pais = record.pais_id.name

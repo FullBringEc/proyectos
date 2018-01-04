@@ -15,11 +15,9 @@ class rbs_documento_propiedad(models.Model):
 	_name ="rbs.documento.propiedad"
 	_description = "Documento de la Propiedad"
 	#name= field.Char('Nombre')
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			if record.anio_id:
 				anio = record.anio_id.name
 				libro = record.libro_id.name
@@ -213,18 +211,15 @@ class rbs_documento_propiedad(models.Model):
 
 		return
 
-	def _getUltimoAnio(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.propiedad").search(cr, uid,  [], limit=1, order='id desc')
-		anio = self.pool.get("rbs.documento.propiedad").browse(cr,uid,acta_id,context = None).anio_id.id
-		return anio
-	def _getUltimoLibro(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.propiedad").search(cr, uid,  [], limit=1, order='id desc')
-		libro = self.pool.get("rbs.documento.propiedad").browse(cr,uid,acta_id,context = None).libro_id.id
-		return libro
-	def _getUltimoTomo(self, cr, uid, context=None):
-		acta_id = self.pool.get("rbs.documento.propiedad").search(cr, uid,  [], limit=1, order='id desc')
-		tomo = self.pool.get("rbs.documento.propiedad").browse(cr,uid,acta_id,context = None).tomo_id.id
-		return tomo
+	def _getUltimoAnio(self, context=None):
+		acta_id = self.search(  [], limit=1, order='id desc')
+		return acta_id
+	def _getUltimoLibro(self, context=None):
+		libro_id = self.search( [], limit=1, order='id desc')
+		return libro_id
+	def _getUltimoTomo(self, context=None):
+		tomo_id = self.search([], limit=1, order='id desc')
+		return tomo_id
 
 	_defaults = {
 		'anio_id': _getUltimoAnio,
@@ -290,21 +285,23 @@ class rbs_documento_propiedad(models.Model):
 		#	pass
 		
 		return { 'value':result, }
-	def on_change_anio_id(self, cr, uid, ids,anio_id,context=None):
+
+	def on_change_anio_id(self,anio_id,context=None):
 		result = {}		
-		if(self._getUltimoAnio(cr, uid, context=None) != anio_id):
+		if(self._getUltimoAnio(context=None) != anio_id):
 			result['libro_id'] = 0;
 		return { 'value':result, }
-	def on_change_libro_id(self, cr, uid, ids,libro_id,context=None):
+
+	def on_change_libro_id(self,libro_id,context=None):
 		result = {}		
-		if(self._getUltimoLibro(cr, uid, context=None) != libro_id):
+		if(self._getUltimoLibro(context=None) != libro_id):
 			result['tomo_id'] = 0;
 		return { 'value':result, }
 
 
-	def onchange_inscripcion(self, cr, uid, ids, inscripcion_num,libro_id,context=None):
-		propiedad_id = self.pool.get('rbs.documento.propiedad').search(cr, uid, [('numero_inscripcion','=',inscripcion_num),('libro_id','=',libro_id)])
-		propiedad = self.pool.get('rbs.documento.propiedad').browse(cr,uid,propiedad_id,context = None)
+	def onchange_inscripcion(self,inscripcion_num,libro_id,context=None):
+		propiedad = self.search([('numero_inscripcion','=',inscripcion_num),('libro_id','=',libro_id)])
+		# propiedad = self.browse(cr,uid,propiedad_id,context = None)
 		result = {}
 
 		
@@ -474,7 +471,7 @@ class rbs_documento_propiedad(models.Model):
 				except: 
 					pass
 			if not propiedad:
-				result['filedata_id'] = self._create_pdf(cr, uid, context=None)
+				result['filedata_id'] = self._create_pdf(context=None)
 
 				
 				
@@ -547,11 +544,9 @@ class rbs_parroquia(models.Model):
 	provincia_id = fields.Many2one(related='canton_id.provincia_id',string = 'Provincia')
 	pais_id = fields.Many2one(related='provincia_id.pais_id',string = "Pais")
 
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			name = record.name
 			canton = record.canton_id.name
 			# provincia = record.provincia_id.name
@@ -569,11 +564,9 @@ class rbs_canton(models.Model):
 	provincia_id = fields.Many2one('rbs.provincia','Provincia', domain="[('pais_id','=',pais_id)]")
 	pais_id = fields.Many2one(related='provincia_id.pais_id',string = "Pais")
 
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			name = record.name
 			provincia = record.provincia_id.name
 			# pais = record.pais_id.name
@@ -589,11 +582,11 @@ class rbs_provincia(models.Model):
 	name = fields.Char(string = 'Nombre de la provincia')
 	pais_id = fields.Many2one('res.country',"Pais")
 
-	def name_get(self, cr, uid, ids, context=None):
-		if context is None:
-			context = {}
+
+	
+	def name_get(self):
 		res = []
-		for record in self.browse(cr, uid, ids, context=context):
+		for record in self:
 			name = record.name
 			pais = record.pais_id.name
 			tit = "%s/%s" % (name, pais)
