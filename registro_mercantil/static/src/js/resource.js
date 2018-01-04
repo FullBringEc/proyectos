@@ -1,6 +1,6 @@
+odoo.define('registro_mercantil.resource', function (require) {
+"use strict";
 
-openerp.registro_mercantil = function (instance)
-{   
 	
 	var instance = openerp;
 	var _t = instance.web._t,
@@ -412,3 +412,4 @@ instance.web.form.FieldUrlTiff = instance.web.form.FieldChar.extend({
     instance.web.form.widgets.add('FieldBinaryTiff', 'instance.web.form.FieldBinaryTiff');
 }
 
+)

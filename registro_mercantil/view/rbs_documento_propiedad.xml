@@ -339,8 +339,8 @@
                 <tree string="Archivos" version="8.0"> 
                     <field name="tomo_id"/>
                     <field name="numero_inscripcion"/>
-                    <field name="comprador_virtual"/>
-                    <field name="vendedor_virtual"/> 
+                    <!-- <field name="comprador_virtual"/> -->
+                    <!-- <field name="vendedor_virtual"/>  -->
                     <field name="fecha_inscripcion"/> 
                     <field name="create_uid" string="Creado por"/>
                     <field name='state_filedata'/>

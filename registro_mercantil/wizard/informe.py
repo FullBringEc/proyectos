@@ -3,7 +3,8 @@
 
 
 from openerp import models,  api, _
-from openerp.osv import osv,fields
+from openerp.osv import osv
+from openerp import  models, fields
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 from openerp.tools import config
@@ -27,7 +28,7 @@ from openerp.exceptions import (
 #import StringIO
 
 
-class rbs_informe(osv.osv_memory):
+class rbs_informe(osv.osv):
     @api.one
     def generate_excel(self):
         
@@ -372,10 +373,10 @@ class rbs_informe(osv.osv_memory):
     def act_export(self, cr, uid, ids, context={}):
         this = self.browse(cr, uid, ids)[0]
         #root = self.generate_excel(cr,uid,ids)
-        name_arch = "Reporte.xls"
+        this.name = "REPORTE.xls"
         #self._write_attachment(cr,uid,ids,root,context)
         out = self.generate_excel(cr,uid,ids)
-        self.write(cr, uid, ids, {'data':out, 'name':name_arch, 'state': 'get'}, context=context)
+        self.write(cr, uid, ids, {'data':out, 'name':this.name, 'state': 'get'}, context=context)
         a = self.read(cr, uid, ids, context=context)[0]
         elId = repr(a['id'])
         
@@ -394,16 +395,14 @@ class rbs_informe(osv.osv_memory):
 
     _name = 'rbs.informe'
     
-    _columns = {
-                'name':fields.char('name', size=20, readonly=True), 
-                #'fiscalyear_id':fields.many2one('account.fiscalyear', 'Fiscal Year', required=True),
-                'fecha_inicio':fields.date('Dia inicial', required=True),
-                'fecha_fin':fields.date('Dia final ', required=True),
-                'data':fields.binary('File', readonly=True),
-                'tipo':fields.selection([('mercantil','Registro Mercantil'),('propiedad','Registro Propiedad')],  'Elija el informe', required=True),
-                'state':fields.selection([('choose','Choose'),('get','Get'),],  'state', required=True, readonly=True),}
-    _defaults = {
-                 'state': lambda *a: 'choose'
-                 }
+    name = fields.Char('name', size=20, readonly=True), 
+    #'fiscalyear_id':fields.many2one('account.fiscalyear', 'Fiscal Year', required=True),
+    fecha_inicio = fields.Date('Dia inicial', required=True)
+    fecha_fin = fields.Date('Dia final ', required=True)
+    data = fields.Binary('File', readonly=True)
+    tipo = fields.Selection([('mercantil','Registro Mercantil'),('propiedad','Registro Propiedad')],  'Elija el informe', required=True)
+    state = fields.Selection([('choose','Choose'),('get','Get'),],  'state', required=True, readonly=True, default = 'choose')
+
+     # 'state': lambda *a: 'choose'
     
-rbs_informe()
+# rbs_informe()

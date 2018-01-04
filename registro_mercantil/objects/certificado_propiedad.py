@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 ########################################################################
 
-
-from openerp.osv import fields,osv
+from openerp.osv import osv
 from openerp import  models, fields as field, api
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _

@@ -31,28 +31,30 @@
     'js': ['static/src/js/resource.js'],
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
+                "security/registro_security.xml",
+              "security/ir.model.access.csv",
                 'sequence.xml',
                 "cron/pdf_cron.xml",
-                "security/registro_security.xml",
-                "security/ir.model.access.csv",
-                'data/rbs.tramite.propiedad.csv',
-                'data/rbs.tipo.libro.propiedad.csv',
-                'data/rbs.tramite.mercantil.csv',
-                'data/rbs.tipo.libro.mercantil.csv',
+                
+                # 'data/rbs.tramite.propiedad.csv',
+                # 'data/rbs.tipo.libro.propiedad.csv',
+                # 'data/rbs.tramite.mercantil.csv',
+                # 'data/rbs.tipo.libro.mercantil.csv',
 
-                'data/rbs.nombramiento.mercantil.csv',
-                'data/rbs.provincia.csv',
-                'data/rbs.canton.csv',
-                'data/rbs.parroquia.csv',
-                'data/rbs.calidad.compareciente.csv',
-                'data/rbs.tipo.interviniente.csv',
-                'data/rbs.zona.csv',
-                'data/rbs.tipo.gravamen.csv',
-                'data/rbs.tipo.tramite.csv',
-                'data/rbs.tipo.bien.csv',
-
+                # 'data/rbs.nombramiento.mercantil.csv',
+                # 'data/rbs.provincia.csv',
+                # 'data/rbs.canton.csv',
+                # 'data/rbs.parroquia.csv',
+                # 'data/rbs.calidad.compareciente.csv',
+                # 'data/rbs.tipo.interviniente.csv',
+                # 'data/rbs.zona.csv',
+                # 'data/rbs.tipo.gravamen.csv',
+                # 'data/rbs.tipo.tramite.csv',
+                # 'data/rbs.tipo.bien.csv',
 
 
+              
+              
 
               "view/valores_view.xml",
               "view/imagen_view.xml",
@@ -64,13 +66,13 @@
               "view/rbs_libro_view.xml",
               "view/rbs_tomo_view.xml",
               "view/tarea_view.xml",
-              'wizard/informe_view.xml',
+              # 'wizard/informe_view.xml',
               'view/certificado_propiedad_view.xml',
               'view/certificado_mercantil_view.xml',
               "view/rbs_documento_certificaciones.xml",       
-              'views/tiffEdit.xml',
-              "static/src/xml/template.xml",
-              'views/assets_backend.xml'
+              # 'views/tiffEdit.xml',
+              # "static/src/xml/template.xml",
+              # 'views/assets_backend.xml'
               
 
     ],

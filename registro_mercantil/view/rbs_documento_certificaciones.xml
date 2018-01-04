@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    	<record model='ir.ui.view' id='rbs_documento_certificaciones'>
+    	<!-- <record model='ir.ui.view' id='rbs_documento_certificaciones'>
     		<field  name="name">rbs.documento.certificaciones</field>
     		<field  name="model">res.company</field>
     		<field  name="inherit_id" ref="report.reporting_settings_form_inherited"/>
@@ -19,7 +19,7 @@
                 
     		</field>
 
-    	</record>    
+    	</record>     -->
     </data>
 </openerp>
 	
