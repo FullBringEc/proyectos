@@ -284,7 +284,7 @@
                     <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                     <field name="filedata"  widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'propiedad'}" 
                     attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-                    <field name="rutaFTP" widget= "FieldUrlPdf" options="{'size': [500, 500]}"
+                    <field name="rutaFTP" widget= "pdf" options="{'size': [500, 500]}"
                             attrs="{'invisible':['|', ('esPesado','=',False)]}" />
                 </div>
             </group> 

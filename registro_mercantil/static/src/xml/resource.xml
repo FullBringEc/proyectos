@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates>
+<templates id="template" xml:space="preserve">
+
 <!-- <t t-name="TiffWidget">
     <div class="pos">
         <div class="pos-topheader">
@@ -86,7 +87,7 @@
     </div>
 </t> -->
 <t t-name="FieldBinaryTiff">
-    <!-- <span class="o_form_field_image">
+    <span class="o_form_field_image">
         <t t-if="!widget.get('effective_readonly')">
             <div class="o_form_image_controls">
                 <span class="fa fa-pencil fa-lg pull-left o_select_file_button" title="Edit"/>
@@ -113,11 +114,11 @@
                     </span>
                 </td>
                 <span class="input ">
-                    <input class="pagina_actual" type="text" />
+                    <input class="input__field pagina_actual" type="text" />
                 </span>
                 /
                 <span class="input ">
-                    <input class="pagina_final" type="text" readonly="True" />
+                    <input class="input__field pagina_final" type="text" readonly="True" />
                 </span>
 
                   
@@ -134,7 +135,7 @@
                 </button>
             </div>
         </div>
-    </span> -->
+    </span>
 </t>
 
 

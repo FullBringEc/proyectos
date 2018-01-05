@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+
+    <t t-name="FieldUrlPdf">
+        <span t-if="widget.get('effective_readonly')"/>
+
+        <input t-if="!widget.get('effective_readonly')" class="o_form_input"
+            t-att-barcode_events="widget.options.barcode_events"
+            t-att-type="widget.password ? 'password' : 'text'"
+            t-att-id="widget.id_for_label"
+            t-att-tabindex="widget.node.attrs.tabindex"
+            t-att-autofocus="widget.node.attrs.autofocus"
+            t-att-placeholder="widget.node.attrs.placeholder"
+            t-att-autocomplete="widget.password ? 'new-password' : widget.node.attrs.autocomplete"
+            t-att-maxlength="widget.field.size"/>
+        <center>
+            <div class="contFtpIframe">
+                <t t-if="!widget.get('effective_readonly')">
+                    <div class ="contFtpExplorer" style="float:left;overflow : auto;">
+                        <div class="ftpExplorer" style="height:100%"/>
+                    </div>
+                </t>
+                <!-- <center> -->
+                    <iframe t-att-src='widget.value'
+                        t-att-border="widget.readonly ? 0 : 1"
+                        t-att-name="widget.name"
+                        style="border-style: dashed"
+                    />
+                <!-- </center> -->
+            </div>
+        </center>
+    </t>
+
+
+</templates>
+
+
+
+
+
+
