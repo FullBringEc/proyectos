@@ -47,14 +47,15 @@ if(jQuery) (function($){
 			if( o.collapseEasing == undefined ) o.collapseEasing = null;
 			if( o.multiFolder == undefined ) o.multiFolder = true;
 			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
+			if( o.csrf == undefined ) o.csrf = 'No cargo';
 			
 			$(this).each( function() {
 				
 				function showTree(c, t) {
 					$(c).addClass('wait');
 					$(".jqueryFileTree.start").remove();
-					console.log(o.script)
-					$.post(o.script, {ftp:o.ftp, dir: t }, function(data) {
+					console.log(o.csrf)
+					$.post(o.script, {csrf_token:o.csrf,ftp:o.ftp, dir: t }, function(data) {
 						data = data.split("?");
 						dir_ftp = data[0]
 						$(c).find('.start').html('');

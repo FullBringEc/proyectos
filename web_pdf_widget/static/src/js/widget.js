@@ -22,8 +22,8 @@ odoo.define('web.web_pdf_widget', function(require) {
             this.$el.find('.contFtpExplorer')
                         .css("width", "50%")
                         .css("height", "" + self.options.size[1] + "px")
-            this.$el.find('.ftpExplorer').fileTree({ftp:self.options.ftp_param, root: '/', script: 'http://127.0.0.1:8069/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
-                        //alert(file);
+            this.$el.find('.ftpExplorer').fileTree({csrf:this.value,ftp:self.options.ftp_param, root: '/', script: 'http://127.0.0.1:8069/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
+                        
                         //window.open(file, '_blank');
                         self.$el.find('iframe')
                         .attr('src',file)

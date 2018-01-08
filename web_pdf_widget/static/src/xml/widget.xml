@@ -4,7 +4,7 @@
 
     <t t-name="FieldUrlPdf">
         <span t-if="widget.get('effective_readonly')"/>
-
+        <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
         <input t-if="!widget.get('effective_readonly')" class="o_form_input"
             t-att-barcode_events="widget.options.barcode_events"
             t-att-type="widget.password ? 'password' : 'text'"
@@ -18,7 +18,7 @@
             <div class="contFtpIframe">
                 <t t-if="!widget.get('effective_readonly')">
                     <div class ="contFtpExplorer" style="float:left;overflow : auto;">
-                        <div class="ftpExplorer" style="height:100%"/>
+                        <div class="ftpExplorer" style="height:100%" t-att-value="csrf_token"/>
                     </div>
                 </t>
                 <!-- <center> -->

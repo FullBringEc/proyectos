@@ -156,6 +156,7 @@ class BinaryPdf(http.Controller):
            r.append('Could not load directory: %s' % str(e))
         r.append('</ul>')
         
-        return ftp+"?"+''.join(r)
+        # return 
+        return request.make_response(ftp+"?"+''.join(r))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
