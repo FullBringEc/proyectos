@@ -122,8 +122,8 @@ class BinaryPdf(http.Controller):
         return request.make_response(image_data, headers)
 
     # @api.one
-    @http.route('/ftp/web', type='http', auth='user')
-    def ftp(self, debug=False, **k):
+    @http.route('/ftp/web', type='http', auth='user',csrf=False)
+    def ftp(self, debug=False,**k):
         import urllib
         import ftputil
         cr, uid, context = request.cr, request.uid, request.context
