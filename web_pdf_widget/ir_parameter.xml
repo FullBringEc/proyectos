@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    
+	<data noupdate="1">
+	    <record id="ftpMercantil" model="ir.config_parameter">
+	        <field name="key">ftp.mercantil</field>
+	        <field name="value">True</field>
+	    </record>
+	    <record id="ftpPropiedad" model="ir.config_parameter">
+	        <field name="key">ftp.propiedad</field>
+	        <field name="value">True</field>
+	    </record>
+	</data>
+</openerp>
