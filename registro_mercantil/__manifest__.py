@@ -32,7 +32,7 @@
     'qweb': ['static/src/xml/resource.xml'],  
     "data" : [
                 "security/registro_security.xml",
-              "security/ir.model.access.csv",
+                "security/ir.model.access.csv",
                 'sequence.xml',
                 "cron/pdf_cron.xml",
                 
