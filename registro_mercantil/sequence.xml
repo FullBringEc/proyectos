@@ -11,5 +11,19 @@
 		    <field name="prefix">NUMERO_TAREA_</field> 
 		    <field name="padding">7</field> 
 		</record>
+
+		<record id="seq_number_certificado_propiedad" model="ir.sequence"> 
+		    <field name="name">Numero de certificado propiedad</field> 
+		    <field name="code">number_certificado_propiedad</field> 
+		    <field name="prefix">RP/%(year)s/</field> 
+		    <field name="padding">7</field> 
+		</record>
+
+		<record id="seq_number_certificado_mercantil" model="ir.sequence"> 
+		    <field name="name">Numero de certificado mercantil</field> 
+		    <field name="code">number_certificado_mercantil</field> 
+		    <field name="prefix">RM/%(year)s/</field> 
+		    <field name="padding">7</field> 
+		</record>
 	</data>
 </openerp>
