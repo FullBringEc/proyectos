@@ -2,9 +2,9 @@
 ########################################################################
 
 
-from openerp import models,  api, _
-from openerp.osv import osv
-from openerp import  models, fields
+from openerp import models, fields, api, _
+# from openerp.osv import osv
+# from openerp import  models, fields
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 from openerp.tools import config
@@ -28,7 +28,7 @@ from openerp.exceptions import (
 #import StringIO
 
 
-class rbs_informe(osv.osv):
+class rbs_informe(models.Model):
     @api.one
     def generate_excel(self):
         
@@ -395,7 +395,7 @@ class rbs_informe(osv.osv):
 
     _name = 'rbs.informe'
     
-    name = fields.Char('name', size=20, readonly=True), 
+    name = fields.Char('name', size=20, readonly=True)
     #'fiscalyear_id':fields.many2one('account.fiscalyear', 'Fiscal Year', required=True),
     fecha_inicio = fields.Date('Dia inicial', required=True)
     fecha_fin = fields.Date('Dia final ', required=True)

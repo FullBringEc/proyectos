@@ -31,6 +31,7 @@
     # 'js': ['static/src/js/resource.js'],
     
     "data" : [
+                'wizard/informe_view.xml',
                 "views/pdf_binary_template_widget.xml",
                 "security/registro_security.xml",
                 "security/ir.model.access.csv",
@@ -67,11 +68,11 @@
               "view/rbs_libro_view.xml",
               "view/rbs_tomo_view.xml",
               "view/tarea_view.xml",
-              # 'wizard/informe_view.xml',
+              
               'view/certificado_propiedad_view.xml',
               'view/certificado_mercantil_view.xml',
               "view/rbs_documento_certificaciones.xml",       
-              # 'views/tiffEdit.xml',
+              'views/tiffEdit.xml',
               
               'views/assets_backend.xml',
               

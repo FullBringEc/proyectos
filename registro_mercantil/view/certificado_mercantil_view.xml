@@ -103,7 +103,7 @@
 
 
 
-        <menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/>
+        <!-- <menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/> -->
         <menuitem id="submenu_certificado_mercantil" name="Mercantil" parent="submenu_certificados" action="action_certificado_mercantil"/>
     </data>
 </openerp>

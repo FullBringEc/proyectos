@@ -14,7 +14,7 @@ setTextColor=function(color){
 }
 function TifWIdget(tipo,id){
     // Tiff.initialize({TOTAL_MEMORY: 16777216 * 5});
-    var s = new openerp.init();
+    // var s = new openerp.init();
     // url = s.session.url('/registro_mercantil/BinaryTiff/tiff', {
     //                                     model: "rbs.documento."+tipo,
     //                                     id: id,
