@@ -7,12 +7,15 @@ class Binary(http.Controller):
  @http.route('/web/binary/download_document', type='http', auth="public")
  @serialize_exception
  def download_document(self,model,field,id,filename=None, **kw):
-     Model = request.registry[model]
+     Model = request.env[model]
      cr, uid, context = request.cr, request.uid, request.context
      fields = [field]
-     res = Model.read(cr, uid, [int(id)], fields, context)[0]
-     #print res
-     filecontent = base64.b64decode(res.get(field) or '')
+     filecontent = base64.b64decode(Model.browse([int(id)])[0][field])
+     
+     res = Model.browse([int(id)])
+     # res[field]
+     # #print res
+     # filecontent = base64.b64decode(res.get(field) or '')
      if not filecontent:
          return request.not_found()
          print "holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

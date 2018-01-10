@@ -58,7 +58,8 @@
 import json
 import logging
 import werkzeug.utils
-
+import urllib
+import ftputil
 # from odoo import http
 from openerp import http
 # from odoo.http import request
@@ -124,8 +125,7 @@ class BinaryPdf(http.Controller):
     # @api.one
     @http.route('/ftp/web', type='http', auth='user',csrf=False)
     def ftp(self, debug=False,**k):
-        import urllib
-        import ftputil
+      
         cr, uid, context = request.cr, request.uid, request.context
 
         #ftp = self.pool.get("ir.config_parameter").get_param(cr, uid, "ftp.mercantil", default=None, context=context)

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+		 <record model='ir.ui.view' id='rbs_compania_reg_form'>
+            <field  name="name">rbs.compania.reg</field>
+            <field  name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name='type'>form</field>         
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                        <field name="registrador_nombre"></field>
+                        <field name="registrador_fecha_ingreso"></field>
+                    
+                </xpath>
+
+                
+            </field>
+
+        </record>    
+
+
+    </data>
+</openerp>

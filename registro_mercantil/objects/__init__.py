@@ -10,3 +10,4 @@ import marginacion_gravamen
 import tarea
 import certificado_propiedad
 import certificado_mercantil
+import compania_reg

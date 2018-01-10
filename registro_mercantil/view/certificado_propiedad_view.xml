@@ -12,11 +12,14 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <group col="7">
+                        <group col="6">
                             <field name = "criterio_busqueda"/>
                             <field name = "valor_busqueda"/>
                             <field name = "solicitante"/>
-                            <button class="oe_inline oe_stat_button" icon="fa-file-word-o" name ="word_certificado" string="Certificado" type="object"/>                         
+                            <field name = "tipo_certificado"/>
+                            <button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
+                          
+                                                  
                         </group>
                             <field name = "propiedad_ids" readonly="1" view_id="rbs_documento_propiedad_tree2_view"/>
                     </sheet>
