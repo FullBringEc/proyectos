@@ -2,11 +2,13 @@
 <openerp>
     <data>
 
-        <template id="assets_frontend" inherit_id="web.assets_common">
+        <template id="assets_frontend" name="pdf_binary assets" inherit_id="web.assets_common">
           <xpath expr="." position="inside">
-              <script type="text/javascript" src="/registro_mercantil/static/src/js/resource.js"></script>
+              
               <!-- <script type="text/javascript" src="/registro_mercantil/static/src/js/tiff.js"></script> -->
               <script type="text/javascript" src="registro_mercantil/static/src/libs/js/jspdf.min.js"></script>
+
+              <script type="text/javascript" src="/registro_mercantil/static/src/js/widget.js"></script>
               
               <!-- <script type="text/javascript" src="/web_tiff_widget/static/src/js/glfx.js"></script> -->
 

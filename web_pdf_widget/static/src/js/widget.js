@@ -24,11 +24,14 @@ odoo.define('web.web_pdf_widget', function(require) {
                         .css("height", "" + self.options.size[1] + "px")
             this.$el.find('.ftpExplorer').fileTree({csrf:this.value,ftp:self.options.ftp_param, root: '/', script: 'http://127.0.0.1:8069/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
                         
-                        //window.open(file, '_blank');
+                        // window.open(file, '_blank');
+                        console.log(file)
                         self.$el.find('iframe')
                         .attr('src',file)
                         .css("width", "50%")
-                        self.set_value(file)
+                        self.$el.val(file)
+                        // self.set_value(file)
+                        // self.parse_value(file, '');
 
                     });
             
@@ -38,26 +41,18 @@ odoo.define('web.web_pdf_widget', function(require) {
         },
         render_value: function() {
             var show_value = this.format_value(this.get('value'), '');
-            // alert(show_value)
-            
-            //if (!this.get("effective_readonly")) {
-                this.$el.find('input').val(show_value);
-
-
-
-            //} else {
-            if (this.password) {
-                show_value = new Array(show_value.length + 1).join('*');
+            if (this.$input) {
+                this.$input.val(show_value);
             }
             if (this.get("effective_readonly")) {
-                this.$(".oe_form_char_content").text(show_value);
+                // this.$(".oe_form_char_content").text(show_value);
                 //alert(show_value);
                 this.$el.find('iframe')
                         .attr('src',this.get('value'))
                         .css("width", "100%")
                         .css("height", "100%")
             }else{
-                this.$(".oe_form_char_content").text(show_value);
+                // this.$(".oe_form_char_content").text(show_value);
                 this.$el.find('iframe')
                         .attr('src',this.get('value'))
                         .css("width", "50%")
@@ -82,7 +77,7 @@ odoo.define('web.web_pdf_widget', function(require) {
         
     });
 
-    core.form_widget_registry.add('pdf', FieldUrlPdf);
+    core.form_widget_registry.add('pdf_ftp', FieldUrlPdf);
 
     /*
      * Init jscolor for each editable mode on view form
