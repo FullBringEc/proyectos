@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import PyPDF2
 import struct
 
@@ -8,7 +9,7 @@ import cStringIO
 from openerp.osv import osv
 
 # import wand
-import wand
+
 # from wand import color
 import sys
 from os import path
@@ -40,19 +41,21 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
         return
     except:
         try:
+            import wand.image as im
+            import wand.color as col
             filedataByte = BytesIO(base64.b64decode(modelo.filedata))
-            with(wand.image.Image(file=filedataByte,resolution=200)) as source:
-                imageWand=source.sequence
+            with(im.Image(file=filedataByte,resolution=200)) as source:
+                images=source.sequence
                 pages=len(images)
                 for i in range(pages):
                     print 'page' + str(i)
-                    imagen = wand.image.Image(images[i])
+                    imagen = im.Image(images[i])
                     print imagen.format
                     imagen.format = 'jpeg'
-                    imagen.background_color = wand.color.Color("white")
+                    imagen.background_color = col.Color("white")
                     imagen.alpha_channel = 'remove'
                     jpeg_image_buffer = cStringIO.StringIO()
-                    wand.image.Image(imagen).save(jpeg_image_buffer)
+                    im.Image(imagen).save(jpeg_image_buffer)
                     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
                     contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
             print "metodo 2"
