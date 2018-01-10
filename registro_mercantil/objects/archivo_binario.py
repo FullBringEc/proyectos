@@ -1,5 +1,5 @@
 
-from openerp import models, fields, api, osv, _
+from openerp import models, fields, api, _
 from io import BytesIO 
 import base64
 import pdfmod
@@ -57,20 +57,20 @@ class rbs_documento_propiedad(models.Model):
 		# raise osv.except_osv('Esto es un Mesaje!',"repr(im.info)")
 
 		# if self.filedata!= None and self.filedata != False  and self.anio_id and self.libro_id and self.tomo_id and (self.numero_inscripcion!=0):
-		 	# try:
-	 		propiedad.borrar_contenedor()
-	 		contenedor = self.env['rbs.contenedor'].create({'name': str(propiedad.anio_id.name) + str(propiedad.libro_id.name) + str(propiedad.tomo_id.name) + str(propiedad.numero_inscripcion) + str("propiedad")})
-			filedataByte = BytesIO(base64.b64decode(propiedad.filedata))
-			# print filedataByte
-			pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
-			propiedad.contenedor_id=contenedor.id
-			propiedad.state_filedata = 'done'
+		 	try:
+		 		propiedad.borrar_contenedor()
+		 		contenedor = self.env['rbs.contenedor'].create({'name': str(propiedad.anio_id.name) + str(propiedad.libro_id.name) + str(propiedad.tomo_id.name) + str(propiedad.numero_inscripcion) + str("propiedad")})
+				filedataByte = BytesIO(base64.b64decode(propiedad.filedata))
+				# print filedataByte
+				pdfmod.pdfOrTiff2image(self,filedataByte,contenedor)
+				propiedad.contenedor_id=contenedor.id
+				propiedad.state_filedata = 'done'
 				# raise osv.except_osv('Esto es un Mesaje!',"repr(im.sd)")
-			# except Exception as e:
-				# propiedad.state_filedata = 'error'
-				# print "------------------\n"
-				# print e
-				# print "------------------\n"
+			except Exception as e:
+				propiedad.state_filedata = 'error'
+				print "------------------\n"
+				print e
+				print "------------------\n"
 
 
 class rbs_documento_mercantil(models.Model):

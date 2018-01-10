@@ -63,7 +63,7 @@
               
 
               "view/valores_view.xml",
-              "view/imagen_view.xml",
+              # "view/imagen_view.xml",
               "view/valores_division_politica_view.xml",
               "view/valores_persona_view.xml",
               "view/rbs_documento_propiedad.xml",

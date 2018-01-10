@@ -1,7 +1,7 @@
 import rbs_documento_mercantil
 import rbs_documento_propiedad
 import modelos
-# import archivo_binario
+import archivo_binario
 import controler
 import parte
 import bien
