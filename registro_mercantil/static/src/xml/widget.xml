@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
+<templates>
 
 <!-- <t t-name="TiffWidget">
     <div class="pos">
@@ -86,7 +86,7 @@
         
     </div>
 </t> -->
-<t t-name="FieldBinaryTiff">
+<t t-name="pdf_binary">
     <span class="o_form_field_image">
         <t t-if="!widget.get('effective_readonly')">
             <div class="o_form_image_controls">

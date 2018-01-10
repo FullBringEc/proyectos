@@ -58,7 +58,11 @@
         </record>
       
       
-        <menuitem name="Informe xls" id="submenu_Informe_xls" parent="menu_Documentos"/>
+       <!--  <menuitem name="Informe Xls" id="submenu_Informe_xls" parent="base.menu_reporting"/>
+
         <menuitem name="Exportar xls" action="action_wizard_xls_export" id="submenu_export_xls" parent="submenu_Informe_xls"/>
+ -->
+        <menuitem id="submenu_informe" name="Informes" parent="menu_Documentos"/>
+        <menuitem id="submenu_export_xls" name="Exportar xls" parent="submenu_informe" action="action_wizard_xls_export"/>
     </data>
 </openerp>

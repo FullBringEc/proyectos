@@ -1,5 +1,8 @@
 este es !!!
 pip install pillow==2.8.1
 
-
+*wand
+	-necesita la instalacion de imagemagick http://www.imagemagick.org/download/binaries/
+		en la instalacion marcar la opcion "install development headers and libraries for c and c++"
+		si sale error "C:\Program Files (x86)\ImageMagick-7.0.7-Q16" cambiar en C:\Python27\Lib\site-packages\wand\api.py esto CDLL(libwand_path) por esto CDLL(str(libwand_path))
 doctemplate
