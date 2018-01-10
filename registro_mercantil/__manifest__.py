@@ -28,7 +28,7 @@
 
     "depends" : ["base","web","account"],
       
-    # 'js': ['static/src/js/resource.js'],
+    #'js': ['static/src/js/resource.js'],
     
     "data" : [
 
