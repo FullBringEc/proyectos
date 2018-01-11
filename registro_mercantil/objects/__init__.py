@@ -11,3 +11,4 @@ import tarea
 import certificado_propiedad
 import certificado_mercantil
 import compania_reg
+import pdfmod

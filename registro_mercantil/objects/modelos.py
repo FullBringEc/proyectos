@@ -56,7 +56,7 @@ class rbs_libro(models.Model):
 	tipo_libro_mercantil_id = fields.Many2one('rbs.tipo.libro.mercantil', string='Tipo de Libro M')
 	# es_propiedad = fields.Boolean(string = "Es propiedad", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
 	# es_mercantil = fields.Boolean(string = "Es mercantil", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
-s	_defaults = {
+	_defaults = {
    		'anio_id': lambda self, cr, uid, context: context.get('anio_id', False),
 		'libro_tipo': lambda self, cr, uid, context: context.get('libro_tipo', False),
 		}
