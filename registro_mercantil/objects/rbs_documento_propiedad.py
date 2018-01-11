@@ -14,7 +14,20 @@ import os
 class rbs_documento_propiedad(models.Model):
 	_name ="rbs.documento.propiedad"
 	_description = "Documento de la Propiedad"
-	#name= field.Char('Nombre')
+	_rec_name='numero_inscripcion'
+
+	def _getUltimoAnio(self, context=None):
+		acta_id = self.search(  [], limit=1, order='id desc')
+		return acta_id
+	def _getUltimoLibro(self, context=None):
+		libro_id = self.search( [], limit=1, order='id desc')
+		return libro_id
+	def _getUltimoTomo(self, context=None):
+		tomo_id = self.search([], limit=1, order='id desc')
+		return tomo_id
+
+	
+
 	def name_get(self):
 		res = []
 		for record in self:
@@ -30,8 +43,8 @@ class rbs_documento_propiedad(models.Model):
 				res.append((record.id,tit))
 		return res
 	#Encabezado
-	anio_id = fields.Many2one('rbs.anio', string ='Año')
-	libro_id = fields.Many2one('rbs.libro', string ='Libro')
+	anio_id = fields.Many2one('rbs.anio', string ='Año', default = _getUltimoAnio)
+	libro_id = fields.Many2one('rbs.libro', string ='Libro', default = _getUltimoLibro)
 
 	tipo_libro_propiedad_id = fields.Many2one(related="libro_id.tipo_libro_propiedad_id",string='Tipo de Libro P')
 	# reg_acto_contrato = fields.Selection([
@@ -41,7 +54,7 @@ class rbs_documento_propiedad(models.Model):
 	tipo_tramite_id = fields.Many2one('rbs.tipo.tramite',string ='Tipo de trámite')
 	# tipo_libro = fields.Char (string='Tipo Libro', required = True)
 	tramite_id = fields.Many2one('rbs.tramite.propiedad',string='Trámite')
-	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo')
+	tomo_id = fields.Many2one("rbs.tomo", string ='Tomo', default = _getUltimoTomo)
 	observacion = fields.Char(string='Observación')
 	foleo_desde = fields.Integer(string='Desde')
 	foleo_hasta = fields.Integer (string='Hasta')
@@ -211,22 +224,7 @@ class rbs_documento_propiedad(models.Model):
 
 		return
 
-	def _getUltimoAnio(self, context=None):
-		acta_id = self.search(  [], limit=1, order='id desc')
-		return acta_id
-	def _getUltimoLibro(self, context=None):
-		libro_id = self.search( [], limit=1, order='id desc')
-		return libro_id
-	def _getUltimoTomo(self, context=None):
-		tomo_id = self.search([], limit=1, order='id desc')
-		return tomo_id
-
-	_defaults = {
-		'anio_id': _getUltimoAnio,
-		'libro_id': _getUltimoLibro,
-		'tomo_id' : _getUltimoTomo,
-	}
-	_rec_name='numero_inscripcion'
+	
 
 	@api.multi
 	def open_ui(self, context=None):

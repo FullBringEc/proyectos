@@ -18,11 +18,6 @@ class rbs_anio(models.Model):
             ('close','Validado'),
 
         ], 'state', default= "open", readonly=True)
-	# _defaults = {
-	# 	'state': 'open',
-	# }
-
-
 
 	_sql_constraints = [
         ('anio_name_uniq', 'unique(name)',
@@ -38,12 +33,12 @@ class rbs_libro(models.Model):
 	_name ="rbs.libro"
 	_description = "Libros"
 	name = fields.Char(string = 'Nombre del Libro', required=True)
-	anio_id = fields.Many2one('rbs.anio', string ='Año')
+	anio_id = fields.Many2one('rbs.anio', string ='Año', default = lambda self: self._context.get('anio_id', False))
 	libro_tipo = fields.Selection([
             ('propiedad','Libro de Propiedad'),
             ('mercantil','Libro Mercantil'),
             # ('acta','Libro de Acta'),
-        ], string='Tipo Propiedad/Mercantil')
+        ], string='Tipo Propiedad/Mercantil', default = lambda self: self._context.get('libro_tipo', False))
 	tomo_line = fields.One2many('rbs.tomo', 'libro_id', string='Lineas de Tomo')
 	state = fields.Selection([
             ('open','Abierto'),
@@ -54,13 +49,6 @@ class rbs_libro(models.Model):
 
 	tipo_libro_propiedad_id = fields.Many2one('rbs.tipo.libro.propiedad', string='Tipo de Libro P')
 	tipo_libro_mercantil_id = fields.Many2one('rbs.tipo.libro.mercantil', string='Tipo de Libro M')
-	# es_propiedad = fields.Boolean(string = "Es propiedad", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
-	# es_mercantil = fields.Boolean(string = "Es mercantil", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
-	_defaults = {
-   		'anio_id': lambda self, cr, uid, context: context.get('anio_id', False),
-		'libro_tipo': lambda self, cr, uid, context: context.get('libro_tipo', False),
-		}
-
 	_sql_constraints = [
         ('anio_id_name_uniq', 'unique(anio_id,name)',
             'El libro debe ser unico por Año'),
@@ -75,7 +63,7 @@ class rbs_tomo(models.Model):
 	_description = "Tomos"
 	name = fields.Integer(string = 'Nombre del Tomo',required=True)
 	
-	libro_id = fields.Many2one('rbs.libro', string ='Libro')
+	libro_id = fields.Many2one('rbs.libro', string ='Libro', default = lambda self: self._context.get('libro_id', False))
 	libro_tipo = fields.Selection(string='Tipo de Libro', related='libro_id.libro_tipo',store = True)
 	anio_id = fields.Many2one(string='Año', related='libro_id.anio_id',store = True )
 	# acta_line = fields.One2many('rbs.documento.mercantil.acta', 'tomo_id', string='Lineas de Registro de Acta')

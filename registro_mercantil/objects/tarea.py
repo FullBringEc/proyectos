@@ -89,7 +89,7 @@ class factura_invoice(models.Model):
 	@api.multi
 	def invoice_validate(self):
 		# raise osv.except_osv('Esto es un Mesaje!','Hola')
-		for line in self.invoice_line:
+		for line in self.invoice_line_ids:
 			# if line.tipo_servicio == 'inscripcion_propiedad' or line.tipo_servicio == 'inscripcion_mercantil':
 			if line.tipo_servicio:
 
