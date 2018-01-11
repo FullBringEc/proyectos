@@ -17,10 +17,10 @@ class rbs_anio(models.Model):
             ('open','Abierto'),
             ('close','Validado'),
             
-        ], 'state', readonly=True)
-	_defaults = {
-		'state': 'open',
-	}
+        ], 'state', default= "open", readonly=True)
+	# _defaults = {
+	# 	'state': 'open',
+	# }
 
 
 	_sql_constraints = [
@@ -48,7 +48,7 @@ class rbs_libro(models.Model):
             ('open','Abierto'),
             ('close','Validado'),
             
-        ], 'state', readonly=True)
+        ], 'state', default= "open" , readonly=True)
 
 	tipo_libro_propiedad_id = fields.Many2one('rbs.tipo.libro.propiedad', string='Tipo de Libro P')
 	tipo_libro_mercantil_id = fields.Many2one('rbs.tipo.libro.mercantil', string='Tipo de Libro M')
@@ -57,7 +57,7 @@ class rbs_libro(models.Model):
 	_defaults = {
    		'anio_id': lambda self, cr, uid, context: context.get('anio_id', False),
 		'libro_tipo': lambda self, cr, uid, context: context.get('libro_tipo', False),
-		'state': 'open',}
+		}
 	_sql_constraints = [
         ('anio_id_name_uniq', 'unique(anio_id,name)',
             'El libro debe ser unico por Año'),

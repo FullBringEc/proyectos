@@ -31,7 +31,7 @@ class rbs_documento_propiedad(models.Model):
 		return res
 	#Encabezado
 	anio_id = fields.Many2one('rbs.anio', string ='Año')
-	libro_id = fields.Many2one('rbs.libro', string ='Libro' )
+	libro_id = fields.Many2one('rbs.libro', string ='Libro')
 
 	tipo_libro_propiedad_id = fields.Many2one(related="libro_id.tipo_libro_propiedad_id",string='Tipo de Libro P')
 	# reg_acto_contrato = fields.Selection([
