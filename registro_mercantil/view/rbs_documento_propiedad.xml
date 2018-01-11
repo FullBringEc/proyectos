@@ -11,17 +11,21 @@
             <field name='arch' type="xml">
 <form string="Documento de Propiedad" version="8.0"> 
     <header>
+        <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
         <button string="Inscripción" name="word" type="object"  class="oe_inline oe_stat_button" icon="fa-file-word-o"/>
+        <field name="state" widget="statusbar"/>
     </header>
     <sheet>
-    
-          <label for="name" class="oe_edit_only"/>
-          
+            
+          <!-- <label for="name" class="oe_edit_only"/> -->
+            <field name="name"/>
              
               <!-- <span class="oe_read_only">By</span> -->
           
             <group col ="6" >
                 
+                
+
                 <field name="anio_id" 
                     on_change="on_change_anio_id(anio_id)" 
                     domain="[('state','=', 'close')]"
@@ -417,6 +421,7 @@
             <field name='arch' type="xml">
                 <tree string="Archivos" version="8.0"> 
                     <field name="tomo_id"/>
+                    
                     <field name="numero_inscripcion"/>
                     <!-- <field name="comprador_virtual"/> -->
                     <!-- <field name="vendedor_virtual"/>  -->
@@ -424,6 +429,7 @@
                     <field name="create_uid" string="Creado por"/>
                     <field name='state_filedata'/>
                     <field name="write_uid" string="Ultima modificacion"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

@@ -217,7 +217,6 @@ class rbs_documento_mercantil(models.Model):
 	
 	identificacion_unica = fields.Char(string = 'Identificador único sistema remoto',compute='_compute_upper',store = True) 
 	ubicacion_dato_id = fields.Many2one('rbs.ubicacion.dato', string ='Ubicación del dato')
-	factura_ids = fields.One2many('account.invoice', 'mercantil_id', string= 'Factura')
 	dataWord=fields.Binary("word")
 	
 
@@ -704,6 +703,3 @@ class reportes_doc_mercantiles(models.Model):
 	inscripcion = fields.Binary(string='Inscripción')
 			
 	
-class factura_invoice(models.Model):
-	_inherit = 'account.invoice'
-	mercantil_id = fields.Many2one('rbs.documento.mercantil', string='Documento mercantil')

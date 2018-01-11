@@ -15,14 +15,29 @@
 		<record id="seq_number_certificado_propiedad" model="ir.sequence"> 
 		    <field name="name">Numero de certificado propiedad</field> 
 		    <field name="code">number_certificado_propiedad</field> 
-		    <field name="prefix">RP/%(year)s/</field> 
+		    <field name="prefix">CRP/%(year)s/</field> 
 		    <field name="padding">7</field> 
 		</record>
 
 		<record id="seq_number_certificado_mercantil" model="ir.sequence"> 
 		    <field name="name">Numero de certificado mercantil</field> 
 		    <field name="code">number_certificado_mercantil</field> 
-		    <field name="prefix">RM/%(year)s/</field> 
+		    <field name="prefix">CRM/%(year)s/</field> 
+		    <field name="padding">7</field> 
+		</record>
+
+
+		<record id="seq_number_inscripcion_propiedad" model="ir.sequence"> 
+		    <field name="name">Numero de inscripcion propiedad</field> 
+		    <field name="code">number_inscripcion_propiedad</field> 
+		    <field name="prefix">IRM/%(year)s/</field> 
+		    <field name="padding">7</field> 
+		</record>
+
+		<record id="seq_number_inscripcion_mercantil" model="ir.sequence"> 
+		    <field name="name">Numero de inscripcion mercantil</field> 
+		    <field name="code">number_inscripcion_mercantil</field> 
+		    <field name="prefix">IRM/%(year)s/</field> 
 		    <field name="padding">7</field> 
 		</record>
 	</data>

@@ -42,108 +42,131 @@ class rbs_documento_propiedad(models.Model):
                 res.append((record.id, tit))
         return res
     # Encabezado
+    name = fields.Char('Secuencial de la Inscripcion', readonly=True)
+
     anio_id = fields.Many2one(
         'rbs.anio',
         string='Año',
-        default=_getUltimoAnio)
+        default=_getUltimoAnio, readonly=True, states={'draft': [('readonly', False)]})
 
     libro_id = fields.Many2one(
         'rbs.libro',
         string='Libro',
-        default=_getUltimoLibro)
+        default=_getUltimoLibro, readonly=True, states={'draft': [('readonly', False)]})
 
     tipo_libro_propiedad_id = fields.Many2one(
         related="libro_id.tipo_libro_propiedad_id",
-        string='Tipo de Libro P')
+        string='Tipo de Libro P', readonly=True, states={'draft': [('readonly', False)]})
     # reg_acto_contrato = fields.Selection([
     #            ('ACTO','ACTO'),
     #            ('CONTRATO','CONTRATO'),
     #        ],string ='Registra Acto/Contrato')
     tipo_tramite_id = fields.Many2one(
         'rbs.tipo.tramite',
-        string='Tipo de trámite')
+        string='Tipo de trámite', readonly=True, states={'draft': [('readonly', False)]})
     # tipo_libro = fields.Char (string='Tipo Libro', required = True)
-    tramite_id = fields.Many2one('rbs.tramite.propiedad', string='Trámite')
+    tramite_id = fields.Many2one('rbs.tramite.propiedad', string='Trámite', readonly=True, states={'draft': [('readonly', False)]})
     tomo_id = fields.Many2one(
         "rbs.tomo",
         string='Tomo',
-        default=_getUltimoTomo)
-    observacion = fields.Char(string='Observación')
-    foleo_desde = fields.Integer(string='Desde')
-    foleo_hasta = fields.Integer(string='Hasta')
+        default=_getUltimoTomo, readonly=True, states={'draft': [('readonly', False)]})
+    state = fields.Selection([
+            ('draft', 'Borrador'),
+            ('done', 'Realizado'),
+            # ('sustituido', 'Sustituido'),
+        ], 'Estado', default='draft', readonly=True)
+    observacion = fields.Char(string='Observación', readonly=True, states={'draft': [('readonly', False)]})
+    foleo_desde = fields.Integer(string='Desde', readonly=True, states={'draft': [('readonly', False)]})
+    foleo_hasta = fields.Integer(string='Hasta', readonly=True, states={'draft': [('readonly', False)]})
 
-    repertorio = fields.Char(string='Repertorio')
-    fecha_repertorio = fields.Datetime(string='Fecha repertorio')
-    numero_inscripcion = fields.Integer(string='Número de inscripción')
-    fecha_inscripcion = fields.Datetime(string='Fecha de inscripción')
+    repertorio = fields.Char(string='Repertorio', readonly=True, states={'draft': [('readonly', False)]})
+    fecha_repertorio = fields.Datetime(string='Fecha repertorio', readonly=True, states={'draft': [('readonly', False)]})
+    numero_inscripcion = fields.Integer(string='Número de inscripción', readonly=True, states={'draft': [('readonly', False)]})
+    fecha_inscripcion = fields.Datetime(string='Fecha de inscripción', readonly=True, states={'draft': [('readonly', False)]})
     cuantia_unidad = fields.Selection(
         [('SUCRE', 'Sucre'),
          ('DOLAR', 'Dólar')],
-        string='Unidad monetaria')
+        string='Unidad monetaria', readonly=True, states={'draft': [('readonly', False)]})
     fecha_const_gravamen = fields.Datetime(
-        string='Fecha de constitución del gravamen  o limitación')
+        string='Fecha de constitución del gravamen  o limitación', readonly=True, states={'draft': [('readonly', False)]})
     fecha_cancel_gravamen = fields.Datetime(
-        string='Fecha de cancelación del gravamen  o limitación')
+        string='Fecha de cancelación del gravamen  o limitación', readonly=True, states={'draft': [('readonly', False)]})
     fecha_ultima_modificacion_inscripcion = fields.Datetime(
-        string='Fecha de última modificación de la inscripción')
+        string='Fecha de última modificación de la inscripción', readonly=True, states={'draft': [('readonly', False)]})
     provincia_notaria_id = fields.Many2one(
         'rbs.provincia',
-        string='Provincia de la notaria, juzgado o institución pública')
+        string='Provincia de la notaria, juzgado o institución pública', readonly=True, states={'draft': [('readonly', False)]})
     canton_notaria_id = fields.Many2one(
         'rbs.canton',
-        string='Canton de la notaria')
+        string='Canton de la notaria', readonly=True, states={'draft': [('readonly', False)]})
     notaria_id = fields.Many2one(
         'rbs.institucion',
-        string='Nombre notaria o juzgado')
+        string='Nombre notaria o juzgado', readonly=True, states={'draft': [('readonly', False)]})
     expensas = fields.Selection(
         [
             ('CERTIFICADO', 'Certificado'),
             ('DECLARACION', 'Declaración'),
-        ], string='Expensas')
-    fecha_escritura = fields.Datetime(string='Fecha escritura')
-    numero_acuerdo_ministerial = fields.Char("Número de acuerdo ministerial")
-    fecha_adjudicion = fields.Datetime(string='Fecha de la adjudicación')
+        ], string='Expensas', readonly=True, states={'draft': [('readonly', False)]})
+    fecha_escritura = fields.Datetime(string='Fecha escritura', readonly=True, states={'draft': [('readonly', False)]})
+    numero_acuerdo_ministerial = fields.Char("Número de acuerdo ministerial", readonly=True, states={'draft': [('readonly', False)]})
+    fecha_adjudicion = fields.Datetime(string='Fecha de la adjudicación', readonly=True, states={'draft': [('readonly', False)]})
     tipo_acto_contrato = fields.Many2many(
         'rbs.tipo.acto.contrato',
         relation="propiedad_tipo_acto_contrato_rel",
-        string='Tipo de acto o contrato')
+        string='Tipo de acto o contrato', readonly=True, states={'draft': [('readonly', False)]})
     fecha_insi_bienes = fields.Datetime(
-        string='Fecha judicial/acta notarial')
-    cuantia_valor = fields.Char(string='Cuantía')
+        string='Fecha judicial/acta notarial', readonly=True, states={'draft': [('readonly', False)]})
+    cuantia_valor = fields.Char(string='Cuantía', readonly=True, states={'draft': [('readonly', False)]})
     parte_ids = fields.One2many(
         'rbs.parte',
         'documento_propiedad_id',
-        string='Partes')
+        string='Partes', readonly=True, states={'draft': [('readonly', False)]})
     parte_char_ids = fields.One2many(
         'rbs.parte.char',
         'documento_propiedad_id',
-        'Partes Char')
+        'Partes Char', readonly=True, states={'draft': [('readonly', False)]})
     bien_ids = fields.One2many(
         'rbs.bien',
         'documento_propiedad_id',
-        string='Bienes')
+        string='Bienes', readonly=True, states={'draft': [('readonly', False)]})
     # alicuota_ids = fields.One2many('rbs.bien.alicuota','documento_propiedad_id',string = 'Alicuotas')
     # parte_ids = fields.Many2many('rbs.parte',relation="propiedad_parte_rel",string = 'Partes')
 
-    gravamen_limitacion = fields.Boolean(string='Gravamen o limitación')
-    tipo_gravamen_ids = fields.One2many('rbs.gravamen', 'documento_propiedad_id', string='Tipo Gravamen/Limitación')
-    genera_gravamen_limitacion = fields.Boolean(string='Genera gravamen o limitación')
-    genera_tipo_gravamen_ids = fields.One2many('rbs.gravamen', 'documento_propiedad_genera_gravamen_id', string='Tipo gravamen/limitación')
-    identificacion_unica = fields.Char(string='Identificador', compute='_compute_upper', store=True)
+    gravamen_limitacion = fields.Boolean(string='Gravamen o limitación', readonly=True, states={'draft': [('readonly', False)]})
+    tipo_gravamen_ids = fields.One2many(
+        'rbs.gravamen',
+        'documento_propiedad_id',
+        string='Tipo Gravamen/Limitación',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+    genera_gravamen_limitacion = fields.Boolean(string='Genera gravamen o limitación', readonly=True, states={'draft': [('readonly', False)]})
+    genera_tipo_gravamen_ids = fields.One2many(
+        'rbs.gravamen',
+        'documento_propiedad_genera_gravamen_id',
+        string='Tipo gravamen/limitación',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+    identificacion_unica = fields.Char(string='Identificador', compute='_compute_upper', store=True, readonly=True, states={'draft': [('readonly', False)]})
 
-    marginacion_ids = fields.One2many('rbs.marginacion', 'documento_propiedad_id', string='Marginaciones')
+    marginacion_ids = fields.One2many(
+        'rbs.marginacion',
+        'documento_propiedad_id',
+        string='Marginaciones',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
 
-    causante = fields.Char(string='Causante')
-    fecha_defuncion = fields.Datetime(string='Fecha defunción')
-    conyuge_sobreviviente = fields.Char(string='Cónyuge sobreviviente')
-    heredero_ids = fields.One2many('rbs.heredero', 'documento_propiedad_id', string='Herederos')
-    juicio_numero = fields.Integer(string='Número del juicio')
-    state = fields.Selection([
-            ('borrador', 'Borrador'),
-            ('activo', 'Activo'),
-            ('sustituido', 'Sustituido'),
-        ], 'state', default='borrador', readonly=True)
-    dataWord = fields.Binary("word")
+    causante = fields.Char(string='Causante', readonly=True, states={'draft': [('readonly', False)]})
+    fecha_defuncion = fields.Datetime(string='Fecha defunción', readonly=True, states={'draft': [('readonly', False)]})
+    conyuge_sobreviviente = fields.Char(string='Cónyuge sobreviviente', readonly=True, states={'draft': [('readonly', False)]})
+    heredero_ids = fields.One2many('rbs.heredero', 'documento_propiedad_id', string='Herederos', readonly=True, states={'draft': [('readonly', False)]})
+    juicio_numero = fields.Integer(string='Número del juicio', readonly=True, states={'draft': [('readonly', False)]})
+    dataWord = fields.Binary("word", readonly=True, states={'draft': [('readonly', False)]})
+
+    @api.multi
+    def validate(self):
+        if self.state == 'draft':
+            self.state = 'done'
+            self.name = self.env["ir.sequence"].get("number_inscripcion_propiedad")
 
     @api.multi
     def word(self):
@@ -209,7 +232,7 @@ class rbs_documento_propiedad(models.Model):
             'target': 'new'
             }
 
-    factura_ids = fields.One2many('account.invoice', 'propiedad_id', string='Factura')
+    # factura_ids = fields.One2many('account.invoice', 'propiedad_id', string='Factura')
 
     @api.onchange('parte_ids', 'bien_ids')
     def onchange_parte_ids(self):
@@ -594,8 +617,3 @@ class rbs_institucion(models.Model):
     canton_id = fields.Many2one('rbs.canton', 'Canton de la notaria', domain="[('provincia_id','=',provincia_id)]")
     provincia_id = fields.Many2one('rbs.provincia', 'Provincia de la notaria', domain="[('pais_id','=',pais_id)]")
     pais_id = fields.Many2one('res.country', "Pais")
-
-
-class factura_invoice(models.Model):
-    _inherit = 'account.invoice'
-    propiedad_id = fields.Many2one('rbs.documento.propiedad', string='Documento de ropiedad')
