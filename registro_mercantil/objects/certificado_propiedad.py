@@ -136,7 +136,8 @@ class rbs_certificado_propiedad(osv.osv):
             if len(movimientos) ==0 and len(resumen)==0:
                 usuario_actual = self.env['res.users'].search([('id', '=', self._uid)])[0]
                             
-                context = {
+                context = { 
+                            'numerocertificado' : RichText (str (self.name)),
                             'fechainiact' : RichText (str (usuario_actual.company_id.registrador_fecha_ingreso)),
                             'direccionreg' : RichText (str (usuario_actual.company_id.street)),
                             'telefonoreg': RichText (str (usuario_actual.company_id.phone)),
@@ -167,26 +168,33 @@ class rbs_certificado_propiedad(osv.osv):
     # }
     # clave_catastral = field.Char('Clave Catastral', size=30, required=True)
     # cedula = field.Char('Cedula', size=30, required=True)
-    solicitante = field.Char('Solicitante', size=90, required=True)
-    tipo_certificado = field.Selection([
-        ('certificado_solvencia','Certificado de solvencia'),
-        ('certificado_negativo','Certificado Negativo')])
-    dataWord=field.Binary("word")
     state=field.Selection([
         ('draft','Borrador'),
         ('done','Realizado'),
         ('error','Error'),
         # ('deactivated','Desactivado')
-        ], string = 'Estado', index=True, default='draft')
+        ], string = 'Estado', index=True, default='draft' ,readonly=True)
+    solicitante = field.Char('Solicitante', size=90, required=True,readonly=True, states={'draft': [('readonly', False)]})
+    tipo_certificado = field.Selection([
+        ('certificado_solvencia','Certificado de solvencia'),
+        ('certificado_negativo','Certificado Negativo')], readonly=True, states={'draft': [('readonly', False)]} )
+    name = field.Char('Numero de Certificado',readonly=True) 
+    dataWord=field.Binary("word")
+    
 
 
     propiedad_ids = field.Many2many('rbs.documento.propiedad',string ='Documentos',compute='get_documentos')
     criterio_busqueda = field.Selection([
         ('cedula','Cedula'),
         ('clave_catastral','Clave Catastral'),
-        ], string="Criterio de busqueda")
+        ], string="Criterio de busqueda" ,readonly=True, states={'draft': [('readonly', False)]})
 
-    valor_busqueda = field.Char('Busqueda', size=30, required=True)
+    valor_busqueda = field.Char('Busqueda', size=30, required=True ,readonly=True, states={'draft': [('readonly', False)]})
+
+    @api.multi
+    def validate(self):
+        self.state = 'done'
+        self.name =self.env["ir.sequence"].get("number_certificado_propiedad")
 
     @api.onchange('valor_busqueda','criterio_busqueda')
     def get_documentos(self):

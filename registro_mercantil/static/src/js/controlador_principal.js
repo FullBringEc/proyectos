@@ -29,10 +29,10 @@ function TifWIdget(tipo,id){
     $ctx = $canv[0].getContext("2d");
     lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
 
-    new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
+    new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['fecha_inscripcion', 'contenedor_id']])
                 .then(function(result){
                     $('#tipo').html(tipo)
-                    $('#propietario').html(result[0].compania_nombres)
+                    // $('#propietario').html(result[0].compania_nombres)
                     $('#fecha').html(result[0].fecha_inscripcion)
                     contenedor_id = result[0].contenedor_id[0]
                     new openerp.web.Model('rbs.imagenes').query(['imagen']).filter([['contenedor_id','=',contenedor_id]]).context(null).all()

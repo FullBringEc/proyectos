@@ -124,11 +124,11 @@ odoo.define('web.pdf_binary', function (require) {
             // lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
             console.log(tipo+" - "+id)
             if(id){
-                new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['compania_nombres','fecha_inscripcion', 'contenedor_id']])
+                new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['fecha_inscripcion', 'contenedor_id']])
                         .then(function(result){
                             console.log(result)
                             $('#tipo').html(tipo)
-                            $('#propietario').html(result[0].compania_nombres)
+                            // $('#propietario').html(result[0].compania_nombres)
                             $('#fecha').html(result[0].fecha_inscripcion)
                             new openerp.web.Model('rbs.imagenes').query(['id']).filter([['contenedor_id','=',result[0].contenedor_id[0]]]).context(null).all()
                             .then(function(result){  
