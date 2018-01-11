@@ -17,31 +17,33 @@
     
           <label for="name" class="oe_edit_only"/>
           
+             
               <!-- <span class="oe_read_only">By</span> -->
+          
             <group col ="6" >
-
+                
                 <field name="anio_id" 
                     on_change="on_change_anio_id(anio_id)" 
                     domain="[('state','=', 'close')]"
-                    class="oe_inline" />
-                
+                    />
+               
                 <field name="libro_id" 
                     on_change="on_change_libro_id(libro_id)" 
                     domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'propiedad')]"
                     context="{'anio_id': anio_id, 'libro_tipo': 'propiedad'}"
-                    class="oe_inline" />
-                                
+                     />
+                            
                 <field name="tomo_id"  
                     domain="[('libro_id', '=', libro_id)]"
                     context="{'libro_id': libro_id}"
-                    class="oe_inline" />
-
+                    />
+                
                 <field name="tramite_id" class="oe_inline" domain="[('tipo_libro_propiedad_ids', 'in', tipo_libro_propiedad_id)]"/>
-                 
+                
                 <field name="tipo_tramite_id" class="oe_inline"/>
-               
+              
             </group>
- 
+            
             <field name="tipo_libro_propiedad_id" invisible="1" class="oe_inline" />
         <notebook>
         <page string='Informacion de la inscripcion'>
@@ -54,7 +56,7 @@
                     <field name="fecha_cancel_gravamen"/>
                     <field name="fecha_ultima_modificacion_inscripcion"/>
                     <field name="fecha_escritura"/>
-                    <field name="fecha_adjudicion"/>  
+                    <field name="fecha_adjudicion"/>
                     <field name="fecha_insi_bienes"/>
                     <field name="cuantia_valor"/>
                 </group>
@@ -66,7 +68,6 @@
                     <field name="provincia_notaria_id"/>
                     <field name="canton_notaria_id" domain="[('provincia_id','=', provincia_notaria_id)]"/>
                     <field name="notaria_id"/>
-
                     <!-- <field name="gravamen_limitacion"/> -->
                     <!-- <field name="genera_gravamen_limitacion"/> -->
                     <field name="expensas"/>
@@ -448,7 +449,7 @@
 
 
 
-    	<menuitem id="menu_Documentos" name="Documentos"/>
+    	<menuitem id="menu_Documentos" name="Documentos" web_icon="registro_mercantil,static/src/img/computer.png"/>
 		<menuitem id="submenu_propiedad" name="Registro de la Propiedad" parent="menu_Documentos"/>
 		
         

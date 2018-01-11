@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <menuitem id="menu_clasificacion_documentos" name="Valores" sequence="3"/>
+        <menuitem id="menu_clasificacion_documentos" name="Valores" sequence="3" web_icon="registro_mercantil,static/src/img/favicon.png"/>
         <menuitem id="submenu_valores" name="Valores" parent="menu_clasificacion_documentos"/>
 
         <record id='rbs_tipo_acto_contrato_form_view' model='ir.ui.view'>
