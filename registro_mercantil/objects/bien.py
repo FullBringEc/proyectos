@@ -4,7 +4,7 @@ from openerp.osv import osv
 
 class rbs_bien(models.Model):
 	_name = 'rbs.bien'
-	_description = "Bien"
+	_description = u"Bien"
 
 	documento_propiedad_id = fields.Many2one('rbs.documento.propiedad',"Documento de propiedad")
 	documento_mercantil_id = fields.Many2one('rbs.documento.mercantil',"Documento mercantil")
@@ -78,6 +78,6 @@ class rbs_bien(models.Model):
 
 class rbs_tipo_bien(models.Model):
 	_name = 'rbs.tipo.bien'
-	_description = "Tipo de bien"
+	_description = u"Tipo de bien"
 	name = fields.Char("Descripción")
 

@@ -16,11 +16,12 @@ class rbs_anio(models.Model):
 	state = fields.Selection([
             ('open','Abierto'),
             ('close','Validado'),
-            
+
         ], 'state', default= "open", readonly=True)
 	# _defaults = {
 	# 	'state': 'open',
 	# }
+
 
 
 	_sql_constraints = [
@@ -50,14 +51,16 @@ class rbs_libro(models.Model):
             
         ], 'state', default= "open" , readonly=True)
 
+
 	tipo_libro_propiedad_id = fields.Many2one('rbs.tipo.libro.propiedad', string='Tipo de Libro P')
 	tipo_libro_mercantil_id = fields.Many2one('rbs.tipo.libro.mercantil', string='Tipo de Libro M')
 	# es_propiedad = fields.Boolean(string = "Es propiedad", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
 	# es_mercantil = fields.Boolean(string = "Es mercantil", compute="domain_compute_def", help= "artificio para el dominio del tipo libro")
-	_defaults = {
+s	_defaults = {
    		'anio_id': lambda self, cr, uid, context: context.get('anio_id', False),
 		'libro_tipo': lambda self, cr, uid, context: context.get('libro_tipo', False),
 		}
+
 	_sql_constraints = [
         ('anio_id_name_uniq', 'unique(anio_id,name)',
             'El libro debe ser unico por Año'),

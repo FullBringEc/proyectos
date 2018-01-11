@@ -4,7 +4,7 @@ from openerp.osv import osv
 
 class rbs_accionista(models.Model):
 	_name = 'rbs.accionista'
-	_description = "Accionista"
+	_description = u"Accionista"
 
 	documento_mercantil_id = fields.Many2one('rbs.documento.mercantil',"Documento mercantil")
 	accionista_nombre = fields.Char(string = 'Nombre del accionista', required = True)

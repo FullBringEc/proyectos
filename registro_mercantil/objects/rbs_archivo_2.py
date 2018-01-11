@@ -95,7 +95,7 @@ class rbs_archivo_tomo(models.Model):
     ]
 class rbs_tipo_libro_tramite_propiedad_rel(models.Model):
 	_name ="rbs.tipo.libro.tramite.propiedad.rel"
-	_description = "Relacion entre tipo de libro y tramite para pripiedad"
+	_description = "Relacion entre tipo de libro y tramite para propiedad"
 	tipo_libro_id = fields.Many2one('rbs.archivo.tipo.libro.propiedad')
 	tramite_id = fields.Many2one('rbs.archivo.tramite.propiedad')
 

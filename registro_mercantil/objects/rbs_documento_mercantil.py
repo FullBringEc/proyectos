@@ -632,7 +632,7 @@ class rbs_tipo_contrato(models.Model):
 	
 class rbs_compania(models.Model):
 	_name ="rbs.compania"
-	_description = "Compañia"
+	_description = u"Companía"
 	
 	
 	compania_nombres = fields.Char(string = 'Nombre de la Compañía', required=True)
@@ -676,11 +676,6 @@ class rbs_cargo(models.Model):
 	
 	name = fields.Char(string = 'Tipo de cargo')
 
-# class rbs_canton(models.Model):
-# 	_name = 'rbs.canton'
-# 	_description = "Nombre del cantón"
-	
-# 	name = fields.Char(string = 'Nombre del cantón')
 	
 class rbs_tipo_tramite(models.Model):
 	_name = 'rbs.tipo.tramite'

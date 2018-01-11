@@ -144,7 +144,7 @@ class rbs_contenedor(models.Model):
 
 class rbs_imagenes(models.Model):
 	_name="rbs.imagenes"
-	_description=""
+	_description=u""
 	_order = 'posicion asc'
 	imagen = fields.Binary(string="Imagen")
 	contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor de imagenes")
