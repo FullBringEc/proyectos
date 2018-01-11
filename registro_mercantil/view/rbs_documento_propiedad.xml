@@ -121,11 +121,11 @@
 
                        
                         <group >
-                                <field name="numero_predial" />
-                                <field name="clave_catastral"/>
-                                <field name="descripcion_bien" />
-                                <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
-                                <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                            <field name="numero_predial" />
+                            <field name="clave_catastral"/>
+                            <field name="descripcion_bien" />
+                            <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
+                            <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
                         </group>
                         <group >
                             
@@ -199,22 +199,37 @@
 
                 <form>
 
-                    
-                    <field name="persona_id" />
-                    <field name="nombres"/>
-                    <field name="apellidos"/> 
-                    <field name="tipo_persona"/>
-                    <field name="razon_social"/>
-                    <field name="tipo_interviniente_id"/>
-                    <field name="calidad_compareciente_id"/>
-                    <field name="tipo_documento"/>
-                    <field name="num_identificacion"/>
-                    <field name="estado_civil"/>
-                    <field name="num_identificacion_conyuge"/>
-                    <field name="nombres_conyuge"/> 
-                    <field name="separacion_bienes"/>
-                    <field name="es_menor"/>
-                    <field name="tutor"/>
+                        <group col="4" >
+                            <field name ="persona_id" />
+                            <field name ="nombres"  />
+                        </group  >
+                        <group col="4" >
+                            <field name ="apellidos"/> 
+                            <field name ="tipo_persona"/>
+                        </group >
+                        <group col="4" >
+                            <field name ="razon_social"/>
+                            <field name ="tipo_interviniente_id"/>
+                        </group>
+                        <group col="4" >    
+                            <field name ="calidad_compareciente_id"/>
+                            <field name ="tipo_documento"/>
+                        </group >
+                        <group col="4">
+                            <field name ="num_identificacion"/>
+                            <field name ="estado_civil"/>
+                        </group>    
+                        <group col="4" >    
+                            <field name ="num_identificacion_conyuge"/>
+                            <field name ="nombres_conyuge"/> 
+                        </group>
+                        <group col="4" >
+                            <field name ="separacion_bienes"/>
+                            <field name ="es_menor"/>  
+                        </group>
+                        <group col="2">
+                          <field name ="tutor"/>
+                        </group>
                 </form>
             </field>
             <!-- <field name="parte_char_ids" >

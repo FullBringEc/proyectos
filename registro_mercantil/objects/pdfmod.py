@@ -31,7 +31,7 @@ def pdfOrTiff2image(modelo, filedataByte, contenedor):
                 jpeg_image_buffer = cStringIO.StringIO()
                 im.save(jpeg_image_buffer, format="PNG")
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id': contenedor.id, "posicion": n-1})
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr, 'contenedor_id': contenedor.id, "posicion": n-1})
             except EOFError:
                 print "Se Cargo la imagen tiff",  n
         print "metodo 1"
@@ -54,7 +54,7 @@ def pdfOrTiff2image(modelo, filedataByte, contenedor):
                     jpeg_image_buffer = cStringIO.StringIO()
                     im.Image(imagen).save(jpeg_image_buffer)
                     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr, 'contenedor_id': contenedor.id,"posicion": i})
+                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr, 'contenedor_id': contenedor.id, "posicion": i})
             print "metodo 2"
             return
         except:
@@ -143,7 +143,7 @@ def recurse(page, xObject):
                 # img.save(imagename+".png", format="PNG")
                 number += 1
             else:
-                raise osv.except_osv('Incompatible!',"Formato no compatible"+xObject[obj]['/Filter'][0])
+                raise osv.except_osv('Incompatible!', "Formato no compatible"+xObject[obj]['/Filter'][0])
 
             return jpeg_image_buffer
         else:
