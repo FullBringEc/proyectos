@@ -31,6 +31,7 @@ odoo.define('web.pdf_binary', function (require) {
                 });
             }
         },
+        
         render_value: function(){
 
             var self = this;

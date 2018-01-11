@@ -495,7 +495,7 @@ class rbs_heredero(models.Model):
 # 	documento_propiedad_id = fields.Many2one('rbs.documento.propiedad',"Documento de Propiedad")
 class rbs_alicuota(models.Model):
 	_name = 'rbs.alicuota'
-	_description = "Alícuotas"
+	_description = u"Alícuotas"
 	name = fields.Char("Descripción")
 	porcentaje = fields.Integer('Porcentaje')
 	# bien_alicuota_id = fields.Many2one('rbs.bien.alicuota',"Bien alicuota")

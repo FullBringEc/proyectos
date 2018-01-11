@@ -86,7 +86,7 @@
       </page>
       <page string = "Bienes">
           <field name="bien_ids">
-              <tree string="Bienes" editable="bottom">
+              <tree string="Bienes">
                   <field name="tipo_bien_id" />
                   <field name="chasis"/>
                   <field name="motor" />
@@ -104,7 +104,7 @@
         
       <page string = "Partes">
         <field name="parte_ids">
-          <tree string="Partes" editable="bottom">
+          <tree string="Partes">
 
               
             <field name="persona_id" />
