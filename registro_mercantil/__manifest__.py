@@ -32,7 +32,6 @@
 
               "view/compania_reg_view.xml",
 
-              'wizard/informe_view.xml',
               "views/pdf_binary_template_widget.xml",
 
               "security/registro_security.xml",
