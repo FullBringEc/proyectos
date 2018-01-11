@@ -16,27 +16,24 @@ from os import path
 import warnings
 warnings.filterwarnings("ignore")
 number = 0
-def pdfOrTiff2image(modelo,filedataByte,contenedor):
+
+
+def pdfOrTiff2image(modelo, filedataByte, contenedor):
     file = None
     try:
         im = Image.open(filedataByte)
-            
         n = 0
         # modelo.contenedor_id=contenedor.id
         while True:
             try:
                 n = n+1
                 im.seek(n)
-                #im.save('Block_%s.tif'%(n,))
-
                 jpeg_image_buffer = cStringIO.StringIO()
                 im.save(jpeg_image_buffer, format="PNG")
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":n-1})
-                #raise osv.except_osv('Esto es un Mesaje!',imgStr)
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id': contenedor.id, "posicion": n-1})
             except EOFError:
                 print "Se Cargo la imagen tiff",  n
-                break;
         print "metodo 1"
         return
     except:
@@ -44,9 +41,9 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
             import wand.image as im
             import wand.color as col
             filedataByte = BytesIO(base64.b64decode(modelo.filedata))
-            with(im.Image(file=filedataByte,resolution=200)) as source:
-                images=source.sequence
-                pages=len(images)
+            with(im.Image(file=filedataByte, resolution=200)) as source:
+                images = source.sequence
+                pages = len(images)
                 for i in range(pages):
                     print 'page' + str(i)
                     imagen = im.Image(images[i])
@@ -57,22 +54,24 @@ def pdfOrTiff2image(modelo,filedataByte,contenedor):
                     jpeg_image_buffer = cStringIO.StringIO()
                     im.Image(imagen).save(jpeg_image_buffer)
                     imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":i})
+                    contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr, 'contenedor_id': contenedor.id,"posicion": i})
             print "metodo 2"
             return
         except:
             file = PyPDF2.PdfFileReader(filedataByte)
-            for p in range(file.getNumPages()):    
+            for p in range(file.getNumPages()):
                 page0 = file.getPage(p)
                 # print page0
                 jpeg_image_buffer = recurse(p, page0)
                 imgStr = base64.b64encode(jpeg_image_buffer.getvalue())
-                #raise osv.except_osv('Esto es un Mesaje!',repr(im.info))
-                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create({'imagen': imgStr,'contenedor_id':contenedor.id,"posicion":p})
+                contenedor.imagenes_ids |= modelo.env['rbs.imagenes'].create
+                ({'imagen': imgStr, 'contenedor_id': contenedor.id,
+                  "posicion": p})
             print "metodo 3"
 
+    print('%s extracted images' % number)
 
-    print('%s extracted images'% number)
+
 def tiff_header_for_CCITT(width, height, img_size, CCITT_group=4):
     tiff_header_struct = '<' + '2s' + 'h' + 'l' + 'h' + 'hhll' * 8 + 'h'
     return struct.pack(tiff_header_struct,
@@ -90,6 +89,8 @@ def tiff_header_for_CCITT(width, height, img_size, CCITT_group=4):
                        279, 4, 1, img_size,  # StripByteCounts, LONG, 1, size of image
                        0  # last IFD
                        )
+
+
 def recurse(page, xObject):
     global number
 
@@ -98,7 +99,6 @@ def recurse(page, xObject):
     xObject = xObject['/Resources']['/XObject'].getObject()
     jpeg_image_buffer = cStringIO.StringIO()
     for obj in xObject:
-        
         if xObject[obj]['/Subtype'] == '/Image':
             # print xObject[obj]['/Filter']
             size = (xObject[obj]['/Width'], xObject[obj]['/Height'])
@@ -107,8 +107,6 @@ def recurse(page, xObject):
                 mode = "RGB"
             else:
                 mode = "P"
-            
-            # imagename = "%s - p. %s - %s"%(abspath[:-4], p, obj[1:])
 
             if xObject[obj]['/Filter'][0] == '/FlateDecode':
                 print "FlateDecode"
@@ -140,8 +138,6 @@ def recurse(page, xObject):
                 data = xObject[obj]._data  # sorry, getData() does not work for CCITTFaxDecode
                 img_size = len(data)
                 tiff_header = tiff_header_for_CCITT(width, height, img_size, CCITT_group)
-
-
                 img = Image.open(BytesIO((tiff_header + data)))
                 img.save(jpeg_image_buffer, format="PNG")
                 # img.save(imagename+".png", format="PNG")
@@ -160,5 +156,3 @@ except BaseException:
 
     print('Usage :\nPDF_extract_images file.pdf page1 page2 page3 ')
     sys.exit()
-
-

@@ -119,42 +119,45 @@
                 <form>
                     <group>
 
-                        <group col="6">
-                            <field name="numero_predial" />
-                            <field name="clave_catastral"/>
-                            <field name="descripcion_bien" />
+                       
+                        <group >
+                                <field name="numero_predial" />
+                                <field name="clave_catastral"/>
+                                <field name="descripcion_bien" />
+                                <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
+                                <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
                         </group>
-                        <group col="1">
-                            <field name="descripcion_lindero"/>
-                        </group>
-                        <group>
-                            <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
-                            <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                        <group >
+                            
                             <field name="parroquia_id" domain="[('canton_id','=', canton_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
                             <field name="zona_id" options="{'no_quick_create':True,'no_create_edit':True}"/>
                             <field name="ubicacion_geografica"/>
                             <field name="superficie_area_numero"/>
                             <field name="es_propiedad_horizontal"/>
-                        </group>
-                        <group>
-                            <field name="parte_char_ids" domain="[('documento_propiedad_id','=', parent.id)]" widget="many2many_tags" />
-                            <field name="alicuota_ids">
-                                <tree string="porcentajes">
-                                    <field name = "name" />
-                                    <field name = "porcentaje"/>
-                                </tree>
-                                <!-- <field name="porcentajes" widget="many2many_kanban"> -->
-                                <form>
-                                    <group>
-                                        <field name="name" required="True"/>
-                                        <field name="porcentaje" required="True"/>
-                                    </group>
-                                </form>
-                                   
-                                <!-- </field> -->
-                            </field>
+                             <field name="parte_char_ids" domain="[('documento_propiedad_id','=', parent.id)]" widget="many2many_tags" />
                         </group>
                     </group>
+                    <group colspan='4'>
+                    
+                        <field name="descripcion_lindero"/>
+                    
+                    </group>
+                    <group colspan = "4">
+                           
+                        <field name="alicuota_ids">
+                            <tree string="porcentajes" editable='bottom'>
+                                <field name = "name" />
+                                <field name = "porcentaje"/>
+                            </tree>
+                            <!-- <field name="porcentajes" widget="many2many_kanban"> -->
+                           
+                               
+                            <!-- </field> -->
+                        </field>
+                    </group>
+                   
+                    
+                
                 </form>
             </field>
             
@@ -191,6 +194,9 @@
                     <field name="es_menor"/>
                     <field name="tutor"/>
                 </tree>
+                
+
+
                 <form>
 
                     
