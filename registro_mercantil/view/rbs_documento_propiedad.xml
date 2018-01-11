@@ -51,40 +51,50 @@
             <field name="tipo_libro_propiedad_id" invisible="1" class="oe_inline" />
         <notebook>
         <page string='Informacion de la inscripcion'>
-            <group>
-                <group>
+          
+                <group col="4">
                     
                     <field name="repertorio"/>
                     <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                    
+                </group >
+                
+                <group col="4" >
                     <field name="cuantia_unidad"/>
                     <field name="fecha_cancel_gravamen"/>
+                </group>
+                
+                <group col="4" >
                     <field name="fecha_ultima_modificacion_inscripcion"/>
                     <field name="fecha_escritura"/>
+                </group>
+                <group col="4" >      
                     <field name="fecha_adjudicion"/>
                     <field name="fecha_insi_bienes"/>
-                    <field name="cuantia_valor"/>
                 </group>
-                <group>
+                <group col="4"  >
+                    <field name="cuantia_valor"/>
                     <field name="fecha_repertorio"/>
+                </group>
+                <group col="4" >
                     <field name="fecha_inscripcion"/>
                     <field name="fecha_const_gravamen"/>
-                    
+                </group>
+                <group col="4" >
+   
                     <field name="provincia_notaria_id"/>
                     <field name="canton_notaria_id" domain="[('provincia_id','=', provincia_notaria_id)]"/>
+                </group >
+
+                <group col="4" >
                     <field name="notaria_id"/>
-                    <!-- <field name="gravamen_limitacion"/> -->
-                    <!-- <field name="genera_gravamen_limitacion"/> -->
                     <field name="expensas"/>
-                    <field name="numero_acuerdo_ministerial"/>
-                    <!-- <field name="tipo_acto_contrato" 
-
-                        domain="['|',('tipo_acta_contrato_sel','=', tipo_acto_contrato_sel),('tipo_acta_contrato_sel','=','AMBOS')]" 
-
-                        widget="many2many_checkboxes"/> -->
-                      <field name="tipo_acto_contrato" 
-                        widget="many2many_checkboxes"/>
+                   
                 </group>
-            </group>
+                <group col="4" >
+                     <field name="numero_acuerdo_ministerial"/>
+                     <field name="tipo_acto_contrato" widget="many2many_checkboxes"/>
+                </group>
 
         </page>
 
@@ -205,27 +215,28 @@
 
                         <group col="4" >
                             <field name ="persona_id" />
-                            <field name ="nombres"  />
+                            <field name ="tipo_persona"/>
+
                         </group  >
                         <group col="4" >
                             <field name ="apellidos"/> 
-                            <field name ="tipo_persona"/>
+                            <field name ="nombres"  />
                         </group >
                         <group col="4" >
-                            <field name ="razon_social"/>
-                            <field name ="tipo_interviniente_id"/>
-                        </group>
-                        <group col="4" >    
-                            <field name ="calidad_compareciente_id"/>
                             <field name ="tipo_documento"/>
-                        </group >
-                        <group col="4">
                             <field name ="num_identificacion"/>
+                        </group>
+                        <group col="4">
+                            <field name ="razon_social"/>
                             <field name ="estado_civil"/>
                         </group>    
                         <group col="4" >    
                             <field name ="num_identificacion_conyuge"/>
                             <field name ="nombres_conyuge"/> 
+                        </group >
+                        <group col="4" >    
+                            <field name ="tipo_interviniente_id"/>
+                            <field name ="calidad_compareciente_id"/>
                         </group>
                         <group col="4" >
                             <field name ="separacion_bienes"/>
