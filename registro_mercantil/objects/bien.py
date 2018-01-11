@@ -12,7 +12,7 @@ class rbs_bien(models.Model):
 	# name = fields.Char(string = 'Clave Catastral')
 	clave_catastral = fields.Char(string = 'Clave Catastral' )
 	descripcion_bien= fields.Char(string ='Descripcion del Bien')
-	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:    SUR:    ESTE:   OESTE:')
+	descripcion_lindero = fields.Text(string = 'Descripcion del lindero', default='NORTE:\n\nSUR:\n\nESTE:\n\nOESTE:')
 	
 
 	provincia_id = fields.Many2one('rbs.provincia', string ='Provincia')
