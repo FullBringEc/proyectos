@@ -20,47 +20,42 @@
 ##############################################################################
 
 {
-    "name" : "Registro Mercantil",
-    "version" : "1.0",
-    "author" : "RubikSoft",
+    "name": "Registro Mercantil",
+    "version": "1.0",
+    "author": "RubikSoft",
     'website': 'http://www.facebook.com/RubikSoft15.com',
     "description": """Modulo que permite Crear, Obtener, Actualizar y Borrar informacion de tipos de Archivos""",
 
-    "depends" : ["base","web","account"],
-      
+    "depends": ["base","web","account"],
     #'js': ['static/src/js/resource.js'],
-    
-    "data" : [
+    "data": [
 
-                "view/compania_reg_view.xml",
+              "view/compania_reg_view.xml",
 
-                'wizard/informe_view.xml',
-                "views/pdf_binary_template_widget.xml",
+              'wizard/informe_view.xml',
+              "views/pdf_binary_template_widget.xml",
 
-                "security/registro_security.xml",
-                "security/ir.model.access.csv",
-                'sequence.xml',
-                "cron/pdf_cron.xml",
-                
-                'data/rbs.tramite.propiedad.csv',
-                'data/rbs.tipo.libro.propiedad.csv',
-                'data/rbs.tramite.mercantil.csv',
-                'data/rbs.tipo.libro.mercantil.csv',
+              "security/registro_security.xml",
+              "security/ir.model.access.csv",
+              'sequence.xml',
+              "cron/pdf_cron.xml",
+              'data/rbs.tramite.propiedad.csv',
+              'data/rbs.tipo.libro.propiedad.csv',
+              'data/rbs.tramite.mercantil.csv',
+              'data/rbs.tipo.libro.mercantil.csv',
 
-                'data/rbs.nombramiento.mercantil.csv',
-                'data/rbs.provincia.csv',
-                'data/rbs.canton.csv',
-                'data/rbs.parroquia.csv',
-                'data/rbs.calidad.compareciente.csv',
-                'data/rbs.tipo.interviniente.csv',
-                'data/rbs.zona.csv',
-                'data/rbs.tipo.gravamen.csv',
-                'data/rbs.tipo.tramite.csv',
-                'data/rbs.tipo.bien.csv',
+              'data/rbs.nombramiento.mercantil.csv',
+              'data/rbs.provincia.csv',
+              'data/rbs.canton.csv',
+              'data/rbs.parroquia.csv',
+              'data/rbs.calidad.compareciente.csv',
+              'data/rbs.tipo.interviniente.csv',
+              'data/rbs.zona.csv',
+              'data/rbs.tipo.gravamen.csv',
+              'data/rbs.tipo.tramite.csv',
+              'data/rbs.tipo.bien.csv',
 
 
-              
-              
 
               "view/valores_view.xml",
               "view/factura_view.xml",
@@ -76,18 +71,15 @@
               'wizard/informe_view.xml',
               'view/certificado_propiedad_view.xml',
               'view/certificado_mercantil_view.xml',
-              "view/rbs_documento_certificaciones.xml",       
+              "view/rbs_documento_certificaciones.xml",
               'views/tiffEdit.xml',
-              
               'views/assets_backend.xml',
-              
 
     ],
-    'qweb': ['static/src/xml/widget.xml'],  
-    "demo" : [],
-    "active":False,
+    'qweb': ['static/src/xml/widget.xml'],
+    "demo": [],
+    "active": False,
     "installable": True,
-    "certificate":"",
+    "certificate": "",
     'application': True,
 }
-
