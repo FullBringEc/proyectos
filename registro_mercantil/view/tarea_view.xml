@@ -19,7 +19,35 @@
 	            		<field name="state" widget="statusbar"/>
                 	</header>
                     <sheet string="Tarea"> 
+                        <div class="oe_button_box" name="button_box">
+                            <!-- <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button> -->
+                            <!-- <button type="object" class="oe_stat_button" id="invoice_button" icon="fa-pencil-square-o" name="open_partner_history" attrs="{'invisible': [('customer', '=', False)]}" context="{'default_partner_id': active_id}">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value"><field name="total_invoiced" widget="monetary" options="{'currency_field': 'currency_id'}"/></span>
+                                    <span class="o_stat_text">Invoiced</span>
+                                </div>
+                            </button> -->
+                            <button type="object"
+                                class="oe_stat_button"
+                                id="document_button"
+                                icon="fa-pencil-square-o"
+                                name="open_document"
+                                
+                                >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <!-- <field name="total_invoiced" widget='monetary' options="{'currency_field': 'currency_id'}"/> -->
+
+                                    </span>
+                                    <span class="o_stat_text">Documento</span>
+                                </div>
+                            </button>
+                        </div>
 						<group>
+
+                            
 
                             <field name="fecha_registro"/>
     		         		<field name="fecha_estimada"/>
@@ -42,20 +70,17 @@
             </field>
         </record>
         <record id="rbs_tarea_tree_filter_view" model="ir.ui.view" >
-        <field name='name'>rbs.tarea.tree</field>
-        <field name='model'>rbs.tarea</field>
-        <field name='type'>search</field>
-        <field name='priority' eval="20"/>
-        <field name='arch' type="xml">
-          <search string="Search Detail">
-            <field name="user_id" string="Usuario" />
-        
-
-            <filter string="Usuario" icon="terp-folder-orange" domain="[]" context="{'group_by':'user_id'}"/>
-
-          </search>
-          </field>
-         </record>
+            <field name='name'>rbs.tarea.tree</field>
+            <field name='model'>rbs.tarea</field>
+            <field name='type'>search</field>
+            <field name='priority' eval="20"/>
+            <field name='arch' type="xml">
+                    <search string="Search Detail">
+                        <field name="user_id" string="Usuario" />
+                        <filter string="Usuario" icon="terp-folder-orange" domain="[]" context="{'group_by':'user_id'}"/>
+                    </search>
+            </field>
+        </record>
         <record id='rbs_tarea_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.tarea.tree</field>
             <field name='model'>rbs.tarea</field>
@@ -64,7 +89,6 @@
                 <!-- default_order="state desc,fecha_alerta asc  orange: fecha_alerta &lt; current_date" -->
                 <tree default_order="fecha_registro desc" string = "Tareas" colors="gray:state =='done';red: fecha_estimada &lt; current_date;">
                 <!-- <tree string="Tareas" create="false" version="8.0">  -->
-                    <field name="state" invisible="1"/>
                     <field name="fecha_registro"/>
 					<field name="fecha_estimada"/>
 					<field name="user_id"/>
@@ -72,6 +96,8 @@
 					<field name="numero_tarea"/>
 					<field name="factura_id"/>
 					<field name="cliente_factura_id"/>
+                    <field name="state"/>
+                    
                 </tree>
             </field>
         </record>

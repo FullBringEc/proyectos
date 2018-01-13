@@ -83,19 +83,19 @@ class rbs_tarea(models.Model):
     dict_servicios = {
         'inscripcion_propiedad': {
                                         'field': 'propiedad_id',
-                                        'modelo': 'rbs.documento.propiedad',
+                                        'model': 'rbs.documento.propiedad',
                                     },
         'inscripcion_mercantil': {
                                         'field': 'mercantil_id',
-                                        'modelo': 'rbs.documento.mercantil',
+                                        'model': 'rbs.documento.mercantil',
                                     },
         'certificacion_propiedad': {
                                         'field': 'certificado_propiedad_id',
-                                        'modelo': 'rbs.certificado.propiedad',
+                                        'model': 'rbs.certificado.propiedad',
                                     },
         'certificacion_mercantil': {
                                         'field': 'certificado_mercantil_id',
-                                        'modelo': 'rbs.certificado.mercantil',
+                                        'model': 'rbs.certificado.mercantil',
                                     },
     }
 
@@ -106,6 +106,33 @@ class rbs_tarea(models.Model):
         if self[field].state not in ('done'):
             raise UserError('Para firmar primero valide el documento')
         self.write({'state': 'por_entregar'})
+
+    def open_document(self):
+        '''
+        This function returns an action that display invoices/refunds made for the given partners.
+        '''
+        field = self.dict_servicios[self.tipo_servicio]['field']
+        model = self.dict_servicios[self.tipo_servicio]['model']
+        view_id = self.env['ir.ui.view'].search([("model", "=", model), ('type', "=", "form")]).id
+
+        # print action.res_model
+        # action = self.env.ref('account.action_invoice_refund_out_tree').read()[0]
+        # action['domain'] = literal_eval(action['domain'])
+        # action['domain'].append(('partner_id', 'child_of', self.ids))
+        # view_id = self.env.ref('modul_name._id_of_form_view').id
+        context = self._context.copy()
+        return {
+            'name': 'form_name',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'views': [(view_id, 'form')],
+            'res_model': model,
+            'view_id': view_id,
+            'type': 'ir.actions.act_window',
+            'res_id': self[field].id,
+            'target': 'current',
+            'context': context,
+        }
 
     @api.one
     def entregar(self):
