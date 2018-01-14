@@ -26,7 +26,7 @@
     'website': 'http://www.facebook.com/RubikSoft15.com',
     "description": """Modulo que permite Crear, Obtener, Actualizar y Borrar informacion de tipos de Archivos""",
 
-    "depends": ["base","web","account"],
+    "depends": ["base","web","account","l10n_ec_partner"],
     #'js': ['static/src/js/resource.js'],
     "data": [
 
