@@ -7,9 +7,9 @@ from odoo.exceptions import UserError
 
 class rbs_tarea(models.Model):
     _name = 'rbs.tarea'
-    _description = "Parte"
+    _description = "Tareas"
     # name = fields.Char("Parte")
-    _rec_name = 'numero_tarea'
+    # _rec_name = 'name'
 
     @api.model
     def get_numero_tarea(self):
@@ -30,7 +30,7 @@ class rbs_tarea(models.Model):
         ('certificacion_propiedad', 'Certificacion Propiedad'),
         ('certificacion_mercantil', 'Certificacion Mercantil'),
         ], string="Tipo de servicio", required=True)
-    numero_tarea = fields.Char(string='Numero de tarea', default=get_numero_tarea, required=True)
+    name = fields.Char(string='Numero de tarea', default=get_numero_tarea, required=True)
     factura_id = fields.Many2one('account.invoice', string='Factura relacionada', required=True)
     cliente_factura_id = fields.Many2one(related="factura_id.partner_id", string='Cliente factura', required=True)
     propiedad_id = fields.Many2one('rbs.documento.propiedad', string='Documento de propiedad')
@@ -59,7 +59,7 @@ class rbs_tarea(models.Model):
         if self.tipo_servicio == 'certificacion_propiedad':
             self.certificado_propiedad_id = self.env['rbs.certificado.propiedad'].create(
                                                                             {
-                                                                                'valor_busqueda': self.cliente_factura_id.vat,
+                                                                                'valor_busqueda': self.cliente_factura_id.identifier,
                                                                                 'criterio_busqueda': 'cedula',
                                                                                 'solicitante': self.cliente_factura_id.name
                                                                             })
@@ -71,7 +71,7 @@ class rbs_tarea(models.Model):
         if self.tipo_servicio == 'certificacion_mercantil':
             self.certificado_mercantil_id = self.env['rbs.certificado.mercantil'].create(
                                                                             {
-                                                                                'valor_busqueda': self.cliente_factura_id.vat,
+                                                                                'valor_busqueda': self.cliente_factura_id.identifier,
                                                                                 'criterio_busqueda': 'cedula',
                                                                                 'solicitante': self.cliente_factura_id.name
                                                                             })

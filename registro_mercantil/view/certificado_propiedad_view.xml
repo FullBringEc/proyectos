@@ -27,7 +27,7 @@
                         <group col= "6">
                             <field name = "name"/>
                             
-                            <field name = "tipo_certificado"/>
+                            <field name = "tipo_certificado" required="1"/>
                             
                         </group>
                             <field name = "propiedad_ids" readonly="1" view_id="rbs_documento_propiedad_tree2_view"/>

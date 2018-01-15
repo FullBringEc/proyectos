@@ -11,9 +11,10 @@
             <field name='arch' type="xml">
 <form string="Documento " version="8.0"> 
   <header>
+        <field name="state" widget="statusbar"/>  
         <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>    
         <button string="Inscripción" name="word" type="object"  class="oe_inline oe_stat_button" icon="fa-file-word-o"/>
-        <field name="state" widget="statusbar"/>        
+              
   </header>
   <sheet>
         <field name="name"/>    
