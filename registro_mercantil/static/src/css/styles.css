@@ -237,7 +237,7 @@ input[type=range]:focus::-ms-fill-upper {
     background: #ccc;
 }
 
-.input {
+/*.input {
   position: relative;
   z-index: 1;
   display: inline-block;
@@ -245,7 +245,7 @@ input[type=range]:focus::-ms-fill-upper {
   max-width: 40px;
   width: calc(100% - 2em);
   vertical-align: top;
-}
+}*/
 
 .input__field {
   position: relative;

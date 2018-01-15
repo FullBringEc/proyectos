@@ -369,7 +369,7 @@
             <group>
                 <div class="text-center">
                     <!-- ¿Es mayor a 100mb?<field name="esPesado"/>  -->
-                    ¿Es mayor a 100mb?<field name="esPesado"/> 
+                    <div align="left">¿Es mayor a 100mb?<field name="esPesado"/></div> 
                     <br/>
                     <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
 

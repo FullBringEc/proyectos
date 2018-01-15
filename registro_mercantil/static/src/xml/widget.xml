@@ -101,31 +101,38 @@
         </t>
         <br/>
         <div class="divgeneral">
-            <div class="contenido" style="text-align: center">
+           
                 
+                    <form>
 
+                         <div class="form-row" >
+                            <div class="form-group col-md-6" style = "width: 50% ">
+                              <input class="pagina_actual form-control" type="text" style="text-align: center" />
+                            </div>
+                                                      
+                            <div class="form-group col-md-6" style = "width: 50%" >
+                               <input class="pagina_final form-control" type="text" readonly="True" style="text-align: center" />
+                            </div>
+                          </div> 
+                        
+                    </form> 
+            <div class="contenido" style="text-align: center">
 
                 <table class="table">
-                     
-                 <td style="text-align: center">
-                    <span class="button buttonback btn" >
-                        <span>Atras</span>
-                    </span>
+               
+                     <td style="text-align: center">
+                        <span class="button buttonback btn  btn-sm" >
+                            <span>Atras</span>
+                        </span>
 
-                    <span class="button buttonnext btn">
-                        <span>Adelante</span>
-                    </span>
-                </td>
-                <td>
-                    <span class="input ">
-                    <input class="input__field pagina_actual" type="text" />
-                    </span>
-                    /
-                    <span class="input ">
-                        <input class="input__field pagina_final" type="text" readonly="True" />
-                    </span>
-                </td>    
-                </table>
+                        <span class="button buttonnext btn  btn-sm">
+                            <span>Adelante</span>
+                        </span>
+
+                    </td>
+                </table>   
+                
+
                  
             </div>
             
