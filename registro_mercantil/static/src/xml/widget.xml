@@ -102,9 +102,12 @@
         <br/>
         <div class="divgeneral">
             <div class="contenido" style="text-align: center">
+                
+
+
                 <table class="table">
-       
-                <td style="text-align: center">
+                     
+                 <td style="text-align: center">
                     <span class="button buttonback btn" >
                         <span>Atras</span>
                     </span>
@@ -113,16 +116,17 @@
                         <span>Adelante</span>
                     </span>
                 </td>
-                <span class="input ">
+                <td>
+                    <span class="input ">
                     <input class="input__field pagina_actual" type="text" />
-                </span>
-                /
-                <span class="input ">
-                    <input class="input__field pagina_final" type="text" readonly="True" />
-                </span>
-
-                  
+                    </span>
+                    /
+                    <span class="input ">
+                        <input class="input__field pagina_final" type="text" readonly="True" />
+                    </span>
+                </td>    
                 </table>
+                 
             </div>
             
             <div class="divC">
