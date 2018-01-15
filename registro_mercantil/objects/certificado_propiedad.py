@@ -14,7 +14,7 @@ import xlwt
 import time
 import datetime
 #import StringIO
-from io import BytesIO , StringIO
+from io import BytesIO, StringIO
 import gzip
 from docxtpl import DocxTemplate, RichText
 from jinja2 import Environment, FileSystemLoader

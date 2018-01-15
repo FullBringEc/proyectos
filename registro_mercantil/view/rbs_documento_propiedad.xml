@@ -23,9 +23,7 @@
               <!-- <span class="oe_read_only">By</span> -->
           
             <group col ="6" >
-                
-                
-
+             
                 <field name="anio_id" 
                     on_change="on_change_anio_id(anio_id)" 
                     domain="[('state','=', 'close')]"

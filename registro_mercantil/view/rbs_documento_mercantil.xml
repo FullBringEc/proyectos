@@ -18,74 +18,82 @@
   </header>
   <sheet>
         <field name="name"/>    
-       <div class="oe_title">
-            <label for="name" class="oe_edit_only"/>
-            <h3>
-                Año
+        <group col ="6" >
+             
                 <field name="anio_id" 
-                  on_change="on_change_anio_id(anio_id)" 
-                  domain="[('state','=', 'close')]"
-                  class="oe_inline" />
-                Libro
+                    on_change="on_change_anio_id(anio_id)" 
+                    domain="[('state','=', 'close')]"
+                    />
+               
                 <field name="libro_id" 
-                  on_change="on_change_libro_id(libro_id)" 
-                  domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]"
-                  context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"
-                  class="oe_inline" />
-                <field name="tipo_libro_mercantil_id" 
-                  invisible="1"
-                  class="oe_inline" />
-                Tomo
+                    on_change="on_change_libro_id(libro_id)" 
+                    domain="['&amp;', ('state','=', 'close'),('anio_id','=', anio_id), ('libro_tipo', '=', 'mercantil')]"
+                    context="{'anio_id': anio_id, 'libro_tipo': 'mercantil'}"
+                     />
+                            
                 <field name="tomo_id"  
-                  domain="[('libro_id', '=', libro_id)]"
-                  context="{'libro_id': libro_id}"
-                  class="oe_inline" />
-            </h3>
-            <h3>
-              Tipo de tramite
-              <field name="tipo_tramite_id" class="oe_inline"/>
-              Tramite
-              <field name="tramite_id" class="oe_inline" domain="[('tipo_libro_mercantil_ids', 'in', tipo_libro_mercantil_id)]"/>
-          </h3>
-        </div>
+                    domain="[('libro_id', '=', libro_id)]"
+                    context="{'libro_id': libro_id}"
+                    />
+                
+                <field name="tramite_id" class="oe_inline" domain="[('tipo_libro_mercantil_ids', 'in', tipo_libro_mercantil_id)]"/>
+                
+                <field name="tipo_tramite_id" class="oe_inline"/>
+              
+          </group>
+          <field name="tipo_libro_mercantil_id" invisible="1" class="oe_inline" />
     <notebook>
       <page String= 'Informacion de la inscripcion'>
-        <group>
-                <group>
-                    
-                    <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
+                
+                <group col="4">
+                   <field name="numero_inscripcion" on_change="onchange_inscripcion(numero_inscripcion,libro_id)"/>
                     <field name="repertorio"/>
+                </group >
+
+                <group col="4">
                     <field name="provincia_notaria_id"/>
                     <field name="canton_notaria_id"/>
+                </group >
+
+                <group col="4">
                     <field name="notaria_id"/>
                     <field name="cuantia_valor"/>
+                </group >
+
+                <group col="4">
 
                     <field name="fecha_acta_junta"/>
                     <field name="fecha_cancel_gravamen"/>
-                    <field name="fecha_const_gravamen"/>
+                </group >
 
-                    
-                </group>
-                <group>
+                <group col="4">
+                    <field name="fecha_const_gravamen"/>
                     <field name="fecha_inscripcion"/>
+                </group >
+
+                <group col="4">
 
                     <field name="fecha_repertorio"/>
                     <field name="fecha_cancelacion"/>
-                    <field name="fecha_ultima_modificacion"/>
-                    <field name="fecha_escritura"/>
-                    <field name="nombramiento_mercantil_id"/>
+                </group >
 
-                    <label for="plazo_nombramiento_cant" string="Plazo Nombramiento"/>
+                <group col="4">
+                  <field name="fecha_ultima_modificacion"/>
+                  <field name="fecha_escritura"/>
+                </group >
+
+
+                <group col="4">
+                    <field name="nombramiento_mercantil_id"/>
+                    <field name="tipo_acto_contrato" 
+                        widget="many2many_checkboxes"/>
+                    <!-- <label for="plazo_nombramiento_cant" string="Plazo Nombramiento"/>
                     <div class="address_format">
                         <field name="plazo_nombramiento_cant" style="width: 50%" />
                         <field name="plazo_nombramiento_tipo" style="width: 50%" />
                     </div>
-                    <field name="fecha_nombramiento"/>
-
-                    <field name="tipo_acto_contrato" 
-                        widget="many2many_checkboxes"/>
-                </group>
-            </group>
+                    <field name="fecha_nombramiento"/> -->
+                </group >
 
       </page>
       <page string = "Bienes">
@@ -102,6 +110,28 @@
                   <field name="parte_char_ids" domain="[('documento_mercantil_id','=', parent.id)]" widget="many2many_tags" />
                  
               </tree>
+
+              <form>
+                <group>
+                    <group>
+                      <field name="tipo_bien_id" />
+                      <field name="chasis"/>
+                      <field name="motor" />
+                      <field name="marca"/>
+                      <field name="modelo" /> 
+
+                    </group>
+                    <group>
+                      <field name="anio_fabricacion" />
+                      <field name="placa" />
+                      <field name="numero_provisional" />
+                      <field name="parte_char_ids" domain="[('documento_mercantil_id','=', parent.id)]" widget="many2many_tags" />
+                          
+                    </group> 
+                </group>
+
+
+              </form>
           </field>
       </page>
      
@@ -125,6 +155,36 @@
             <field name="num_identificacion_conyuge"/>
             <field name="nombres_conyuge"/> 
           </tree>
+            <form>
+
+                        <group col="4" >
+                            <field name ="persona_id" />
+                            <field name ="tipo_persona"/>
+
+                        </group  >
+                        <group col="4" >
+                            <field name ="apellidos"/> 
+                            <field name ="nombres"  />
+                        </group >
+                        <group col="4" >
+                            <field name ="tipo_documento"/>
+                            <field name ="num_identificacion"/>
+                        </group>
+                        
+                        <group col="4" >    
+                            <field name ="num_identificacion_conyuge"/>
+                            <field name ="nombres_conyuge"/> 
+                        </group >
+                        <group col="4" >    
+                            <field name ="tipo_interviniente_id"/>
+                            <field name ="calidad_compareciente_id"/>
+                        </group>
+                        <group col="4">
+                             <field name ="estado_civil"/>
+                        </group>  
+                </form>
+
+
         </field>
         <field name="parte_char_ids" invisible="1"/>
         <separator string="Datos del representante" colspan="2"/>
@@ -142,6 +202,8 @@
         </group>
 
       </page>
+       
+
        <page string = "Accionistas">
           <field name="accionista_ids">
               <tree string="Accionistas" editable="bottom">
