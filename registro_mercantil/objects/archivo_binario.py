@@ -15,7 +15,7 @@ class rbs_documento_propiedad(models.Model):
         return self.env["rbs.pdf"].create({})
     filedata_id = fields.Many2one('rbs.pdf', default=_create_pdf)
     filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf', readonly=True, states={'draft': [('readonly', False)]})
-    esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb')
+    esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb', readonly=True, states={'draft': [('readonly', False)]})
     rutaFTP = fields.Char(related='filedata_id.rutaFTP', string='Ruta del Archivo', readonly=True, states={'draft': [('readonly', False)]})
 
     contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor", readonly=True, states={'draft': [('readonly', False)]})
@@ -84,7 +84,7 @@ class rbs_documento_mercantil(models.Model):
 
     filedata_id = fields.Many2one('rbs.pdf', default=_create_pdf)
     filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf', readonly=True, states={'draft': [('readonly', False)]})
-    esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb')
+    esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb', readonly=True, states={'draft': [('readonly', False)]})
     rutaFTP = fields.Char(related='filedata_id.rutaFTP', string='Ruta del Archivo')
     contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")
     state_filedata = fields.Selection([
