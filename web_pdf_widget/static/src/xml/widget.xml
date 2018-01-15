@@ -18,9 +18,11 @@
 
         
         <center>
+            <h3 style="text-decoration: underline">
             <a class = "link_file" target="_blank">
                 Ir al archivo
             </a>
+            </h3>
             <div class="contFtpIframe">
                 <t t-if="!widget.get('effective_readonly')">
                     <div class ="contFtpExplorer" style="float:left;overflow : auto;">
