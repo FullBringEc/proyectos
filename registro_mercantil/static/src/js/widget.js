@@ -31,6 +31,23 @@ odoo.define('web.pdf_binary', function (require) {
                 });
             }
         },
+        initialize_content: function() {
+            // var self = this;
+            // this._super();
+            // if (this.get("effective_readonly")) {
+            //     this.$el.click(function(ev) {
+            //         if (self.get('value') && self.view.datarecord.id) {
+            //             self.on_save_as(ev);
+            //         }
+            //         return false;
+            //     });
+            // } else {
+            //     this.$input = this.$('.o_form_input').eq(0);
+            //     this.$input.on('click', function() {
+            //         self.$inputFile.click();
+            //     });
+            // }
+        },
         
         render_value: function(){
 
