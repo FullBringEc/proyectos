@@ -19,9 +19,12 @@
   float:left;
 
 }
+/*.pagina_actual .pagina_final{
+  width: 10%;
+}*/
 /*.oe_form_field_one2many_list_row_add   {
 	background-color: cyan;
 }*/
-.oe_list_field_cell{
+/*.oe_list_field_cell{
 	background-color: white;
-}
+}*/

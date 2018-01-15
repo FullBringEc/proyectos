@@ -32,21 +32,13 @@ odoo.define('web.pdf_binary', function (require) {
             }
         },
         initialize_content: function() {
-            // var self = this;
-            // this._super();
-            // if (this.get("effective_readonly")) {
-            //     this.$el.click(function(ev) {
-            //         if (self.get('value') && self.view.datarecord.id) {
-            //             self.on_save_as(ev);
-            //         }
-            //         return false;
-            //     });
-            // } else {
-            //     this.$input = this.$('.o_form_input').eq(0);
-            //     this.$input.on('click', function() {
-            //         self.$inputFile.click();
-            //     });
-            // }
+            this.$inputFile = this.$('.o_form_input_file');
+            this.$inputFile.change(this.on_file_change);
+            var self = this;
+            this.$('.o_select_file_button').click(function() {
+                self.$inputFile.click();
+            });
+            this.$('.o_clear_file_button').click(this.on_clear);
         },
         
         render_value: function(){
