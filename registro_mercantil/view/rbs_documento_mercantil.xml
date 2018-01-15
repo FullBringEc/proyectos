@@ -244,7 +244,7 @@
               <div class="text-center">
                 ¿Es mayor a 100mb?<field name="esPesado" attrs="{'readonly':['|', ('state','!=','draft')]}"/> 
                 <br/>
-                <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                <field name="contenedor_id" invisible = "1" />
                 <br/>
                 <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                 <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'mercantil'}" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>

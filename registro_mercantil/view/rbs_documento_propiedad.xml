@@ -373,7 +373,7 @@
                    <div align="left">¿Es mayor a 100mb?<field name="esPesado" attrs="{'readonly':['|', ('state','!=','draft')]}"/> </div> 
 
                     <br/>
-                    <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
+                    <field name="contenedor_id" invisible = "1" /><!-- attrs="{'invisible':['|', ('esPesado','=',True)]}" -->
 
                     <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                     <field name="filedata"  widget= "pdf_binary" options="{'size': [700, 500],'tipo':'propiedad'}" 
