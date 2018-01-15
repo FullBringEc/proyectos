@@ -22,13 +22,14 @@ odoo.define('web.web_pdf_widget', function(require) {
             this.$el.find('.contFtpExplorer')
                         .css("width", "50%")
                         .css("height", "" + self.options.size[1] + "px")
-            this.$el.find('.ftpExplorer').fileTree({csrf:this.value,ftp:self.options.ftp_param, root: '/', script: 'http://127.0.0.1:8069/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
+            this.$el.find('.ftpExplorer').fileTree({csrf:this.value,ftp:self.options.ftp_param, root: '/', script: '/ftp/web', folderEvent: 'click', expandSpeed: 1000, collapseSpeed: 1000, expandEasing: 'easeOutBounce', collapseEasing: 'easeOutBounce', loadMessage: 'Un momento...' }, function(file) { 
                         
                         // window.open(file, '_blank');
-                        console.log(file)
+                        // console.log(file)
                         self.$el.find('iframe')
                         .attr('src',file)
                         .css("width", "50%")
+
                         self.$el.val(file)
                         // self.set_value(file)
                         // self.parse_value(file, '');
@@ -44,6 +45,7 @@ odoo.define('web.web_pdf_widget', function(require) {
             if (this.$input) {
                 this.$input.val(show_value);
             }
+            this.$el.find('.link_file').attr('href',show_value)
             if (this.get("effective_readonly")) {
                 // this.$(".oe_form_char_content").text(show_value);
                 //alert(show_value);
@@ -53,10 +55,13 @@ odoo.define('web.web_pdf_widget', function(require) {
                         .css("height", "100%")
             }else{
                 // this.$(".oe_form_char_content").text(show_value);
-                this.$el.find('iframe')
+                if (this.get('value')){
+                    this.$el.find('iframe')
                         .attr('src',this.get('value'))
                         .css("width", "50%")
                         .css("height", "100%")
+                }
+                
             }
                         // .css("height", "" + this.options.size[1] + "px")
 

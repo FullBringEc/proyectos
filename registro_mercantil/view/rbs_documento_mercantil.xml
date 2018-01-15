@@ -234,7 +234,7 @@
         </page>
       
           <page string="Archivo">    
-            <field name='state_filedata' widget="statusbar"/>
+            <field name='state_filedata' widget="statusbar" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
             <button string="Editar archivo" name="open_ui" type="object" 
               groups="registro_mercantil.group_registrador,registro_mercantil.group_coordinador"
               attrs="{'invisible':['|', ('esPesado','=',True),('state_filedata','!=','done')]}" class="oe_inline oe_stat_button" icon="fa-pencil"/>
@@ -242,14 +242,14 @@
               
 
               <div class="text-center">
-                ¿Es mayor a 100mb?<field name="esPesado"/> 
+                ¿Es mayor a 100mb?<field name="esPesado" attrs="{'readonly':['|', ('state','!=','draft')]}"/> 
                 <br/>
                 <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
                 <br/>
                 <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
                 <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'mercantil'}" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
                 <field name="rutaFTP" widget= "pdf_ftp" options="{'size': [700, 500]}"
-                      attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                      attrs="{'invisible':['|', ('esPesado','=',False)],'readonly':['|', ('state','!=','draft')]}" />
               </div>
             </group>
          </page> 

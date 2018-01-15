@@ -6,7 +6,7 @@ odoo.define('web.pdf_binary', function (require) {
     var FormView = require('web.FormView');
     var QWeb = core.qweb;
     var _lt = core._lt;
-    console.log(widget)
+    // console.log(widget)
 	// var instance = openerp;
 	// var _t = instance.web._t,
 	// _lt = instance.web._lt;
@@ -127,15 +127,15 @@ odoo.define('web.pdf_binary', function (require) {
             tipo = this.options.tipo
             id = parseInt(JSON.stringify(this.view.datarecord.id))
             $canv = self.$el.find('.imagenCanvas')
-            console.log($canv);
+            // console.log($canv);
             $ctx = $canv[0].getContext("2d");
             // alert(id)
             // lienzo = new CanvasState($('#figurasCanvas')[0],$('#borradorCanvas')[0]);
-            console.log(tipo+" - "+id)
+            // console.log(tipo+" - "+id)
             if(id){
                 new openerp.web.Model('rbs.documento.'+tipo).call('read',[[id],['fecha_inscripcion', 'contenedor_id']])
                         .then(function(result){
-                            console.log(result)
+                            // console.log(result)
                             $('#tipo').html(tipo)
                             // $('#propietario').html(result[0].compania_nombres)
                             $('#fecha').html(result[0].fecha_inscripcion)
@@ -371,7 +371,7 @@ odoo.define('web.pdf_binary', function (require) {
             this.set_filename('');
         },
         set_value: function(value_){
-            console.log(value_)
+            // console.log(value_)
             // console.log(this.get_value())
             var changed = value_ !== this.get_value();
             this._super.apply(this, arguments);

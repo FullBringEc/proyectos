@@ -360,7 +360,7 @@
         </page> -->
           <page string='Archivo'>
             
-            <field name='state_filedata' widget="statusbar"/>
+            <field name='state_filedata' widget="statusbar" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
             <!--<field name="filedata" colspan="4" filename="filename" widget= "FieldBinaryPdf" options="{'size': [400, 500]}"/>-->
             <br/>
             <button string="Editar archivo" name="open_ui" type="object" 
@@ -369,7 +369,9 @@
             <group>
                 <div class="text-center">
                     <!-- ¿Es mayor a 100mb?<field name="esPesado"/>  -->
-                    <div align="left">¿Es mayor a 100mb?<field name="esPesado"/></div> 
+
+                   <div align="left">¿Es mayor a 100mb?<field name="esPesado" attrs="{'readonly':['|', ('state','!=','draft')]}"/> </div> 
+
                     <br/>
                     <field name="contenedor_id" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
 
@@ -377,7 +379,7 @@
                     <field name="filedata"  widget= "pdf_binary" options="{'size': [700, 500],'tipo':'propiedad'}" 
                     attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
                     <field name="rutaFTP" widget= "pdf_ftp" options="{'size': [500, 500]}"
-                            attrs="{'invisible':['|', ('esPesado','=',False)]}" />
+                            attrs="{'invisible':['|', ('esPesado','=',False)],'readonly':['|', ('state','!=','draft')]}" />
                 </div>
             </group> 
         </page>
