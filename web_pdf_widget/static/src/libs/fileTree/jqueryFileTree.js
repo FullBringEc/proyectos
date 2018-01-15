@@ -54,8 +54,9 @@ if(jQuery) (function($){
 				function showTree(c, t) {
 					$(c).addClass('wait');
 					$(".jqueryFileTree.start").remove();
-					console.log(o.csrf)
-					$.post(o.script, {csrf_token:o.csrf,ftp:o.ftp, dir: t }, function(data) {
+					// console.log(o.script)
+					// console.log(window.location.protocol+'//'+window.location.host+o.script)
+					$.post(window.location.protocol+'//'+window.location.host+o.script, {csrf_token:o.csrf,ftp:o.ftp, dir: t }, function(data) {
 						data = data.split("?");
 						dir_ftp = data[0]
 						$(c).find('.start').html('');
