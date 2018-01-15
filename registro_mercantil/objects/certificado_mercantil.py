@@ -102,6 +102,10 @@ class rbs_certificado_mercantil(osv.osv):
     # }
     # clave_catastral = field.Char('Clave Catastral', size=30, required=True)
     # cedula = field.Char('Cedula', size=30, required=True)
+    name = field.Char('Numero de Certificado',readonly=True) 
+    tipo_certificado = field.Selection([
+        ('certificado_mercantil_1','Certificado Mercantil 1'),
+        ('certificado_mercantil_2','Certificado Mercantil 2')], readonly=True, states={'draft': [('readonly', False)]} )
     solicitante = field.Char('Solicitante', size=90, required=True)
     dataWord=field.Binary("word")
     state=field.Selection([
@@ -116,9 +120,9 @@ class rbs_certificado_mercantil(osv.osv):
     criterio_busqueda = field.Selection([
         ('cedula','Cedula'),
         ('clave_catastral','Clave Catastral'),
-        ], string="Criterio de busqueda")
+        ], string="Criterio de busqueda", readonly=True, states={'draft': [('readonly', False)]})
 
-    valor_busqueda = field.Char('Busqueda', size=30, required=True)
+    valor_busqueda = field.Char('Busqueda', size=30, required=True ,readonly=True, states={'draft': [('readonly', False)]})
 
     @api.onchange('valor_busqueda','criterio_busqueda')
     def get_documentos(self):

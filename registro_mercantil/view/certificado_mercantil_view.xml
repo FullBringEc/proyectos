@@ -9,14 +9,22 @@
             <field name="arch" type="xml">
                 <form string="Certificado">
                     <header>
+                         <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
+                        <button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <group col="8">
+                        <group col="6">
                             <field name = "criterio_busqueda"/>
                             <field name = "valor_busqueda"/>
                             <field name = "solicitante"/>
-                            <button class="oe_inline oe_stat_button" icon="fa-file-word-o" name ="word_certificado" string="Certificado" type="object"/>  
+
+                        </group>
+                         <group col= "6">
+                            <field name = "name"/>
+                            
+                            <field name = "tipo_certificado" required="1"/>
+                            
                         </group>
                             <field name = "mercantil_ids" readonly="1" view_id="rbs_documento_mercantil_tree2_view"/>
                     </sheet>
@@ -38,6 +46,7 @@
             <field name='type'>tree</field>
             <field name='arch' type="xml">
                 <tree>
+                    <field name="state"/>
                     <field name = "solicitante"/>
                     <field name = "valor_busqueda"/>               
                 </tree>
@@ -73,7 +82,7 @@
 
                 <xpath expr="//field[@name='type']" position="after">
                         <field name="tipo_servicio"/>
-                        <field name="cantidad_dias"/>
+                        
                 </xpath>
           
             </field>
