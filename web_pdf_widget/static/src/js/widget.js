@@ -26,8 +26,8 @@ odoo.define('web.web_pdf_widget', function(require) {
                         
                         // window.open(file, '_blank');
                         // console.log(file)
-                        file = file.replace('ftp://','//')cantidad_dias
-                        alert(file)
+                        file = file.replace('ftp://','//')
+                        // console.log(file)
                         self.$el.find('iframe')
                         .attr('src',file)
                         .css("width", "50%")

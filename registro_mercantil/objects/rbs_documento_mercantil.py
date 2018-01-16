@@ -301,11 +301,11 @@ class rbs_documento_mercantil(models.Model):
             }
 
     @api.multi
-    def open_ui(self, cr, uid, ids, context=None):
+    def open_ui(self,context=None):
         return {
             'type': 'ir.actions.act_url',
             'url': '/registro_mercantil/web/?binary='+str(self.id)+'&tipo=mercantil',
-            'target': 'current',
+            'target': 'new',
         }
 
     @api.onchange('parte_ids', 'bien_ids')

@@ -16,7 +16,7 @@
             <field eval="'()'" name="args" />
         </record>
 
-        <!-- <record forcecreate="True" id="ir_cron_pdf_mercantil" model="ir.cron">
+        <record forcecreate="True" id="ir_cron_pdf_mercantil" model="ir.cron">
             <field name="name">Procesar Pdfs</field>
             <field eval="True" name="active" />
             <field name="interval_number">1</field>
@@ -26,6 +26,6 @@
             <field eval="'rbs.documento.mercantil'" name="model" />
             <field eval="'cron_procesar_pdfs'" name="function" />
             <field eval="'()'" name="args" />
-        </record> -->
+        </record>
     </data>
 </openerp>
