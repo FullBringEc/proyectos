@@ -340,175 +340,177 @@ class rbs_documento_propiedad(models.Model):
         return {'value': result}
 
     def onchange_inscripcion(self, inscripcion_num, libro_id, context=None):
-        propiedad = self.search([('numero_inscripcion', '=', inscripcion_num), ('libro_id', '=', libro_id)])
-        # propiedad = self.browse(cr,uid,propiedad_id,context = None)
         result = {}
+        if inscripcion_num != 0:
 
-        try:
-            if propiedad:
-                propiedad = propiedad[0]
-                # raise osv.except_osv('Esto es un Mesaje!',establecimiento)
-                try:
-                    if propiedad.notaria_juzgado_entidad:
-                        result['notaria_juzgado_entidad'] = self.codigoascii(propiedad.notaria_juzgado_entidad)
-                except:
-                    pass
-                try:
-                    if propiedad.fecha_inscripcion:
-                        result['fecha_inscripcion'] = str(propiedad.fecha_inscripcion)
-                except:
-                    pass
+            propiedad = self.search([('numero_inscripcion', '=', inscripcion_num), ('libro_id', '=', libro_id)])
+            # propiedad = self.browse(cr,uid,propiedad_id,context = None)
 
-                try:
-                    if propiedad.tomo_id:
-                        result['tomo_id'] = propiedad.tomo_id.id
+            try:
+                if propiedad:
+                    propiedad = propiedad[0]
+                    # raise osv.except_osv('Esto es un Mesaje!',establecimiento)
+                    try:
+                        if propiedad.notaria_juzgado_entidad:
+                            result['notaria_juzgado_entidad'] = self.codigoascii(propiedad.notaria_juzgado_entidad)
+                    except:
+                        pass
+                    try:
+                        if propiedad.fecha_inscripcion:
+                            result['fecha_inscripcion'] = str(propiedad.fecha_inscripcion)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.tomo_id:
+                            result['tomo_id'] = propiedad.tomo_id.id
 
-                try:
-                    if propiedad.anio_id:
-                        result['anio_id'] = propiedad.anio_id.id
-                except:
-                    pass
+                    except:
+                        pass
 
-                try:
-                    if propiedad.libro_id:
-                        result['libro_id'] = propiedad.libro_id.id
-                except:
-                    pass
+                    try:
+                        if propiedad.anio_id:
+                            result['anio_id'] = propiedad.anio_id.id
+                    except:
+                        pass
 
-                try:
-                    if propiedad.tipo_acto_contrato_sel:
-                        result['tipo_acto_contrato_sel'] = propiedad.tipo_acto_contrato
+                    try:
+                        if propiedad.libro_id:
+                            result['libro_id'] = propiedad.libro_id.id
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.tipo_acto_contrato_sel:
+                            result['tipo_acto_contrato_sel'] = propiedad.tipo_acto_contrato
 
-                try:
-                    if propiedad.clave_catastral:
-                        result['clave_catastral'] = self.codigoascii(propiedad.clave_catastral)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.clave_catastral:
+                            result['clave_catastral'] = self.codigoascii(propiedad.clave_catastral)
 
-                try:
-                    if propiedad.descripcion_bien_id:
-                        result['descripcion_bien_id'] = propiedad.descripcion_bien_id.id
+                    except:
+                        pass
 
-                except:
-                    pass
-                try:
-                    if propiedad.provincia_id:
-                        result['provincia_id'] = propiedad.provincia_id.id
+                    try:
+                        if propiedad.descripcion_bien_id:
+                            result['descripcion_bien_id'] = propiedad.descripcion_bien_id.id
 
-                except:
-                    pass
-                try:
-                    if propiedad.zona_nombre_id:
-                        result['zona_nombre_id'] = propiedad.zona_nombre_id.id
+                    except:
+                        pass
+                    try:
+                        if propiedad.provincia_id:
+                            result['provincia_id'] = propiedad.provincia_id.id
 
-                except:
-                    pass
+                    except:
+                        pass
+                    try:
+                        if propiedad.zona_nombre_id:
+                            result['zona_nombre_id'] = propiedad.zona_nombre_id.id
 
-                try:
-                    if propiedad.superficie_bien:
-                        result['superficie_bien'] = self.codigoascii(propiedad.superficie_bien)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.superficie_bien:
+                            result['superficie_bien'] = self.codigoascii(propiedad.superficie_bien)
 
-                try:
-                    if propiedad.ubicacion_geografica:
-                        result['ubicacion_geografica'] = self.codigoascii(propiedad.ubicacion_geografica)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.ubicacion_geografica:
+                            result['ubicacion_geografica'] = self.codigoascii(propiedad.ubicacion_geografica)
 
-                try:
-                    if propiedad.descripcion_lindero:
-                        result['descripcion_lindero'] = self.codigoascii(propiedad.descripcion_lindero)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.descripcion_lindero:
+                            result['descripcion_lindero'] = self.codigoascii(propiedad.descripcion_lindero)
 
-                try:
-                    if propiedad.parroquia_nombre_inmueble:
-                        result['parroquia_nombre_inmueble'] = self.codigoascii(propiedad.ubicacion_geografica)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.parroquia_nombre_inmueble:
+                            result['parroquia_nombre_inmueble'] = self.codigoascii(propiedad.ubicacion_geografica)
 
-                try:
-                    if propiedad.canton_nombre_inmueble_id:
-                        result['canton_nombre_inmueble_id'] = propiedad.parroquia_nombre_inmueble.id
+                    except:
+                        pass
 
-                except:
-                    pass
-                try:
-                    if propiedad.cuantia_valor:
-                        result['cuantia_valor'] = self.codigoascii(propiedad.cuantia_valor)
+                    try:
+                        if propiedad.canton_nombre_inmueble_id:
+                            result['canton_nombre_inmueble_id'] = propiedad.parroquia_nombre_inmueble.id
 
-                except:
-                    pass
+                    except:
+                        pass
+                    try:
+                        if propiedad.cuantia_valor:
+                            result['cuantia_valor'] = self.codigoascii(propiedad.cuantia_valor)
 
-                try:
-                    if propiedad.cuantia_unidad:
-                        result['cuantia_unidad'] = self.codigoascii(propiedad.cuantia_unidad)
+                    except:
+                        pass
 
-                except:
-                    pass
+                    try:
+                        if propiedad.cuantia_unidad:
+                            result['cuantia_unidad'] = self.codigoascii(propiedad.cuantia_unidad)
 
-                try:
-                    if propiedad.juicio_numero:
-                        result['juicio_numero'] = self.codigoascii(propiedad.juicio_numero)
+                    except:
+                        pass
 
-                except:
-                    pass
-                # try:
-                #   if propiedad.estado_inscripcion_id:
-                #       result['estado_inscripcion_id'] = propiedad.estado_inscripcion_id.id
+                    try:
+                        if propiedad.juicio_numero:
+                            result['juicio_numero'] = self.codigoascii(propiedad.juicio_numero)
 
-                # except:
-                #   pass
+                    except:
+                        pass
+                    # try:
+                    #   if propiedad.estado_inscripcion_id:
+                    #       result['estado_inscripcion_id'] = propiedad.estado_inscripcion_id.id
 
-                # try:
-                #   if propiedad.ubicacion_dato_id:
-                #       result['ubicacion_dato_id'] = propiedad.ubicacion_dato_id.id
+                    # except:
+                    #   pass
 
-                # except:
-                #   pass
+                    # try:
+                    #   if propiedad.ubicacion_dato_id:
+                    #       result['ubicacion_dato_id'] = propiedad.ubicacion_dato_id.id
 
-                try:
-                    if propiedad.modificacion_fuente:
-                        result['modificacion_fuente'] = self.codigoascii(propiedad.modificacion_fuente)
+                    # except:
+                    #   pass
 
-                except:
-                    pass
-                try:
-                    if propiedad.canton_notaria_id:
-                        result['canton_notaria_id'] = propiedad.canton_notaria_id.id
+                    try:
+                        if propiedad.modificacion_fuente:
+                            result['modificacion_fuente'] = self.codigoascii(propiedad.modificacion_fuente)
 
-                except:
-                    pass
-                try:
-                    if propiedad.fecha_escritura:
-                        result['fecha_escritura'] = str(propiedad.fecha_escritura)
+                    except:
+                        pass
+                    try:
+                        if propiedad.canton_notaria_id:
+                            result['canton_notaria_id'] = propiedad.canton_notaria_id.id
 
-                except:
-                    pass
+                    except:
+                        pass
+                    try:
+                        if propiedad.fecha_escritura:
+                            result['fecha_escritura'] = str(propiedad.fecha_escritura)
 
-                try:
-                    if propiedad.filedata_id:
-                        result['filedata_id'] = propiedad.filedata_id.id
+                    except:
+                        pass
 
-                except:
-                    pass
-            if not propiedad:
-                result['filedata_id'] = self._create_pdf(context=None)
+                    try:
+                        if propiedad.filedata_id:
+                            result['filedata_id'] = propiedad.filedata_id.id
 
-        except:
-            pass
+                    except:
+                        pass
+                if not propiedad:
+                    result['filedata_id'] = self._create_pdf(context=None)
+
+            except:
+                pass
         return {'value': result}
 
 
