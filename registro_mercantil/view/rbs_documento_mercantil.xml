@@ -247,8 +247,8 @@
                 <field name="contenedor_id" invisible = "1" />
                 <br/>
                 <field name="filedata_id" context="{'numero_inscripcion': numero_inscripcion}" invisible="1" />
-                <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'mercantil'}" attrs="{'invisible':['|', ('esPesado','=',True)]}"/>
-                <field name="rutaFTP" widget= "pdf_ftp" options="{'size': [700, 500]}"
+                <field name="filedata" widget= "FieldBinaryTiff" options="{'size': [700, 500],'tipo':'mercantil'}" attrs="{'invisible':['|', ('esPesado','=',True)],'readonly':['|', ('state','!=','draft')]}"/>
+                <field name="rutaFTP" widget= "pdf_ftp" options="{'size': [700, 500],'tipo':'ftp.mercantil'}"
                       attrs="{'invisible':['|', ('esPesado','=',False)],'readonly':['|', ('state','!=','draft')]}" />
               </div>
             </group>
