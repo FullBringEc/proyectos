@@ -120,19 +120,20 @@ class rbs_tarea(models.Model):
         # action['domain'] = literal_eval(action['domain'])
         # action['domain'].append(('partner_id', 'child_of', self.ids))
         # view_id = self.env.ref('modul_name._id_of_form_view').id
-        context = self._context.copy()
-        return {
-            'name': 'form_name',
-            'view_type': 'form',
-            'view_mode': 'tree',
-            'views': [(view_id, 'form')],
-            'res_model': model,
-            'view_id': view_id,
-            'type': 'ir.actions.act_window',
-            'res_id': self[field].id,
-            'target': 'current',
-            'context': context,
-        }
+        if self[field].id:
+            context = self._context.copy()
+            return {
+                'name': 'form_name',
+                'view_type': 'form',
+                'view_mode': 'tree',
+                'views': [(view_id, 'form')],
+                'res_model': model,
+                'view_id': view_id,
+                'type': 'ir.actions.act_window',
+                'res_id': self[field].id,
+                'target': 'current',
+                'context': context,
+            }
 
     @api.one
     def entregar(self):

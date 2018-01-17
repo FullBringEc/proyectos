@@ -12,9 +12,10 @@ class rbs_documento_propiedad(models.Model):
     _inherit = "rbs.documento.propiedad"
 
     def _create_pdf(self, context=None):
-        return self.env["rbs.pdf"].create({})
+        return self.env["rbs.pdf"].create({}).id
+
     filedata_id = fields.Many2one('rbs.pdf', default=_create_pdf)
-    filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf', readonly=True, states={'draft': [('readonly', False)]})
+    filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf')
     esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb')
     rutaFTP = fields.Char(related='filedata_id.rutaFTP', string='Ruta del Archivo')
 
@@ -80,10 +81,10 @@ class rbs_documento_mercantil(models.Model):
     _inherit = "rbs.documento.mercantil"
 
     def _create_pdf(self, context=None):
-        return self.env["rbs.pdf"].create({})
+        return self.env["rbs.pdf"].create({}).id
 
     filedata_id = fields.Many2one('rbs.pdf', default=_create_pdf)
-    filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf', readonly=True, states={'draft': [('readonly', False)]})
+    filedata = fields.Binary(related='filedata_id.filedata', filters='*.pdf')
     esPesado = fields.Boolean(related='filedata_id.esPesado', string='100 mb')
     rutaFTP = fields.Char(related='filedata_id.rutaFTP', string='Ruta del Archivo')
     contenedor_id = fields.Many2one("rbs.contenedor", string="Contenedor")

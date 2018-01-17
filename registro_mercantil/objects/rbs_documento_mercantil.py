@@ -18,6 +18,7 @@ import datetime
 # from PIL import Image
 # import StringIO
 from io import BytesIO
+from odoo.exceptions import UserError
 # import base64
 # import cStringIO
 # import warnings
@@ -301,11 +302,11 @@ class rbs_documento_mercantil(models.Model):
             }
 
     @api.multi
-    def open_ui(self, cr, uid, ids, context=None):
+    def open_ui(self,context=None):
         return {
             'type': 'ir.actions.act_url',
             'url': '/registro_mercantil/web/?binary='+str(self.id)+'&tipo=mercantil',
-            'target': 'current',
+            'target': 'new',
         }
 
     @api.onchange('parte_ids', 'bien_ids')
@@ -513,6 +514,13 @@ class rbs_documento_mercantil(models.Model):
         except:
             pass
         return {'value': result}
+
+    @api.multi
+    def unlink(self):
+        for mercantil in self:
+            if mercantil.state not in ('draft'):
+                raise UserError(('No se puede eliminar una incripcion ya validadada'))
+            return super(rbs_documento_mercantil, mercantil).unlink()
 
 
 class rbs_tipo_compareciente_v(models.Model):
