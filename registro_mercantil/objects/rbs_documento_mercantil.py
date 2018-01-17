@@ -85,7 +85,7 @@ class rbs_documento_mercantil(models.Model):
             # ('sustituido', 'Sustituido'),
         ], 'Estado', default='draft', readonly=True)
 
-    observacion = fields.Char(string='Observación', readonly=True, states={'draft': [('readonly', False)]})
+    observacion = fields.Text(string='Observación', readonly=True, states={'draft': [('readonly', False)]})
     foleo_desde = fields.Char(string='Desde', readonly=True, states={'draft': [('readonly', False)]})
     foleo_hasta = fields.Char(string='Hasta', readonly=True, states={'draft': [('readonly', False)]})
 
@@ -235,7 +235,13 @@ class rbs_documento_mercantil(models.Model):
     def validate(self):
         if self.state == 'draft':
             self.state = 'done'
-            self.name = self.env["ir.sequence"].get("number_inscripcion_mercantil")
+            if not self.name:
+                self.name = self.env["ir.sequence"].get("number_inscripcion_mercantil")
+
+    @api.multi
+    def invalidate(self):
+        if self.state == 'done':
+            self.state = 'draft'
 
     @api.multi
     def word(self):

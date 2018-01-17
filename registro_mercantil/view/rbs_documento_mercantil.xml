@@ -12,12 +12,13 @@
 <form string="Documento " version="8.0"> 
   <header>
         <field name="state" widget="statusbar"/>  
-        <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>    
+        <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>  
+        <button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>  
         <button string="Inscripción" name="word" type="object"  class="oe_inline oe_stat_button" icon="fa-file-word-o"/>
               
   </header>
   <sheet>
-        <field name="name"/>    
+        <field name="name" states ="done"/>    
         <group col ="6" >
              
                 <field name="anio_id" 

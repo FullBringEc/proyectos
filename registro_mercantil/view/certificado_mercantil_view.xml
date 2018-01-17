@@ -10,6 +10,7 @@
                 <form string="Certificado">
                     <header>
                          <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
+                         <button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
                         <button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -21,7 +22,7 @@
 
                         </group>
                          <group col= "6">
-                            <field name = "name"/>
+                            <field name = "name" states ="done"/>
                             
                             <field name = "tipo_certificado" required="1"/>
                             

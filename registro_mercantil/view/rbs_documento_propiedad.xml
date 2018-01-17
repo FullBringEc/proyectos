@@ -12,13 +12,14 @@
 <form string="Documento de Propiedad" version="8.0"> 
     <header>
         <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
+        <button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
         <button string="Inscripción" name="word" type="object"  class="oe_inline oe_stat_button" icon="fa-file-word-o"/>
         <field name="state" widget="statusbar"/>
     </header>
     <sheet>
             
           <!-- <label for="name" class="oe_edit_only"/> -->
-            <field name="name"/>
+            <field name="name" states ="done"/>
              
               <!-- <span class="oe_read_only">By</span> -->
           
@@ -458,6 +459,9 @@
             <!-- <field name="persona_apellidos" string="Apellido" /> -->
             <field name="anio_id" string="Año" />
             <field name="tomo_id" string="Tomo" />
+            <field name="parte_ids" string="Identificacion" filter_domain="[('parte_ids.num_identificacion','like',self)]"/>
+            <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/>
+            <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/>
             <!-- <field name="persona_nombres" string="Nombre" /> -->
             <!-- <field name="persona_tipo_interviniente_id" string="Tipo de compareciente" /> -->
             <field name="numero_inscripcion" string="Numero de inscripcion" />

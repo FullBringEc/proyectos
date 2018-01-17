@@ -172,8 +172,15 @@ class rbs_certificado_propiedad(osv.osv):
 
     @api.multi
     def validate(self):
-        self.state = 'done'
-        self.name = self.env["ir.sequence"].get("number_certificado_propiedad")
+        if self.state == 'draft':
+            self.state = 'done'
+            if not self.name:
+                self.name = self.env["ir.sequence"].get("number_certificado_propiedad")
+
+    @api.multi
+    def invalidate(self):
+        if self.state == 'done':
+            self.state = 'draft'
 
     @api.onchange('valor_busqueda', 'criterio_busqueda')
     def get_documentos(self):

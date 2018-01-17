@@ -91,7 +91,7 @@ class rbs_documento_propiedad(models.Model):
             ('done', 'Realizado'),
             # ('sustituido', 'Sustituido'),
         ], 'Estado', default='draft', readonly=True)
-    observacion = fields.Char(string='Observación', readonly=True, states={'draft': [('readonly', False)]})
+    observacion = fields.Text(string='Observación', readonly=True, states={'draft': [('readonly', False)]})
     foleo_desde = fields.Integer(string='Desde', readonly=True, states={'draft': [('readonly', False)]})
     foleo_hasta = fields.Integer(string='Hasta', readonly=True, states={'draft': [('readonly', False)]})
 
@@ -182,7 +182,13 @@ class rbs_documento_propiedad(models.Model):
     def validate(self):
         if self.state == 'draft':
             self.state = 'done'
-            self.name = self.env["ir.sequence"].get("number_inscripcion_propiedad")
+            if not self.name:
+                self.name = self.env["ir.sequence"].get("number_inscripcion_propiedad")
+
+    @api.multi
+    def invalidate(self):
+        if self.state == 'done':
+            self.state = 'draft'
 
     @api.multi
     def word(self):

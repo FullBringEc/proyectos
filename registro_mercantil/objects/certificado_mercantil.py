@@ -102,8 +102,15 @@ class rbs_certificado_mercantil(osv.osv):
 
     @api.multi
     def validate(self):
-        self.state = 'done'
-        self.name = self.env["ir.sequence"].get("number_certificado_mercantil")
+        if self.state == 'draft':
+            self.state = 'done'
+            if not self.name:
+                self.name = self.env["ir.sequence"].get("number_certificado_mercantil")
+
+    @api.multi
+    def invalidate(self):
+        if self.state == 'done':
+            self.state = 'draft'
 
     @api.onchange('valor_busqueda', 'criterio_busqueda')
     def get_documentos(self):
