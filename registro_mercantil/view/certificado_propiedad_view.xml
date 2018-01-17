@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+        <record id='rbs_documento_propiedad_tree2_view' model='ir.ui.view'>
+            <field name='name'>rbs.documento.propiedad.tree</field>
+            <field name='model'>rbs.documento.propiedad</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                <tree>
+                    <field name = "numero_inscripcion"/>
+                    <field name = "vendedor_virtual"/>        
+                    <field name = "comprador_virtual"/>        
+                    <field name = "clave_catastral_virtual"/>        
+                    <field name = "descripcion_lindero_virtual"/>        
+                    <field name = "canton_virtual"/>        
+                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
+                </tree>
+            </field>
+        </record>
         <record id="wizard_certificado_export" model="ir.ui.view">
             <field name="name">rbs.certificado.propiedad.wizard.view</field>
             <field name="model">rbs.certificado.propiedad</field>
@@ -55,22 +70,7 @@
             </field>
         </record>
 
-        <record id='rbs_documento_propiedad_tree2_view' model='ir.ui.view'>
-            <field name='name'>rbs.documento.propiedad.tree</field>
-            <field name='model'>rbs.documento.propiedad</field>
-            <field name='type'>tree</field>
-            <field name='arch' type="xml">
-                <tree>
-                    <field name = "numero_inscripcion"/>
-                    <field name = "vendedor_virtual"/>        
-                    <field name = "comprador_virtual"/>        
-                    <field name = "clave_catastral_virtual"/>        
-                    <field name = "descripcion_lindero_virtual"/>        
-                    <field name = "canton_virtual"/>        
-                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
-                </tree>
-            </field>
-        </record>
+        
 
 
         
