@@ -283,4 +283,3 @@ class rbs_documento_propiedad(models.Model):
         for bien in self.bien_ids:
             clave_catastral_virtual = bien.clave_catastral + '/' + clave_catastral_virtual
         self.clave_catastral_virtual = clave_catastral_virtual
-
