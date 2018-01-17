@@ -85,7 +85,6 @@ class ResPartner(models.Model):
     identifier = fields.Char(
         'Cedula/ RUC',
         size=13,
-        required=True,
         help='Identificación o Registro Unico de Contribuyentes')
     type_identifier = fields.Selection(
         [
