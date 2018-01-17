@@ -27,10 +27,29 @@ class rbs_certificado_propiedad(osv.osv):
 
             resumen = []
             libro = {}
+            lindero = self.propiedad_ids[0].bien_ids[0].descripcion_lindero
+            duenoact = False
+            solvencia = ''
+
+            if self.propiedad_ids[0].gravamen_limitacion is True:
+                solvencia = str(self.propiedad_ids[0].tipo_gravamen_ids[0].name.name)
+            else:
+                solvencia = "El bien esta libre de limitaciones"
+
+            for propiedad_line in self.propiedad_ids:
+                for parte in propiedad_line.parte_ids:
+                    if parte.tipo_interviniente_id.name == 'COMPRADOR':
+                        duenoact = parte.nombres + ' ' + parte.apellidos
+                        # raise UserError(duenoact)
+                    if duenoact != False:
+                        break
+                if duenoact != False:
+                    break
 
             for propiedad_line in self.propiedad_ids:
 
                     detalle = {}
+
                     detalle['libro'] = propiedad_line.libro_id.name
                     detalle['acto'] = propiedad_line.tipo_tramite_id.name
                     detalle['numero'] = RichText(str(propiedad_line.numero_inscripcion))
@@ -43,6 +62,41 @@ class rbs_certificado_propiedad(osv.osv):
                         libro[propiedad_line.libro_id.name] = libro[propiedad_line.libro_id.name]+1
                     else:
                         libro[propiedad_line.libro_id.name] = 1
+
+            resmov = []
+
+            for propiedad_line1 in self.propiedad_ids:
+
+                    detalle2 = {}
+
+                    detalle2['libro'] = propiedad_line1.libro_id.name
+                    detalle2['acto'] = propiedad_line1.tipo_tramite_id.name
+                    detalle2['tomo'] = propiedad_line1.tomo_id.name
+                    detalle2['finscrip'] = RichText(str(propiedad_line1.fecha_inscripcion))
+                    detalle2['numero'] = RichText(str(propiedad_line1.numero_inscripcion))
+                    detalle2['numeroreper'] = RichText(str(propiedad_line1.repertorio))
+                    detalle2['finicial'] = RichText(str(propiedad_line1.foleo_desde))
+                    detalle2['ffinal'] = RichText(str(propiedad_line1.foleo_hasta))
+                    detalle2['notariares'] = RichText(str(propiedad_line1.notaria_id.name))
+                    detalle2['notariaprov'] = RichText(str(propiedad_line1.provincia_notaria_id.name))
+                    detalle2['canton'] = RichText(str(propiedad_line1.canton_notaria_id.name))
+                    detalle2['fechaescri'] = RichText(str(propiedad_line1.fecha_escritura))
+                    detalle2['fechaadju'] = RichText(str(propiedad_line1.fecha_adjudicion))
+                    detalle2['observacion'] = RichText(str(propiedad_line1.observacion))
+                    partes_certificado = []
+                    for parte in propiedad_line1.parte_ids:
+
+                            partes_detalle = {}
+
+                            partes_detalle['tipointer'] = parte.tipo_interviniente_id.name
+                            partes_detalle['numcel'] = parte.num_identificacion
+                            partes_detalle['nombreparte'] = RichText(str(parte.nombres)+' '+str(parte.apellidos))
+                            partes_detalle['estadocivil'] = RichText(str(parte.estado_civil))
+                            partes_certificado.append(partes_detalle)
+                    detalle2['partes'] = partes_certificado
+
+                    resmov.append(detalle2)
+
 
             movimientos = []
 
@@ -61,6 +115,9 @@ class rbs_certificado_propiedad(osv.osv):
                         'resumen': resumen,
                         'ccatastral': RichText(str(self.valor_busqueda)),
                         'fapertura': RichText(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+                        'lindero': RichText(str(lindero)),
+                        'duenoact': RichText(str(duenoact)),
+                        'solvencia': RichText(str(solvencia)),
                         # 'infmuni' : RichText (str (self.canton_notaria_id.name)),
                         # 'tpredio' : RichText (str (self.descripcion_bien)),
                         # 'parroquia' : RichText (str (self.parroquia_id.name)),
@@ -68,7 +125,9 @@ class rbs_certificado_propiedad(osv.osv):
                         'nombresoli': RichText(str(self.solicitante)),
                         'sesion': RichText(str(usuario_actual.name)),
                         'fechaactual': RichText(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
+                        'nomregistrador': RichText(str(usuario_actual.company_id.registrador_nombre)),
                         'movimientos': movimientos,
+                        'resumenmov': resmov,
 
                 }
 
@@ -184,48 +243,47 @@ class rbs_certificado_propiedad(osv.osv):
 
     @api.onchange('valor_busqueda', 'criterio_busqueda')
     def get_documentos(self):
-        if self.state == 'draft':
-            # resultado=None
-            if self.criterio_busqueda == 'cedula':
-                #  buscar todos las inscripciones donde el comprador tenga la cedula buscada
-                claves_catastrales = []
-                resultado_sin_filtrar = self.env['rbs.documento.propiedad'].search(
+
+        if self.criterio_busqueda == 'cedula':
+            #  buscar todos las inscripciones donde el comprador tenga la cedula buscada
+            claves_catastrales = []
+            resultado_sin_filtrar = self.env['rbs.documento.propiedad'].search(
+                [
+                    ('parte_ids.num_identificacion', '=', self.valor_busqueda),
+                    ('parte_ids.tipo_interviniente_id.name', '=', 'COMPRADOR'),
+                ],
+                order='fecha_inscripcion desc')
+
+            #   Hacer una lista de todas las claves catastrales
+            for res in resultado_sin_filtrar:
+                for bien in res.bien_ids:
+                    # print str(bien.clave_catastral)
+                    if bien.clave_catastral:
+                        claves_catastrales.append(bien.clave_catastral)
+            # elmininar claves repetidas
+            claves_catastrales = list(set(claves_catastrales))
+            print str(claves_catastrales)
+            # busca el ultimo movimiento de cada una de las claves catastrales y las agrega al campo 'propiedad_ids'
+            self.propiedad_ids = None
+            for clv_cat in claves_catastrales:
+
+                resultado = self.env['rbs.documento.propiedad'].search(
                     [
-                        ('parte_ids.num_identificacion', '=', self.valor_busqueda),
-                        ('parte_ids.tipo_interviniente_id.name', '=', 'COMPRADOR'),
+                        ('bien_ids.clave_catastral', '=', clv_cat),
+                    ], limit=1,
+                    order='fecha_inscripcion desc')
+                for parte in resultado.parte_ids:
+                    if parte.num_identificacion == self.valor_busqueda:
+                        self.propiedad_ids |= resultado
+
+        elif self.criterio_busqueda == 'clave_catastral':
+            resultado = self.env['rbs.documento.propiedad'].search(
+                    [
+                        ('bien_ids.clave_catastral', '=', self.valor_busqueda),
                     ],
                     order='fecha_inscripcion desc')
-
-                #   Hacer una lista de todas las claves catastrales
-                for res in resultado_sin_filtrar:
-                    for bien in res.bien_ids:
-                        # print str(bien.clave_catastral)
-                        if bien.clave_catastral:
-                            claves_catastrales.append(bien.clave_catastral)
-                # elmininar claves repetidas
-                claves_catastrales = list(set(claves_catastrales))
-                print str(claves_catastrales)
-                # busca el ultimo movimiento de cada una de las claves catastrales y las agrega al campo 'propiedad_ids'
-                self.propiedad_ids = None
-                for clv_cat in claves_catastrales:
-
-                    resultado = self.env['rbs.documento.propiedad'].search(
-                        [
-                            ('bien_ids.clave_catastral', '=', clv_cat),
-                        ], limit=1,
-                        order='fecha_inscripcion desc')
-                    for parte in resultado.parte_ids:
-                        if parte.num_identificacion == self.valor_busqueda:
-                            self.propiedad_ids |= resultado
-
-            elif self.criterio_busqueda == 'clave_catastral':
-                resultado = self.env['rbs.documento.propiedad'].search(
-                        [
-                            ('bien_ids.clave_catastral', '=', self.valor_busqueda),
-                        ],
-                        order='fecha_inscripcion desc')
-                self.propiedad_ids = None
-                self.propiedad_ids |= resultado
+            self.propiedad_ids = None
+            self.propiedad_ids |= resultado
 
     @api.multi
     def unlink(self):
