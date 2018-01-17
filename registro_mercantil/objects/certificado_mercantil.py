@@ -19,6 +19,7 @@ from io import BytesIO , StringIO
 import gzip
 from docxtpl import DocxTemplate, RichText
 from jinja2 import Environment, FileSystemLoader
+from odoo.exceptions import UserError
 import os
 #from xlsxwriter import workbook as Workbook
 #import StringIO
@@ -168,6 +169,14 @@ class rbs_certificado_mercantil(osv.osv):
                         order='fecha_inscripcion desc')
                 self.mercantil_ids = None
                 self.mercantil_ids |= resultado
+
+    @api.multi
+    def unlink(self):
+        for mercantil in self:
+            if mercantil.state not in ('draft'):
+                raise UserError(('No se puede eliminar un certificado ya validadado'))
+            return super(rbs_certificado_mercantil, mercantil).unlink()
+
 
 
 

@@ -18,6 +18,7 @@ from io import BytesIO, StringIO
 import gzip
 from docxtpl import DocxTemplate, RichText
 from jinja2 import Environment, FileSystemLoader
+from odoo.exceptions import UserError
 import os
 #from xlsxwriter import workbook as Workbook
 #import StringIO
@@ -241,6 +242,12 @@ class rbs_certificado_propiedad(osv.osv):
                 self.propiedad_ids = None
                 self.propiedad_ids |= resultado
 
+    @api.multi
+    def unlink(self):
+        for propiedad in self:
+            if propiedad.state not in ('draft'):
+                raise UserError(('No se puede eliminar un certificado ya validadado'))
+            return super(rbs_certificado_propiedad, propiedad).unlink()
 
 
 class rbs_documento_propiedad(models.Model):

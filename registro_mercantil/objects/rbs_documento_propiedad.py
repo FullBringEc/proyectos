@@ -8,6 +8,7 @@ from docxtpl import DocxTemplate, RichText
 import datetime
 # from jinja2 import Environment, FileSystemLoader
 import os
+from odoo.exceptions import UserError
 
 
 class rbs_documento_propiedad(models.Model):
@@ -512,6 +513,13 @@ class rbs_documento_propiedad(models.Model):
             except:
                 pass
         return {'value': result}
+
+    @api.multi
+    def unlink(self):
+        for propiedad in self:
+            if propiedad.state not in ('draft'):
+                raise UserError(('No se puede eliminar una incripcion ya validadada'))
+            return super(rbs_documento_propiedad, propiedad).unlink()
 
 
 class rbs_heredero(models.Model):
