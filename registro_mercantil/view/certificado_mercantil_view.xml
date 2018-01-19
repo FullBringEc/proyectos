@@ -27,7 +27,18 @@
                             <field name = "tipo_certificado" required="1"/>
                             
                         </group>
-                            <field name = "mercantil_ids" readonly="1" view_id="rbs_documento_mercantil_tree2_view"/>
+                            <field name = "mercantil_ids" readonly="1">
+                                <tree>
+                                    <field name = "state"/>
+                                    <field name = "numero_inscripcion"/>
+                                    <field name = "vendedor_virtual"/>        
+                                    <field name = "comprador_virtual"/>        
+                                    <field name = "clave_catastral_virtual"/>        
+                                    <field name = "descripcion_lindero_virtual"/>        
+                                    <field name = "canton_virtual"/>        
+                                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
+                                </tree>
+                            </field>
                     </sheet>
                 </form>
             </field>
@@ -53,31 +64,6 @@
                 </tree>
             </field>
         </record>
-
-
-        <record id='rbs_documento_mercantil_tree2_view' model='ir.ui.view'>
-            <field name='name'>rbs.documento.mercantil.tree</field>
-            <field name='model'>rbs.documento.mercantil</field>
-            <field name='type'>tree</field>
-            <field name='arch' type="xml">
-                <tree>
-                    <field name = "numero_inscripcion"/>
-                    <field name = "vendedor_virtual"/>        
-                    <field name = "comprador_virtual"/>        
-                    <field name = "clave_catastral_virtual"/>        
-                    <field name = "descripcion_lindero_virtual"/>        
-                    <field name = "canton_virtual"/>        
-                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
-                </tree>
-            </field>
-        </record>
-
-
-       
-
-
-
-        <!-- <menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/> -->
         <menuitem id="submenu_certificado_mercantil" name="Mercantil" parent="submenu_certificados" action="action_certificado_mercantil"/>
     </data>
 </openerp>

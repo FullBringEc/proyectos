@@ -457,21 +457,32 @@
           <search string="Search Detail">
             <!-- <field name="persona_cedula" string="Cedula" /> -->
             <!-- <field name="persona_apellidos" string="Apellido" /> -->
-            <field name="anio_id" string="Año" />
-            <field name="tomo_id" string="Tomo" />
+            
             <field name="parte_ids" string="Identificacion" filter_domain="[('parte_ids.num_identificacion','like',self)]"/>
             <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/>
             <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/>
+            <field name="parte_ids" string="Razon social" filter_domain="[('parte_ids.razon_social','like',self)]"/>
+            <field name="numero_inscripcion" string="Numero de inscripcion" />
+
+            <field name="bien_ids" string="Numero predial" filter_domain="[('bien_ids.num_identificacion','like',self)]"/>
+            <field name="bien_ids" string="Clave catastral" filter_domain="[('bien_ids.clave_catastral','like',self)]"/>
+            <field name="bien_ids" string="Numero predial" filter_domain="[('bien_ids.num_identificacion','like',self)]"/>
+            <!-- <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/> -->
+            <!-- <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/> -->
             <!-- <field name="persona_nombres" string="Nombre" /> -->
             <!-- <field name="persona_tipo_interviniente_id" string="Tipo de compareciente" /> -->
             <field name="numero_inscripcion" string="Numero de inscripcion" />
+            
+            
+            <field name="tramite_id" string="Tipo de tramite" />
             <field name="canton_notaria_id" string="Canton de la notaria" />
-            <field name="tipo_tramite_id" string="Tipo de Contrato" />
-            <!-- <field name="parroquia_nombre_inmueble" string="Parroquia" /> -->
-            <!-- <field name="persona_razonSocial" string="Razon Social" /> -->
 
             <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
-			<filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+            <filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_inscripcion:month'}" />
+            <filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_inscripcion:day'}" />
+            <filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+			<filter string="Tomo" icon="terp-folder-orange" domain="[]" context="{'group_by':'tomo_id'}"/>
+            <filter string="Tramite" icon="terp-folder-orange" domain="[]" context="{'group_by':'tramite_id'}"/>
             <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
             <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
             <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
