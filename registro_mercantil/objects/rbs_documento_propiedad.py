@@ -16,18 +16,6 @@ class rbs_documento_propiedad(models.Model):
     _description = "Documento de la Propiedad"
     _rec_name = 'numero_inscripcion'
 
-    # def _getUltimoAnio(self, context=None):
-    #     acta_id = self.search([], limit=1, order='id desc')
-    #     return acta_id
-
-    # def _getUltimoLibro(self, context=None):
-    #     libro_id = self.search([], limit=1, order='id desc')
-    #     return libro_id
-
-    # def _getUltimoTomo(self, context=None):
-    #     tomo_id = self.search([], limit=1, order='id desc')
-    #     return tomo_id
-
     def _getUltimoAnio(self, context=None):
         anio_id = self.search([], limit=1, order='id desc').anio_id.id
         return anio_id

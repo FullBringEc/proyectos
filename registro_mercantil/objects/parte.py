@@ -18,13 +18,13 @@ class rbs_parte(models.Model):
     _description = "Parte"
     documento_propiedad_id = fields.Many2one('rbs.documento.propiedad', "Documento de propiedad")
     documento_mercantil_id = fields.Many2one('rbs.documento.mercantil', "Documento mercantil")
+    persona_id = fields.Many2one('rbs.persona', string='Compareciente(n)', required=True)
     tipo_persona = fields.Selection([
             ('NATURAL', 'NATURAL'),
             ('JURIDICA', 'JURIDICA'),
         ], string='Tipo de Persona')
 
     razon_social = fields.Char(string='Razon Social')
-    persona_id = fields.Many2one('rbs.persona', string='Compareciente(n)')
     persona_id_tipo_persona = fields.Selection(related='persona_id.tipo_persona')
     nombres = fields.Char(string='Nombres del Compareciente')
     apellidos = fields.Char(string='Apellidos del Compareciente')

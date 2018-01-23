@@ -178,7 +178,7 @@ class account_invoice_line(models.Model):
     fecha_estimada = fields.Datetime("Fecha estimada", required=True)
 
     ruc_propietario = fields.Char("Ruc del propietario", required=True)
-    bien_id = fields.Many2one("rbs.bien", required=True)
+    bien_id = fields.Many2one("rbs.bien.inmueble", required=True)
     # domain=[('clave_catastral', '=', _get_domain())]
 
     @api.onchange('ruc_propietario')
