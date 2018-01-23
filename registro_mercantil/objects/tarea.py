@@ -177,8 +177,17 @@ class account_invoice_line(models.Model):
 
     fecha_estimada = fields.Datetime("Fecha estimada", required=True)
 
+    ruc_propietario = fields.Char("Ruc del propietario", required=True)
+    bien_id = fields.Many2one("rbs.bien", required=True)
+    # domain=[('clave_catastral', '=', _get_domain())]
+
+    @api.onchange('ruc_propietario')
+    def onchange_ruc_propietario(self):
+        clave_catastral = self.env["rbs.bien"].get_bienesPorIdentificacion(self.ruc_propietario)
+        return {'domain': {'bien_id': [('clave_catastral', 'in', clave_catastral)]}}
+
     @api.onchange('tipo_servicio')
-    def onchange_Bodega_egreso_id(self):
+    def onchange_tipo_servicio(self):
         self.user_id = None
 
         if self.tipo_servicio in ('inscripcion_propiedad', 'inscripcion_mercantil'):

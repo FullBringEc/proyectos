@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
-	<!-- 	 <record id='acta_invoice_form_view' model='ir.ui.view'>
-            <field name='name'>acta.form</field>
-            <field name='model'>account.invoice</field>          
-            <field name="inherit_id" ref="account.invoice_form"/>
-            <field name='type'>form</field>
-            <field name='arch' type="xml">
-           
-                <xpath expr="//field[@name='fiscal_position']" position="after">
-                        <field name="mercantil_id"/>
-                        <field name="propiedad_id"/>
-                </xpath>
-            
-            </field>
-        </record> -->
         <record id='tareas_invoice_form_view' model='ir.ui.view'>
             <field name='name'>acta.form</field>
             <field name='model'>account.invoice</field>          
@@ -27,12 +12,57 @@
                         <field name="tarea_ids"/>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']//tree" position="attributes">
+                        <attribute name="editable"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']//tree" position="after">
+                        <form>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="origin" invisible="1"/>
+                                <field name="name"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="fecha_estimada"/>
+                                <field name="tipo_servicio" invisible="1"/>
+                                <field name="user_id"/>
+                                <field name="ruc_propietario"/>
+                                <field name="bien_id"/>
+
+                        
+                                <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/>
+                                <field name="account_analytic_id" groups="analytic.group_analytic_accounting" domain="[('company_id', '=', parent.company_id)]"/>
+                                <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
+                                <!-- <field name="quantity"/> -->
+                                <field name="uom_id" groups="product.group_uom"/>
+                                <!-- <field name="price_unit"/> -->
+                                <!-- <field name="discount" groups="base.group_no_one"/> -->
+                                <field name="invoice_line_tax_ids" widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','sale'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
+                                <field name="price_subtotal"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </form>
+                </xpath>
 
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='product_id']" position="after">
                     
                         <field name="fecha_estimada"/>
-                        <field name="tipo_servicio" readonly="1"/>
+                        <field name="tipo_servicio" invisible="1"/>
                         <field name="user_id"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='quantity']" position="replace">
+                    
+                        <field name="quantity" invisible="1"/>
+                        <!-- <field name="tipo_servicio" invisible="1"/> -->
+                        <!-- <field name="user_id"/> -->
+                </xpath> 
+
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']" position="replace">
+                        <field name="price_unit" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='discount']" position="replace">
+                    
+                        <field name="discount" invisible="1"/>
                 </xpath>
             </field>
         </record>

@@ -229,6 +229,12 @@ class rbs_certificado_propiedad(osv.osv):
 
     valor_busqueda = field.Char('Busqueda', size=30, required=True, readonly=True, states={'draft': [('readonly', False)]})
 
+    fecha_certificado = field.Datetime(
+                                'Fecha del certificado',
+                                default=lambda self: datetime.datetime.now(),
+                                readonly=True,
+                                states={'draft': [('readonly', False)]})
+
     @api.multi
     def validate(self):
         if self.state == 'draft':

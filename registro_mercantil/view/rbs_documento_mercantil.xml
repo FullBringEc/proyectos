@@ -254,11 +254,7 @@
               </div>
             </group>
          </page> 
-        <!--  <page string="Facturación">
-            <group>
-            <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
-            </group>
-          </page>   -->
+
           
       </notebook>
       <group>
@@ -292,7 +288,12 @@
             <field name='type'>tree</field>
             
             <field name='arch' type="xml">
-                <tree string="Archivos" version="8.0"> 
+                <tree
+                    default_order="fecha_inscripcion desc" 
+                    string = "Documento mercantil" 
+                    decoration-primary="state !='done'"
+                    decoration-muted="state =='done'"> 
+
                   <field name="tomo_id"/>
                   <field name="numero_inscripcion"/>
                   <!-- <field name="comprador_virtual"/>
@@ -311,44 +312,44 @@
         </record>
 
         <record id="rbs_documento_mercantil_tree_filter_view" model="ir.ui.view" >
-        <field name="name">rbs.documento.mercantil.tree.filter</field>
-        <field name='model'>rbs.documento.mercantil</field>
-        <field name='type'>search</field>
-        <field name='priority' eval="20"/>
-        <field name='arch' type="xml">
-          <search string="Search Detail">
+          <field name="name">rbs.documento.mercantil.tree.filter</field>
+          <field name='model'>rbs.documento.mercantil</field>
+          <field name='type'>search</field>
+          <field name='priority' eval="20"/>
+          <field name='arch' type="xml">
+            <search string="Search Detail">
+              <field name="name"/>
+              <field name="parte_ids" string="Identificacion" filter_domain="[('parte_ids.num_identificacion','like',self)]"/>
+              <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/>
+              <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/>
+              <field name="parte_ids" string="Razon social" filter_domain="[('parte_ids.razon_social','like',self)]"/>
 
-            <field name="parte_ids" string="Identificacion" filter_domain="[('parte_ids.num_identificacion','like',self)]"/>
-            <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/>
-            <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/>
-            <field name="parte_ids" string="Razon social" filter_domain="[('parte_ids.razon_social','like',self)]"/>
+              <field name="numero_inscripcion" string="Numero de inscripcion" />
+              <field name="bien_ids" string="Placa" filter_domain="[('bien_ids.placa','like',self)]"/>
+              <field name="bien_ids" string="Chasis" filter_domain="[('bien_ids.chasis','like',self)]"/>
+              <field name="bien_ids" string="Numero provicional" filter_domain="[('bien_ids.numero_provisional','like',self)]"/>
+              <field name="bien_ids" string="Motor" filter_domain="[('bien_ids.motor','like',self)]"/>
+              <field name="bien_ids" string="Marca" filter_domain="[('bien_ids.marca','like',self)]"/>
+              <field name="bien_ids" string="Modelo" filter_domain="[('bien_ids.modelo','like',self)]"/>
+              
+              <field name="tramite_id" string="Tipo de tramite" />
+              <field name="canton_notaria_id" string="Canton de la notaria" />
 
-            <field name="numero_inscripcion" string="Numero de inscripcion" />
-            <field name="bien_ids" string="Placa" filter_domain="[('bien_ids.placa','like',self)]"/>
-            <field name="bien_ids" string="Chasis" filter_domain="[('bien_ids.chasis','like',self)]"/>
-            <field name="bien_ids" string="Numero provicional" filter_domain="[('bien_ids.numero_provisional','like',self)]"/>
-            <field name="bien_ids" string="Motor" filter_domain="[('bien_ids.motor','like',self)]"/>
-            <field name="bien_ids" string="Marca" filter_domain="[('bien_ids.marca','like',self)]"/>
-            <field name="bien_ids" string="Modelo" filter_domain="[('bien_ids.modelo','like',self)]"/>
+              <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
+              <filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_inscripcion:month'}" />
+              <filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_inscripcion:day'}" />
+              <filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
+              <filter string="Tomo" icon="terp-folder-orange" domain="[]" context="{'group_by':'tomo_id'}"/>
+              <filter string="Tramite" icon="terp-folder-orange" domain="[]" context="{'group_by':'tramite_id'}"/>
+              <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
+              <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
+              <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
+              
+
+            </search>
+          </field>
             
-            <field name="tramite_id" string="Tipo de tramite" />
-            <field name="canton_notaria_id" string="Canton de la notaria" />
-
-            <filter string="Año" icon="terp-folder-orange" domain="[]" context="{'group_by':'anio_id'}"/>
-            <filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_inscripcion:month'}" />
-            <filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_inscripcion:day'}" />
-            <filter string="Libro" icon="terp-folder-orange" domain="[]" context="{'group_by':'libro_id'}"/>
-            <filter string="Tomo" icon="terp-folder-orange" domain="[]" context="{'group_by':'tomo_id'}"/>
-            <filter string="Tramite" icon="terp-folder-orange" domain="[]" context="{'group_by':'tramite_id'}"/>
-            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'create_uid'}" string="Creado por"/>
-            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'write_uid'}" string="Ultima modificacion"/>
-            <filter icon="terp-folder-orange" domain="[]" context="{'group_by':'numero_inscripcion'}" string="Numero de Inscripcion"/>
-            
-
-          </search>
-        </field>
-          
-      </record>
+        </record>
 
         <record model="ir.actions.act_window"   id="id_accion_rbs_documento_mercantil">
         	<field name="name">Documento Mercantil</field>

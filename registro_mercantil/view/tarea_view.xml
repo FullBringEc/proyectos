@@ -66,25 +66,19 @@
 	           	</form>
             </field>
         </record>
-        <record id="rbs_tarea_tree_filter_view" model="ir.ui.view" >
-            <field name='name'>rbs.tarea.tree</field>
-            <field name='model'>rbs.tarea</field>
-            <field name='type'>search</field>
-            <field name='priority' eval="20"/>
-            <field name='arch' type="xml">
-                    <search string="Search Detail">
-                        <field name="user_id" string="Usuario" />
-                        <filter string="Usuario" icon="terp-folder-orange" domain="[]" context="{'group_by':'user_id'}"/>
-                    </search>
-            </field>
-        </record>
+        
         <record id='rbs_tarea_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.tarea.tree</field>
             <field name='model'>rbs.tarea</field>
             <field name='type'>tree</field>
             <field name='arch' type="xml">
                 <!-- default_order="state desc,fecha_alerta asc  orange: fecha_alerta &lt; current_date" -->
-                <tree default_order="fecha_registro desc" string = "Tareas" colors="gray:state =='done';red: fecha_estimada &lt; current_date;">
+                <tree 
+                    default_order="fecha_registro desc" 
+                    string = "Tareas" 
+                    decoration-primary="state !='done'"
+                    decoration-danger="fecha_estimada &lt; current_date"
+                    decoration-muted="state =='done'">
                 <!-- <tree string="Tareas" create="false" version="8.0">  -->
                     <field name="fecha_registro"/>
 					<field name="fecha_estimada"/>
@@ -98,7 +92,33 @@
                 </tree>
             </field>
         </record>
+        <record id="rbs_tarea_search_view" model="ir.ui.view" >
+            <field name="name">rbs.tarea.search</field>
+            <field name='model'>rbs.tarea</field>
+            <field name='type'>search</field>
+            <field name='priority' eval="20"/>
+            <field name='arch' type="xml">
+                <search string="Search Detail">
+                    <field name="name"/>
+                    <field name="fecha_registro"/>
+                    <field name="fecha_estimada"/>
+                    <field name="user_id"/>
+                    <field name="tipo_servicio"/>
+                    <field name="factura_id"/>
+                    <field name="cliente_factura_id"/>
+                    <field name="state"/>
 
+                    <filter string="Usuario" icon="terp-folder-orange" domain="[]" context="{'group_by':'user_id'}"/>
+
+                    <filter string="Año" domain="[ ]" context="{'group_by': 'fecha_registro:year'}" />
+                    <filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_registro:month'}" />
+                    <filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_registro:day'}" />
+                  
+
+                </search>
+            </field>
+            
+        </record>
 
         <record model="ir.actions.act_window"   id="id_accion_rbs_tarea">
         	<field name="name">Tarea</field>
@@ -106,7 +126,7 @@
         	<field name="res_model">rbs.tarea</field>
         	<field name="view_type">form</field>
         	<field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="rbs_tarea_tree_filter_view"/>
+            <field name="search_view_id" ref="rbs_tarea_search_view"/>
         	<field name="view_id" ref="rbs_tarea_tree_view"/>
             <field name="domain">[('user_id','=',uid)]</field>
             <field name="context">{
@@ -121,9 +141,25 @@
             <field name="res_model">rbs.tarea</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="rbs_tarea_tree_filter_view"/>
+            <field name="search_view_id" ref="rbs_tarea_search_view"/>
             <field name="view_id" ref="rbs_tarea_tree_view"/>
            
+        </record>
+
+        <record id='product_template_tipo_servicio_form_view' model='ir.ui.view'>
+            <field name='name'>product.template.form</field>
+            <field name='model'>product.template</field>          
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+               
+
+                <xpath expr="//field[@name='type']" position="after">
+                        <field name="tipo_servicio"/>
+                        <field name="cantidad_dias"/>
+                </xpath>
+          
+            </field>
         </record>
 
 		<menuitem id="submenu_tareas" name="Tareas" parent="menu_Documentos"/>

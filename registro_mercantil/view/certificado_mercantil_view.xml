@@ -43,6 +43,27 @@
                 </form>
             </field>
         </record>
+
+        <record id="rbs_certificado_mercantil_search_view" model="ir.ui.view" >
+            <field name="name">rbs.certificado.mercantil.search</field>
+            <field name='model'>rbs.certificado.mercantil</field>
+            <field name='type'>search</field>
+            <field name='priority' eval="20"/>
+            <field name='arch' type="xml">
+                <search string="Search Detail">
+                    <field name="name"/>
+                    <field name="solicitante"/>
+                    <field name="valor_busqueda"/> 
+                    <field name="state"/>
+                    <filter string="Año" domain="[ ]" context="{'group_by': 'fecha_certificado:year'}" />
+                    <filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_certificado:month'}" />
+                    <filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_certificado:day'}" />
+                  
+
+                </search>
+            </field>
+            
+        </record>
         
         <record id="action_certificado_mercantil" model="ir.actions.act_window">
             <field name="name">Certificado</field>
@@ -50,6 +71,7 @@
             <field name="res_model">rbs.certificado.mercantil</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="rbs_certificado_mercantil_search_view"/>
         </record>
 
          <record id='rbs_certificado_mercantil_tree_view_certificado' model='ir.ui.view'>
@@ -57,8 +79,14 @@
             <field name='model'>rbs.certificado.mercantil</field>
             <field name='type'>tree</field>
             <field name='arch' type="xml">
-                <tree>
-                    <field name="state"/>
+                <tree
+                    default_order="fecha_certificado desc" 
+                    string = "Certificado mercantil" 
+                    decoration-primary="state !='done'"
+                    decoration-muted="state =='done'">
+
+                    <field name = "state"/>
+                    <field name = "fecha_certificado"/>
                     <field name = "solicitante"/>
                     <field name = "valor_busqueda"/>               
                 </tree>

@@ -128,11 +128,12 @@
                            
                         <!-- </field> -->
                     </field>
+                    <button name="get_bienesPorIdentificacion" string="Propietario" type="object" icon="fa-check-square-o"/>
                 </tree>
                 <form>
                     <group>
 
-                       
+                        <button name="get_bienesPorIdentificacion" string="Propietario" type="object" icon="fa-check-square-o"/>
                         <group >
                             <field name="numero_predial" />
                             <field name="clave_catastral"/>
@@ -188,7 +189,7 @@
         </page>
         <page string = "Partes">
             <field name="parte_ids">
-                <tree string="Invoice Lines" >
+                <tree >
 
                     
                     <field name="persona_id" />
@@ -385,13 +386,7 @@
             </group> 
         </page>
 
-         
 
-      <!--   <page string="Facturación">
-            <group>
-            <field name="factura_ids" context="{'form_view_ref': 'account.invoice_form'}"/>
-            </group>
-        </page> -->
     </notebook>
     <group>
         <group>
@@ -431,7 +426,11 @@
             <field name='model'>rbs.documento.propiedad</field>
             <field name='type'>tree</field>
             <field name='arch' type="xml">
-                <tree string="Archivos" version="8.0"> 
+                <tree
+                    default_order="fecha_inscripcion desc" 
+                    string = "Documento de propiedad" 
+                    decoration-primary="state !='done'"
+                    decoration-muted="state =='done'"> 
                     <field name="tomo_id"/>
                     
                     <field name="numero_inscripcion"/>
@@ -458,6 +457,7 @@
             <!-- <field name="persona_cedula" string="Cedula" /> -->
             <!-- <field name="persona_apellidos" string="Apellido" /> -->
             
+            <field name="name"/>
             <field name="parte_ids" string="Identificacion" filter_domain="[('parte_ids.num_identificacion','like',self)]"/>
             <field name="parte_ids" string="Nombre" filter_domain="[('parte_ids.nombres','like',self)"/>
             <field name="parte_ids" string="Apellido" filter_domain="[('parte_ids.apellidos','like',self)]"/>

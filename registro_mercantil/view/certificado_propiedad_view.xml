@@ -1,96 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-        <record id="wizard_certificado_export" model="ir.ui.view">
-            <field name="name">rbs.certificado.propiedad.wizard.view</field>
-            <field name="model">rbs.certificado.propiedad</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Certificado">
-                    <header>
-                        <button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
-                        <button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
-                        <button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
-                        <field name="state" widget="statusbar"/>
+	<data>
+		<record id="wizard_certificado_export" model="ir.ui.view">
+			<field name="name">rbs.certificado.propiedad.wizard.view</field>
+			<field name="model">rbs.certificado.propiedad</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Certificado">
+					<header>
+						<button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
+						<button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
+						<button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
+						<field name="state" widget="statusbar"/>
 
-                    </header>
-                    <sheet>
-                        <group col="6">
-                            <field name = "criterio_busqueda"/>
-                            <field name = "valor_busqueda"/>
-                            <field name = "solicitante"/>
-                                               
-                        </group>
-                        <group col= "6">
-                            <field name = "name" states ="done"/>
-                            
-                            <field name = "tipo_certificado" required="1"/>
-                            
-                        </group>
-                            <field name = "propiedad_ids" readonly="1">
-                                <tree>
-                                    <field name = "state"/>
-                                    <field name = "numero_inscripcion"/>
-                                    <field name = "vendedor_virtual"/>        
-                                    <field name = "comprador_virtual"/>        
-                                    <field name = "clave_catastral_virtual"/>        
-                                    <field name = "descripcion_lindero_virtual"/>        
-                                    <field name = "canton_virtual"/>        
-                                    <button string="Certificado" name = "imprimirCertificado" type="object"/>        
-                                </tree>
+					</header>
+					<sheet>
+						<group col="6">
+							<field name = "criterio_busqueda" required="1"/>
+							<field name = "valor_busqueda" required="1"/>
+							<field name = "solicitante" required="1"/>
+							<field name = "fecha_certificado" required="1"/>
+											   
+						</group>
+						<group col= "6">
+							<field name = "name" states ="done"/>
+							
+							<field name = "tipo_certificado" required="1"/>
+							
+						</group>
+							<field name = "propiedad_ids" readonly="1">
+								<tree>
+									<field name = "state"/>
+									<field name = "numero_inscripcion"/>
+									<field name = "vendedor_virtual"/>        
+									<field name = "comprador_virtual"/>        
+									<field name = "clave_catastral_virtual"/>        
+									<field name = "descripcion_lindero_virtual"/>        
+									<field name = "canton_virtual"/>        
+									<button string="Certificado" name = "imprimirCertificado" type="object"/>        
+								</tree>
 
-                            </field>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <record id="action_certificado_propiedad" model="ir.actions.act_window">
-            <field name="name">Certificado</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">rbs.certificado.propiedad</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+							</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
 
-        <record id='rbs_certificado_propiedad_tree_view_certificado' model='ir.ui.view'>
-            <field name='name'>rbs.certificado.propiedad.tree</field>
-            <field name='model'>rbs.certificado.propiedad</field>
-            <field name='type'>tree</field>
-            <field name='arch' type="xml">
-                <tree>
-                    <field name="state"/>
-                    <field name = "solicitante"/>
-                    <field name = "valor_busqueda"/>               
-                </tree>
-            </field>
-        </record>
+		
+		<record id="rbs_certificado_propiedad_search_view" model="ir.ui.view" >
+		  	<field name="name">rbs.certificado.propiedad.search</field>
+			<field name='model'>rbs.certificado.propiedad</field>
+			<field name='type'>search</field>
+			<field name='priority' eval="20"/>
+			<field name='arch' type="xml">
+				<search string="Search Detail">
+					<field name="name"/>
+                    <field name="solicitante"/>
+                    <field name="valor_busqueda"/> 
+					<field name="state"/>
+					<filter string="Año" domain="[ ]" context="{'group_by': 'fecha_certificado:year'}" />
+					<filter string="Mes" domain="[ ]" context="{'group_by': 'fecha_certificado:month'}" />
+					<filter string="Dia" domain="[ ]" context="{'group_by': 'fecha_certificado:day'}" />
+				  
 
-        
+				</search>
+		  	</field>
+			
+		</record>
+		<record id="action_certificado_propiedad" model="ir.actions.act_window">
+			<field name="name">Certificado</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rbs.certificado.propiedad</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="rbs_certificado_propiedad_search_view"/>
+		</record>
+
+		<record id='rbs_certificado_propiedad_tree_view_certificado' model='ir.ui.view'>
+			<field name='name'>rbs.certificado.propiedad.tree</field>
+			<field name='model'>rbs.certificado.propiedad</field>
+			<field name='type'>tree</field>
+			<field name='arch' type="xml">
+				<tree
+					default_order="fecha_certificado desc" 
+                    string = "Certificado de propiedad" 
+                    decoration-primary="state !='done'"
+                    decoration-muted="state =='done'">
+					<field name = "state"/>
+					<field name = "fecha_certificado"/>
+					<field name = "solicitante"/>
+					<field name = "valor_busqueda"/>               
+				</tree>
+			</field>
+		</record>
 
 
-        
-
-        <record id='product_template_tipo_servicio_form_view' model='ir.ui.view'>
-            <field name='name'>product.template.form</field>
-            <field name='model'>product.template</field>          
-            <field name="inherit_id" ref="product.product_template_form_view"/>
-            <field name='type'>form</field>
-            <field name='arch' type="xml">
-               
-
-                <xpath expr="//field[@name='type']" position="after">
-                        <field name="tipo_servicio"/>
-                        <field name="cantidad_dias"/>
-                </xpath>
-          
-            </field>
-        </record>
-
-
-
-
-        <menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/>
-        <menuitem id="submenu_certificado_propiedad" name="Propiedad" parent="submenu_certificados" action="action_certificado_propiedad"/>
-    </data>
+		<menuitem id="submenu_certificados" name="Certificados" parent="menu_Documentos"/>
+		<menuitem id="submenu_certificado_propiedad" name="Propiedad" parent="submenu_certificados" action="action_certificado_propiedad"/>
+	</data>
 </openerp>

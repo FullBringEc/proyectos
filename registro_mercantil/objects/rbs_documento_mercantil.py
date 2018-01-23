@@ -602,12 +602,6 @@ class rbs_estado_inscripcion(models.Model):
     _name = 'rbs.estado.inscripcion'
     _description = "Estado de Inscripción"
     name = fields.Char(string='Estado de Inscripción')
-
-
-# class factura_invoice(models.Model):
-#   _inherit = 'account.invoice'
-#   acta_id = fields.Many2one('rbs.documento.mercantil.acta', string='Acta')
-
 class reportes_doc_mercantiles(models.Model):
     _inherit = 'res.company'
     certificacion = fields.Binary(string='Certificación')

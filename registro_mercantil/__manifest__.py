@@ -70,7 +70,7 @@
               'wizard/informe_view.xml',
               'view/certificado_propiedad_view.xml',
               'view/certificado_mercantil_view.xml',
-              "view/rbs_documento_certificaciones.xml",
+              # "view/rbs_documento_certificaciones.xml",
               'views/tiffEdit.xml',
               'views/assets_backend.xml',
 

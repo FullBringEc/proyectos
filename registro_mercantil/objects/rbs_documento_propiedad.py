@@ -254,8 +254,6 @@ class rbs_documento_propiedad(models.Model):
             'target': 'new'
             }
 
-    # factura_ids = fields.One2many('account.invoice', 'propiedad_id', string='Factura')
-
     @api.onchange('parte_ids', 'bien_ids')
     def onchange_parte_ids(self):
         parte_char_ids_num = []
