@@ -62,7 +62,7 @@ class rbs_bien(models.Model):
             for parte in propiedad_line.parte_ids:
                 if parte.tipo_interviniente_id.name == 'COMPRADOR':
                     duenoact = parte.num_identificacion
-
+                    print parte.num_identificacion
                 if duenoact:
                     break
             if duenoact:
