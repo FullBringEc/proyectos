@@ -16,6 +16,11 @@ class rbs_certificado_mercantil(osv.osv):
     _name = 'rbs.certificado.mercantil'
     _rec_name = 'valor_busqueda'
 
+
+    # def pruena(self)
+    #     text = "Hola mundo"
+
+    #     return text
     @api.multi
     def word_certificado(self):
         output = BytesIO()
@@ -105,7 +110,6 @@ class rbs_certificado_mercantil(osv.osv):
                                 default=lambda self: datetime.datetime.now(),
                                 readonly=True,
                                 states={'draft': [('readonly', False)]})
-
     @api.multi
     def validate(self):
         if self.state == 'draft':
