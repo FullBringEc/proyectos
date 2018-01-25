@@ -26,8 +26,14 @@
                                 <field name="fecha_estimada"/>
                                 <field name="tipo_servicio" invisible="1"/>
                                 <field name="user_id"/>
-                                <field name="persona_id" attrs="{'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')]}" />
-                                <field name="bien_id" attrs="{'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')]}" />
+                                <field name="persona_id" 
+                                    attrs="{
+
+                                        'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')],
+                                        'required':['|', ('tipo_servicio','=','certificacion_propiedad')]
+
+                                        }" />
+                                <field name="bien_id" widget="selection" attrs="{'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')]}" />
 
                         
                                 <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/>

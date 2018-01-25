@@ -129,12 +129,10 @@
                            
                         <!-- </field> -->
                     </field>
-                    <button name="get_bienesPorIdentificacion" string="Propietario" type="object" icon="fa-check-square-o"/>
                 </tree>
                 <form>
                     <group>
 
-                        <button name="get_bienesPorIdentificacion" string="Propietario" type="object" icon="fa-check-square-o"/>
                         <group >
                             
                             <field name="bien_inmueble_id" />
