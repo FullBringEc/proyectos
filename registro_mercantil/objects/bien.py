@@ -51,15 +51,15 @@ class rbs_bien(models.Model):
 
     @api.multi
     def get_identificacionPropietario(self, clave_catastral):
-
         propiedad_ids = self.env['rbs.documento.propiedad'].search(
                 [
                     ('bien_ids.clave_catastral', '=', clave_catastral),
                     ('state', '=', 'done'),
-                ], limit=1,
+                ],
                 order='fecha_inscripcion desc')
         print str(propiedad_ids) + "/" + clave_catastral
         duenoact = False
+        # raise osv.except_osv('Esto es un Mesaje!',str(propiedad_ids))
         for propiedad_line in propiedad_ids:
             for parte in propiedad_line.parte_ids:
                 if parte.tipo_interviniente_id.name == 'COMPRADOR':
@@ -69,10 +69,13 @@ class rbs_bien(models.Model):
                     break
             if duenoact:
                 break
+        
+
         return duenoact
 
     @api.multi
     def get_bienesPorIdentificacion(self, num_identificacion):
+
         print "identificacion "+str(num_identificacion)
         claves_catastrales = []
         resultado_sin_filtrar = self.env['rbs.documento.propiedad'].search(
