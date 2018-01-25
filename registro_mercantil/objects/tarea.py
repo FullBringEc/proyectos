@@ -39,8 +39,9 @@ class rbs_tarea(models.Model):
     certificado_propiedad_id = fields.Many2one('rbs.certificado.propiedad', string='Certificado de propiedad')
     certificado_mercantil_id = fields.Many2one('rbs.certificado.mercantil', string='Certificado de propiedad')
 
-    persona_id = fields.Many2one("rbs.persona")
-    bien_id = fields.Many2one("rbs.bien.inmueble")
+    persona_id = fields.Many2one("rbs.persona", string="Persona")
+    bien_id = fields.Many2one("rbs.bien.inmueble", string="Bien")
+    descripcion = fields.Text("Descripcion")
 
     @api.multi
     def crear_inscripcion_propiedad(self):
@@ -170,6 +171,7 @@ class factura_invoice(models.Model):
 
                 self.tarea_ids |= self.env['rbs.tarea'].create(
                                         {
+                                            'descripcion': line.name,
                                             'tipo_servicio': line.tipo_servicio,
                                             'user_id': line.user_id.id,
                                             'fecha_estimada': line.fecha_estimada,
@@ -189,12 +191,13 @@ class account_invoice_line(models.Model):
 
     fecha_estimada = fields.Datetime("Fecha estimada", required=True)
 
-    persona_id = fields.Many2one("rbs.persona")
-    bien_id = fields.Many2one("rbs.bien.inmueble")
+    persona_id = fields.Many2one("rbs.persona", string="Persona")
+    bien_id = fields.Many2one("rbs.bien.inmueble", string="Bien")
     # domain=[('clave_catastral', '=', _get_domain())]
 
     @api.onchange('persona_id')
     def onchange_persona_id(self):
+        self.bien_id = None
         clave_catastral = self.env["rbs.bien"].get_bienesPorIdentificacion(self.persona_id.num_identificacion)
         return {'domain': {'bien_id': [('clave_catastral', 'in', clave_catastral)]}}
 

@@ -9,7 +9,7 @@
             <field name='arch' type="xml">
                 <xpath expr="//page[@name='other_info']" position="after">
                     <page string="Tareas" groups="base.group_user">
-                        <field name="tarea_ids"/>
+                        <field name="tarea_ids" readonly="True"/>
                     </page>
                 </xpath>
                 <xpath expr="//field[@name='invoice_line_ids']//tree" position="attributes">

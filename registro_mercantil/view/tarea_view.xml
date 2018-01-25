@@ -47,7 +47,8 @@
                             <field name="fecha_registro"/>
     		         		<field name="fecha_estimada"/>
     		         		<field name="user_id"/>
-    		         		<field name="tipo_servicio"/>
+                            <field name="tipo_servicio"/>
+    		         		<field name="descripcion"/>
     		         		<!-- <field name="name"/> -->
 
                             <field name="factura_id"/>
