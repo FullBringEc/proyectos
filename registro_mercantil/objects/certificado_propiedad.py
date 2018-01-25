@@ -223,7 +223,7 @@ class rbs_certificado_propiedad(osv.osv):
 
     propiedad_ids = field.Many2many('rbs.documento.propiedad', string='Documentos', compute='get_documentos')
     criterio_busqueda = field.Selection([
-        ('cedula', 'Cedula'),
+        ('identificacion', 'Identificacion'),
         ('clave_catastral', 'Clave Catastral'),
         ], string="Criterio de busqueda", readonly=True, states={'draft': [('readonly', False)]})
 
@@ -250,7 +250,7 @@ class rbs_certificado_propiedad(osv.osv):
     @api.onchange('valor_busqueda', 'criterio_busqueda')
     def get_documentos(self):
 
-        if self.criterio_busqueda == 'cedula':
+        if self.criterio_busqueda == 'Identificacion':
             #  buscar todos las inscripciones donde el comprador tenga la cedula buscada
             claves_catastrales = []
             resultado_sin_filtrar = self.env['rbs.documento.propiedad'].search(

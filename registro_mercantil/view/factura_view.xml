@@ -26,8 +26,8 @@
                                 <field name="fecha_estimada"/>
                                 <field name="tipo_servicio" invisible="1"/>
                                 <field name="user_id"/>
-                                <field name="ruc_propietario"/>
-                                <field name="bien_id"/>
+                                <field name="persona_id" attrs="{'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')]}" />
+                                <field name="bien_id" attrs="{'invisible':['|', ('tipo_servicio','!=','certificacion_propiedad')]}" />
 
                         
                                 <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/>
@@ -35,7 +35,7 @@
                                 <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
                                 <!-- <field name="quantity"/> -->
                                 <field name="uom_id" groups="product.group_uom"/>
-                                <!-- <field name="price_unit"/> -->
+                                <field name="price_unit"/>
                                 <!-- <field name="discount" groups="base.group_no_one"/> -->
                                 <field name="invoice_line_tax_ids" widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','sale'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
                                 <field name="price_subtotal"/>
@@ -57,9 +57,9 @@
                         <!-- <field name="user_id"/> -->
                 </xpath> 
 
-                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']" position="replace">
+              <!--   <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']" position="replace">
                         <field name="price_unit" invisible="1"/>
-                </xpath>
+                </xpath> -->
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='discount']" position="replace">
                     
                         <field name="discount" invisible="1"/>

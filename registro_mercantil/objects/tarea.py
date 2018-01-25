@@ -39,6 +39,9 @@ class rbs_tarea(models.Model):
     certificado_propiedad_id = fields.Many2one('rbs.certificado.propiedad', string='Certificado de propiedad')
     certificado_mercantil_id = fields.Many2one('rbs.certificado.mercantil', string='Certificado de propiedad')
 
+    persona_id = fields.Many2one("rbs.persona")
+    bien_id = fields.Many2one("rbs.bien.inmueble")
+
     @api.multi
     def crear_inscripcion_propiedad(self):
         self.validar_usuario()
@@ -57,10 +60,17 @@ class rbs_tarea(models.Model):
     def crear_certificacion_propiedad(self):
         self.validar_usuario()
         if self.tipo_servicio == 'certificacion_propiedad':
+            if self.bien_id:
+                valor_busqueda = self.bien_id.clave_catastral
+                criterio_busqueda = 'clave_catastral'
+
+            else:
+                valor_busqueda = self.persona_id.num_identificacion
+                criterio_busqueda = 'identificacion'
             self.certificado_propiedad_id = self.env['rbs.certificado.propiedad'].create(
                                                                             {
-                                                                                'valor_busqueda': self.cliente_factura_id.identifier,
-                                                                                'criterio_busqueda': 'cedula',
+                                                                                'valor_busqueda': valor_busqueda,
+                                                                                'criterio_busqueda': criterio_busqueda,
                                                                                 'solicitante': self.cliente_factura_id.name
                                                                             })
             self.iniciar_tarea()
@@ -72,7 +82,7 @@ class rbs_tarea(models.Model):
             self.certificado_mercantil_id = self.env['rbs.certificado.mercantil'].create(
                                                                             {
                                                                                 'valor_busqueda': self.cliente_factura_id.identifier,
-                                                                                'criterio_busqueda': 'cedula',
+                                                                                'criterio_busqueda': 'Identificacion',
                                                                                 'solicitante': self.cliente_factura_id.name
                                                                             })
             self.iniciar_tarea()
@@ -159,12 +169,14 @@ class factura_invoice(models.Model):
             if line.tipo_servicio:
 
                 self.tarea_ids |= self.env['rbs.tarea'].create(
-                                                      {
-                                                          'tipo_servicio': line.tipo_servicio,
-                                                          'user_id': line.user_id.id,
-                                                          'fecha_estimada': line.fecha_estimada,
-                                                          'factura_id': self.id
-                                                      })
+                                        {
+                                            'tipo_servicio': line.tipo_servicio,
+                                            'user_id': line.user_id.id,
+                                            'fecha_estimada': line.fecha_estimada,
+                                            'factura_id': self.id,
+                                            'persona_id': line.persona_id.id,
+                                            'bien_id': line.bien_id.id
+                                        })
 
         return super(factura_invoice, self).invoice_validate()
 
@@ -177,13 +189,13 @@ class account_invoice_line(models.Model):
 
     fecha_estimada = fields.Datetime("Fecha estimada", required=True)
 
-    ruc_propietario = fields.Char("Ruc del propietario", required=True)
-    bien_id = fields.Many2one("rbs.bien.inmueble", required=True)
+    persona_id = fields.Many2one("rbs.persona")
+    bien_id = fields.Many2one("rbs.bien.inmueble")
     # domain=[('clave_catastral', '=', _get_domain())]
 
-    @api.onchange('ruc_propietario')
-    def onchange_ruc_propietario(self):
-        clave_catastral = self.env["rbs.bien"].get_bienesPorIdentificacion(self.ruc_propietario)
+    @api.onchange('persona_id')
+    def onchange_persona_id(self):
+        clave_catastral = self.env["rbs.bien"].get_bienesPorIdentificacion(self.persona_id.num_identificacion)
         return {'domain': {'bien_id': [('clave_catastral', 'in', clave_catastral)]}}
 
     @api.onchange('tipo_servicio')
