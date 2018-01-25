@@ -53,6 +53,7 @@
               'data/rbs.tipo.gravamen.csv',
               'data/rbs.tipo.tramite.csv',
               'data/rbs.tipo.bien.csv',
+              'data/rbs.tipo.certificado.csv',
 
 
 

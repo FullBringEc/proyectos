@@ -22,8 +22,8 @@ class rbs_certificado_propiedad(osv.osv):
         if self.tipo_certificado == "certificado_solvencia":
 
             output = BytesIO()
-            tmpl_path = os.path.join(os.path.dirname(__file__), 'Documentos/DocPropiedad')
-            tpl = DocxTemplate(tmpl_path + '/Certificado_Solvencia.docx')
+            tmpl_path = os.path.join(os.path.dirname(__file__))
+            tpl = DocxTemplate(tmpl_path + '\Documentos\DocPropiedad\Certificado_Solvencia.docx')
 
             resumen = []
             libro = {}
@@ -135,8 +135,8 @@ class rbs_certificado_propiedad(osv.osv):
 
             # Segundo certificado o el que este en segundo
             output = BytesIO()
-            tmpl_path = os.path.join(os.path.dirname(__file__), 'Documentos/DocPropiedad')
-            tpl = DocxTemplate(tmpl_path+'/Certificado_Negativo.docx')
+            tmpl_path = os.path.join(os.path.dirname(__file__))
+            tpl = DocxTemplate(tmpl_path+'\Documentos\DocPropiedad\Certificado_Negativo.docx')
             # from docx import Document
             # style = tpl.styles['estiloregistro']
             # font = style.font

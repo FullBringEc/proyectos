@@ -1,0 +1,3 @@
+id,name,codigo,tipo_certificado,ubicacion_certificado
+certificado_solvencia_id,Certificado de solvencia,certificado_solvencia,certificacion_propiedad,"\Documentos\DocPropiedad\Certificado_Solvencia.docx"
+certificado_negativo_id,Certificado Negativo,certificado_negativo,certificacion_propiedad,"\Documentos\DocPropiedad\Certificado_Negativo.docx"

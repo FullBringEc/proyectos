@@ -26,6 +26,16 @@
                                 <field name="fecha_estimada"/>
                                 <field name="tipo_servicio" invisible="1"/>
                                 <field name="user_id"/>
+                                <field name="tipo_certificado_id"
+                                    attrs="{
+
+                                        'invisible':['|', ('tipo_servicio','not in',('certificacion_propiedad','certificacion_mercantil'))],
+                                        'required':['|', ('tipo_servicio','in',('certificacion_propiedad','certificacion_mercantil'))],
+
+                                        }" 
+                                        domain="[('tipo_certificado', '=', tipo_servicio)]"
+                                        />
+
                                 <field name="persona_id" 
                                     attrs="{
 

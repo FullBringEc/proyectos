@@ -191,6 +191,7 @@ class account_invoice_line(models.Model):
 
     fecha_estimada = fields.Datetime("Fecha estimada", required=True)
 
+    tipo_certificado_id = fields.Many2one("rbs.tipo.certificado", string="Tipo de certificado")
     persona_id = fields.Many2one("rbs.persona", string="Persona")
     bien_id = fields.Many2one("rbs.bien.inmueble", string="Bien")
     # domain=[('clave_catastral', '=', _get_domain())]
@@ -216,6 +217,7 @@ class account_invoice_line(models.Model):
     @api.onchange('name')
     def onchange_product_id_cant_dias(self):
         # try:
+        self.tipo_certificado_id = None
         self.fecha_estimada = (
                                 datetime.strptime(datetime.now().strftime('%Y-%m-%d'), '%Y-%m-%d') +
                                 timedelta(days=self.product_id.cantidad_dias + 1)
@@ -229,6 +231,18 @@ class product_template(models.Model):
         ('inscripcion_mercantil', 'Inscripcion Mercantil'),
         ('certificacion_propiedad', 'Certificacion Propiedad'),
         ('certificacion_mercantil', 'Certificacion Mercantil'),
-        ], string="Tipo de servicio")\
+        ], string="Tipo de servicio")
 
     cantidad_dias = fields.Integer("Dias estimados para realizar el trabajo", required=True)
+
+
+class tipo_certificado(models.Model):
+    _name = 'rbs.tipo.certificado'
+    _description = "Tipo de certificados"
+    name = fields.Char("Nombre del certificado")
+    codigo = fields.Char("Codigo")
+    tipo_certificado = fields.Selection([
+        ('certificacion_propiedad', 'Certificacion Propiedad'),
+        ('certificacion_mercantil', 'Certificacion Mercantil'),
+        ], string="Tipo de servicio")
+    ubicacion_certificado = fields.Char("Ubicacion relativa del certificado")
