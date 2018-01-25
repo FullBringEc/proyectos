@@ -101,8 +101,9 @@
             <field name="bien_ids">
                 <tree string="Bienes">
 
-                    <field name="numero_predial" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                    <field name="bien_inmueble_id" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
                     <field name="clave_catastral"/>
+                    <field name="numero_predial" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
                     <field name="descripcion_bien" />
                     <field name="descripcion_lindero"/>
                     <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
@@ -135,8 +136,10 @@
 
                         <button name="get_bienesPorIdentificacion" string="Propietario" type="object" icon="fa-check-square-o"/>
                         <group >
-                            <field name="numero_predial" />
+                            
+                            <field name="bien_inmueble_id" />
                             <field name="clave_catastral"/>
+                            <field name="numero_predial" />
                             <field name="descripcion_bien" />
                             <field name="provincia_id" options="{'no_quick_create':True,'no_create_edit':True}"/> 
                             <field name="canton_id" domain="[('provincia_id','=', provincia_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
