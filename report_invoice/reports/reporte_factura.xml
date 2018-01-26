@@ -7,12 +7,15 @@
         <div class="page">
             <div class="row">
                 <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
-                    <address t-field="o.partner_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-                    <span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span>
+                    <h4><span t-if="o.partner_id.name"><span t-field="o.partner_id.name"/><br/></span></h4>
+                    <span t-if="o.partner_id.identifier"><span t-field="o.partner_id.type_identifier"/>: <span t-field="o.partner_id.identifier"/><br/></span>
+                    <span t-if="o.partner_id.email">Email: <span t-field="o.partner_id.email"/><br/></span>
+                    <span t-if="o.partner_id.phone">Telefono: <span t-field="o.partner_id.phone"/></span>
+                    <span t-if="o.partner_id.mobile">/<span t-field="o.partner_id.mobile"/></span>
                 </div>
-            </div>
 
+            </div>
+            
             <h2>
                 <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                 <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
