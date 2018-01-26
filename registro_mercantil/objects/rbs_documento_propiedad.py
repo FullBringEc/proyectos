@@ -97,11 +97,9 @@ class rbs_documento_propiedad(models.Model):
         string='Fecha de cancelación del gravamen  o limitación', readonly=True, states={'draft': [('readonly', False)]})
     fecha_ultima_modificacion_inscripcion = fields.Datetime(
         string='Fecha de última modificación de la inscripción', readonly=True, states={'draft': [('readonly', False)]})
-    provincia_notaria_id = fields.Many2one(
-        'rbs.provincia',
+    provincia_notaria_id = fields.Many2one(related="notaria_id.provincia_id",
         string='Provincia de la notaria, juzgado o institución pública', readonly=True, states={'draft': [('readonly', False)]})
-    canton_notaria_id = fields.Many2one(
-        'rbs.canton',
+    canton_notaria_id = fields.Many2one(related="notaria_id.canton_id",
         string='Canton de la notaria', readonly=True, states={'draft': [('readonly', False)]})
     notaria_id = fields.Many2one(
         'rbs.institucion',

@@ -80,13 +80,12 @@
                     <field name="fecha_const_gravamen"/>
                 </group>
                 <group col="4" >
-   
-                    <field name="provincia_notaria_id"/>
-                    <field name="canton_notaria_id" domain="[('provincia_id','=', provincia_notaria_id)]"/>
+                    <field name="notaria_id"/>
+                    <field name="provincia_notaria_id" attrs="{'readonly': True}"/>
                 </group >
 
                 <group col="4" >
-                    <field name="notaria_id"/>
+                    <field name="canton_notaria_id" domain="[('provincia_id','=', provincia_notaria_id)]" attrs="{'readonly': True}"/>
                     <field name="expensas"/>
                    
                 </group>

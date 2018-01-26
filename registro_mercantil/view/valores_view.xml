@@ -45,15 +45,52 @@
         </record>
         <menuitem id="submenu_tipo_contrato" name="Tipos de Acto/Contrato" parent="submenu_valores" action="action_tipo_acto_contrato"/>
 
-
-        
-		<record model="ir.actions.act_window"   id="action_rbs_institucion">
+        <record model="ir.actions.act_window"   id="action_rbs_institucion">
             <field name="name">Instituciones</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">rbs.institucion</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form</field>              
         </record>
+        <record id='rbs_institucion_tree_view' model='ir.ui.view'>
+            <field name='name'>rbs.institucion.tree</field>
+            <field name='model'>rbs.institucion</field>
+            <field name='type'>tree</field>
+            <field name='arch' type="xml">
+                   <tree string="Institucion" > 
+                            <field name="name"/>
+                            <field name="pais_id"/>
+                            <field name="provincia_id"/>     
+                            <field name="canton_id"/>
+                            
+                </tree>
+            </field>
+        </record>
+        
+        <record id='rbs_institucion_form_view' model='ir.ui.view'>
+            <field name='name'>rbs.institucion.form</field>
+            <field name='model'>rbs.institucion</field>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+                <form string="Institucion" version="8.0"> 
+                    <sheet>
+                          <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="pais_id"/>   
+                                </group>
+                                <group>
+                                    <field name="provincia_id"/>     
+                                    <field name="canton_id"/>
+                                </group>
+                            </group>    
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		
+
+
         <menuitem id="submenu_rbs_institucion" name="Institucion" parent="submenu_valores" action="action_rbs_institucion"/>
 
         <record model="ir.actions.act_window"   id="action_rbs_tipo_gravamen">
