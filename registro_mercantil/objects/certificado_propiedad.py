@@ -55,10 +55,10 @@ class rbs_certificado_propiedad(osv.osv):
 
                     detalle['libro'] = propiedad_line.libro_id.name
                     detalle['acto'] = propiedad_line.tipo_tramite_id.name
-                    detalle['numero'] = RichText(propiedad_line.numero_inscripcion.encode('utf-8'))
+                    detalle['numero'] = RichText(str(propiedad_line.numero_inscripcion))
                     detalle['finscrip'] = RichText(propiedad_line.fecha_inscripcion.encode('utf-8'))
-                    detalle['finicial'] = RichText(propiedad_line.foleo_desde.encode('utf-8'))
-                    detalle['ffinal'] = RichText(propiedad_line.foleo_hasta.encode('utf-8'))
+                    detalle['finicial'] = RichText(str(propiedad_line.foleo_desde))
+                    detalle['ffinal'] = RichText(str(propiedad_line.foleo_hasta))
                     resumen.append(detalle)
 
                     if libro.has_key(propiedad_line.libro_id.name):
@@ -74,17 +74,17 @@ class rbs_certificado_propiedad(osv.osv):
 
                     detalle2['libro'] = propiedad_line1.libro_id.name.encode('utf-8')
                     detalle2['acto'] = propiedad_line1.tipo_tramite_id.name.encode('utf-8')
-                    detalle2['tomo'] = propiedad_line1.tomo_id.name.encode('utf-8')
+                    detalle2['tomo'] = propiedad_line1.tomo_id.name
                     detalle2['finscrip'] = RichText(propiedad_line1.fecha_inscripcion.encode('utf-8'))
-                    detalle2['numero'] = RichText(propiedad_line1.numero_inscripcion.encode('utf-8'))
-                    detalle2['numeroreper'] = RichText(propiedad_line1.repertorio.encode('utf-8'))
-                    detalle2['finicial'] = RichText(propiedad_line1.foleo_desde.encode('utf-8'))
-                    detalle2['ffinal'] = RichText(propiedad_line1.foleo_hasta.encode('utf-8'))
+                    detalle2['numero'] = RichText(str(propiedad_line1.numero_inscripcion))
+                    detalle2['numeroreper'] = RichText(str(propiedad_line1.repertorio))
+                    detalle2['finicial'] = RichText(str(propiedad_line1.foleo_desde))
+                    detalle2['ffinal'] = RichText(str(propiedad_line1.foleo_hasta))
                     detalle2['notariares'] = RichText(propiedad_line1.notaria_id.name.encode('utf-8'))
                     detalle2['notariaprov'] = RichText(propiedad_line1.provincia_notaria_id.name.encode('utf-8'))
                     detalle2['canton'] = RichText(propiedad_line1.canton_notaria_id.name.encode('utf-8'))
-                    detalle2['fechaescri'] = RichText(propiedad_line1.fecha_escritura.encode('utf-8'))
-                    detalle2['fechaadju'] = RichText(propiedad_line1.fecha_adjudicion.encode('utf-8'))
+                    detalle2['fechaescri'] = RichText(str(propiedad_line1.fecha_escritura))
+                    detalle2['fechaadju'] = RichText(str(propiedad_line1.fecha_adjudicion))
                     detalle2['observacion'] = RichText(propiedad_line1.observacion.encode('utf-8'))
                     partes_certificado = []
                     for parte in propiedad_line1.parte_ids:
@@ -92,7 +92,7 @@ class rbs_certificado_propiedad(osv.osv):
                             partes_detalle = {}
 
                             partes_detalle['tipointer'] = parte.tipo_interviniente_id.name.encode('utf-8')
-                            partes_detalle['numcel'] = parte.num_identificacion.encode('utf-8')
+                            partes_detalle['numcel'] = parte.num_identificacion
                             partes_detalle['nombreparte'] = RichText(parte.nombres.encode('utf-8')+' '+parte.apellidos.encode('utf-8'))
                             partes_detalle['estadocivil'] = RichText(parte.estado_civil.encode('utf-8'))
                             partes_certificado.append(partes_detalle)
