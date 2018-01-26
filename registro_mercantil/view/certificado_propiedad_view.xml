@@ -10,7 +10,7 @@
 					<header>
 						<button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
 						<button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
-						<button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado_id', '=', 'None')]}"/>
+						<button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('state', '=', 'draft')]}"/>
 						<field name="state" widget="statusbar"/>
 
 					</header>

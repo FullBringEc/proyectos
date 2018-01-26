@@ -1,3 +1,6 @@
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # -*- encoding: utf-8 -*-
 ########################################################################
 
@@ -52,10 +55,10 @@ class rbs_certificado_propiedad(osv.osv):
 
                     detalle['libro'] = propiedad_line.libro_id.name
                     detalle['acto'] = propiedad_line.tipo_tramite_id.name
-                    detalle['numero'] = RichText(str(propiedad_line.numero_inscripcion))
-                    detalle['finscrip'] = RichText(str(propiedad_line.fecha_inscripcion))
-                    detalle['finicial'] = RichText(str(propiedad_line.foleo_desde))
-                    detalle['ffinal'] = RichText(str(propiedad_line.foleo_hasta))
+                    detalle['numero'] = RichText(propiedad_line.numero_inscripcion.encode('utf-8'))
+                    detalle['finscrip'] = RichText(propiedad_line.fecha_inscripcion.encode('utf-8'))
+                    detalle['finicial'] = RichText(propiedad_line.foleo_desde.encode('utf-8'))
+                    detalle['ffinal'] = RichText(propiedad_line.foleo_hasta.encode('utf-8'))
                     resumen.append(detalle)
 
                     if libro.has_key(propiedad_line.libro_id.name):
@@ -69,29 +72,29 @@ class rbs_certificado_propiedad(osv.osv):
 
                     detalle2 = {}
 
-                    detalle2['libro'] = propiedad_line1.libro_id.name
-                    detalle2['acto'] = propiedad_line1.tipo_tramite_id.name
-                    detalle2['tomo'] = propiedad_line1.tomo_id.name
-                    detalle2['finscrip'] = RichText(str(propiedad_line1.fecha_inscripcion))
-                    detalle2['numero'] = RichText(str(propiedad_line1.numero_inscripcion))
-                    detalle2['numeroreper'] = RichText(str(propiedad_line1.repertorio))
-                    detalle2['finicial'] = RichText(str(propiedad_line1.foleo_desde))
-                    detalle2['ffinal'] = RichText(str(propiedad_line1.foleo_hasta))
-                    detalle2['notariares'] = RichText(str(propiedad_line1.notaria_id.name))
-                    detalle2['notariaprov'] = RichText(str(propiedad_line1.provincia_notaria_id.name))
-                    detalle2['canton'] = RichText(str(propiedad_line1.canton_notaria_id.name))
-                    detalle2['fechaescri'] = RichText(str(propiedad_line1.fecha_escritura))
-                    detalle2['fechaadju'] = RichText(str(propiedad_line1.fecha_adjudicion))
-                    detalle2['observacion'] = RichText(str(propiedad_line1.observacion))
+                    detalle2['libro'] = propiedad_line1.libro_id.name.encode('utf-8')
+                    detalle2['acto'] = propiedad_line1.tipo_tramite_id.name.encode('utf-8')
+                    detalle2['tomo'] = propiedad_line1.tomo_id.name.encode('utf-8')
+                    detalle2['finscrip'] = RichText(propiedad_line1.fecha_inscripcion.encode('utf-8'))
+                    detalle2['numero'] = RichText(propiedad_line1.numero_inscripcion.encode('utf-8'))
+                    detalle2['numeroreper'] = RichText(propiedad_line1.repertorio.encode('utf-8'))
+                    detalle2['finicial'] = RichText(propiedad_line1.foleo_desde.encode('utf-8'))
+                    detalle2['ffinal'] = RichText(propiedad_line1.foleo_hasta.encode('utf-8'))
+                    detalle2['notariares'] = RichText(propiedad_line1.notaria_id.name.encode('utf-8'))
+                    detalle2['notariaprov'] = RichText(propiedad_line1.provincia_notaria_id.name.encode('utf-8'))
+                    detalle2['canton'] = RichText(propiedad_line1.canton_notaria_id.name.encode('utf-8'))
+                    detalle2['fechaescri'] = RichText(propiedad_line1.fecha_escritura.encode('utf-8'))
+                    detalle2['fechaadju'] = RichText(propiedad_line1.fecha_adjudicion.encode('utf-8'))
+                    detalle2['observacion'] = RichText(propiedad_line1.observacion.encode('utf-8'))
                     partes_certificado = []
                     for parte in propiedad_line1.parte_ids:
 
                             partes_detalle = {}
 
-                            partes_detalle['tipointer'] = parte.tipo_interviniente_id.name
-                            partes_detalle['numcel'] = parte.num_identificacion
-                            partes_detalle['nombreparte'] = RichText(str(parte.nombres)+' '+str(parte.apellidos))
-                            partes_detalle['estadocivil'] = RichText(str(parte.estado_civil))
+                            partes_detalle['tipointer'] = parte.tipo_interviniente_id.name.encode('utf-8')
+                            partes_detalle['numcel'] = parte.num_identificacion.encode('utf-8')
+                            partes_detalle['nombreparte'] = RichText(parte.nombres.encode('utf-8')+' '+parte.apellidos.encode('utf-8'))
+                            partes_detalle['estadocivil'] = RichText(parte.estado_civil.encode('utf-8'))
                             partes_certificado.append(partes_detalle)
                     detalle2['partes'] = partes_certificado
 
@@ -115,17 +118,17 @@ class rbs_certificado_propiedad(osv.osv):
                         'resumen': resumen,
                         'ccatastral': RichText(str(self.valor_busqueda)),
                         'fapertura': RichText(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
-                        'lindero': RichText(str(lindero)),
-                        'duenoact': RichText(str(duenoact)),
-                        'solvencia': RichText(str(solvencia)),
+                        'lindero': RichText(lindero.encode('utf-8')),
+                        'duenoact': RichText(duenoact.encode('utf-8')),
+                        'solvencia': RichText(solvencia.encode('utf-8')),
                         # 'infmuni' : RichText (str (self.canton_notaria_id.name)),
                         # 'tpredio' : RichText (str (self.descripcion_bien)),
                         # 'parroquia' : RichText (str (self.parroquia_id.name)),
                         # 'lindero' : RichText (str (self.descripcion_lindero)),
-                        'nombresoli': RichText(str(self.solicitante)),
-                        'sesion': RichText(str(usuario_actual.name)),
+                        'nombresoli': RichText(self.solicitante.encode('utf-8')),
+                        'sesion': RichText(usuario_actual.name.encode('utf-8')),
                         'fechaactual': RichText(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
-                        'nomregistrador': RichText(str(usuario_actual.company_id.registrador_nombre)),
+                        'nomregistrador': RichText(usuario_actual.company_id.registrador_nombre.encode('utf-8')),
                         'movimientos': movimientos,
                         'resumenmov': resmov,
 
@@ -152,7 +155,7 @@ class rbs_certificado_propiedad(osv.osv):
                     detalle['libro'] = propiedad_line.libro_id.name
                     detalle['acto'] = propiedad_line.tipo_tramite_id.name
                     detalle['numero'] = RichText(str(propiedad_line.numero_inscripcion))
-                    detalle['finscrip'] = RichText(str(propiedad_line.fecha_inscripcion))
+                    detalle['finscrip'] = RichText(propiedad_line.fecha_inscripcion.encode('utf-8'))
                     detalle['finicial'] = RichText(str(propiedad_line.foleo_desde))
                     detalle['ffinal'] = RichText(str(propiedad_line.foleo_hasta))
                     resumen.append(detalle)
@@ -179,13 +182,13 @@ class rbs_certificado_propiedad(osv.osv):
                 usuario_actual = self.env['res.users'].search([('id', '=', self._uid)])[0]
 
                 context = {
-                            'numerocertificado': RichText(str(self.name)),
-                            'fechainiact': RichText(str(usuario_actual.company_id.registrador_fecha_ingreso)),
-                            'direccionreg': RichText(str(usuario_actual.company_id.street)),
-                            'telefonoreg': RichText(str(usuario_actual.company_id.phone)),
-                            'nomregistrador': RichText(str(usuario_actual.company_id.registrador_nombre)),
-                            'nombresoli': RichText(str(self.solicitante)),
-                            'sesion': RichText(str(usuario_actual.name)),
+                            'numerocertificado': RichText(self.name.encode('utf-8')),
+                            'fechainiact': RichText(usuario_actual.company_id.registrador_fecha_ingreso.encode('utf-8')),
+                            'direccionreg': RichText(usuario_actual.company_id.street.encode('utf-8')),
+                            'telefonoreg': RichText(usuario_actual.company_id.phone.encode('utf-8')),
+                            'nomregistrador': RichText(usuario_actual.company_id.registrador_nombre.encode('utf-8')),
+                            'nombresoli': RichText(self.solicitante.encode('utf-8')),
+                            'sesion': RichText(usuario_actual.name.encode('utf-8')),
                             'fechaactual': RichText(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))),
 
                     }
@@ -242,10 +245,16 @@ class rbs_certificado_propiedad(osv.osv):
 
     @api.multi
     def validate(self):
-        if self.state == 'draft':
-            self.state = 'done'
-            if not self.name:
-                self.name = self.env["ir.sequence"].get("number_certificado_propiedad")
+        if self.tipo_certificado_id.codigo == "certificado_negativo" and len(self.propiedad_ids) != 0:
+            raise osv.except_osv('Error', "Verificar el solicitante tiene movimientos prediales o Posee bienes")
+        else:
+            if self.tipo_certificado_id.codigo == "certificado_solvencia" and len(self.propiedad_ids) == 0:
+                raise osv.except_osv('Error', "Verificar el solicitante no tiene movimientos prediales o no posee bienes")
+            else:
+                if self.state == 'draft':
+                    self.state = 'done'
+                    if not self.name:
+                        self.name = self.env["ir.sequence"].get("number_certificado_propiedad")
 
     @api.multi
     def invalidate(self):
