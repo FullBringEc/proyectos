@@ -19,11 +19,11 @@ class rbs_certificado_propiedad(osv.osv):
     @api.multi
     def word_certificado(self):
 
-        if self.tipo_certificado == "certificado_solvencia":
+        if self.tipo_certificado_id.codigo == "certificado_solvencia":
 
             output = BytesIO()
             tmpl_path = os.path.join(os.path.dirname(__file__))
-            tpl = DocxTemplate(tmpl_path + '\Documentos\DocPropiedad\Certificado_Solvencia.docx')
+            tpl = DocxTemplate(tmpl_path+self.tipo_certificado_id.ubicacion_certificado)
 
             resumen = []
             libro = {}
@@ -131,12 +131,12 @@ class rbs_certificado_propiedad(osv.osv):
 
                 }
 
-        else:
+        if self.tipo_certificado_id.codigo == "certificado_negativo":
 
             # Segundo certificado o el que este en segundo
             output = BytesIO()
             tmpl_path = os.path.join(os.path.dirname(__file__))
-            tpl = DocxTemplate(tmpl_path+'\Documentos\DocPropiedad\Certificado_Negativo.docx')
+            tpl = DocxTemplate(tmpl_path+self.tipo_certificado_id.ubicacion_certificado)
             # from docx import Document
             # style = tpl.styles['estiloregistro']
             # font = style.font
@@ -201,7 +201,7 @@ class rbs_certificado_propiedad(osv.osv):
         return {
                 'type': 'ir.actions.act_url',
                 'url': '/web/binary/download_document?model=rbs.certificado.propiedad&field=dataWord&id=%s&filename=%s.docx' %
-                        (str(self.id), str(self.tipo_certificado)),
+                        (str(self.id), str(self.tipo_certificado_id.name)),
                 'target': 'new'
             }
 
@@ -215,9 +215,14 @@ class rbs_certificado_propiedad(osv.osv):
         # ('deactivated','Desactivado')
         ], string='Estado', index=True, default='draft', readonly=True)
     solicitante = field.Char('Solicitante', size=90, required=True, readonly=True, states={'draft': [('readonly', False)]})
-    tipo_certificado = field.Selection([
-        ('certificado_solvencia', 'Certificado de solvencia'),
-        ('certificado_negativo', 'Certificado Negativo')], readonly=True, states={'draft': [('readonly', False)]})
+    # tipo_certificado = field.Selection([
+    #     ('certificado_solvencia', 'Certificado de solvencia'),
+    #     ('certificado_negativo', 'Certificado Negativo')], readonly=True, states={'draft': [('readonly', False)]})
+
+    tipo_certificado_id = field.Many2one(
+                                "rbs.tipo.certificado",
+                                string="Tipo de certificado",
+                                readonly=True, states={'draft': [('readonly', False)]})
     name = field.Char('Numero de Certificado', readonly=True)
     dataWord = field.Binary("word")
 

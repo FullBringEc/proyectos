@@ -10,7 +10,7 @@
 					<header>
 						<button name="validate"  states ="draft" string="Validar" type="object" icon="fa-check-square-o"/>
 						<button name="invalidate"  states ="done" string="Volver a borrador" type="object" icon="fa-check-square-o"/>
-						<button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado', '=', 'none')]}"/>
+						<button name="word_certificado"  icon="fa-file-word-o" string="Descargar Certificado" type="object" attrs="{'invisible':[('tipo_certificado_id', '=', 'None')]}"/>
 						<field name="state" widget="statusbar"/>
 
 					</header>
@@ -25,7 +25,7 @@
 						<group col= "6">
 							<field name = "name" states ="done"/>
 							
-							<field name = "tipo_certificado" required="1"/>
+							<field name = "tipo_certificado_id" widget='selection' required="1"/>
 							
 						</group>
 							<field name = "propiedad_ids" readonly="1">

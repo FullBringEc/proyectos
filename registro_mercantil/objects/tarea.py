@@ -42,6 +42,7 @@ class rbs_tarea(models.Model):
     persona_id = fields.Many2one("rbs.persona", string="Persona")
     bien_id = fields.Many2one("rbs.bien.inmueble", string="Bien")
     descripcion = fields.Text("Descripcion")
+    tipo_certificado_id = fields.Many2one("rbs.tipo.certificado", string="Tipo de certificado")
 
     @api.multi
     def crear_inscripcion_propiedad(self):
@@ -70,6 +71,7 @@ class rbs_tarea(models.Model):
                 criterio_busqueda = 'identificacion'
             self.certificado_propiedad_id = self.env['rbs.certificado.propiedad'].create(
                                                                             {
+                                                                                'tipo_certificado_id': self.tipo_certificado_id.id,
                                                                                 'valor_busqueda': valor_busqueda,
                                                                                 'criterio_busqueda': criterio_busqueda,
                                                                                 'solicitante': self.cliente_factura_id.name
@@ -171,6 +173,7 @@ class factura_invoice(models.Model):
 
                 self.tarea_ids |= self.env['rbs.tarea'].create(
                                         {
+                                            'tipo_certificado_id': line.tipo_certificado_id.id,
                                             'descripcion': line.name,
                                             'tipo_servicio': line.tipo_servicio,
                                             'user_id': line.user_id.id,
