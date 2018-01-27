@@ -32,8 +32,8 @@ class rbs_bien(models.Model):
             ('NOROESTE', 'NOROESTE'),
             ('NORESTE', 'NORESTE'),
         ], string='Ubicacion Geografica', default='NORTE')
-    superficie_area_numero = fields.Integer(string='Superficie o Area')
-    superficie_area_letras = fields.Char(string='Superficie o Area')
+    superficie_area_numero = fields.Integer(string='Superficie o area')
+    superficie_area_letras = fields.Char(string='Superficie o area en letras')
     es_propiedad_horizontal = fields.Boolean(String='Propiedad Horizontal')
     parte_char_ids = fields.Many2many('rbs.parte.char', string='Partes')
 
@@ -155,8 +155,8 @@ class rbs_bien_inmueble(models.Model):
                 ('NOROESTE', 'NOROESTE'),
                 ('NORESTE', 'NORESTE'),
             ], string='Ubicacion Geografica', default='NORTE')
-    superficie_area_numero = fields.Integer(string='Superficie o Area')
-    superficie_area_letras = fields.Char(string='Superficie o Area')
+    superficie_area_numero = fields.Integer(string='Superficie o area')
+    superficie_area_letras = fields.Char(string='Superficie o area en letras')
     es_propiedad_horizontal = fields.Boolean(String='Propiedad Horizontal')
 
     _sql_constraints = [

@@ -100,7 +100,7 @@
             <field name="bien_ids">
                 <tree string="Bienes">
 
-                    <field name="bien_inmueble_id" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
+                    <field name="bien_inmueble_id"/><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
                     <field name="clave_catastral"/>
                     <field name="numero_predial" /><!-- on_change="onchange_numero_predial(parent.repertorio)" -->
                     <field name="descripcion_bien" />
@@ -416,10 +416,6 @@
 
 
         </record>
-
-
-        
-
 
         <record id='rbs_documento_propiedad_tree_view' model='ir.ui.view'>
             <field name='name'>rbs.documento.propiedad.tree</field>
