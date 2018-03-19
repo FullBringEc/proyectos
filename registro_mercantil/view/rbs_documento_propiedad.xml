@@ -192,7 +192,7 @@
                 <tree >
 
                     
-                    <field name="persona_id" />
+                    <field name="persona_id"/>
                     <field name="nombres"/>
                     <field name="apellidos"/> 
                     <field name="tipo_persona"/>
@@ -214,7 +214,7 @@
                 <form>
 
                         <group col="4" >
-                            <field name ="persona_id" />
+                            <field name="persona_id"/>
                             <field name ="tipo_persona"/>
 
                         </group  >

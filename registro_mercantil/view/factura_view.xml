@@ -69,17 +69,50 @@
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='quantity']" position="replace">
                     
                         <field name="quantity" readonly ="1"/>
-                        <!-- <field name="tipo_servicio" invisible="1"/> -->
-                        <!-- <field name="user_id"/> -->
-                </xpath> 
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="replace"/>
 
-              <!--   <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='price_unit']" position="replace">
-                        <field name="price_unit" invisible="1"/>
-                </xpath> -->
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='discount']" position="replace">
                     
                         <field name="discount" invisible="1"/>
                 </xpath>
+            </field>
+        </record>
+
+
+        <record id='view_partner_form_inherit' model='ir.ui.view'>
+            <field name='name'>res.partner.form</field>
+            <field name='model'>res.partner</field>          
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name='type'>form</field>
+            <field name='arch' type="xml">
+ 
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='zip']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="replace"/>
+                <xpath expr="//field[@name='website']" position="replace"/>
+                <xpath expr="//field[@name='lang']" position="replace"/>
+                <xpath expr="//field[@name='title']" position="replace"/>
+                <xpath expr="//field[@name='fax']" position="replace"/>
+
+
+            <!--     <xpath expr="//page[@autofocus='autofocus']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='internal_notes']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
             </field>
         </record>
 

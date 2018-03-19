@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api
-# from openerp.osv import osv
+from openerp.osv import osv
 
 
 class rbs_parte_char(models.Model):
@@ -117,6 +117,11 @@ class rbs_persona(models.Model):
             self.conyuge_id = None
         if self.tipo_persona == 'NATURAL':
             self.persona_razonSocial = ""
+
+    @api.onchange('num_identificacion')
+    def onchangeTipo_num_identificacion(self):
+        self.num_identificacion = self._context.get('default_name')
+        # raise osv.except_osv('Esto es un Mesaje!', self._context)
     # @api.multi
     # @api.onchange('conyuge_id')
     # def onchangeConyuge(self):
